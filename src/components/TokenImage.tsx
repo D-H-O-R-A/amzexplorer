@@ -13,8 +13,20 @@ export const TokenImage = ({ assetId, size = "md", className = "", fallback = nu
 
   useEffect(() => {
     if (!assetId) {
-      setImgUrl(null);
-      setHasError(true);
+      setImgUrl("/img/logo.png");
+      setHasError(false);
+      return;
+    }
+
+    const sym = assetId.toUpperCase();
+    if (sym === 'PLO' || sym === 'WAVES') {
+      setImgUrl("/img/logo.png");
+      setHasError(false);
+      return;
+    }
+    if (sym === 'VERDE') {
+      setImgUrl("/img/token_verde.png");
+      setHasError(false);
       return;
     }
 

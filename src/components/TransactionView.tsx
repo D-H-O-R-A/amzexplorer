@@ -35,6 +35,7 @@ type TransactionType = {
 
 const transactionTypes: Record<number, TransactionType> = {
   1: { id: 1, name: 'Genesis', description: 'Initial distribution of tokens', icon: Flame },
+  2: { id: 2, name: 'Payment', description: 'Direct payment transaction', icon: ArrowLeftRight },
   3: { id: 3, name: 'Issue', description: 'Creation of a new token', icon: CreditCard },
   4: { id: 4, name: 'Transfer', description: 'Asset transfer between addresses', icon: ArrowLeftRight },
   5: { id: 5, name: 'Reissue', description: 'Additional issuance of an existing token', icon: CreditCard },
@@ -51,6 +52,7 @@ const transactionTypes: Record<number, TransactionType> = {
   16: { id: 16, name: 'Invoke Script', description: 'Invoking a dApp function', icon: Code },
   17: { id: 17, name: 'Update Asset Info', description: 'Updating asset information', icon: CreditCard },
   18: { id: 18, name: 'Ethereum Transaction', description: 'Ethereum-compatible transaction', icon: ArrowLeftRight },
+  20: { id: 20, name: 'Commit to Generation', description: 'Deterministic finality block producer commitment', icon: Code },
 };
 
 const TransactionView = () => {

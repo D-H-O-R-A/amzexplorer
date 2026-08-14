@@ -243,6 +243,17 @@ const Index = () => {
     ? Math.floor(blockHeight / 500) + 1 
     : 248;
 
+  // Dynamic calculation of Blockchain Weight/Size
+// Baseline size of SQLite indexer DB + crescimento por bloco e transação
+const estimatedWeightBytes =
+  16148000 +
+  (blockHeight * 358) +
+  ((stats?.transactions || 26135) * 1178);
+
+const estimatedWeightMB = estimatedWeightBytes / (1024 * 1024);
+const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
+  const blockchainWeightStr = `${estimatedWeightGB.toFixed(3)} GB`;
+
   return (
     <div className="min-h-screen flex flex-col gap-10 md:gap-16">
       
@@ -317,9 +328,9 @@ const Index = () => {
         </div>
       </ParallaxSection>
 
-      {/* 2. Responsive Sleek Data Bar (Unified Grid - 6 columns) */}
+      {/* 2. Responsive Sleek Data Bar (Unified Grid - 7 columns) */}
       <MotionContainer className="w-full">
-        <div className="glass-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y sm:divide-y-0 xl:divide-x divide-primary/10 border border-primary/10 overflow-hidden shadow-lg rounded-xl">
+        <div className="glass-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7 divide-y sm:divide-y-0 xl:divide-x divide-primary/10 border border-primary/10 overflow-hidden shadow-lg rounded-xl">
           
           {/* Block 1: HEIGHT & TIME */}
           <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group bg-slate-50/50 dark:bg-slate-950/20">
@@ -374,6 +385,29 @@ const Index = () => {
               <p className="text-[10px] font-mono text-amber-500 flex items-center gap-1 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
                 <span>Aguardando bloco</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Block 4: BLOCKCHAIN WEIGHT */}
+          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group bg-slate-50/50 dark:bg-slate-950/20 border-t md:border-t-0 border-primary/10">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <Database className="w-3.5 h-3.5 text-primary" />
+                <span>Peso Blockchain</span>
+              </div>
+              <div className="relative group/tooltip">
+                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/60 hover:text-primary transition-colors cursor-help" />
+                <div className="absolute right-0 bottom-full mb-2 w-52 p-2.5 text-[10px] leading-relaxed font-sans rounded-lg border border-primary/10 bg-slate-950/95 backdrop-blur-md text-slate-300 opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none z-[100] shadow-xl">
+                  O tamanho total acumulado do banco de dados e do estado atual da blockchain Planet One indexado em tempo real.
+                </div>
+              </div>
+            </div>
+            <div>
+<h3 className="text-xl font-bold font-mono tracking-tight text-foreground">
+              ≅ {isLoading || isBlockHeightLoading ? "..." : blockchainWeightStr}
+              </h3>
+              <p className="text-[10px] font-mono text-muted-foreground mt-0.5">
               </p>
             </div>
           </div>

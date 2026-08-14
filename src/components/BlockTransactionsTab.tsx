@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Copy, Check, ArrowRight, Coins, Code, Bookmark, Database, Send, Layers } from "lucide-react";
+import { Copy, Check, ArrowRight, Coins, Code, Bookmark, Database, Send, Layers, Flame, PlusCircle, Tag, AlertCircle, Fingerprint, CreditCard } from "lucide-react";
 import { Block, fetchAssetDetails } from "@/services/api";
 import { getCoinName } from "@/lib/utils";
 import { shortenHash } from "@/utils/formatter";
@@ -69,18 +69,44 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
   // Helper to resolve a user-friendly transaction type name and icon
   const getTxTypeDetails = (type: number) => {
     switch (type) {
+      case 1:
+        return { name: "Ativação de Conta (Gênese)", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Flame };
       case 2:
         return { name: "Criação de Conta", color: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: Database };
+      case 3:
+        return { name: "Criação de Token (Issue)", color: "bg-sky-500/10 text-sky-500 border-sky-500/20", icon: PlusCircle };
       case 4:
         return { name: "Transferência", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Send };
+      case 5:
+        return { name: "Emissão Adicional (Reissue)", color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20", icon: PlusCircle };
+      case 6:
+        return { name: "Queima de Ativo (Burn)", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Flame };
+      case 7:
+        return { name: "Ordem Executada (DEX)", color: "bg-violet-500/10 text-violet-500 border-violet-500/20", icon: ArrowRight };
       case 8:
         return { name: "Lease (Arrendar)", color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20", icon: Bookmark };
       case 9:
         return { name: "Cancelar Lease", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Bookmark };
+      case 10:
+        return { name: "Criação de Apelido (Alias)", color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", icon: Tag };
       case 11:
         return { name: "Mass Transfer", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Layers };
+      case 12:
+        return { name: "Gravar Dados (Data)", color: "bg-zinc-500/10 text-zinc-500 border-zinc-500/20", icon: Database };
+      case 13:
+        return { name: "Registrar Script", color: "bg-pink-500/10 text-pink-500 border-pink-500/20", icon: Code };
+      case 14:
+        return { name: "Ativar Patrocínio", color: "bg-orange-500/10 text-orange-500 border-orange-500/20", icon: Coins };
+      case 15:
+        return { name: "Script de Ativo", color: "bg-lime-500/10 text-lime-500 border-lime-500/20", icon: Code };
       case 16:
         return { name: "Invocação de Smart Contract", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Code };
+      case 17:
+        return { name: "Atualizar Token", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: CreditCard };
+      case 18:
+        return { name: "Transação EVM (0x)", color: "bg-gradient-to-r from-emerald-500/10 to-teal-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/25", icon: Layers };
+      case 20:
+        return { name: "Compromisso de Geração", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Code };
       default:
         return { name: `Tipo ${type}`, color: "bg-muted text-muted-foreground border-border", icon: Coins };
     }

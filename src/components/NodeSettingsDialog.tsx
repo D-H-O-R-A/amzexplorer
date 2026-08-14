@@ -38,13 +38,6 @@ const PRESETS: Preset[] = [
     ethRpcUrl: "https://rpc.planetone.io",
     coinName: "PLO",
     chainIdLetter: "P"
-  },
-  {
-    name: "Planet One Testnet",
-    nodeUrl: "https://nodes-testnet.planetone.io",
-    ethRpcUrl: "https://rpc-testnet.planetone.io",
-    coinName: "PLOT",
-    chainIdLetter: "S"
   }
 ];
 

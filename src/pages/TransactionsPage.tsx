@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 import { 
   ExternalLink, Search, ChevronDown, ChevronUp, CreditCard, Clock, 
   User, ArrowRight, Wallet, FileText, Coins, Copy, Check, Activity,
-  Users, Radio, Terminal, PlusCircle, RefreshCw, Flame, HelpCircle
+  Users, Radio, Terminal, PlusCircle, RefreshCw, Flame, HelpCircle,
+  Bookmark, Database, Tag, Layers, ArrowLeftRight, Code
 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
@@ -67,58 +68,148 @@ const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label })
 };
 
 // Map transaction type numbers to custom premium styles & icons
+// Map transaction type numbers to custom premium styles & icons
 const getTxTypeStyles = (type: number) => {
   switch (type) {
     case 1: // Genesis
       return {
         bg: 'bg-amber-500/10 border-amber-500/20 text-amber-500 dark:text-amber-400',
         icon: <PlusCircle className="h-4 w-4" />,
-        label: 'Genesis',
-        desc: 'Genesis Allocation'
+        label: 'Gênese (Genesis)',
+        desc: 'Ativação de Conta (Genesis Allocation)'
       };
     case 2: // Payment
-    case 4: // Transfer
       return {
-        bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
-        icon: <ArrowRight className="h-4 w-4 text-emerald-500" />,
-        label: 'Transfer',
-        desc: 'Asset Transfer'
+        bg: 'bg-blue-500/10 border-blue-500/20 text-blue-500 dark:text-blue-400',
+        icon: <ArrowRight className="h-4 w-4 text-blue-500" />,
+        label: 'Transferência Direta',
+        desc: 'Pagamento Direto (Direct Payment)'
       };
     case 3: // Issue
       return {
         bg: 'bg-sky-500/10 border-sky-500/20 text-sky-500 dark:text-sky-400',
         icon: <PlusCircle className="h-4 w-4" />,
-        label: 'Issue Token',
-        desc: 'Token Creation'
+        label: 'Criação de Token (Issue)',
+        desc: 'Criação de novo ativo (Token Issue)'
+      };
+    case 4: // Transfer
+      return {
+        bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
+        icon: <ArrowRight className="h-4 w-4 text-emerald-500" />,
+        label: 'Transferência (Transfer)',
+        desc: 'Transferência de ativo (Asset Transfer)'
+      };
+    case 5: // Reissue
+      return {
+        bg: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-500 dark:text-cyan-400',
+        icon: <PlusCircle className="h-4 w-4" />,
+        label: 'Emissão Adicional (Reissue)',
+        desc: 'Geração de novos tokens do mesmo ativo (Reissue)'
       };
     case 6: // Burn
       return {
         bg: 'bg-rose-500/10 border-rose-500/20 text-rose-500 dark:text-rose-400',
         icon: <Flame className="h-4 w-4" />,
-        label: 'Burn',
-        desc: 'Token Burn'
+        label: 'Queima de Ativo (Burn)',
+        desc: 'Redução permanente de suprimento (Token Burn)'
       };
-    case 11: // MassTransfer
+    case 7: // Exchange
+      return {
+        bg: 'bg-violet-500/10 border-violet-500/20 text-violet-500 dark:text-violet-400',
+        icon: <ArrowLeftRight className="h-4 w-4" />,
+        label: 'Ordem Executada (DEX)',
+        desc: 'Ordem de Matcher executada (Exchange)'
+      };
+    case 8: // Lease
+      return {
+        bg: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-500 dark:text-indigo-400',
+        icon: <Bookmark className="h-4 w-4" />,
+        label: 'Arrendamento (Lease)',
+        desc: 'Arrendamento de Stake LPoS'
+      };
+    case 9: // Lease Cancel
+      return {
+        bg: 'bg-purple-500/10 border-purple-500/20 text-purple-500 dark:text-purple-400',
+        icon: <Bookmark className="h-4 w-4 animate-pulse" />,
+        label: 'Cancelar Lease',
+        desc: 'Cancelamento de Arrendamento de Stake'
+      };
+    case 10: // Alias
+      return {
+        bg: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500 dark:text-yellow-400',
+        icon: <Tag className="h-4 w-4" />,
+        label: 'Criar Apelido (Alias)',
+        desc: 'Criação de Alias para Endereço'
+      };
+    case 11: // Mass Transfer
       return {
         bg: 'bg-teal-500/10 border-teal-500/20 text-teal-500 dark:text-teal-400',
         icon: <Coins className="h-4 w-4" />,
-        label: 'Mass Transfer',
-        desc: 'Multi-recipient Transfer'
+        label: 'Transf. em Massa (Mass)',
+        desc: 'Transferência múltipla (Mass Transfer)'
       };
-    case 13: // SetScript
-    case 16: // InvokeScript
+    case 12: // Data
       return {
-        bg: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-500 dark:text-indigo-400',
+        bg: 'bg-zinc-500/10 border-zinc-500/20 text-zinc-500 dark:text-zinc-400',
+        icon: <Database className="h-4 w-4" />,
+        label: 'Gravar Dados (Data)',
+        desc: 'Armazenamento de dados na rede'
+      };
+    case 13: // Set Script
+      return {
+        bg: 'bg-pink-500/10 border-pink-500/20 text-pink-500 dark:text-pink-400',
         icon: <Terminal className="h-4 w-4" />,
-        label: 'Invoke Contract',
-        desc: 'Smart Contract Call'
+        label: 'Registrar Script',
+        desc: 'Definição de script de dApp'
+      };
+    case 14: // Sponsor Fee
+      return {
+        bg: 'bg-orange-500/10 border-orange-500/20 text-orange-500 dark:text-orange-400',
+        icon: <Coins className="h-4 w-4" />,
+        label: 'Ativar Patrocínio',
+        desc: 'Patrocínio de taxas de transação'
+      };
+    case 15: // Set Asset Script
+      return {
+        bg: 'bg-lime-500/10 border-lime-500/20 text-lime-500 dark:text-lime-400',
+        icon: <Terminal className="h-4 w-4" />,
+        label: 'Script de Ativo',
+        desc: 'Definição de script de ativo inteligente'
+      };
+    case 16: // Invoke Script
+      return {
+        bg: 'bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-500 dark:text-fuchsia-400',
+        icon: <Terminal className="h-4 w-4" />,
+        label: 'Chamada de Contrato',
+        desc: 'Invocação de Smart Contract (Invoke)'
+      };
+    case 17: // Update Asset Info
+      return {
+        bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
+        icon: <CreditCard className="h-4 w-4" />,
+        label: 'Atualizar Token',
+        desc: 'Atualização de nome e descrição de token'
+      };
+    case 18: // Ethereum Transaction (EVM)
+      return {
+        bg: 'bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/25 text-emerald-500 dark:text-emerald-400',
+        icon: <Layers className="h-4 w-4 text-emerald-500 animate-pulse" />,
+        label: 'Transação EVM (0x)',
+        desc: 'Transação do MetaMask / EVM (Type 18)'
+      };
+    case 20: // Commit to Generation
+      return {
+        bg: 'bg-purple-500/10 border-purple-500/20 text-purple-500 dark:text-purple-400',
+        icon: <Code className="h-4 w-4" />,
+        label: 'Compromisso de Geração',
+        desc: 'Deterministic Finality (Type 20)'
       };
     default:
       return {
         bg: 'bg-muted border-border text-muted-foreground',
         icon: <CreditCard className="h-4 w-4 animate-none" />,
-        label: 'Transaction',
-        desc: 'Blockchain Operation'
+        label: `Tipo ${type}`,
+        desc: 'Operação Blockchain (Custom)'
       };
   }
 };
