@@ -1,204 +1,634 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getGCSApiUrl } from '@/lib/utils';
-import { toast } from 'sonner';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine
+} from 'recharts';
+import { getGCSApiUrl, getCoinName } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Activity,
+  Clock,
+  Database,
+  Coins,
+  RefreshCw,
+  Zap,
+  TrendingUp,
+  Layers
+} from 'lucide-react';
+import { shortenHash } from '@/utils/formatter';
 
-interface ChartDataPoint {
+export interface ChartDataPoint {
   timestamp: number;
   height: number;
   transactions: number;
-  avgBlockTime: number;
-  date: string;
+  blockTime: number; // in seconds
+  blockSizeKb: number;
+  totalFeePlo: number;
+  generator?: string;
+  timeLabel: string;
+  fullDateLabel: string;
 }
 
-const NetworkChart = () => {
-  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export type MetricType = 'transactions' | 'blockTime' | 'blockSize' | 'fees';
+export type RangeOption = 30 | 60 | 100;
 
-  useEffect(() => {
-    const fetchChartData = async () => {
-      setIsLoading(true);
+interface MetricMeta {
+  id: MetricType;
+  label: string;
+  shortLabel: string;
+  unit: string;
+  icon: React.ComponentType<{ className?: string }>;
+  strokeColor: string;
+  gradientId: string;
+  badgeBg: string;
+  badgeText: string;
+  yAxisFormatter: (val: number) => string;
+  tooltipFormatter: (val: number) => string;
+}
+
+const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
+  transactions: {
+    id: 'transactions',
+    label: 'Volume de Transações',
+    shortLabel: 'Transações',
+    unit: 'txs',
+    icon: Zap,
+    strokeColor: '#10b981', // emerald-500
+    gradientId: 'emeraldTxGradient',
+    badgeBg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500',
+    badgeText: 'text-emerald-500',
+    yAxisFormatter: (v) => `${Math.round(v)}`,
+    tooltipFormatter: (v) => `${v} txs`
+  },
+  blockTime: {
+    id: 'blockTime',
+    label: 'Tempo de Produção (Latência)',
+    shortLabel: 'Tempo de Bloco',
+    unit: 's',
+    icon: Clock,
+    strokeColor: '#8b5cf6', // violet-500
+    gradientId: 'violetTimeGradient',
+    badgeBg: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
+    badgeText: 'text-violet-400',
+    yAxisFormatter: (v) => `${v.toFixed(0)}s`,
+    tooltipFormatter: (v) => `${v.toFixed(1)}s`
+  },
+  blockSize: {
+    id: 'blockSize',
+    label: 'Tamanho dos Blocos',
+    shortLabel: 'Tamanho (KB)',
+    unit: 'KB',
+    icon: Database,
+    strokeColor: '#f59e0b', // amber-500
+    gradientId: 'amberSizeGradient',
+    badgeBg: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
+    badgeText: 'text-amber-500',
+    yAxisFormatter: (v) => `${v.toFixed(1)}k`,
+    tooltipFormatter: (v) => `${v.toFixed(2)} KB`
+  },
+  fees: {
+    id: 'fees',
+    label: 'Taxas Coletadas por Bloco',
+    shortLabel: 'Taxas (PLO)',
+    unit: 'PLO',
+    icon: Coins,
+    strokeColor: '#06b6d4', // cyan-500
+    gradientId: 'cyanFeeGradient',
+    badgeBg: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
+    badgeText: 'text-cyan-400',
+    yAxisFormatter: (v) => `${v.toFixed(2)}`,
+    tooltipFormatter: (v) => `${v.toFixed(4)} ${getCoinName()}`
+  }
+};
+
+interface NetworkChartProps {
+  initialMetric?: MetricType;
+  initialRange?: RangeOption;
+  hideHeader?: boolean;
+}
+
+const NetworkChart: React.FC<NetworkChartProps> = ({
+  initialMetric = 'transactions',
+  initialRange = 30,
+  hideHeader = false
+}) => {
+  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [activeMetric, setActiveMetric] = useState<MetricType>(initialMetric);
+  const [blockRange, setBlockRange] = useState<RangeOption>(initialRange);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const fetchChartData = useCallback(async (showLoadingState = true) => {
+    if (showLoadingState) setIsLoading(true);
+    setIsRefreshing(true);
+
+    try {
+      const apiUrl = getGCSApiUrl();
+
+      // 1. Get latest block height
+      const lastRes = await fetch(`${apiUrl}/blocks/last`);
+      if (!lastRes.ok) throw new Error('Falha ao obter último bloco da rede');
+      const lastBlock = await lastRes.json();
+      const latestHeight = Number(lastBlock.height);
+
+      if (!latestHeight || isNaN(latestHeight)) {
+        throw new Error('Altura do bloco inválida');
+      }
+
+      const fromHeight = Math.max(1, latestHeight - blockRange + 1);
+      const toHeight = latestHeight;
+
+      let rawBlocks: any[] = [];
+
+      // 2. Try fast batch block headers endpoint
       try {
-        const apiUrl = getGCSApiUrl();
-        console.log("Fetching network chart data...");
-        
-        // First get the latest block height
-        const latestResponse = await fetch(`${apiUrl}/blocks/last`);
-        if (!latestResponse.ok) {
-          throw new Error('Failed to fetch latest block');
-        }
-        
-        const latestBlock = await latestResponse.json();
-        const latestHeight = latestBlock.height;
-        
-        // Fetch last 20 blocks using /blocks/at/{height}
-        const blocks = [];
-        for (let i = 0; i < 20; i++) {
-          const height = latestHeight - i;
-          if (height <= 0) break;
-          
-          try {
-            const response = await fetch(`${apiUrl}/blocks/at/${height}`);
-            if (response.ok) {
-              const block = await response.json();
-              blocks.push(block);
-            }
-          } catch (error) {
-            console.error(`Failed to fetch block at height ${height}:`, error);
+        const batchRes = await fetch(`${apiUrl}/blocks/headers/seq/${fromHeight}/${toHeight}`);
+        if (batchRes.ok) {
+          const json = await batchRes.json();
+          if (Array.isArray(json) && json.length > 0) {
+            rawBlocks = json;
           }
         }
-        
-        console.log("Blocks for chart:", blocks);
-        
-        if (blocks.length > 0) {
-          const processedData: ChartDataPoint[] = blocks.map((block: any, index: number) => {
-            const prevBlock = blocks[index + 1];
-            const blockTime = prevBlock ? (block.timestamp - prevBlock.timestamp) / 1000 : 60;
-            
-            return {
-              timestamp: block.timestamp,
-              height: block.height,
-              transactions: block.transactionCount || 0,
-              avgBlockTime: blockTime,
-              date: new Date(block.timestamp).toLocaleDateString()
-            };
-          }).reverse(); // Reverse to show chronological order
-          
-          setChartData(processedData);
-        }
-      } catch (error) {
-        console.error("Error fetching chart data:", error);
-        toast.error("Failed to fetch chart data");
-        setChartData([]);
-      } finally {
-        setIsLoading(false);
+      } catch (batchErr) {
+        // Fallback below
       }
+
+      // 3. Fallback to parallel fetch if batch unavailable
+      if (rawBlocks.length === 0) {
+        const heightsToFetch: number[] = [];
+        for (let h = toHeight; h >= fromHeight; h--) {
+          heightsToFetch.push(h);
+        }
+
+        const blockPromises = heightsToFetch.map(async (height) => {
+          try {
+            const res = await fetch(`${apiUrl}/blocks/headers/at/${height}`);
+            if (res.ok) return await res.json();
+            const fullRes = await fetch(`${apiUrl}/blocks/at/${height}`);
+            if (fullRes.ok) return await fullRes.json();
+          } catch (e) {
+            return null;
+          }
+          return null;
+        });
+
+        const fetched = await Promise.all(blockPromises);
+        rawBlocks = fetched.filter((b) => b !== null).reverse();
+      }
+
+      // 4. Process and calculate chronological metrics
+      if (rawBlocks.length > 0) {
+        // Sort ascending by height
+        const sorted = [...rawBlocks].sort((a, b) => Number(a.height) - Number(b.height));
+
+        const processed: ChartDataPoint[] = sorted.map((block: any, idx: number) => {
+          const prev = sorted[idx - 1];
+          let blockTimeSeconds = 60;
+          if (prev && block.timestamp && prev.timestamp) {
+            const diff = (block.timestamp - prev.timestamp) / 1000;
+            // Cap reasonable range (1s to 600s)
+            blockTimeSeconds = diff > 0 && diff < 600 ? diff : 60;
+          }
+
+          const dateObj = new Date(block.timestamp);
+          const timeLabel = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          const fullDateLabel = dateObj.toLocaleString('pt-BR');
+
+          const txCount = block.transactionCount !== undefined ? block.transactionCount : (block.transactions?.length || 0);
+          const sizeKb = block.blocksize ? block.blocksize / 1024 : 0.35;
+          const feePlo = block.totalFee ? block.totalFee / 1e8 : 0;
+
+          return {
+            timestamp: block.timestamp,
+            height: Number(block.height),
+            transactions: Number(txCount),
+            blockTime: Number(blockTimeSeconds),
+            blockSizeKb: Number(sizeKb),
+            totalFeePlo: Number(feePlo),
+            generator: block.generator || block.generatorPublicKey,
+            timeLabel,
+            fullDateLabel
+          };
+        });
+
+        setChartData(processed);
+        setLastUpdated(new Date());
+      }
+    } catch (error) {
+      console.error('Erro ao obter dados do gráfico:', error);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  }, [blockRange]);
+
+  useEffect(() => {
+    fetchChartData(chartData.length === 0);
+    const timer = setInterval(() => fetchChartData(false), 30000); // 30s auto-refresh
+    return () => clearInterval(timer);
+  }, [fetchChartData, chartData.length]);
+
+  // Derived KPI Statistics
+  const stats = useMemo(() => {
+    if (chartData.length === 0) {
+      return {
+        totalTxs: 0,
+        avgTxs: 0,
+        avgBlockTime: 60,
+        peakBlock: { height: 0, txs: 0 },
+        avgSizeKb: 0,
+        totalFees: 0
+      };
+    }
+
+    const totalTxs = chartData.reduce((acc, cur) => acc + cur.transactions, 0);
+    const avgTxs = totalTxs / chartData.length;
+    const avgBlockTime = chartData.reduce((acc, cur) => acc + cur.blockTime, 0) / chartData.length;
+    const peakBlock = chartData.reduce(
+      (max, cur) => (cur.transactions > max.txs ? { height: cur.height, txs: cur.transactions } : max),
+      { height: chartData[0].height, txs: chartData[0].transactions }
+    );
+    const avgSizeKb = chartData.reduce((acc, cur) => acc + cur.blockSizeKb, 0) / chartData.length;
+    const totalFees = chartData.reduce((acc, cur) => acc + cur.totalFeePlo, 0);
+
+    return {
+      totalTxs,
+      avgTxs,
+      avgBlockTime,
+      peakBlock,
+      avgSizeKb,
+      totalFees
     };
+  }, [chartData]);
 
-    fetchChartData();
-    
-    // Set up auto-refresh every 2 minutes
-    const interval = setInterval(fetchChartData, 120000);
-    return () => clearInterval(interval);
-  }, []);
+  const currentMeta = METRIC_CONFIGS[activeMetric];
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-8 w-40" />
-        <Skeleton className="h-[300px] w-full" />
-      </div>
-    );
-  }
+  // Custom Glassmorphic Tooltip
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const data: ChartDataPoint = payload[0].payload;
+      return (
+        <div className="bg-slate-950/95 backdrop-blur-xl border border-primary/20 shadow-2xl rounded-xl p-3.5 text-xs font-mono space-y-2.5 min-w-[220px] pointer-events-none text-slate-100 z-50">
+          <div className="flex items-center justify-between border-b border-primary/15 pb-2">
+            <span className="font-bold text-emerald-400 flex items-center gap-1.5">
+              <Layers className="h-3.5 w-3.5 text-primary" />
+              Bloco #{data.height}
+            </span>
+            <span className="text-[10px] text-slate-400">{data.timeLabel}</span>
+          </div>
 
-  if (chartData.length === 0) {
-    return (
-      <div className="space-y-4">
-        <p className="text-muted-foreground text-center">No chart data available</p>
-      </div>
-    );
-  }
+          <div className="space-y-1.5 text-[11px]">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-400 flex items-center gap-1">
+                <Zap className="h-3 w-3 text-emerald-400" /> Transações:
+              </span>
+              <span className="font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded text-[11px]">
+                {data.transactions} txs
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-slate-400 flex items-center gap-1">
+                <Clock className="h-3 w-3 text-violet-400" /> Intervalo:
+              </span>
+              <span className="font-bold text-violet-300">
+                {data.blockTime.toFixed(1)}s
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-slate-400 flex items-center gap-1">
+                <Database className="h-3 w-3 text-amber-400" /> Tamanho:
+              </span>
+              <span className="font-bold text-amber-300">
+                {data.blockSizeKb.toFixed(2)} KB
+              </span>
+            </div>
+
+            {data.totalFeePlo > 0 && (
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400 flex items-center gap-1">
+                  <Coins className="h-3 w-3 text-cyan-400" /> Taxas:
+                </span>
+                <span className="font-bold text-cyan-300">
+                  {data.totalFeePlo.toFixed(4)} {getCoinName()}
+                </span>
+              </div>
+            )}
+
+            {data.generator && (
+              <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-[10px]">
+                <span className="text-slate-500">Minerador:</span>
+                <span className="text-primary font-mono truncate max-w-[110px]" title={data.generator}>
+                  {shortenHash(data.generator, 4)}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <Tabs defaultValue="transactions" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="transactions">Transactions</TabsTrigger>
-        <TabsTrigger value="blocks">Block Heights</TabsTrigger>
-        <TabsTrigger value="blocktime">Block Time</TabsTrigger>
-      </TabsList>
-      
-      <TabsContent value="transactions" className="space-y-4">
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis 
-                dataKey="height" 
-                tick={{ fontSize: 12 }}
-                tickFormatter={(value) => `#${value}`}
-              />
-              <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'hsl(var(--background))', 
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px'
-                }}
-                labelFormatter={(value) => `Block #${value}`}
-                formatter={(value: any) => [value, 'Transactions']}
-              />
-              <Bar dataKey="transactions" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+    <div className="w-full space-y-5">
+      {/* 1. Header Bar: Title, Metric Switchers, Range Filters, Refresh */}
+      {!hideHeader && (
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-primary/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
+              <Activity className="h-5 w-5 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-base font-bold font-mono tracking-tight text-foreground">
+                  DESEMPENHO HISTÓRICO DA REDE
+                </h3>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                  Tempo Real
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground font-mono mt-0.5">
+                Monitoramento de vazão (throughput), latência e blocos validados
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Metric Switcher Pills */}
+            <div className="flex items-center bg-slate-900/60 p-1 rounded-lg border border-primary/15">
+              {(Object.keys(METRIC_CONFIGS) as MetricType[]).map((key) => {
+                const item = METRIC_CONFIGS[key];
+                const Icon = item.icon;
+                const isActive = activeMetric === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setActiveMetric(key)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all ${
+                      isActive
+                        ? `${item.badgeBg} font-bold shadow-sm`
+                        : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/40'
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    <span>{item.shortLabel}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Block Range Selector */}
+            <div className="flex items-center bg-slate-900/60 p-1 rounded-lg border border-primary/15">
+              {([30, 60, 100] as RangeOption[]).map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setBlockRange(r)}
+                  className={`px-2.5 py-1.5 rounded-md text-[11px] font-mono transition-all ${
+                    blockRange === r
+                      ? 'bg-primary text-primary-foreground font-bold shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/40'
+                  }`}
+                >
+                  {r}B
+                </button>
+              ))}
+            </div>
+
+            {/* Manual Refresh */}
+            <button
+              onClick={() => fetchChartData(false)}
+              disabled={isRefreshing}
+              className="p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800/80 border border-primary/15 text-muted-foreground hover:text-foreground transition-all disabled:opacity-50"
+              title="Atualizar dados agora"
+            >
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin text-primary' : ''}`} />
+            </button>
+          </div>
         </div>
-      </TabsContent>
-      
-      <TabsContent value="blocks" className="space-y-4">
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis 
-                dataKey="date" 
-                tick={{ fontSize: 12 }}
-              />
-              <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'hsl(var(--background))', 
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px'
-                }}
-                formatter={(value: any) => [value, 'Block Height']}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="height" 
-                stroke="hsl(var(--primary))" 
-                strokeWidth={2}
-                dot={{ fill: 'hsl(var(--primary))', strokeWidth: 0, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+      )}
+
+      {/* 2. Micro KPI Stats Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* KPI 1: Transações no Período */}
+        <div className="p-3 rounded-xl bg-slate-950/40 border border-emerald-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/30 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Zap className="h-3.5 w-3.5 text-emerald-400" />
+              Volume de Tx ({blockRange}B)
+            </span>
+          </div>
+          <div className="mt-1">
+            <div className="text-lg font-bold font-mono text-emerald-400">
+              {isLoading ? '...' : `${stats.totalTxs.toLocaleString('pt-BR')} txs`}
+            </div>
+            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+              Média: ~{stats.avgTxs.toFixed(1)} / bloco
+            </div>
+          </div>
         </div>
-      </TabsContent>
-      
-      <TabsContent value="blocktime" className="space-y-4">
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis 
-                dataKey="height" 
-                tick={{ fontSize: 12 }}
-                tickFormatter={(value) => `#${value}`}
-              />
-              <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'hsl(var(--background))', 
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px'
-                }}
-                labelFormatter={(value) => `Block #${value}`}
-                formatter={(value: any) => [`${value.toFixed(1)}s`, 'Block Time']}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="avgBlockTime" 
-                stroke="hsl(var(--secondary))" 
-                strokeWidth={2}
-                dot={{ fill: 'hsl(var(--secondary))', strokeWidth: 0, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+
+        {/* KPI 2: Tempo Médio de Bloco */}
+        <div className="p-3 rounded-xl bg-slate-950/40 border border-violet-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/30 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5 text-violet-400" />
+              Tempo Médio
+            </span>
+          </div>
+          <div className="mt-1">
+            <div className="text-lg font-bold font-mono text-violet-300">
+              {isLoading ? '...' : `${stats.avgBlockTime.toFixed(1)}s`}
+            </div>
+            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+              Alvo da Rede: ~60s
+            </div>
+          </div>
         </div>
-      </TabsContent>
-    </Tabs>
+
+        {/* KPI 3: Pico de Atividade */}
+        <div className="p-3 rounded-xl bg-slate-950/40 border border-amber-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-amber-500/30 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <TrendingUp className="h-3.5 w-3.5 text-amber-400" />
+              Pico de Atividade
+            </span>
+          </div>
+          <div className="mt-1">
+            <div className="text-lg font-bold font-mono text-amber-300">
+              {isLoading ? '...' : `${stats.peakBlock.txs} txs`}
+            </div>
+            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+              Bloco #{stats.peakBlock.height}
+            </div>
+          </div>
+        </div>
+
+        {/* KPI 4: Tamanho Médio */}
+        <div className="p-3 rounded-xl bg-slate-950/40 border border-cyan-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/30 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Database className="h-3.5 w-3.5 text-cyan-400" />
+              Tamanho Médio
+            </span>
+          </div>
+          <div className="mt-1">
+            <div className="text-lg font-bold font-mono text-cyan-300">
+              {isLoading ? '...' : `${stats.avgSizeKb.toFixed(2)} KB`}
+            </div>
+            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+              {chartData.length} blocos analisados
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. The Main Glowing Area Chart */}
+      <div className="relative w-full h-72 md:h-80 rounded-xl bg-slate-950/60 p-4 border border-primary/15 shadow-inner">
+        {isLoading && chartData.length === 0 ? (
+          <div className="h-full w-full flex flex-col justify-center space-y-3">
+            <Skeleton className="h-4 w-48 bg-slate-800/60" />
+            <Skeleton className="h-full w-full bg-slate-800/40 rounded-lg" />
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -18, bottom: 0 }}>
+              <defs>
+                {/* Emerald Gradient */}
+                <linearGradient id="emeraldTxGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity={0.45} />
+                  <stop offset="65%" stopColor="#10b981" stopOpacity={0.08} />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.0} />
+                </linearGradient>
+
+                {/* Violet Gradient */}
+                <linearGradient id="violetTimeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.45} />
+                  <stop offset="65%" stopColor="#8b5cf6" stopOpacity={0.08} />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.0} />
+                </linearGradient>
+
+                {/* Amber Gradient */}
+                <linearGradient id="amberSizeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.45} />
+                  <stop offset="65%" stopColor="#f59e0b" stopOpacity={0.08} />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.0} />
+                </linearGradient>
+
+                {/* Cyan Gradient */}
+                <linearGradient id="cyanFeeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.45} />
+                  <stop offset="65%" stopColor="#06b6d4" stopOpacity={0.08} />
+                  <stop offset="100%" stopColor="#06b6d4" stopOpacity={0.0} />
+                </linearGradient>
+              </defs>
+
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255, 255, 255, 0.05)"
+                vertical={false}
+              />
+
+              <XAxis
+                dataKey="height"
+                stroke="#64748b"
+                tick={{ fontSize: 10, fontFamily: 'monospace', fill: '#64748b' }}
+                tickFormatter={(val) => `#${val}`}
+                dy={6}
+                axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+                tickLine={false}
+              />
+
+              <YAxis
+                stroke="#64748b"
+                tick={{ fontSize: 10, fontFamily: 'monospace', fill: '#64748b' }}
+                tickFormatter={currentMeta.yAxisFormatter}
+                dx={-4}
+                axisLine={false}
+                tickLine={false}
+                allowDecimals={activeMetric !== 'transactions'}
+              />
+
+              <Tooltip content={<CustomTooltip />} />
+
+              {/* Reference line for 60s target on blockTime metric */}
+              {activeMetric === 'blockTime' && (
+                <ReferenceLine
+                  y={60}
+                  stroke="#10b981"
+                  strokeDasharray="4 4"
+                  strokeOpacity={0.6}
+                  label={{
+                    value: 'Meta: 60s',
+                    position: 'insideTopRight',
+                    fill: '#10b981',
+                    fontSize: 10,
+                    fontFamily: 'monospace'
+                  }}
+                />
+              )}
+
+              <Area
+                type="monotone"
+                dataKey={
+                  activeMetric === 'transactions'
+                    ? 'transactions'
+                    : activeMetric === 'blockTime'
+                    ? 'blockTime'
+                    : activeMetric === 'blockSize'
+                    ? 'blockSizeKb'
+                    : 'totalFeePlo'
+                }
+                stroke={currentMeta.strokeColor}
+                strokeWidth={2.5}
+                fill={`url(#${currentMeta.gradientId})`}
+                activeDot={{
+                  r: 5,
+                  stroke: currentMeta.strokeColor,
+                  strokeWidth: 2,
+                  fill: '#ffffff',
+                  className: 'animate-pulse'
+                }}
+                isAnimationActive={true}
+                animationDuration={600}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+
+      {/* 4. Footer Legend / Metadata Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground px-1">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <span
+              className="w-2.5 h-2.5 rounded-full inline-block"
+              style={{ backgroundColor: currentMeta.strokeColor }}
+            ></span>
+            <span className="text-foreground font-medium">{currentMeta.label}</span>
+          </span>
+          <span className="text-slate-600">|</span>
+          <span>Amostragem: Últimos {blockRange} blocos validados</span>
+        </div>
+
+        {lastUpdated && (
+          <span className="text-[10px] text-slate-500">
+            Atualizado às {lastUpdated.toLocaleTimeString('pt-BR')} (Auto-refresh 30s)
+          </span>
+        )}
+      </div>
+    </div>
   );
 };
 
 export default NetworkChart;
+

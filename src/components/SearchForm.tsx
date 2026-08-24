@@ -66,12 +66,12 @@ const SearchForm = () => {
     }
   }, [searchQuery]);
 
-  // Convert Ethereum address to Waves address
+  // Convert Ethereum address to Planet One address
   const convertEthToWavesAddress = (ethAddress: string): string => {
     try {
       return ethAddress2waves(ethAddress, getChainId());
     } catch (error) {
-      console.error('Error converting Ethereum address to Waves address:', error);
+      console.error('Error converting Ethereum address to Planet One address:', error);
       return null;
     }
   };

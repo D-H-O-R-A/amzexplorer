@@ -31,3 +31,7 @@ fullexplorer/config.php
 fullexplorer/*.log
 fullexplorer/composer.phar
 fullexplorer/composer.lock
+
+# CLI local configuration and keys
+.planetone-config.json
+scripts/.planetone-config.json

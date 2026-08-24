@@ -515,8 +515,8 @@ const RankingPage: React.FC = () => {
                           {/* Balance (PLO / Asset) */}
                           <TableCell className="text-right py-4 font-mono text-xs md:text-sm font-extrabold text-foreground">
                             {balanceDecimal.toLocaleString(undefined, { 
-                              minimumFractionDigits: 2, 
-                              maximumFractionDigits: decimals 
+                              minimumFractionDigits: Math.min(2, Math.max(0, decimals ?? 0)), 
+                              maximumFractionDigits: Math.max(0, decimals ?? 0) 
                             })}
                           </TableCell>
 

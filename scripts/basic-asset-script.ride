@@ -1,0 +1,13 @@
+{-# STDLIB_VERSION 6 #-}
+{-# CONTENT_TYPE EXPRESSION #-}
+{-# SCRIPT_TYPE ASSET #-}
+
+# ==============================================================================
+# Planet One Smart Asset Script - Basic Rule
+# Valida e permite transferências, transferências em massa, queima e reemissão.
+# ==============================================================================
+
+match tx {
+  case t: TransferTransaction | MassTransferTransaction | BurnTransaction | ReissueTransaction => true
+  case _ => true
+}

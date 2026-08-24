@@ -137,8 +137,8 @@ const AssetPage = () => {
             try {
               assetIdToFetch = ethAsset2Waves(id);
             } catch (error) {
-              console.error("Erro ao converter asset ID 0x para Waves:", error);
-              toast.error("Erro ao converter asset ID para formato Waves");
+              console.error("Erro ao converter asset ID 0x para Planet One:", error);
+              toast.error("Erro ao converter asset ID para formato Planet One");
               setLoading(false);
               return;
             }
@@ -152,7 +152,7 @@ const AssetPage = () => {
           
           setProcessedAssetId(assetIdToFetch);
           
-          // Fetch asset data using Waves format
+          // Fetch asset data using Planet One format
           const assetData = await fetchAssetDetails(assetIdToFetch);
           setAsset(assetData);
           
@@ -722,8 +722,8 @@ const AssetPage = () => {
                                 {/* Balance */}
                                 <TableCell className="text-right py-3.5 font-mono text-xs font-extrabold text-foreground">
                                   {balanceDecimal.toLocaleString(undefined, { 
-                                    minimumFractionDigits: 2, 
-                                    maximumFractionDigits: assetDecimals 
+                                    minimumFractionDigits: Math.min(2, Math.max(0, assetDecimals ?? 0)), 
+                                    maximumFractionDigits: Math.max(0, assetDecimals ?? 0) 
                                   })}
                                 </TableCell>
 

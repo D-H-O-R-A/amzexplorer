@@ -1,0 +1,49 @@
+{-# STDLIB_VERSION 6 #-}
+{-# CONTENT_TYPE DAPP #-}
+{-# SCRIPT_TYPE ACCOUNT #-}
+
+# ==============================================================================
+# Planet One Smart Contract - Data Storage Contract
+# Permite registrar e atualizar entradas de dados (database entries)
+# na conta: Boolean, Integer, String e ByteVector (Bytes).
+# ==============================================================================
+
+@Callable(i)
+func setBoolean(key: String, value: Boolean) = {
+  [
+    BooleanEntry(key, value)
+  ]
+}
+
+@Callable(i)
+func setInteger(key: String, value: Int) = {
+  [
+    IntegerEntry(key, value)
+  ]
+}
+
+@Callable(i)
+func setString(key: String, value: String) = {
+  [
+    StringEntry(key, value)
+  ]
+}
+
+@Callable(i)
+func setBinary(key: String, value: ByteVector) = {
+  [
+    BinaryEntry(key, value)
+  ]
+}
+
+@Callable(i)
+func deleteEntry(key: String) = {
+  [
+    DeleteEntry(key)
+  ]
+}
+
+@Verifier(tx)
+func verify() = {
+  sigVerify(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
+}

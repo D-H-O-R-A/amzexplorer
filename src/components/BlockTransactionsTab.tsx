@@ -32,7 +32,11 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
       // Collect unique asset IDs
       const uniqueAssetIds = Array.from(new Set(
         block.transactions
-          .flatMap(tx => [tx.assetId, tx.feeAsset])
+          .flatMap(tx => [
+            tx.assetId, 
+            tx.feeAsset,
+            tx.type === 3 ? (tx.assetId || tx.id) : null
+          ])
           .filter((id): id is string => !!id)
       ));
       
@@ -125,7 +129,7 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
             const TypeIcon = typeDetails.icon;
             
             // Resolve amount decimals & name
-            const amountAssetId = tx.assetId;
+            const amountAssetId = tx.assetId || (tx.type === 3 ? (tx.assetId || tx.id) : null);
             const amountDecimals = amountAssetId ? (assetMap[amountAssetId]?.decimals ?? 8) : 8;
             const amountSymbol = amountAssetId ? (assetMap[amountAssetId]?.name ?? amountAssetId.substring(0, 4).toUpperCase()) : getCoinName();
             
@@ -255,15 +259,26 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
                     </span>
                   </div>
 
-                  {tx.amount !== undefined && (
-                    <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 px-3 font-semibold">
-                      <Coins className="w-3.5 h-3.5" />
-                      <span className="font-mono font-bold">
-                        {(tx.amount / Math.pow(10, amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}{" "}
-                        <span className="text-[10px] font-bold uppercase">{amountSymbol}</span>
-                      </span>
-                    </div>
-                  )}
+                  {(() => {
+                    const rawAmount = tx.type === 5 ? tx.quantity
+                      : tx.type === 3 ? tx.quantity
+                      : tx.type === 14 ? tx.minSponsoredAssetFee
+                      : tx.type === 11 ? tx.totalAmount
+                      : tx.amount;
+                    if (rawAmount === undefined || rawAmount === null) return null;
+                    const isNegative = tx.type === 6;
+                    const isPositive = tx.type === 5;
+                    return (
+                      <div className={`flex items-center gap-1.5 p-1.5 rounded-lg px-3 font-semibold ${isNegative ? "bg-rose-500/10 text-rose-500" : isPositive ? "bg-emerald-500/10 text-emerald-500" : "bg-emerald-500/10 text-emerald-500"}`}>
+                        <Coins className="w-3.5 h-3.5" />
+                        <span className="font-mono font-bold">
+                          {isNegative ? "-" : isPositive ? "+" : ""}
+                          {(rawAmount / Math.pow(10, amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}{" "}
+                          <span className="text-[10px] font-bold uppercase">{amountSymbol}</span>
+                        </span>
+                      </div>
+                    );
+                  })()}
                 </div>
 
               </div>

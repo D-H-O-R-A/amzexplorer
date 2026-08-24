@@ -29,7 +29,7 @@ export const convertWavesAssetToEth = (assetId: string): string => {
   try {
     return wavesAsset2Eth(assetId);
   } catch (error) {
-    console.error("Error converting Waves asset to ETH:", error);
+    console.error("Error converting Planet One asset to ETH:", error);
     return assetId;
   }
 };
@@ -38,7 +38,7 @@ export const convertEthTxToWaves = (txId: string): string => {
   try {
     return ethTxId2waves(txId);
   } catch (error) {
-    console.error("Error converting ETH tx to Waves:", error);
+    console.error("Error converting ETH tx to Planet one:", error);
     return txId;
   }
 };
@@ -114,13 +114,13 @@ export const getFullExplorerApiUrl = (): string => {
   if (customUrl) return customUrl;
 
   // Auto-detect local development
-  const isLocalhost = window.location.hostname === 'localhost' || 
-                      window.location.hostname === '127.0.0.1' || 
-                      window.location.hostname.startsWith('192.168.');
+  // const isLocalhost = window.location.hostname === 'localhost' || 
+  //                     window.location.hostname === '127.0.0.1' || 
+  //                     window.location.hostname.startsWith('192.168.');
   
-  if (isLocalhost) {
-    return "http://localhost:8080/api";
-  }
+  // if (isLocalhost) {
+  //   return "http://localhost:8080/api";
+  // }
 
   return isTest ? "https://testnet-fullexplorer.planetone.io/api" : "https://fullexplorer.planetone.io/api";
 };

@@ -465,21 +465,10 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
         </div>
       </MotionContainer>
 
-      {/* 3. Simplified Network Activity Chart Card */}
+      {/* 3. Enhanced Network Activity Chart Card */}
       <MotionContainer className="w-full">
         <div className="glass-card p-6 border border-primary/10 overflow-hidden shadow-md rounded-xl">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-sm font-bold font-mono text-foreground flex items-center gap-2 tracking-wider">
-              <Activity className="w-4 h-4 text-primary animate-pulse" />
-              <span>DESEMPENHO HISTÓRICO DA REDE (ATIVIDADE 24H)</span>
-            </h3>
-            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-mono">
-              Live TPS: {isLoading ? "..." : liveTPS}
-            </span>
-          </div>
-          <div className="h-64 md:h-72">
-            <NetworkChart />
-          </div>
+          <NetworkChart />
         </div>
       </MotionContainer>
 

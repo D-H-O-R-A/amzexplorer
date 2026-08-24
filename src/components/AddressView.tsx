@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { 
   Copy, Check, User, Wallet, Code, Database, 
   Loader2, ExternalLink, Image as ImageIcon, 
-  ShieldAlert, Award, FileText, Landmark, Clock, Coins, Terminal, Sparkles
+  ShieldAlert, Award, FileText, Landmark, Clock, Coins, Terminal, Sparkles, Tag
 } from 'lucide-react';
 import { getChainId, getCoinName, getFullExplorerUiUrl } from '@/lib/utils';
 import { Link } from 'react-router-dom';
@@ -91,7 +91,7 @@ const AddressView = ({
       const processed = await Promise.all(
         transactions.slice(0, 100).map(async (tx) => {
           try {
-            const assetId = tx.assetId;
+            const assetId = tx.assetId || (tx.type === 3 ? (tx.assetId || tx.id) : null);
             const decimals = (!assetId || assetId === 'null' || assetId === 'undefined')
               ? 8
               : (await fetchDecimalsAsset(assetId)) ?? 8;
@@ -243,26 +243,6 @@ const AddressView = ({
             </div>
           </div>
         </div>
-
-        {/* Aliases Pill Badges list */}
-        {addressData.aliases && addressData.aliases.length > 0 && (
-          <div className="mt-5 pt-4 border-t border-border/50">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-2">
-              Aliases mapeados na rede:
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {addressData.aliases.map((alias, index) => (
-                <Badge 
-                  key={index} 
-                  variant="secondary" 
-                  className="px-3 py-1 text-xs bg-muted/40 hover:bg-muted/80 border border-border/50 text-foreground rounded-full transition-all"
-                >
-                  <span className="font-mono">{alias}</span>
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Unified Tab Navigation */}
@@ -291,6 +271,10 @@ const AddressView = ({
           <TabsTrigger value="data" className="data-[state=active]:bg-background/80 data-[state=active]:text-emerald-500 dark:data-[state=active]:text-emerald-400 font-medium px-4 py-2 text-sm rounded-lg transition-all flex items-center gap-2">
             <Terminal className="h-4 w-4" />
             Database entries ({addressData.dataEntries?.length || 0})
+          </TabsTrigger>
+          <TabsTrigger value="aliases" className="data-[state=active]:bg-background/80 data-[state=active]:text-emerald-500 dark:data-[state=active]:text-emerald-400 font-medium px-4 py-2 text-sm rounded-lg transition-all flex items-center gap-2">
+            <Tag className="h-4 w-4" />
+            Aliases ({addressData.aliases?.length || 0})
           </TabsTrigger>
         </TabsList>
 
@@ -552,12 +536,22 @@ const AddressView = ({
                           </TableCell>
                           <TableCell className="py-4">
                             {(() => {
-                              if (tx.type === 11 && tx.totalAmount) {
-                                return <span className="text-xs font-semibold font-mono text-card-foreground">{formatAssetAmount(tx.totalAmount, tx.decimals)} <span className="text-primary">{tx.assetId ? maskedAssetId(tx.assetId) : getCoinName()}</span></span>;
-                              } else if (tx.amount) {
-                                return <span className="text-xs font-semibold font-mono text-card-foreground">{formatAssetAmount(tx.amount, tx.decimals)} <span className="text-primary">{tx.assetId ? maskedAssetId(tx.assetId) : getCoinName()}</span></span>;
-                              } else if (tx.payload && tx.payload.amount) {
-                                return <span className="text-xs font-semibold font-mono text-card-foreground">{formatAssetAmount(tx.payload.amount, tx.decimals)} <span className="text-primary">{tx.assetId ? maskedAssetId(tx.assetId) : getCoinName()}</span></span>;
+                              const rawAmount = tx.type === 5 ? tx.quantity
+                                : tx.type === 3 ? tx.quantity
+                                : tx.type === 14 ? tx.minSponsoredAssetFee
+                                : tx.type === 11 ? tx.totalAmount
+                                : (tx.amount ?? tx.quantity ?? tx.totalAmount ?? tx.minSponsoredAssetFee ?? (tx.payload && tx.payload.amount));
+                              
+                              if (rawAmount !== undefined && rawAmount !== null) {
+                                const isNegative = tx.type === 6;
+                                const isPositive = tx.type === 5;
+                                const displayAssetId = tx.assetId || (tx.type === 3 ? (tx.assetId || tx.id) : null);
+                                return (
+                                  <span className={`text-xs font-semibold font-mono ${isNegative ? "text-rose-500 font-extrabold" : isPositive ? "text-emerald-500 font-extrabold" : "text-card-foreground"}`}>
+                                    {isNegative ? "-" : isPositive ? "+" : ""}
+                                    {formatAssetAmount(rawAmount, tx.decimals)} <span className="text-primary">{displayAssetId ? maskedAssetId(displayAssetId) : getCoinName()}</span>
+                                  </span>
+                                );
                               } else {
                                 return <span className="text-muted-foreground text-xs">-</span>;
                               }
@@ -957,6 +951,72 @@ const AddressView = ({
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
                   <p className="text-sm">Nenhum registro no banco de dados imutável encontrado para este endereço.</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Tab content 7: Aliases (Registered Names) */}
+        <TabsContent value="aliases" className="outline-none">
+          <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
+            <CardHeader className="pb-4 border-b border-border/30 flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-lg font-bold flex items-center gap-2">
+                  <Tag className="h-5 w-5 text-emerald-500" />
+                  Aliases Registrados na Blockchain
+                </CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">
+                  Nomes legíveis vinculados diretamente a este endereço na rede Planet One
+                </CardDescription>
+              </div>
+              <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
+                {addressData.aliases?.length || 0} {addressData.aliases?.length === 1 ? 'alias' : 'aliases'}
+              </Badge>
+            </CardHeader>
+            <CardContent className="p-6">
+              {addressData.aliases && addressData.aliases.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {addressData.aliases.map((alias, index) => {
+                    const cleanName = alias.replace(/^alias:[A-Za-z0-9]:/i, '').replace(/^alias:P:/i, '');
+                    return (
+                      <div 
+                        key={index}
+                        className="p-4 rounded-xl border border-border/40 bg-card/50 hover:bg-emerald-500/5 hover:border-emerald-500/20 transition-all flex items-center justify-between group shadow-sm"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="h-9 w-9 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
+                            <Tag className="h-4 w-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="font-mono text-sm font-bold text-foreground truncate block select-all">
+                              {cleanName}
+                            </span>
+                            <span className="text-[10px] text-muted-foreground uppercase font-mono">
+                              Planet One Alias
+                            </span>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 opacity-70 group-hover:opacity-100 hover:bg-emerald-500/10 hover:text-emerald-500"
+                          onClick={() => copyToClipboard(cleanName, `alias-${index}`)}
+                          title="Copiar Alias"
+                        >
+                          {copiedField === `alias-${index}` ? (
+                            <Check className="h-3.5 w-3.5 text-emerald-500" />
+                          ) : (
+                            <Copy className="h-3.5 w-3.5" />
+                          )}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-20 text-muted-foreground">
+                  <p className="text-sm">Nenhum alias registrado para este endereço na rede Planet One.</p>
                 </div>
               )}
             </CardContent>

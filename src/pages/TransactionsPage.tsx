@@ -350,7 +350,13 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
       
       const uniqueAssetIds = Array.from(new Set(
         currentTransactions
-          .flatMap(tx => [tx.assetId, tx.feeAsset, tx.payload?.asset?.asset])
+          .flatMap(tx => [
+            tx.assetId, 
+            tx.feeAsset, 
+            tx.payload?.asset?.asset,
+            tx.type === 3 ? (tx.assetId || tx.id) : null,
+            ...(tx.payment ? tx.payment.map((p: any) => p.assetId) : [])
+          ])
           .filter((id): id is string => !!id)
       ));
       
@@ -805,23 +811,34 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
                         <div className="lg:text-right">
                           <div className="text-[10px] font-semibold uppercase text-muted-foreground tracking-wider leading-none block lg:hidden">Amount</div>
                           <div className="font-extrabold text-sm text-foreground flex items-center gap-1 mt-0.5 lg:mt-0 justify-end">
-                            {transaction.amount !== undefined || transaction?.payload?.asset?.amount !== undefined ? (() => {
-                              const amountRaw = transaction.amount ?? transaction.payload?.asset?.amount;
-                              const assetId = transaction?.payload?.asset?.asset ?? transaction.assetId;
+                            {(() => {
+                              const amountRaw = transaction.type === 5 ? transaction.quantity
+                                : transaction.type === 3 ? transaction.quantity
+                                : transaction.type === 14 ? transaction.minSponsoredAssetFee
+                                : transaction.type === 11 ? transaction.totalAmount
+                                : (transaction.amount ?? transaction.quantity ?? transaction.totalAmount ?? transaction.minSponsoredAssetFee ?? transaction?.payload?.asset?.amount);
+
+                              if (amountRaw === undefined || amountRaw === null) {
+                                return <span className="text-xs font-medium text-muted-foreground italic">None / Call</span>;
+                              }
+
+                              const assetId = transaction?.payload?.asset?.asset ?? transaction.assetId ?? (transaction.type === 3 ? (transaction.assetId || transaction.id) : null);
                               const decimals = assetId ? (assetMap[assetId]?.decimals ?? 8) : 8;
                               const symbol = assetId ? (assetMap[assetId]?.name ?? assetId.substring(0, 6).toUpperCase()) : getCoinName();
-                              const formattedAmount = amountRaw !== undefined ? (amountRaw / Math.pow(10, decimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 }) : '0,00';
+                              const formattedAmount = (amountRaw / Math.pow(10, decimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+                              const isNegative = transaction.type === 6;
+                              const isPositive = transaction.type === 5;
                               return (
                                 <>
-                                  {formattedAmount}{" "}
+                                  <span className={isNegative ? "text-rose-500 font-extrabold" : isPositive ? "text-emerald-500 font-extrabold" : ""}>
+                                    {isNegative ? `-${formattedAmount}` : isPositive ? `+${formattedAmount}` : formattedAmount}
+                                  </span>{" "}
                                   <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wide">
                                     {symbol}
                                   </span>
                                 </>
                               );
-                            })() : (
-                              <span className="text-xs font-medium text-muted-foreground italic">None / Call</span>
-                            )}
+                            })()}
                           </div>
                         </div>
 

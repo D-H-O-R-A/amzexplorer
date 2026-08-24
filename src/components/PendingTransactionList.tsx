@@ -170,6 +170,22 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
           amountDecimals = getAssetDecimals(assetId, 8);
           amountSymbol = getAssetSymbol(assetId, tx.name || 'Token');
           displayAmount = tx.quantity;
+        } else if (tx.type === 5) { // Reissue
+          amountDecimals = getAssetDecimals(tx.assetId, 8);
+          amountSymbol = getAssetSymbol(tx.assetId, 'Token');
+          displayAmount = tx.quantity;
+        } else if (tx.type === 6) { // Burn
+          amountDecimals = getAssetDecimals(tx.assetId, 8);
+          amountSymbol = getAssetSymbol(tx.assetId, 'Token');
+          displayAmount = tx.amount;
+        } else if (tx.type === 14) { // Sponsor Fee
+          amountDecimals = getAssetDecimals(tx.assetId, 8);
+          amountSymbol = getAssetSymbol(tx.assetId, 'Token');
+          displayAmount = tx.minSponsoredAssetFee;
+        } else if (tx.type === 11) { // Mass Transfer
+          amountDecimals = getAssetDecimals(tx.assetId, 8);
+          amountSymbol = getAssetSymbol(tx.assetId, getCoinName());
+          displayAmount = tx.totalAmount;
         } else if (tx.type === 7) { // Exchange
           amountAssetId = tx.order1?.assetPair?.amountAsset;
           amountDecimals = getAssetDecimals(amountAssetId, 8);
@@ -264,7 +280,10 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   {displayAmount !== undefined && (
                     <div className="text-xs font-semibold font-mono">
-                      {(displayAmount / Math.pow(10, amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}{" "}
+                      <span className={tx.type === 6 ? "text-rose-500 font-extrabold" : tx.type === 5 ? "text-emerald-500 font-extrabold" : ""}>
+                        {tx.type === 6 ? "-" : tx.type === 5 ? "+" : ""}
+                        {(displayAmount / Math.pow(10, amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}
+                      </span>{" "}
                       <span className="text-primary font-bold text-[10px] uppercase">{amountSymbol}</span>
                     </div>
                   )}

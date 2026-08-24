@@ -75,15 +75,30 @@ const TransactionView = () => {
       setIsLoading(true);
       try {
         const txData = await fetchTransaction(id);
-        if(txData.assetId!= null){
-          const txDataAssset = await fetchAssetDetails(txData.assetId)
-          setAssetName(txDataAssset.name)
-          setAssetDecimals(txDataAssset.decimals);
+        const targetAssetId = txData.assetId || (txData.type === 3 ? (txData.assetId || txData.id) : null);
+        let decimals = 8;
+        if (targetAssetId != null) {
+          try {
+            const txDataAsset = await fetchAssetDetails(targetAssetId);
+            if (txDataAsset) {
+              setAssetName(txDataAsset.name || targetAssetId.substring(0, 6).toUpperCase());
+              decimals = txDataAsset.decimals ?? 8;
+              setAssetDecimals(decimals);
+            }
+          } catch (e) {
+            console.warn("Failed to load asset details for tx:", e);
+          }
         }
-        if(txData.feeAsset!= null){
-          const txDataAssset = await fetchAssetDetails(txData.feeAsset)
-          setfeeAssetName(txDataAssset.name)
-          setfeeAssetDecimals(txDataAssset.decimals);
+        if (txData.feeAsset != null) {
+          try {
+            const txDataFeeAsset = await fetchAssetDetails(txData.feeAsset);
+            if (txDataFeeAsset) {
+              setfeeAssetName(txDataFeeAsset.name || txData.feeAsset.substring(0, 6).toUpperCase());
+              setfeeAssetDecimals(txDataFeeAsset.decimals ?? 8);
+            }
+          } catch (e) {
+            console.warn("Failed to load fee asset details for tx:", e);
+          }
         }
         setTransaction(txData);
         console.log("Transaction loaded:", txData);
@@ -171,9 +186,15 @@ const TransactionView = () => {
   const txType = getTxType(transaction.type);
   
   // Format all relevant data for display
+  const rawTxAmount = transaction.type === 5 ? transaction.quantity
+    : transaction.type === 3 ? transaction.quantity
+    : transaction.type === 14 ? transaction.minSponsoredAssetFee
+    : transaction.type === 11 ? transaction.totalAmount
+    : (transaction.amount ?? transaction.quantity ?? transaction.totalAmount ?? transaction.minSponsoredAssetFee);
+
   const formattedData = {
     timestamp: formatDate(transaction.timestamp),
-    amount: transaction.amount ? formatNumber(transaction.amount / Math.pow(10, assetDecimals)) : null,
+    amount: rawTxAmount !== undefined && rawTxAmount !== null ? formatNumber(rawTxAmount / Math.pow(10, assetDecimals), assetDecimals) : null,
     fee: formatNumber(transaction.fee / Math.pow(10, feeassetDecimals)),
   };
 

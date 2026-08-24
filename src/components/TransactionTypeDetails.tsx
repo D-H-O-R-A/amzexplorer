@@ -363,6 +363,423 @@ const IssueDetails = ({
   );
 };
 
+// Sub-component for Case 5 (Reissue) with async node asset metadata resolving
+const ReissueDetails = ({
+  transaction,
+  copiedFields,
+  handleCopyToClipboard,
+  DetailRow
+}: {
+  transaction: any;
+  copiedFields: Record<string, boolean>;
+  handleCopyToClipboard: (text: string, field: string) => void;
+  DetailRow: any;
+}) => {
+  const [assetDetails, setAssetDetails] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDetails = async () => {
+      try {
+        if (!transaction.assetId) return;
+        const data = await fetchAssetDetails(transaction.assetId);
+        if (isMounted) {
+          setAssetDetails(data);
+        }
+      } catch (e) {
+        console.error("Failed to load reissue asset details:", e);
+      }
+    };
+    loadDetails();
+    return () => {
+      isMounted = false;
+    };
+  }, [transaction.assetId]);
+
+  const decimals = assetDetails?.decimals ?? 8;
+  const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
+  const rawQuantity = transaction.quantity !== undefined ? transaction.quantity : 0;
+  const actualQuantity = rawQuantity / Math.pow(10, decimals);
+
+  return (
+    <>
+      {transaction.assetId && (
+        <DetailRow label="ID do Ativo" icon={LinkIcon}>
+          <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
+            <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
+              {transaction.assetId}
+            </Link>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600"
+              onClick={() => handleCopyToClipboard(transaction.assetId || '', "Asset ID")}
+            >
+              {copiedFields["Asset ID"] ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              ) : (
+                <Clipboard className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
+        </DetailRow>
+      )}
+      <DetailRow label="Nome do Ativo" icon={Tag}>
+        <div className="flex items-center gap-2">
+          {transaction.assetId && <TokenImage assetId={transaction.assetId} size="xs" className="border-emerald-500/20" />}
+          <span className="font-bold text-foreground text-sm bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-xl">
+            {name}
+          </span>
+          <Badge variant="secondary" className="text-xs font-mono ml-1">
+            {decimals} Decimais
+          </Badge>
+        </div>
+      </DetailRow>
+      <DetailRow label="Quantidade Reemitida" icon={Coins}>
+        <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
+          +{formatNumber(actualQuantity, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+        </span>
+        <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
+          Valor bruto da blockchain (satoshis): {transaction.quantity}
+        </p>
+      </DetailRow>
+      <DetailRow label="Mantém Reemitível" icon={ShieldAlert}>
+        <Badge variant="outline" className={transaction.reissuable ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 font-semibold" : "border-red-500/30 bg-red-500/5 text-red-600 dark:text-red-400 font-semibold"}>
+          {transaction.reissuable ? 'Sim' : 'Não'}
+        </Badge>
+      </DetailRow>
+    </>
+  );
+};
+
+// Sub-component for Case 6 (Burn) with async node asset metadata resolving
+const BurnDetails = ({
+  transaction,
+  copiedFields,
+  handleCopyToClipboard,
+  DetailRow
+}: {
+  transaction: any;
+  copiedFields: Record<string, boolean>;
+  handleCopyToClipboard: (text: string, field: string) => void;
+  DetailRow: any;
+}) => {
+  const [assetDetails, setAssetDetails] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDetails = async () => {
+      try {
+        if (!transaction.assetId) return;
+        const data = await fetchAssetDetails(transaction.assetId);
+        if (isMounted) {
+          setAssetDetails(data);
+        }
+      } catch (e) {
+        console.error("Failed to load burn asset details:", e);
+      }
+    };
+    loadDetails();
+    return () => {
+      isMounted = false;
+    };
+  }, [transaction.assetId]);
+
+  const decimals = assetDetails?.decimals ?? 8;
+  const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
+  const rawAmount = transaction.amount !== undefined ? transaction.amount : 0;
+  const actualAmount = rawAmount / Math.pow(10, decimals);
+
+  return (
+    <>
+      {transaction.assetId && (
+        <DetailRow label="ID do Ativo Queimado" icon={LinkIcon}>
+          <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
+            <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
+              {transaction.assetId}
+            </Link>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600"
+              onClick={() => handleCopyToClipboard(transaction.assetId || '', "Asset ID")}
+            >
+              {copiedFields["Asset ID"] ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              ) : (
+                <Clipboard className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
+        </DetailRow>
+      )}
+      <DetailRow label="Nome do Ativo" icon={Tag}>
+        <div className="flex items-center gap-2">
+          {transaction.assetId && <TokenImage assetId={transaction.assetId} size="xs" className="border-rose-500/20" />}
+          <span className="font-bold text-foreground text-sm bg-rose-500/10 dark:bg-rose-400/10 text-rose-700 dark:text-rose-400 px-3 py-1 rounded-xl">
+            {name}
+          </span>
+          <Badge variant="secondary" className="text-xs font-mono ml-1">
+            {decimals} Decimais
+          </Badge>
+        </div>
+      </DetailRow>
+      <DetailRow label="Quantidade Queimada" icon={Coins}>
+        <span className="font-tech text-base font-bold text-red-500">
+          -{formatNumber(actualAmount, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+        </span>
+        <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
+          Valor bruto da blockchain (satoshis): {transaction.amount}
+        </p>
+      </DetailRow>
+    </>
+  );
+};
+
+// Sub-component for Case 14 (Sponsor Fee) with async node asset metadata resolving
+const SponsorFeeDetails = ({
+  transaction,
+  copiedFields,
+  handleCopyToClipboard,
+  DetailRow
+}: {
+  transaction: any;
+  copiedFields: Record<string, boolean>;
+  handleCopyToClipboard: (text: string, field: string) => void;
+  DetailRow: any;
+}) => {
+  const [assetDetails, setAssetDetails] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDetails = async () => {
+      try {
+        if (!transaction.assetId) return;
+        const data = await fetchAssetDetails(transaction.assetId);
+        if (isMounted) {
+          setAssetDetails(data);
+        }
+      } catch (e) {
+        console.error("Failed to load sponsor asset details:", e);
+      }
+    };
+    loadDetails();
+    return () => {
+      isMounted = false;
+    };
+  }, [transaction.assetId]);
+
+  const decimals = assetDetails?.decimals ?? 8;
+  const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
+  const isEnabled = transaction.minSponsoredAssetFee !== null && transaction.minSponsoredAssetFee !== undefined && transaction.minSponsoredAssetFee > 0;
+  const actualMinFee = isEnabled ? transaction.minSponsoredAssetFee / Math.pow(10, decimals) : 0;
+
+  return (
+    <>
+      {transaction.assetId && (
+        <DetailRow label="Ativo Patrocinado (Asset ID)" icon={LinkIcon}>
+          <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
+            <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
+              {transaction.assetId}
+            </Link>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600"
+              onClick={() => handleCopyToClipboard(transaction.assetId || '', "Asset ID")}
+            >
+              {copiedFields["Asset ID"] ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              ) : (
+                <Clipboard className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
+        </DetailRow>
+      )}
+      <DetailRow label="Nome do Ativo Patrocinado" icon={Tag}>
+        <div className="flex items-center gap-2">
+          {transaction.assetId && <TokenImage assetId={transaction.assetId} size="xs" className="border-orange-500/20" />}
+          <span className="font-bold text-foreground text-sm bg-orange-500/10 dark:bg-orange-400/10 text-orange-700 dark:text-orange-400 px-3 py-1 rounded-xl">
+            {name}
+          </span>
+          <Badge variant="secondary" className="text-xs font-mono ml-1">
+            {decimals} Decimais
+          </Badge>
+        </div>
+      </DetailRow>
+      <DetailRow label="Status do Patrocínio" icon={ShieldAlert}>
+        <Badge variant="outline" className={isEnabled ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 font-semibold" : "border-amber-500/30 bg-amber-500/5 text-amber-600 dark:text-amber-400 font-semibold"}>
+          {isEnabled ? 'Ativo (Sponsorship Ativado)' : 'Desativado / Cancelado'}
+        </Badge>
+      </DetailRow>
+      <DetailRow label="Tarifa de Patrocínio Mínima" icon={Coins}>
+        <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
+          {isEnabled ? (
+            <>
+              {formatNumber(actualMinFee, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+            </>
+          ) : (
+            <span className="text-muted-foreground text-sm">0 (Desativado)</span>
+          )}
+        </span>
+        {isEnabled && (
+          <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
+            Valor bruto da blockchain (satoshis): {transaction.minSponsoredAssetFee}
+          </p>
+        )}
+      </DetailRow>
+    </>
+  );
+};
+
+// Sub-component for Case 11 (Mass Transfer) with dynamic decimals resolving
+const MassTransferDetails = ({
+  transaction,
+  DetailRow
+}: {
+  transaction: any;
+  DetailRow: any;
+}) => {
+  const [assetDetails, setAssetDetails] = useState<any>(null);
+  const coinName = getCoinName();
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDetails = async () => {
+      if (!transaction.assetId) return;
+      try {
+        const data = await fetchAssetDetails(transaction.assetId);
+        if (isMounted) setAssetDetails(data);
+      } catch (e) {
+        console.error("Failed to load mass transfer asset details:", e);
+      }
+    };
+    loadDetails();
+    return () => {
+      isMounted = false;
+    };
+  }, [transaction.assetId]);
+
+  const decimals = transaction.assetId ? (assetDetails?.decimals ?? 8) : 8;
+  const name = transaction.assetId ? (assetDetails?.name ?? transaction.assetId.substring(0, 6).toUpperCase()) : coinName;
+  const actualTotal = transaction.totalAmount ? transaction.totalAmount / Math.pow(10, decimals) : 0;
+
+  return (
+    <>
+      <DetailRow label="Total de Destinatários" icon={Hash}>
+        <Badge className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
+          {transaction.transferCount || (transaction.transfers ? transaction.transfers.length : 0)} Endereços
+        </Badge>
+      </DetailRow>
+      <DetailRow label="Volume Total Transferido" icon={Coins}>
+        <span className="font-tech text-base font-bold text-foreground">
+          {formatNumber(actualTotal, decimals)} 
+          <span className="text-emerald-500 dark:text-emerald-400 ml-1 font-semibold">{name}</span>
+        </span>
+      </DetailRow>
+      {transaction.assetId && (
+        <DetailRow label="ID do Ativo" icon={LinkIcon}>
+          <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
+            <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
+              {transaction.assetId}
+            </Link>
+          </div>
+        </DetailRow>
+      )}
+      {transaction.transfers && transaction.transfers.length > 0 && (
+        <DetailRow label="Lista de Transferências (Destinatários)" icon={Database}>
+          <div className="max-h-64 overflow-y-auto rounded-xl border border-border bg-card/40 shadow-sm mt-1">
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow>
+                  <TableHead className="text-xs font-semibold">Destinatário</TableHead>
+                  <TableHead className="text-xs font-semibold text-right">Montante</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transaction.transfers.map((transfer: any, index: number) => {
+                  const transferAmount = transfer.amount ? transfer.amount / Math.pow(10, decimals) : 0;
+                  return (
+                    <TableRow key={`${transfer.recipient}-${index}`} className="hover:bg-muted/10 transition-colors">
+                      <TableCell className="font-mono text-xs">
+                        <Link to={`/address/${transfer.recipient}`} className="text-primary hover:underline truncate block max-w-64">
+                          {transfer.recipient}
+                        </Link>
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-right font-bold text-foreground">
+                        {formatNumber(transferAmount, decimals)} <span className="text-muted-foreground text-[10px] ml-1">{name}</span>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </DetailRow>
+      )}
+    </>
+  );
+};
+
+// Sub-component for Case 16 Payments with dynamic decimals resolving
+const InvokePaymentsList = ({ payments }: { payments: any[] }) => {
+  const coinName = getCoinName();
+  const [assetMap, setAssetMap] = useState<Record<string, { decimals: number; name: string }>>({});
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadPaymentsAssets = async () => {
+      const assetIds = payments.map(p => p.assetId).filter((id): id is string => !!id);
+      if (assetIds.length === 0) return;
+      const map: Record<string, { decimals: number; name: string }> = {};
+      await Promise.all(assetIds.map(async (id) => {
+        try {
+          const details = await fetchAssetDetails(id);
+          if (details) {
+            map[id] = {
+              decimals: details.decimals ?? 8,
+              name: details.name || id.substring(0, 6).toUpperCase()
+            };
+          }
+        } catch (e) {
+          console.warn(`Failed to resolve payment asset ${id}:`, e);
+        }
+      }));
+      if (isMounted) setAssetMap(map);
+    };
+    loadPaymentsAssets();
+    return () => {
+      isMounted = false;
+    };
+  }, [payments]);
+
+  return (
+    <div className="flex flex-col gap-2 mt-1">
+      {payments.map((payment: any, idx: number) => {
+        const decimals = payment.assetId ? (assetMap[payment.assetId]?.decimals ?? 8) : 8;
+        const symbol = payment.assetId ? (assetMap[payment.assetId]?.name ?? maskedAssetId(payment.assetId)) : coinName;
+        const formattedAmount = formatNumber(payment.amount / Math.pow(10, decimals), decimals);
+        return (
+          <div key={idx} className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/10 px-3 py-2 rounded-xl w-fit">
+            <span className="font-tech font-bold text-foreground">
+              {formattedAmount}
+            </span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono text-xs">
+              {symbol}
+            </span>
+            {payment.assetId && (
+              <Link to={`/asset/${payment.assetId}`} className="text-primary hover:underline text-xs">
+                (detalhes)
+              </Link>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export const maskedAssetId = (id: string) => {
   if (!id) return "";
   if (id.length <= 10) return id;
@@ -441,71 +858,22 @@ const TransactionTypeDetails = ({
 
     case 5: // Reissue
       return (
-        <>
-          {transaction.assetId && (
-            <DetailRow label="ID do Ativo" icon={LinkIcon}>
-              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
-                <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
-                  {transaction.assetId}
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600"
-                  onClick={() => handleCopyToClipboard(transaction.assetId || '', "Asset ID")}
-                >
-                  {copiedFields["Asset ID"] ? (
-                    <Check className="h-3.5 w-3.5 text-emerald-500" />
-                  ) : (
-                    <Clipboard className="h-3.5 w-3.5" />
-                  )}
-                </Button>
-              </div>
-            </DetailRow>
-          )}
-          <DetailRow label="Quantidade Reemitida" icon={Coins}>
-            <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
-              +{transaction.quantity ? formatNumber(transaction.quantity) : 0}
-            </span>
-          </DetailRow>
-          <DetailRow label="Mantém Reemitível" icon={ShieldAlert}>
-            <Badge variant="outline" className={transaction.reissuable ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 font-semibold" : "border-red-500/30 bg-red-500/5 text-red-600 dark:text-red-400 font-semibold"}>
-              {transaction.reissuable ? 'Sim' : 'Não'}
-            </Badge>
-          </DetailRow>
-        </>
+        <ReissueDetails 
+          transaction={transaction}
+          copiedFields={copiedFields}
+          handleCopyToClipboard={handleCopyToClipboard}
+          DetailRow={DetailRow}
+        />
       );
 
     case 6: // Burn
       return (
-        <>
-          {transaction.assetId && (
-            <DetailRow label="ID do Ativo Queimado" icon={LinkIcon}>
-              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
-                <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
-                  {transaction.assetId}
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600"
-                  onClick={() => handleCopyToClipboard(transaction.assetId || '', "Asset ID")}
-                >
-                  {copiedFields["Asset ID"] ? (
-                    <Check className="h-3.5 w-3.5 text-emerald-500" />
-                  ) : (
-                    <Clipboard className="h-3.5 w-3.5" />
-                  )}
-                </Button>
-              </div>
-            </DetailRow>
-          )}
-          <DetailRow label="Quantidade Queimada" icon={Coins}>
-            <span className="font-tech text-base font-bold text-red-500">
-              -{transaction.amount ? formatNumber(transaction.amount) : 0}
-            </span>
-          </DetailRow>
-        </>
+        <BurnDetails 
+          transaction={transaction}
+          copiedFields={copiedFields}
+          handleCopyToClipboard={handleCopyToClipboard}
+          DetailRow={DetailRow}
+        />
       );
 
     case 7: // Exchange
@@ -565,56 +933,10 @@ const TransactionTypeDetails = ({
 
     case 11: // Mass Transfer
       return (
-        <>
-          <DetailRow label="Total de Destinatários" icon={Hash}>
-            <Badge className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
-              {transaction.transferCount || 0} Endereços
-            </Badge>
-          </DetailRow>
-          <DetailRow label="Volume Total Transferido" icon={Coins}>
-            <span className="font-tech text-base font-bold text-foreground">
-              {transaction.totalAmount ? formatNumber(transaction.totalAmount / 1e8) : 0} 
-              <span className="text-emerald-500 dark:text-emerald-400 ml-1 font-semibold">{coinName}</span>
-            </span>
-          </DetailRow>
-          {transaction.assetId && (
-            <DetailRow label="ID do Ativo" icon={LinkIcon}>
-              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
-                <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
-                  {transaction.assetId}
-                </Link>
-              </div>
-            </DetailRow>
-          )}
-          {transaction.transfers && transaction.transfers.length > 0 && (
-            <DetailRow label="Lista de Transferências (Destinatários)" icon={Database}>
-              <div className="max-h-64 overflow-y-auto rounded-xl border border-border bg-card/40 shadow-sm mt-1">
-                <Table>
-                  <TableHeader className="bg-muted/50">
-                    <TableRow>
-                      <TableHead className="text-xs font-semibold">Destinatário</TableHead>
-                      <TableHead className="text-xs font-semibold text-right">Montante</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {transaction.transfers.map((transfer: any, index: number) => (
-                      <TableRow key={`${transfer.recipient}-${index}`} className="hover:bg-muted/10 transition-colors">
-                        <TableCell className="font-mono text-xs">
-                          <Link to={`/address/${transfer.recipient}`} className="text-primary hover:underline truncate block max-w-64">
-                            {transfer.recipient}
-                          </Link>
-                        </TableCell>
-                        <TableCell className="font-mono text-xs text-right font-bold text-foreground">
-                          {formatNumber(transfer.amount / 1e8)} <span className="text-muted-foreground text-[10px] ml-1">{maskedAssetId(transaction.assetId) || coinName}</span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </DetailRow>
-          )}
-        </>
+        <MassTransferDetails
+          transaction={transaction}
+          DetailRow={DetailRow}
+        />
       );
 
     case 12: // Data Transaction
@@ -673,22 +995,12 @@ const TransactionTypeDetails = ({
 
     case 14: // Sponsor Fee
       return (
-        <>
-          {transaction.assetId && (
-            <DetailRow label="Ativo Patrocinado (Asset ID)" icon={LinkIcon}>
-              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
-                <Link to={`/asset/${transaction.assetId}`} className="text-primary hover:underline flex-1 font-semibold">
-                  {transaction.assetId}
-                </Link>
-              </div>
-            </DetailRow>
-          )}
-          <DetailRow label="Tarifa de Patrocínio Mínima" icon={Coins}>
-            <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
-              {transaction.minSponsoredAssetFee ? formatNumber(transaction.minSponsoredAssetFee) : 0}
-            </span>
-          </DetailRow>
-        </>
+        <SponsorFeeDetails
+          transaction={transaction}
+          copiedFields={copiedFields}
+          handleCopyToClipboard={handleCopyToClipboard}
+          DetailRow={DetailRow}
+        />
       );
 
     case 15: // Set Asset Script
@@ -743,8 +1055,8 @@ const TransactionTypeDetails = ({
             </DetailRow>
           )}
           
-          {transaction.call && (
-            <DetailRow label="Função Invocada" icon={FileCode}>
+          {transaction.call?.function && (
+            <DetailRow label="Função Invocada (dApp)" icon={FileCode}>
               <div className="flex flex-col gap-2">
                 <Badge variant="outline" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-sm px-3 py-1 rounded-lg w-fit">
                   {transaction.call.function}()
@@ -784,23 +1096,7 @@ const TransactionTypeDetails = ({
           {/* Payments Attached to Invoke Script */}
           {transaction.payment && transaction.payment.length > 0 && (
             <DetailRow label="Pagamentos Anexados (Payments)" icon={Coins}>
-              <div className="flex flex-col gap-2 mt-1">
-                {transaction.payment.map((payment: any, idx: number) => (
-                  <div key={idx} className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/10 px-3 py-2 rounded-xl w-fit">
-                    <span className="font-tech font-bold text-foreground">
-                      {formatNumber(payment.amount / 1e8)}
-                    </span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono text-xs">
-                      {payment.assetId ? maskedAssetId(payment.assetId) : coinName}
-                    </span>
-                    {payment.assetId && (
-                      <Link to={`/asset/${payment.assetId}`} className="text-primary hover:underline text-xs">
-                        (detalhes)
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <InvokePaymentsList payments={transaction.payment} />
             </DetailRow>
           )}
 

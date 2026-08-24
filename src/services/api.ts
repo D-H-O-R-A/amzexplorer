@@ -465,7 +465,12 @@ export const fetchAddressData = async (address: string): Promise<AddressData> =>
       if (aliasResponse.ok) {
         const aliasData = await aliasResponse.json();
         if (Array.isArray(aliasData)) {
-          aliases = aliasData.map((item: any) => typeof item === 'string' ? item : item.alias || '');
+          aliases = aliasData
+            .map((item: any) => {
+              const str = typeof item === 'string' ? item : (item.alias || '');
+              return str.replace(/^alias:[A-Za-z0-9]:/, '').replace(/^alias:P:/i, '');
+            })
+            .filter(Boolean);
         }
       }
     } catch (error) {

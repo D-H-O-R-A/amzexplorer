@@ -93,11 +93,19 @@ const TransactionHeader = ({
           </CardDescription>
         </div>
         
-        {transaction.amount && transaction.type === 4 && (
+        {formattedData.amount && (
           <div className="flex flex-col items-start md:items-end bg-emerald-500/5 dark:bg-emerald-400/5 border border-emerald-500/10 rounded-2xl p-4 md:text-right min-w-[140px] shadow-sm">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-1">Valor Transferido</span>
-            <span className="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 font-tech select-all">
-              {formattedData.amount} <span className="text-xs sm:text-sm font-semibold text-muted-foreground">{coin}</span>
+            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-1">
+              {transaction.type === 3 ? "Total Emitido" :
+               transaction.type === 5 ? "Quantidade Reemitida" :
+               transaction.type === 6 ? "Quantidade Queimada" :
+               transaction.type === 14 ? "Tarifa Patrocinada" :
+               transaction.type === 11 ? "Volume Total" :
+               transaction.type === 8 ? "Valor Arrendado" :
+               "Valor Transferido"}
+            </span>
+            <span className={`text-xl sm:text-2xl font-extrabold flex items-baseline gap-1 font-tech select-all ${transaction.type === 6 ? "text-rose-500" : "text-emerald-600 dark:text-emerald-400"}`}>
+              {transaction.type === 5 ? `+${formattedData.amount}` : transaction.type === 6 ? `-${formattedData.amount}` : formattedData.amount} <span className="text-xs sm:text-sm font-semibold text-muted-foreground">{coin}</span>
             </span>
           </div>
         )}
