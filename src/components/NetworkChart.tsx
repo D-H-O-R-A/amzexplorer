@@ -61,8 +61,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
     icon: Zap,
     strokeColor: '#10b981', // emerald-500
     gradientId: 'emeraldTxGradient',
-    badgeBg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500',
-    badgeText: 'text-emerald-500',
+    badgeBg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-700 dark:text-emerald-400',
+    badgeText: 'text-emerald-600 dark:text-emerald-400',
     yAxisFormatter: (v) => `${Math.round(v)}`,
     tooltipFormatter: (v) => `${v} txs`
   },
@@ -74,8 +74,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
     icon: Clock,
     strokeColor: '#8b5cf6', // violet-500
     gradientId: 'violetTimeGradient',
-    badgeBg: 'bg-violet-500/10 border-violet-500/20 text-violet-400',
-    badgeText: 'text-violet-400',
+    badgeBg: 'bg-violet-500/15 border-violet-500/30 text-violet-700 dark:text-violet-400',
+    badgeText: 'text-violet-600 dark:text-violet-400',
     yAxisFormatter: (v) => `${v.toFixed(0)}s`,
     tooltipFormatter: (v) => `${v.toFixed(1)}s`
   },
@@ -87,8 +87,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
     icon: Database,
     strokeColor: '#f59e0b', // amber-500
     gradientId: 'amberSizeGradient',
-    badgeBg: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
-    badgeText: 'text-amber-500',
+    badgeBg: 'bg-amber-500/15 border-amber-500/30 text-amber-700 dark:text-amber-400',
+    badgeText: 'text-amber-600 dark:text-amber-400',
     yAxisFormatter: (v) => `${v.toFixed(1)}k`,
     tooltipFormatter: (v) => `${v.toFixed(2)} KB`
   },
@@ -100,8 +100,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
     icon: Coins,
     strokeColor: '#06b6d4', // cyan-500
     gradientId: 'cyanFeeGradient',
-    badgeBg: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
-    badgeText: 'text-cyan-400',
+    badgeBg: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-700 dark:text-cyan-400',
+    badgeText: 'text-cyan-600 dark:text-cyan-400',
     yAxisFormatter: (v) => `${v.toFixed(2)}`,
     tooltipFormatter: (v) => `${v.toFixed(4)} ${getCoinName()}`
   }
@@ -270,62 +270,62 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 
   const currentMeta = METRIC_CONFIGS[activeMetric];
 
-  // Custom Glassmorphic Tooltip
+  // Custom Glassmorphic Tooltip compatible with Light & Dark Modes
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data: ChartDataPoint = payload[0].payload;
       return (
-        <div className="bg-slate-950/95 backdrop-blur-xl border border-primary/20 shadow-2xl rounded-xl p-3.5 text-xs font-mono space-y-2.5 min-w-[220px] pointer-events-none text-slate-100 z-50">
-          <div className="flex items-center justify-between border-b border-primary/15 pb-2">
-            <span className="font-bold text-emerald-400 flex items-center gap-1.5">
+        <div className="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border border-slate-200 dark:border-primary/20 shadow-xl dark:shadow-2xl rounded-xl p-3.5 text-xs font-mono space-y-2.5 min-w-[220px] pointer-events-none text-slate-800 dark:text-slate-100 z-50">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-primary/15 pb-2">
+            <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
               <Layers className="h-3.5 w-3.5 text-primary" />
               Bloco #{data.height}
             </span>
-            <span className="text-[10px] text-slate-400">{data.timeLabel}</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400">{data.timeLabel}</span>
           </div>
 
           <div className="space-y-1.5 text-[11px]">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Zap className="h-3 w-3 text-emerald-400" /> Transações:
+              <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Zap className="h-3 w-3 text-emerald-600 dark:text-emerald-400" /> Transações:
               </span>
-              <span className="font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded text-[11px]">
+              <span className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded text-[11px]">
                 {data.transactions} txs
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Clock className="h-3 w-3 text-violet-400" /> Intervalo:
+              <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Clock className="h-3 w-3 text-violet-600 dark:text-violet-400" /> Intervalo:
               </span>
-              <span className="font-bold text-violet-300">
+              <span className="font-bold text-violet-700 dark:text-violet-300">
                 {data.blockTime.toFixed(1)}s
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Database className="h-3 w-3 text-amber-400" /> Tamanho:
+              <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Database className="h-3 w-3 text-amber-600 dark:text-amber-400" /> Tamanho:
               </span>
-              <span className="font-bold text-amber-300">
+              <span className="font-bold text-amber-700 dark:text-amber-300">
                 {data.blockSizeKb.toFixed(2)} KB
               </span>
             </div>
 
             {data.totalFeePlo > 0 && (
               <div className="flex items-center justify-between">
-                <span className="text-slate-400 flex items-center gap-1">
-                  <Coins className="h-3 w-3 text-cyan-400" /> Taxas:
+                <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                  <Coins className="h-3 w-3 text-cyan-600 dark:text-cyan-400" /> Taxas:
                 </span>
-                <span className="font-bold text-cyan-300">
+                <span className="font-bold text-cyan-700 dark:text-cyan-300">
                   {data.totalFeePlo.toFixed(4)} {getCoinName()}
                 </span>
               </div>
             )}
 
             {data.generator && (
-              <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-[10px]">
-                <span className="text-slate-500">Minerador:</span>
+              <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800 text-[10px]">
+                <span className="text-slate-400 dark:text-slate-500">Minerador:</span>
                 <span className="text-primary font-mono truncate max-w-[110px]" title={data.generator}>
                   {shortenHash(data.generator, 4)}
                 </span>
@@ -342,7 +342,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
     <div className="w-full space-y-5">
       {/* 1. Header Bar: Title, Metric Switchers, Range Filters, Refresh */}
       {!hideHeader && (
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-primary/10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-border/70 dark:border-primary/10">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
               <Activity className="h-5 w-5 animate-pulse" />
@@ -352,7 +352,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                 <h3 className="text-base font-bold font-mono tracking-tight text-foreground">
                   DESEMPENHO HISTÓRICO DA REDE
                 </h3>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-semibold">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-500 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
                   Tempo Real
                 </span>
@@ -365,7 +365,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Metric Switcher Pills */}
-            <div className="flex items-center bg-slate-900/60 p-1 rounded-lg border border-primary/15">
+            <div className="flex items-center bg-slate-100/90 dark:bg-slate-900/60 p-1 rounded-lg border border-slate-200 dark:border-primary/15 shadow-sm dark:shadow-none">
               {(Object.keys(METRIC_CONFIGS) as MetricType[]).map((key) => {
                 const item = METRIC_CONFIGS[key];
                 const Icon = item.icon;
@@ -377,7 +377,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all ${
                       isActive
                         ? `${item.badgeBg} font-bold shadow-sm`
-                        : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/40'
+                        : 'text-slate-600 dark:text-muted-foreground hover:text-foreground hover:bg-white dark:hover:bg-slate-800/40'
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5" />
@@ -388,7 +388,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
             </div>
 
             {/* Block Range Selector */}
-            <div className="flex items-center bg-slate-900/60 p-1 rounded-lg border border-primary/15">
+            <div className="flex items-center bg-slate-100/90 dark:bg-slate-900/60 p-1 rounded-lg border border-slate-200 dark:border-primary/15 shadow-sm dark:shadow-none">
               {([30, 60, 100] as RangeOption[]).map((r) => (
                 <button
                   key={r}
@@ -396,7 +396,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                   className={`px-2.5 py-1.5 rounded-md text-[11px] font-mono transition-all ${
                     blockRange === r
                       ? 'bg-primary text-primary-foreground font-bold shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/40'
+                      : 'text-slate-600 dark:text-muted-foreground hover:text-foreground hover:bg-white dark:hover:bg-slate-800/40'
                   }`}
                 >
                   {r}B
@@ -408,7 +408,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
             <button
               onClick={() => fetchChartData(false)}
               disabled={isRefreshing}
-              className="p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800/80 border border-primary/15 text-muted-foreground hover:text-foreground transition-all disabled:opacity-50"
+              className="p-2 rounded-lg bg-slate-100/90 dark:bg-slate-900/60 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-primary/15 text-slate-600 dark:text-muted-foreground hover:text-foreground transition-all disabled:opacity-50 shadow-sm dark:shadow-none"
               title="Atualizar dados agora"
             >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin text-primary' : ''}`} />
@@ -420,72 +420,72 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
       {/* 2. Micro KPI Stats Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {/* KPI 1: Transações no Período */}
-        <div className="p-3 rounded-xl bg-slate-950/40 border border-emerald-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/30 transition-all">
-          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-emerald-500/20 dark:border-emerald-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/40 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <Zap className="h-3.5 w-3.5 text-emerald-400" />
+              <Zap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
               Volume de Tx ({blockRange}B)
             </span>
           </div>
-          <div className="mt-1">
-            <div className="text-lg font-bold font-mono text-emerald-400">
+          <div className="mt-1.5">
+            <div className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400">
               {isLoading ? '...' : `${stats.totalTxs.toLocaleString('pt-BR')} txs`}
             </div>
-            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+            <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
               Média: ~{stats.avgTxs.toFixed(1)} / bloco
             </div>
           </div>
         </div>
 
         {/* KPI 2: Tempo Médio de Bloco */}
-        <div className="p-3 rounded-xl bg-slate-950/40 border border-violet-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/30 transition-all">
-          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-violet-500/20 dark:border-violet-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/40 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5 text-violet-400" />
+              <Clock className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
               Tempo Médio
             </span>
           </div>
-          <div className="mt-1">
-            <div className="text-lg font-bold font-mono text-violet-300">
+          <div className="mt-1.5">
+            <div className="text-lg font-bold font-mono text-violet-600 dark:text-violet-300">
               {isLoading ? '...' : `${stats.avgBlockTime.toFixed(1)}s`}
             </div>
-            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+            <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
               Alvo da Rede: ~60s
             </div>
           </div>
         </div>
 
         {/* KPI 3: Pico de Atividade */}
-        <div className="p-3 rounded-xl bg-slate-950/40 border border-amber-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-amber-500/30 transition-all">
-          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-amber-500/20 dark:border-amber-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-amber-500/40 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <TrendingUp className="h-3.5 w-3.5 text-amber-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
               Pico de Atividade
             </span>
           </div>
-          <div className="mt-1">
-            <div className="text-lg font-bold font-mono text-amber-300">
+          <div className="mt-1.5">
+            <div className="text-lg font-bold font-mono text-amber-600 dark:text-amber-300">
               {isLoading ? '...' : `${stats.peakBlock.txs} txs`}
             </div>
-            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+            <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
               Bloco #{stats.peakBlock.height}
             </div>
           </div>
         </div>
 
         {/* KPI 4: Tamanho Médio */}
-        <div className="p-3 rounded-xl bg-slate-950/40 border border-cyan-500/15 flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/30 transition-all">
-          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-cyan-500/20 dark:border-cyan-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <Database className="h-3.5 w-3.5 text-cyan-400" />
+              <Database className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
               Tamanho Médio
             </span>
           </div>
-          <div className="mt-1">
-            <div className="text-lg font-bold font-mono text-cyan-300">
+          <div className="mt-1.5">
+            <div className="text-lg font-bold font-mono text-cyan-600 dark:text-cyan-300">
               {isLoading ? '...' : `${stats.avgSizeKb.toFixed(2)} KB`}
             </div>
-            <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+            <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
               {chartData.length} blocos analisados
             </div>
           </div>
@@ -493,11 +493,11 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
       </div>
 
       {/* 3. The Main Glowing Area Chart */}
-      <div className="relative w-full h-72 md:h-80 rounded-xl bg-slate-950/60 p-4 border border-primary/15 shadow-inner">
+      <div className="relative w-full h-72 md:h-80 rounded-xl bg-slate-50/70 dark:bg-slate-950/60 p-4 border border-slate-200/80 dark:border-primary/15 shadow-inner">
         {isLoading && chartData.length === 0 ? (
           <div className="h-full w-full flex flex-col justify-center space-y-3">
-            <Skeleton className="h-4 w-48 bg-slate-800/60" />
-            <Skeleton className="h-full w-full bg-slate-800/40 rounded-lg" />
+            <Skeleton className="h-4 w-48 bg-slate-200 dark:bg-slate-800/60" />
+            <Skeleton className="h-full w-full bg-slate-200/60 dark:bg-slate-800/40 rounded-lg" />
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
@@ -534,23 +534,26 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="rgba(255, 255, 255, 0.05)"
+                stroke="currentColor"
+                className="text-slate-200/80 dark:text-slate-800/80"
                 vertical={false}
               />
 
               <XAxis
                 dataKey="height"
-                stroke="#64748b"
-                tick={{ fontSize: 10, fontFamily: 'monospace', fill: '#64748b' }}
+                stroke="currentColor"
+                className="text-slate-400 dark:text-slate-500"
+                tick={{ fontSize: 10, fontFamily: 'monospace', fill: 'currentColor' }}
                 tickFormatter={(val) => `#${val}`}
                 dy={6}
-                axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+                axisLine={{ stroke: 'currentColor', opacity: 0.2 }}
                 tickLine={false}
               />
 
               <YAxis
-                stroke="#64748b"
-                tick={{ fontSize: 10, fontFamily: 'monospace', fill: '#64748b' }}
+                stroke="currentColor"
+                className="text-slate-400 dark:text-slate-500"
+                tick={{ fontSize: 10, fontFamily: 'monospace', fill: 'currentColor' }}
                 tickFormatter={currentMeta.yAxisFormatter}
                 dx={-4}
                 axisLine={false}
@@ -566,7 +569,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                   y={60}
                   stroke="#10b981"
                   strokeDasharray="4 4"
-                  strokeOpacity={0.6}
+                  strokeOpacity={0.7}
                   label={{
                     value: 'Meta: 60s',
                     position: 'insideTopRight',
@@ -616,12 +619,12 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
             ></span>
             <span className="text-foreground font-medium">{currentMeta.label}</span>
           </span>
-          <span className="text-slate-600">|</span>
+          <span className="text-slate-400 dark:text-slate-600">|</span>
           <span>Amostragem: Últimos {blockRange} blocos validados</span>
         </div>
 
         {lastUpdated && (
-          <span className="text-[10px] text-slate-500">
+          <span className="text-[10px] text-slate-500 dark:text-slate-500">
             Atualizado às {lastUpdated.toLocaleTimeString('pt-BR')} (Auto-refresh 30s)
           </span>
         )}
@@ -631,4 +634,5 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 };
 
 export default NetworkChart;
+
 

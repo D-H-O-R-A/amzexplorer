@@ -16,7 +16,7 @@ import {
   DetailedBalance, 
   NFT 
 } from '@/services/api';
-import { shortenHash, formatTimestamp, formatPloBalance, formatAssetAmount } from '@/utils/formatter';
+import { shortenHash, formatTimestamp, formatPloBalance, formatAssetAmount, decodeAttachment } from '@/utils/formatter';
 import { toast } from 'sonner';
 import { 
   Copy, Check, User, Wallet, Code, Database, 
@@ -603,9 +603,10 @@ const AddressView = ({
                                   </Link>
                                 );
                               } else if (tx.attachment && tx.attachment !== '') {
+                                const decoded = decodeAttachment(tx.attachment);
                                 return (
-                                  <span className="truncate inline-block max-w-[100px] text-xs text-muted-foreground font-sans" title={`Attachment: ${tx.attachment}`}>
-                                    Anexo: {tx.attachment}
+                                  <span className="truncate inline-block max-w-[100px] text-xs text-muted-foreground font-sans" title={`Anexo: ${decoded} (${tx.attachment})`}>
+                                    Anexo: {decoded}
                                   </span>
                                 );
                               } else if (tx.function || (tx.call && tx.call.function)) {

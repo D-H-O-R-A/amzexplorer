@@ -156,6 +156,39 @@ function normalizeChainId(input) {
   return str.charAt(0);
 }
 
+// Helper to encode attachment message as Base58 (required by waves-transactions and Planet One node)
+function formatAttachment(attachment) {
+  if (!attachment || typeof attachment !== 'string' || attachment.trim() === '') {
+    return undefined;
+  }
+  const clean = attachment.trim();
+  try {
+    return wt.libs.crypto.base58Encode(wt.libs.crypto.stringToBytes(clean));
+  } catch (e) {
+    return undefined;
+  }
+}
+
+// Helper to calculate dynamic minimal fee using Planet One node
+async function fetchCalculateFee(txObject, fallbackFee = 100000) {
+  try {
+    const res = await fetch(`${session.nodeUrl}/transactions/calculateFee`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(txObject)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data.feeAmount === 'number') {
+        return data.feeAmount;
+      }
+    }
+  } catch (e) {
+    // fallback
+  }
+  return fallbackFee;
+}
+
 // Global Session State
 let session = {
   seed: '',
@@ -652,9 +685,27 @@ async function handleTransfer() {
       if (!proceed.toLowerCase().startsWith('s')) return;
     }
 
-    const attachment = await ask('Mensagem / Anexo opcional', '');
-    const feeStr = await ask('Taxa da transação em PLO', '0.001');
-    const fee = parseAmount(feeStr, 8);
+    const rawAttachment = await ask('Mensagem / Anexo opcional', '');
+    const attachment = formatAttachment(rawAttachment);
+
+    // Consulta taxa mínima dinâmica calculada pelo nó Planet One
+    const tempTx = wt.transfer({
+      recipient,
+      amount,
+      assetId,
+      attachment,
+      fee: 100000,
+      chainId: session.chainId
+    }, session.seed);
+
+    const calculatedFee = await fetchCalculateFee(tempTx, 100000);
+    const feeStr = await ask('Taxa da transação em PLO', (calculatedFee / 1e8).toString());
+    const userFee = parseAmount(feeStr, 8);
+    const fee = Math.max(userFee, calculatedFee);
+
+    if (userFee < calculatedFee) {
+      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} PLO). Ajustando para a taxa mínima.${colors.reset}`);
+    }
 
     const tx = wt.transfer({
       recipient,
@@ -719,8 +770,10 @@ async function handleMassTransfer() {
       while (true) {
         const line = await ask('');
         if (line.trim().toUpperCase() === 'FIM' || line.trim() === '') break;
-        const [addr, val] = line.split(',').map(s => s.trim());
-        if (addr && val) {
+        const parts = line.split(/[,;\t]/).map(s => s.trim()).filter(Boolean);
+        if (parts.length >= 2) {
+          const addr = parts[0];
+          const val = parts[1];
           transfers.push({ recipient: addr, amount: parseAmount(val, decimals) });
         }
       }
@@ -742,12 +795,26 @@ async function handleMassTransfer() {
     console.log(`  • Total de Destinatários: ${transfers.length}`);
     console.log(`  • Volume Total: ${formatAmount(totalAmount, decimals)} ${tokenName}`);
 
-    // Standard fee calculation for mass transfer: 0.001 + 0.0005 * transfers
-    const calculatedFee = Math.max(100000, 100000 + Math.ceil(transfers.length / 2) * 50000);
-    const feeStr = await ask('Taxa em PLO', (calculatedFee / 1e8).toString());
-    const fee = parseAmount(feeStr, 8);
+    const rawAttachment = await ask('Mensagem / Anexo opcional', '');
+    const attachment = formatAttachment(rawAttachment);
 
-    const attachment = await ask('Mensagem / Anexo opcional', '');
+    // Consulta taxa mínima dinâmica calculada pelo nó Planet One
+    const tempTx = wt.massTransfer({
+      transfers,
+      assetId,
+      attachment,
+      fee: 100000,
+      chainId: session.chainId
+    }, session.seed);
+
+    const calculatedFee = await fetchCalculateFee(tempTx, Math.max(400000, 100000 + Math.ceil(transfers.length / 2) * 100000));
+    const feeStr = await ask('Taxa em PLO', (calculatedFee / 1e8).toString());
+    const userFee = parseAmount(feeStr, 8);
+    const fee = Math.max(userFee, calculatedFee);
+
+    if (userFee < calculatedFee) {
+      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} PLO). Ajustando para a taxa mínima.${colors.reset}`);
+    }
 
     const tx = wt.massTransfer({
       transfers,
@@ -1012,8 +1079,16 @@ async function handleDataTransaction() {
 
     if (dataEntries.length === 0) throw new Error('Nenhuma entrada de dados informada');
 
-    const feeStr = await ask('Taxa em PLO', '0.001');
-    const fee = parseAmount(feeStr, 8);
+    const tempTx = wt.data({
+      data: dataEntries,
+      fee: 100000,
+      chainId: session.chainId
+    }, session.seed);
+
+    const calculatedFee = await fetchCalculateFee(tempTx, 100000);
+    const feeStr = await ask('Taxa em PLO', (calculatedFee / 1e8).toString());
+    const userFee = parseAmount(feeStr, 8);
+    const fee = Math.max(userFee, calculatedFee);
 
     const tx = wt.data({
       data: dataEntries,
@@ -1289,13 +1364,23 @@ async function handleInvokeScript() {
       });
     }
 
-    const feeStr = await ask('\nTaxa em PLO', '0.005');
-    const fee = parseAmount(feeStr, 8);
-
     const callObj = funcName === '@default' ? null : {
       function: funcName,
       args
     };
+
+    const tempTx = wt.invokeScript({
+      dApp,
+      call: callObj,
+      payment,
+      fee: 500000,
+      chainId: session.chainId
+    }, session.seed);
+
+    const calculatedFee = await fetchCalculateFee(tempTx, 500000);
+    const feeStr = await ask('\nTaxa em PLO', (calculatedFee / 1e8).toString());
+    const userFee = parseAmount(feeStr, 8);
+    const fee = Math.max(userFee, calculatedFee);
 
     const tx = wt.invokeScript({
       dApp,

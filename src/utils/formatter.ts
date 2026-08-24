@@ -1,3 +1,4 @@
+import { base58Decode, bytesToString } from '@waves/ts-lib-crypto';
 
 /**
  * Format a timestamp to a human-readable date
@@ -159,3 +160,24 @@ export const formatGicBalance = formatPloBalance;
 export const formatAssetAmount = (amount: number, decimals: number = 8): string => {
   return formatNumber(amount / Math.pow(10, decimals));
 };
+
+/**
+ * Decode Base58 attachment into readable UTF-8 text, with fallback to original
+ */
+export const decodeAttachment = (attachment?: string): string => {
+  if (!attachment || typeof attachment !== 'string') return '';
+  const trimmed = attachment.trim();
+  if (!trimmed) return '';
+  try {
+    const bytes = base58Decode(trimmed);
+    const decoded = bytesToString(bytes);
+    if (decoded && /^[\x20-\x7E\s\p{L}\p{N}\p{P}\p{S}]+$/u.test(decoded)) {
+      return decoded;
+    }
+  } catch (e) {
+    // If decoding fails, fallback to original
+  }
+  return trimmed;
+};
+
+

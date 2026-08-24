@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowUpRight, Check, Clipboard, Clock, ShieldCheck, Tag, CreditCard, Flame, Coins, FileText, Landmark, Key, HelpCircle } from 'lucide-react';
 import TransactionTypeDetails from './TransactionTypeDetails';
+import { decodeAttachment } from '@/utils/formatter';
 
 interface TransactionDetailsTabProps {
   transaction: any;
@@ -201,8 +202,13 @@ const TransactionDetailsTab = ({
               <FileText className="h-4 w-4 text-muted-foreground/80" />
               <span>Anexo (Mensagem)</span>
             </div>
-            <div className="md:col-span-2 font-mono text-xs sm:text-sm break-all text-muted-foreground bg-muted/20 p-3 rounded-xl border border-border/40">
-              {transaction.attachment}
+            <div className="md:col-span-2 font-mono text-xs sm:text-sm break-all text-foreground bg-muted/20 p-3 rounded-xl border border-border/40 space-y-1">
+              <div className="font-medium text-foreground">{decodeAttachment(transaction.attachment)}</div>
+              {decodeAttachment(transaction.attachment) !== transaction.attachment && (
+                <div className="text-[10px] text-muted-foreground">
+                  Base58: <span className="select-all">{transaction.attachment}</span>
+                </div>
+              )}
             </div>
           </div>
         )}
