@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -160,6 +161,10 @@ const ConverterPage = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-10 py-6 pb-20 animate-fade-in">
+      <SEO 
+        title="Conversor de Endereço & EVM RPC"
+        description="Converta endereços e hashes de transação entre o padrão Base58 da Planet One e o padrão EVM (0x MetaMask). Integre sua carteira com RPC e Chain ID 80."
+      />
       
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

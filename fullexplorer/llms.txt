@@ -1,0 +1,42 @@
+# Planet One FullExplorer
+
+> Planet One FullExplorer is a high-performance on-chain indexer, microblock synchronizer, and database search engine built on an optimized SQLite Triples relational store for the Planet One blockchain (PLO).
+
+Planet One FullExplorer (`https://fullexplorer.planetone.io`) delivers real-time transaction lookups, block height validation, address ledger balances, generator mining statistics, and high-frequency JSON API queries.
+
+## Network & System Properties
+
+- **Host Service**: `https://fullexplorer.planetone.io`
+- **Network Name**: Planet One Blockchain Mainnet
+- **Ticker**: PLO (1 PLO = 10^8 units)
+- **Engine**: PHP 8.x + SQLite3 WAL Mode with Triples Architecture
+- **Sync Protocol**: Real-time gRPC & REST polling against Planet One validation nodes
+- **Consensus**: Fair PoS (FPoS) with Waves-NG microblocks
+
+## Key Web Pages & Navigation
+
+- [FullExplorer Index](https://fullexplorer.planetone.io/): Real-time generator ranking, network statistics, and search bar.
+- [Block View](https://fullexplorer.planetone.io/b/): Direct block inspector (`/b/{height}` or `/b/{signature}`).
+- [Transaction Inspector](https://fullexplorer.planetone.io/tx/): On-chain transaction details (`/tx/{id}`).
+- [Address Ledger](https://fullexplorer.planetone.io/): Individual account activity and data storage (`/{address}`).
+- [Generators & Validators](https://fullexplorer.planetone.io/GENERATORS): Detailed leaderboard of block-producing nodes and mining reward shares.
+- [Rich List & Top Balances](https://fullexplorer.planetone.io/top): Top accounts ranked by circulating PLO balances.
+- [Protocol Activation & Features](https://fullexplorer.planetone.io/ACTIVATION): Consensus voting status for protocol feature upgrades.
+
+## FullExplorer API Interface
+
+- **Endpoint**: `https://fullexplorer.planetone.io/api`
+- Supports real-time balance queries, address transactions, key-value data entries, and generator history.
+
+## Sitemaps & Feeds
+
+- [Sitemap Index](https://fullexplorer.planetone.io/sitemap.xml)
+- [Main Pages Sitemap](https://fullexplorer.planetone.io/sitemap-main.xml)
+- [Blocks Sitemap](https://fullexplorer.planetone.io/sitemap-blocks.xml)
+- [Transactions Sitemap](https://fullexplorer.planetone.io/sitemap-transactions.xml)
+- [Addresses Sitemap](https://fullexplorer.planetone.io/sitemap-addresses.xml)
+
+## Technical Reference
+
+For the comprehensive SQL database schema, Triples table structure, and low-level API protocol, see:
+- [Full LLM Specification](https://fullexplorer.planetone.io/llms-full.txt)

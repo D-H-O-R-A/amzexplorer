@@ -1,0 +1,53 @@
+# Planet One FullExplorer - Complete Technical Specification (LLMs Full)
+
+> In-depth technical architecture, SQLite Triples schema, daemon synchronizer loop, and query API reference for the Planet One FullExplorer service.
+
+---
+
+## 1. System Overview
+
+Planet One FullExplorer (`https://fullexplorer.planetone.io`) operates as a local or remote caching and indexing layer positioned directly in front of Planet One validation nodes.
+
+### Performance Objectives
+- Sub-millisecond indexed searches across millions of transactions, blocks, and account balances.
+- Minimal RAM footprint (<1GB) with WAL-mode SQLite database storage.
+- Real-time synchronization with microblocks, avoiding deep RPC latency on node state queries.
+
+---
+
+## 2. Relational Triples Schema & Database Architecture
+
+The SQLite database (`blockchain.sqlite3`) uses indexed numeric IDs mapped to strings (addresses, aliases, function calls, assets):
+
+### Tables
+1. **`pts` (Points/Relations)**: Core relational ledger table linking entities, transaction types, blocks, and timestamps.
+2. **`ts` (Transactions)**: Maps numeric internal transaction keys (`r0`) to Base58 transaction IDs partitioned into 8-byte buckets (`r1`, `r2`).
+3. **`data`**: Key-value pairs stored on-chain via Data Transactions (Type 12) for smart contract state and ESG environmental records.
+4. **`balances`**: Materialized circulating balances per address and asset identifier.
+
+---
+
+## 3. URL Router & HTTP Access Rules
+
+The FullExplorer router parses request URIs into structured route dispatches:
+
+- `/`: Generator telemetry overview.
+- `/b/{height}`: Renders block payload at the given integer height.
+- `/tx/{txId}`: Renders transaction details. Hashes >36 characters automatically route to transaction view.
+- `/{address}`: Renders address transaction history, token balances, and account data entries.
+- `/GENERATORS`: Real-time block production metrics for all validator nodes.
+- `/top`: Circulating balance leaderboard (Rich List).
+- `/ACTIVATION`: Network consensus voting progress for protocol features.
+- `/api`: Programmatic JSON/text endpoint for client applications.
+- `/sitemap.xml`: XML sitemap index.
+- `/llms.txt`: Summary AISEO context.
+- `/llms-full.txt`: This full reference document.
+
+---
+
+## 4. API Endpoints
+
+The FullExplorer API at `/api` handles compressed or plaintext queries:
+- Query transactions: returns formatted transaction HTML/JSON slices.
+- Query address data: returns current key-values from SQLite `data` table.
+- Query generator statistics: returns validator rewards and generation shares.

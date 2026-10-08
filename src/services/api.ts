@@ -168,6 +168,7 @@ export interface NetworkStats {
   totalStaked?: number;      // Moedas em staking (satoshis)
   activeValidators?: number; // Validadores ativos
   tps?: number;              // Real transactions per second
+  assets?: number;           // Total de tokens e ativos registrados
 }
 
 export interface Contract {
@@ -559,19 +560,27 @@ export const fetchAddressTransactions = async (address: string, limit: number = 
   return [];
 };
 
-export const fetchBlockchainTransactions = async (limit: number = 100, offset?: number): Promise<Transaction[]> => {
+export const fetchBlockchainTransactions = async (limit: number = 25, offset?: number): Promise<Transaction[]> => {
   try {
     const baseUrl = getFullExplorerApiUrl();
     let url = `${baseUrl}/transactions`;
-    if (offset !== undefined) {
-      url += `/${offset}`;
+    
+    if (offset !== undefined && offset > 1000000000) {
+      // Direct txkey cursor query
+      url = `${baseUrl}/transactions/${offset}?limit=${limit}`;
+    } else if (offset !== undefined && offset > 0) {
+      // Row offset query
+      url = `${baseUrl}/transactions?limit=${limit}&offset=${offset}`;
+    } else if (limit) {
+      url = `${baseUrl}/transactions?limit=${limit}`;
     }
-    console.log("Fetching global transactions from:", url);
+    
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch global transactions from full explorer');
     }
-    return await response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : (data.transactions || []);
   } catch (error) {
     console.error("Error in fetchBlockchainTransactions:", error);
     throw error;
@@ -741,7 +750,8 @@ export const fetchNetworkStats = async (): Promise<NetworkStats> => {
         averageBlockTime: sqlStats.averageBlockTime !== undefined ? sqlStats.averageBlockTime : 6.0,
         totalStaked: sqlStats.totalStaked !== undefined ? sqlStats.totalStaked : 0,
         activeValidators: sqlStats.activeValidators !== undefined ? sqlStats.activeValidators : 1,
-        tps: sqlStats.tps !== undefined ? sqlStats.tps : 0
+        tps: sqlStats.tps !== undefined ? sqlStats.tps : 0,
+        assets: sqlStats.assets !== undefined ? sqlStats.assets : 8
       };
     }
   } catch (error) {
@@ -812,7 +822,8 @@ export const fetchNetworkStats = async (): Promise<NetworkStats> => {
       accounts,
       averageBlockTime,
       totalStaked,
-      activeValidators
+      activeValidators,
+      assets: 8
     };
   } catch (error) {
     console.error("Critical: Failed to fetch blockchain stats from Node API:", error);

@@ -1,4 +1,5 @@
 import SearchBar from "@/components/SearchBar";
+import SEO from "@/components/SEO";
 import BlockList from "@/components/BlockList";
 import TransactionList from "@/components/TransactionList";
 import PendingTransactionList from "@/components/PendingTransactionList";
@@ -256,6 +257,10 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
 
   return (
     <div className="min-h-screen flex flex-col gap-10 md:gap-16">
+      <SEO 
+        title="Planet One Explorer - Blockchain Explorer & Environmental Ledger (eRWA)"
+        description="Explorer oficial da Blockchain Planet One. Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes Ride e EVM, e acompanhe a tokenização de ativos ambientais (eRWA)."
+      />
       
       {/* 1. Hero banner with floating Planet Globe (Figma Style) */}
       <ParallaxSection 

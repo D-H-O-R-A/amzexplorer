@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import SEO from "@/components/SEO";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -229,6 +230,10 @@ const RankingPage: React.FC = () => {
       animateOnMount={true}
       className="w-full max-w-6xl mx-auto space-y-8 px-2 md:px-0 animate-fade-in pb-16"
     >
+      <SEO 
+        title="Ranking de Detentores (Rich List)"
+        description="Ranking oficial das maiores carteiras e detentores de PLO e tokens ambientais da blockchain Planet One. Distribuição de saldo e concentração de tokens."
+      />
       
       {/* Header Block */}
       <MotionChild className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">

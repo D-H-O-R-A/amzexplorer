@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SEO from '@/components/SEO';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -85,6 +86,10 @@ const TokenPlanetPage: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto animate-fade-in space-y-10 pb-20">
+      <SEO 
+        title="Token VERDE - Ativos Ambientais & Créditos de Carbono (eRWA)"
+        description="Portal oficial do Token VERDE na Planet One. Monitore o lastro ecológico, toneladas de CO2 compensadas, hectares preservados e liquidez on-chain."
+      />
       
       {/* Back to explorer button */}
       <div className="flex items-center justify-between animate-fade-in">

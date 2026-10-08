@@ -1,4 +1,5 @@
 import BlockView from "@/components/BlockView";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,10 @@ const BlockPage = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
+      <SEO 
+        title={`Bloco #${height}`}
+        description={`Detalhes do Bloco #${height} na blockchain Planet One. Validador gerador, transações incluídas, taxas, recompensas de bloco e assinatura VRF.`}
+      />
       {/* Breadcrumb Navigation Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground font-semibold">

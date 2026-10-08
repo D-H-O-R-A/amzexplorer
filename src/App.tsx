@@ -15,7 +15,7 @@ import ConverterPage from '@/pages/ConverterPage';
 import FaucetPage from '@/pages/FaucetPage';
 import CarbonMapPage from '@/pages/CarbonMapPage';
 import RankingPage from '@/pages/RankingPage';
-import ValidatorsPage from '@/pages/ValidatorsPage';
+// import ValidatorsPage from '@/pages/ValidatorsPage';
 import NotFound from '@/pages/NotFound';
 import AssetPage from '@/pages/AssetPage';
 import TokenPlanetPage from '@/pages/TokenPlanetPage';
@@ -45,7 +45,7 @@ function App() {
             <Route path="address-converter" element={<ConverterPage />} />
             <Route path="faucet" element={<FaucetPage />} />
             <Route path="ranking" element={<RankingPage />} />
-            <Route path="validators" element={<ValidatorsPage />} />
+            {/* <Route path="validators" element={<ValidatorsPage />} /> */}
             <Route path="carbon-map" element={<CarbonMapPage />} />
             <Route path="tokenplanet/VERDE" element={<TokenPlanetPage />} />
             <Route path="token/:id" element={<TokenRedirect />} />

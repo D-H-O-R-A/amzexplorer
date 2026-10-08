@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -120,6 +121,10 @@ const FaucetPage = () => {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-10 px-4 md:px-8 relative overflow-hidden">
+      <SEO 
+        title={`Faucet Oficial Testnet (${getCoinName()})`}
+        description="Receba tokens de teste PLOT para desenvolver, testar contratos inteligentes e simular operações ecológicas na Testnet da Planet One."
+      />
       {/* Dynamic Glowing background nodes */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full filter blur-[100px] animate-pulse"></div>
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full filter blur-[100px] animate-pulse delay-2000"></div>

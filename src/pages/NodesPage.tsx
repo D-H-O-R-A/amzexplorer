@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SEO from '@/components/SEO';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -135,6 +136,10 @@ const NodesPage = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-10 py-6 pb-20 animate-fade-in">
+      <SEO 
+        title="Status da Rede & Nós Validadores"
+        description="Monitoramento e telemetria de nós validadores, peers conectados, ativação de features de protocolo e recompensas de bloco da blockchain Planet One."
+      />
       
       {/* Header and Telemetry state */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -335,7 +340,7 @@ const NodesPage = () => {
                             </Button>
                           </span>
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-xs">{peer.applicationName}</TableCell>
+                        <TableCell className="text-muted-foreground text-xs">AmzxP</TableCell>
                         <TableCell className="font-mono text-xs">{peer.applicationVersion}</TableCell>
                         <TableCell className="font-mono text-xs text-right pr-6 text-muted-foreground">{formatNumber(peer.peerNonce)}</TableCell>
                       </TableRow>

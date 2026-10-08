@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -116,6 +117,10 @@ const ContractPage = () => {
 
   return (
     <MotionContainer className="space-y-6">
+      <SEO 
+        title={`Contrato Inteligente ${address ? address.substring(0, 10) + '...' : ''}`}
+        description={`Audite e interaja com o Smart Contract ${address} na blockchain Planet One. Invocação de funções callable, bytecode Ride descompilado e histórico.`}
+      />
       {isLoading ? (
         <div className="flex justify-center items-center py-16">
           <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>

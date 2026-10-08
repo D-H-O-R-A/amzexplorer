@@ -185,6 +185,27 @@ server {
         try_files \$uri \$uri/ /index.php?\$args;
     }
 
+    # Discovery & AISEO file directives
+    location = /robots.txt {
+        default_type text/plain;
+        try_files \$uri /index.php?\$args;
+    }
+
+    location = /llms.txt {
+        default_type text/plain;
+        try_files \$uri /index.php?\$args;
+    }
+
+    location = /llms-full.txt {
+        default_type text/plain;
+        try_files \$uri /index.php?\$args;
+    }
+
+    location ~* \.xml$ {
+        default_type application/xml;
+        try_files \$uri /index.php?\$args;
+    }
+
     # Pass PHP scripts to PHP-FPM socket
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;

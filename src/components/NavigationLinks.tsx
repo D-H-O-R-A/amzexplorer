@@ -112,12 +112,12 @@ export const NavigationLinks = () => {
           path: "/nodes",
           icon: Network
         },
-        {
-          label: "Nós Validadores",
-          sub: "Métricas de produção de blocos dos validadores",
-          path: "/validators",
-          icon: Cpu
-        }
+        // {
+        //   label: "Nós Validadores",
+        //   sub: "Métricas de produção de blocos dos validadores",
+        //   path: "/validators",
+        //   icon: Cpu
+        // }
       ]
     },
     tools: {

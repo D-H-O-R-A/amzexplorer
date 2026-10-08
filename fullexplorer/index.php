@@ -62,6 +62,39 @@ else
     $arg3 = false;
 }
 
+// -----------------------------------------------------------------------------
+// AISEO, SEO & Discovery Endpoints (robots.txt, llms.txt, sitemaps)
+// -----------------------------------------------------------------------------
+if( $address === 'robots.txt' )
+{
+    header( 'Content-Type: text/plain; charset=utf-8' );
+    if( file_exists( __DIR__ . '/robots.txt' ) )
+        readfile( __DIR__ . '/robots.txt' );
+    exit();
+}
+
+if( $address === 'llms.txt' )
+{
+    header( 'Content-Type: text/plain; charset=utf-8' );
+    if( file_exists( __DIR__ . '/llms.txt' ) )
+        readfile( __DIR__ . '/llms.txt' );
+    exit();
+}
+
+if( $address === 'llms-full.txt' )
+{
+    header( 'Content-Type: text/plain; charset=utf-8' );
+    if( file_exists( __DIR__ . '/llms-full.txt' ) )
+        readfile( __DIR__ . '/llms-full.txt' );
+    exit();
+}
+
+if( $address === 'sitemap.xml' || strpos( $address, 'sitemap' ) === 0 )
+{
+    require_once __DIR__ . '/sitemap.php';
+    exit();
+}
+
 if( $address === 'api' )
 {
     header('Access-Control-Allow-Origin: *');
@@ -462,11 +495,17 @@ if( $address === 'api' )
         require_once 'include/RO.php';
         $RO = new RO( W8DB );
 
-        $limit = 100;
-        $offset = $arg === false ? false : (int)$arg;
+        $limit = isset( $_GET['limit'] ) ? min( 100, max( 1, (int)$_GET['limit'] ) ) : 100;
+        $offset = isset( $_GET['offset'] ) ? (int)$_GET['offset'] : ( $arg === false ? false : (int)$arg );
+        $page = isset( $_GET['page'] ) ? max( 1, (int)$_GET['page'] ) : false;
 
-        if( $offset !== false )
+        if( $page !== false && $offset === false )
+            $offset = ( $page - 1 ) * $limit;
+
+        if( $offset !== false && $offset > 1000000000 )
             $q = $RO->db->query( "SELECT r0 FROM ts WHERE r0 <= $offset ORDER BY r0 DESC LIMIT " . $limit )->fetchAll();
+        else if( $offset !== false && $offset > 0 )
+            $q = $RO->db->query( "SELECT r0 FROM ts ORDER BY r0 DESC LIMIT " . $limit . " OFFSET " . $offset )->fetchAll();
         else
             $q = $RO->db->query( "SELECT r0 FROM ts ORDER BY r0 DESC LIMIT " . $limit )->fetchAll();
 
@@ -779,20 +818,54 @@ function prolog()
     global $address;
     global $f;
     global $L;
+    global $urio;
 
     $L = (int)( $_COOKIE['L'] ?? 0 ) === 1;
     $displayAddress = prettyAddress( $address );
-    $title = 'Planet One FullExplorer &#183; ' . $displayAddress;
-    if( $f !== false &&
-        ( $address !== 'GENERATORS' || $f !== 1472 ) &&
-        ( is_numeric( $f ) || strlen( $f ) >= 32 || $f === 'Waves' || $f === 'PLO' || $f === 'WAVES' ) )
+    $title = 'Planet One FullExplorer';
+    $description = 'Planet One Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain Planet One (PLO).';
+    
+    if( $address === 'tx' && $f !== false )
     {
-        $displayF = ( $f === 'Waves' || $f === 'WAVES' ) ? 'PLO' : prettyAddress( $f );
-        $title .= ' &#183; ' . $displayF;
+        $title = 'Transação ' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
+        $description = 'Consulte a transação ' . htmlspecialchars( $f ) . ' na rede blockchain Planet One. Inspecione remetente, destinatário, taxas, transferências e confirmações.';
     }
+    else if( $address === 'b' && $f !== false )
+    {
+        $title = 'Bloco #' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
+        $description = 'Consulte o bloco #' . htmlspecialchars( $f ) . ' na blockchain Planet One. Validador gerador, transações incluídas, taxas coletadas e consenso.';
+    }
+    else if( $address === 'GENERATORS' )
+    {
+        $title = 'Geradores de Blocos & Validadores · Planet One FullExplorer';
+        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede Planet One (PLO).';
+    }
+    else if( $address === 'top' )
+    {
+        $title = 'Ranking de Maiores Balanços (Rich List) · Planet One FullExplorer';
+        $description = 'Contas com maiores saldos e distribuição de moedas PLO na blockchain Planet One.';
+    }
+    else if( $address === 'ACTIVATION' )
+    {
+        $title = 'Status das Features de Protocolo · Planet One FullExplorer';
+        $description = 'Status de consenso e ativação de propostas de melhoria na blockchain Planet One.';
+    }
+    else if( $address === 'tk' && $f !== false )
+    {
+        $title = 'Token / Ativo ' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
+        $description = 'Detalhes do token/ativo ' . htmlspecialchars( $f ) . ' na blockchain Planet One.';
+    }
+    else if( $address !== false && $address !== 'GENERATORS' )
+    {
+        $title = 'Endereço ' . htmlspecialchars( $displayAddress ) . ' · Planet One FullExplorer';
+        $description = 'Histórico de transações, saldo e dados on-chain do endereço ' . htmlspecialchars( $displayAddress ) . ' na Planet One.';
+    }
+
+    $canonicalUrl = 'https://fullexplorer.planetone.io/' . ( !empty( $urio ) && $urio !== 'GENERATORS' ? htmlspecialchars( $urio ) : '' );
+
     echo sprintf( '
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -800,33 +873,69 @@ function prolog()
         <title>%1$s</title>
         
         <!-- Meta Tags Principais & SEO para Mecanismos de Busca -->
-        <meta name="description" content="Planet One Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain Planet One (PLO).">
-        <meta name="keywords" content="Planet One, PLO, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono">
+        <meta name="description" content="%5$s">
+        <meta name="keywords" content="Planet One, PLO, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
         <meta name="author" content="Planet One">
-        <meta name="robots" content="index, follow">
-        <link rel="canonical" href="https://fullexplorer.planetone.io/">
+        <meta name="publisher" content="Planet One Foundation">
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+        <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+        <link rel="canonical" href="%6$s">
 
         <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
-        <meta property="og:title" content="%1$s">
-        <meta property="og:description" content="Consulte endereços, transações, geradores de blocos e estatísticas em tempo real na rede Planet One (PLO).">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://fullexplorer.planetone.io/">
-        <meta property="og:image" content="https://fullexplorer.planetone.io/static/logo.png">
         <meta property="og:site_name" content="Planet One Full Explorer">
+        <meta property="og:title" content="%1$s">
+        <meta property="og:description" content="%5$s">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="%6$s">
+        <meta property="og:image" content="https://fullexplorer.planetone.io/static/logo.png">
+        <meta property="og:image:secure_url" content="https://fullexplorer.planetone.io/static/logo.png">
+        <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
         <meta property="og:image:alt" content="Planet One Full Explorer">
+        <meta property="og:locale" content="pt_BR">
+        <meta property="og:locale:alternate" content="en_US">
+        <meta property="og:locale:alternate" content="es_ES">
 
         <!-- Twitter / Telegram -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@planetone_oficial">
+        <meta name="twitter:creator" content="@planetone_oficial">
+        <meta name="twitter:domain" content="fullexplorer.planetone.io">
+        <meta name="twitter:url" content="%6$s">
         <meta name="twitter:title" content="%1$s">
-        <meta name="twitter:description" content="Consulte endereços, transações, geradores de blocos e estatísticas em tempo real na rede Planet One (PLO).">
+        <meta name="twitter:description" content="%5$s">
         <meta name="twitter:image" content="https://fullexplorer.planetone.io/static/logo.png">
+        <meta name="twitter:image:alt" content="Planet One Full Explorer">
 
+        <!-- Discovery & AISEO Standards (llms.txt, sitemaps) -->
+        <link rel="alternate" type="application/xml" title="Sitemap Index" href="https://fullexplorer.planetone.io/sitemap.xml">
+        <link rel="help" type="text/markdown" href="https://fullexplorer.planetone.io/llms.txt" title="LLM & AI Agent Context">
+        <link rel="help" type="text/markdown" href="https://fullexplorer.planetone.io/llms-full.txt" title="Comprehensive LLM Documentation">
+
+        <!-- Favicons & App Icons -->
         <link rel="shortcut icon" href="/static/logo.png" type="image/x-icon">
+        <link rel="apple-touch-icon" href="/static/logo.png">
         <link rel="stylesheet" href="/static/fonts.css">
         <link rel="stylesheet" href="/static/static%2$s.css">
+        
+        <!-- JSON-LD Structured Data (Schema.org) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://fullexplorer.planetone.io/",
+          "name": "Planet One Full Explorer",
+          "description": "Indexador de alta performance para a blockchain Planet One",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://fullexplorer.planetone.io/{search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+        
         <script type="text/javascript" src="/static/jquery.js" charset="UTF-8"></script>
         <script type="text/javascript" src="/static/static.js" charset="UTF-8"></script>
     </head>
@@ -863,7 +972,9 @@ function prolog()
     $title, 
     $L ? '-l' : '-n',
     ( $address !== 'GENERATORS' && $address !== 'ACTIVATION' && $address !== 'tx' && $address !== 'top' ) ? htmlspecialchars( $address ) : '',
-    $L ? '&#9680; Dark Theme' : '&#9681; Light Theme' 
+    $L ? '&#9680; Dark Theme' : '&#9681; Light Theme',
+    $description,
+    $canonicalUrl
     );
 }
 

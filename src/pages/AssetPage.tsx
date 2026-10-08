@@ -1,5 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 import { useEffect, useState, useMemo } from "react";
 import { fetchAssetDetails, Asset } from "@/services/api";
 import { 
@@ -249,6 +250,10 @@ const AssetPage = () => {
       animateOnMount={true}
       className="min-h-screen px-4 md:px-8 py-8 pb-24 md:pb-12 max-w-6xl mx-auto space-y-8"
     >
+      <SEO 
+        title={asset?.name ? `Ativo ${asset.name} (${asset.assetId.substring(0, 8)}...)` : `Ativo On-Chain`}
+        description={`Detalhes do token/ativo ${asset?.name || id} na blockchain Planet One. Total supply, emissor, precisão decimal, detentores e metadados ambientais.`}
+      />
       
       {/* Header and navigation */}
       <MotionChild className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

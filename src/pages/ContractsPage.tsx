@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -130,6 +131,10 @@ const ContractsPage = () => {
 
   return (
     <MotionContainer className="space-y-8 pb-12">
+      <SEO 
+        title="Contratos Inteligentes (dApps)"
+        description="Diretório de Smart Contracts e dApps na blockchain Planet One. Inspecione scripts Ride, chamadas callable, complexidade e estado dos contratos."
+      />
       {/* Premium Page Header */}
       <MotionChild>
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-background to-background border border-primary/15 p-8 md:p-10 shadow-2xl">

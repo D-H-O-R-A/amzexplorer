@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -176,6 +177,10 @@ const BlocksPage = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in pb-20">
+      <SEO 
+        title="Explorador de Blocos On-Chain"
+        description="Navegue, inspecione e filtre em tempo real todos os blocos minerados e validados na blockchain Planet One. Acompanhe geradores, tamanhos de bloco e transações."
+      />
       
       {/* Hero Banner Section */}
       <div className="relative overflow-hidden rounded-3xl border border-emerald-500/10 bg-gradient-to-br from-emerald-500/5 via-card to-card p-6 md:p-10 shadow-lg">

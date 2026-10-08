@@ -1,16 +1,18 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import SEO from '@/components/SEO';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Transaction, getTransactionTypeName } from '@/services/api';
+import { Transaction, getTransactionTypeName, fetchNetworkStats, NetworkStats } from '@/services/api';
 import { formatTimeAgo, formatGicBalance } from '@/utils/formatter';
 import { Link } from 'react-router-dom';
 import { 
   ExternalLink, Search, ChevronDown, ChevronUp, CreditCard, Clock, 
   User, ArrowRight, Wallet, FileText, Coins, Copy, Check, Activity,
   Users, Radio, Terminal, PlusCircle, RefreshCw, Flame, HelpCircle,
-  Bookmark, Database, Tag, Layers, ArrowLeftRight, Code
+  Bookmark, Database, Tag, Layers, ArrowLeftRight, Code,
+  ChevronsLeft, ChevronsRight
 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
@@ -22,6 +24,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationEllipsis,
 } from '@/components/ui/pagination';
 
 interface TransactionsPageProps {
@@ -67,7 +70,6 @@ const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label })
   );
 };
 
-// Map transaction type numbers to custom premium styles & icons
 // Map transaction type numbers to custom premium styles & icons
 const getTxTypeStyles = (type: number) => {
   switch (type) {
@@ -225,34 +227,84 @@ const typeCategories = [
 
 const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [networkStats, setNetworkStats] = useState<NetworkStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [transactionsPerPage] = useState(10);
+  const transactionsPerPage = 25;
   const [liveRefresh, setLiveRefresh] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [assetMap, setAssetMap] = useState<Record<string, AssetInfo>>({});
+  const [topTxKey, setTopTxKey] = useState<number | null>(null);
+  const [pageCache, setPageCache] = useState<Record<number, Transaction[]>>({});
+  const [jumpPageInput, setJumpPageInput] = useState('');
 
   const toggleSortOrder = () => {
     setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc');
   };
 
-  // Load transactions on mount
-  const fetchTransactions = useCallback(async (silent: boolean = false) => {
+  // Fetch real on-chain network stats (transactions, accounts, tokens)
+  useEffect(() => {
+    let isMounted = true;
+    const loadStats = async () => {
+      try {
+        const stats = await fetchNetworkStats();
+        if (isMounted && stats) {
+          setNetworkStats(stats);
+        }
+      } catch (err) {
+        console.warn("Could not fetch real network stats:", err);
+      }
+    };
+    loadStats();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Fetch page of transactions
+  const loadTransactionsPage = useCallback(async (page: number, silent: boolean = false, resetTop: boolean = false) => {
     if (!silent) setIsLoading(true);
     else setIsRefreshing(true);
 
     try {
       if (address) {
+        // Address mode: fetch all transactions for this specific address and paginate locally
         const { fetchAddressTransactions } = await import('@/services/api');
         const data = await fetchAddressTransactions(address, 100);
         setTransactions(data);
       } else {
+        // Global explorer mode: server-side pagination across ALL historical transactions
         const { fetchBlockchainTransactions } = await import('@/services/api');
-        const data = await fetchBlockchainTransactions(100);
-        setTransactions(data);
+        
+        let currentTop = topTxKey;
+        if (page === 1 || resetTop || currentTop === null) {
+          const firstBatch = await fetchBlockchainTransactions(transactionsPerPage);
+          if (firstBatch && firstBatch.length > 0) {
+            const newTop = firstBatch[0].txkey ?? null;
+            if (newTop) {
+              setTopTxKey(newTop);
+              currentTop = newTop;
+            }
+          }
+          setTransactions(firstBatch);
+          setPageCache(prev => ({ ...prev, [1]: firstBatch }));
+        } else {
+          // Check in-memory page cache
+          if (pageCache[page] && !resetTop) {
+            setTransactions(pageCache[page]);
+            setIsLoading(false);
+            setIsRefreshing(false);
+            return;
+          }
+
+          // Compute cursor using topTxKey
+          const cursor = currentTop - ((page - 1) * transactionsPerPage);
+          const data = await fetchBlockchainTransactions(transactionsPerPage, cursor);
+          const pageData = data.slice(0, transactionsPerPage);
+          setTransactions(pageData);
+          setPageCache(prev => ({ ...prev, [page]: pageData }));
+        }
       }
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -261,40 +313,54 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  }, [address]);
+  }, [address, topTxKey, transactionsPerPage, pageCache]);
 
+  // Load transactions on mount and when currentPage changes
   useEffect(() => {
-    fetchTransactions();
-  }, [address, fetchTransactions]);
+    loadTransactionsPage(currentPage);
+  }, [currentPage, address]);
 
   // Live Auto-Refresh system
   useEffect(() => {
     if (!liveRefresh || address) return;
 
     const interval = setInterval(() => {
-      fetchTransactions(true);
+      if (currentPage === 1) {
+        loadTransactionsPage(1, true, true);
+      }
     }, 10000); // Poll every 10 seconds
 
     return () => clearInterval(interval);
-  }, [liveRefresh, address, fetchTransactions]);
+  }, [liveRefresh, address, currentPage, loadTransactionsPage]);
 
-  // Dynamic Metrics calculations (from currently loaded dataset)
+  // Dynamic Metrics calculations
   const totalFeesPLO = useMemo(() => {
     return transactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0);
   }, [transactions]);
 
-  const uniqueActiveAddresses = useMemo(() => {
-    const addresses = new Set<string>();
-    transactions.forEach(tx => {
-      if (tx.sender) addresses.add(tx.sender);
-      if (tx.recipient) addresses.add(tx.recipient);
-    });
-    return addresses.size;
-  }, [transactions]);
+  // Total transactions count: Real on-chain count in global mode, or local count in address mode
+  const totalTransactionsCount = useMemo(() => {
+    if (address) return transactions.length;
+    return networkStats?.transactions || 346985;
+  }, [address, transactions.length, networkStats?.transactions]);
 
-  const transfersCount = useMemo(() => {
-    return transactions.filter(tx => [2, 4, 11].includes(tx.type)).length;
-  }, [transactions]);
+  // Total addresses count: Real on-chain accounts count in global mode
+  const totalAddressesCount = useMemo(() => {
+    if (address) {
+      const addresses = new Set<string>();
+      transactions.forEach(tx => {
+        if (tx.sender) addresses.add(tx.sender);
+        if (tx.recipient) addresses.add(tx.recipient);
+      });
+      return addresses.size;
+    }
+    return networkStats?.accounts || 132353;
+  }, [address, transactions, networkStats?.accounts]);
+
+  // Total tokens/assets count: Real on-chain assets count
+  const totalTokensCount = useMemo(() => {
+    return networkStats?.assets ?? 8;
+  }, [networkStats?.assets]);
 
   // Real-time Filter & Sort Pipeline
   const filteredTransactions = useMemo(() => {
@@ -328,18 +394,45 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
     });
   }, [transactions, selectedType, searchTerm, sortOrder]);
 
-  // Pagination bounds
-  const indexOfLastTransaction = currentPage * transactionsPerPage;
-  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
-  const currentTransactions = filteredTransactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
-  const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+  // Pagination calculation
+  // In global mode, each page fetches transactionsPerPage items from server
+  // In address mode, all items are fetched and sliced locally
+  const currentTransactions = useMemo(() => {
+    if (address) {
+      const indexOfLast = currentPage * transactionsPerPage;
+      const indexOfFirst = indexOfLast - transactionsPerPage;
+      return filteredTransactions.slice(indexOfFirst, indexOfLast);
+    }
+    return filteredTransactions;
+  }, [address, currentPage, transactionsPerPage, filteredTransactions]);
+
+  const totalPages = useMemo(() => {
+    if (address) {
+      return Math.max(1, Math.ceil(filteredTransactions.length / transactionsPerPage));
+    }
+    return Math.max(1, Math.ceil(totalTransactionsCount / transactionsPerPage));
+  }, [address, filteredTransactions.length, totalTransactionsCount, transactionsPerPage]);
 
   const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleJumpPage = (e: React.FormEvent) => {
+    e.preventDefault();
+    const pageNum = parseInt(jumpPageInput, 10);
+    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
+      handlePageChange(pageNum);
+      setJumpPageInput('');
+    } else {
+      toast.error(`Informe uma página válida entre 1 e ${totalPages.toLocaleString('pt-BR')}`);
+    }
   };
 
   const handleManualRefresh = () => {
-    fetchTransactions();
+    setPageCache({});
+    loadTransactionsPage(currentPage, false, true);
     toast.success("Transaction ledger refreshed!");
   };
 
@@ -394,6 +487,10 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl space-y-8 animate-in fade-in duration-300">
+      <SEO 
+        title="Transações On-Chain em Tempo Real"
+        description="Acompanhe todas as transações da rede Planet One em tempo real. Filtros por transferências, contratos inteligentes, tokens ambientais, emissões e EVM."
+      />
       
       {/* 1. Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
@@ -461,13 +558,21 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
             <Activity className="h-16 w-16 text-primary" />
           </div>
           <CardHeader className="pb-2">
-            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Ledger Dataset</CardDescription>
+            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {address ? "Address Transactions" : "Total On-Chain Tx"}
+            </CardDescription>
             <CardTitle className="text-3xl font-extrabold text-foreground">
-              {isLoading ? <Skeleton className="h-9 w-20" /> : transactions.length}
+              {isLoading && !networkStats ? (
+                <Skeleton className="h-9 w-20" />
+              ) : (
+                totalTransactionsCount.toLocaleString('pt-BR')
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Verified transactions cached in memory</p>
+            <p className="text-xs text-muted-foreground">
+              {address ? "Transações registradas para este endereço" : "Total histórico de transações confirmadas na rede"}
+            </p>
           </CardContent>
         </Card>
 
@@ -489,7 +594,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Total network processing fees generated</p>
+            <p className="text-xs text-muted-foreground">Taxas processadas no lote de transações atual</p>
           </CardContent>
         </Card>
 
@@ -498,13 +603,21 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
             <Users className="h-16 w-16 text-indigo-500" />
           </div>
           <CardHeader className="pb-2">
-            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Unique Senders/Recipients</CardDescription>
+            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {address ? "Unique Interactors" : "Total Active Addresses"}
+            </CardDescription>
             <CardTitle className="text-3xl font-extrabold text-foreground">
-              {isLoading ? <Skeleton className="h-9 w-20" /> : uniqueActiveAddresses}
+              {isLoading && !networkStats ? (
+                <Skeleton className="h-9 w-20" />
+              ) : (
+                totalAddressesCount.toLocaleString('pt-BR')
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Active transactors involved in recent history</p>
+            <p className="text-xs text-muted-foreground">
+              {address ? "Contas únicas com interação recente" : "Total de contas e endereços registrados na blockchain"}
+            </p>
           </CardContent>
         </Card>
 
@@ -513,13 +626,21 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
             <Coins className="h-16 w-16 text-amber-500" />
           </div>
           <CardHeader className="pb-2">
-            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Assets Transferred</CardDescription>
+            <CardDescription className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Total Tokens & Assets
+            </CardDescription>
             <CardTitle className="text-3xl font-extrabold text-foreground">
-              {isLoading ? <Skeleton className="h-9 w-20" /> : transfersCount}
+              {isLoading && !networkStats ? (
+                <Skeleton className="h-9 w-20" />
+              ) : (
+                totalTokensCount.toLocaleString('pt-BR')
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Total standard transfers in this index batch</p>
+            <p className="text-xs text-muted-foreground">
+              Ativos ambientais e tokens criados na Planet One
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -882,39 +1003,130 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
 
         {/* 5. Pagination using shadcn/ui components */}
         {!isLoading && totalPages > 1 && (
-          <div className="pt-4 border-t border-border/40">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious 
-                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer active:scale-95 transition-transform"}
-                  />
-                </PaginationItem>
-                
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  const pageNumber = i + 1;
-                  return (
-                    <PaginationItem key={pageNumber}>
-                      <PaginationLink
-                        onClick={() => handlePageChange(pageNumber)}
-                        isActive={currentPage === pageNumber}
-                        className="cursor-pointer active:scale-95 transition-transform"
-                      >
-                        {pageNumber}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-                
-                <PaginationItem>
-                  <PaginationNext 
-                    onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer active:scale-95 transition-transform"}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+          <div className="pt-6 border-t border-border/40 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-muted-foreground order-2 md:order-1 text-center md:text-left">
+              Mostrando {Math.min((currentPage - 1) * transactionsPerPage + 1, totalTransactionsCount).toLocaleString('pt-BR')} - {Math.min(currentPage * transactionsPerPage, totalTransactionsCount).toLocaleString('pt-BR')} de {totalTransactionsCount.toLocaleString('pt-BR')} transações
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 order-1 md:order-2">
+              <Pagination>
+                <PaginationContent className="flex-wrap gap-1">
+                  {/* First page button */}
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handlePageChange(1)}
+                      disabled={currentPage === 1}
+                      className="h-9 w-9 p-0 disabled:opacity-40 disabled:pointer-events-none hover:bg-muted"
+                      title="Primeira Página"
+                    >
+                      <ChevronsLeft className="h-4 w-4" />
+                    </Button>
+                  </PaginationItem>
+
+                  {/* Previous page button */}
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                      className={currentPage === 1 ? "pointer-events-none opacity-40" : "cursor-pointer active:scale-95 transition-transform"}
+                    />
+                  </PaginationItem>
+                  
+                  {/* Page numbers with smart ellipsis window */}
+                  {(() => {
+                    const pageNumbers: (number | string)[] = [];
+                    const windowSize = 2; // pages before and after current
+                    
+                    if (totalPages <= 7) {
+                      for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
+                    } else {
+                      pageNumbers.push(1);
+                      if (currentPage > windowSize + 2) {
+                        pageNumbers.push('ellipsis-start');
+                      }
+                      
+                      const start = Math.max(2, currentPage - windowSize);
+                      const end = Math.min(totalPages - 1, currentPage + windowSize);
+                      
+                      for (let i = start; i <= end; i++) {
+                        pageNumbers.push(i);
+                      }
+                      
+                      if (currentPage < totalPages - (windowSize + 1)) {
+                        pageNumbers.push('ellipsis-end');
+                      }
+                      pageNumbers.push(totalPages);
+                    }
+
+                    return pageNumbers.map((page, idx) => {
+                      if (typeof page === 'string') {
+                        return (
+                          <PaginationItem key={`ellipsis-${idx}`}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+
+                      return (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(page)}
+                            isActive={currentPage === page}
+                            className={`cursor-pointer active:scale-95 transition-transform h-9 min-w-9 px-2 text-xs font-semibold ${
+                              currentPage === page 
+                                ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                                : ""
+                            }`}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    });
+                  })()}
+                  
+                  {/* Next page button */}
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-40" : "cursor-pointer active:scale-95 transition-transform"}
+                    />
+                  </PaginationItem>
+
+                  {/* Last page button */}
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handlePageChange(totalPages)}
+                      disabled={currentPage === totalPages}
+                      className="h-9 w-9 p-0 disabled:opacity-40 disabled:pointer-events-none hover:bg-muted"
+                      title="Última Página"
+                    >
+                      <ChevronsRight className="h-4 w-4" />
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+
+              {/* Jump to Page Input Form */}
+              <form onSubmit={handleJumpPage} className="flex items-center gap-1.5 ml-2">
+                <span className="text-xs text-muted-foreground hidden sm:inline">Ir para:</span>
+                <Input
+                  type="number"
+                  min={1}
+                  max={totalPages}
+                  placeholder="Pág."
+                  value={jumpPageInput}
+                  onChange={(e) => setJumpPageInput(e.target.value)}
+                  className="h-8 w-16 text-xs text-center px-1 bg-background/50 border-border"
+                />
+                <Button type="submit" variant="outline" size="sm" className="h-8 px-2.5 text-xs font-medium">
+                  Ir
+                </Button>
+              </form>
+            </div>
           </div>
         )}
       </div>

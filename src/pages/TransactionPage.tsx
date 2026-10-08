@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import TransactionView from "@/components/TransactionView";
+import SEO from "@/components/SEO";
 import { 
   ArrowLeft, Clock, Database, Copy, ExternalLink, 
   MoreHorizontal, Shield, Globe
@@ -95,6 +96,10 @@ const TransactionPage = () => {
         animate="animate"
         className="min-h-screen bg-transparent text-foreground"
       >
+        <SEO 
+          title={`Transação ${id ? id.substring(0, 12) + '...' : ''}`}
+          description={`Detalhes da transação ${id} na blockchain Planet One. Remetente, destinatário, valores transferidos, taxas, bloco e confirmações on-chain.`}
+        />
         <div className="container mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Mobile-first sticky header */}
           <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-md border-b border-primary/20 py-3 mb-4">

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 import { 
   Compass, 
   ZoomIn, 
@@ -760,6 +761,10 @@ const CarbonMapPage = () => {
 
   return (
     <div className="container mx-auto px-2 md:px-4 py-4 md:py-8 space-y-6 max-w-7xl">
+      <SEO 
+        title="Mapa de Ativos de Carbono eRWA (Georreferenciamento 3D)"
+        description="Visualizador 3D e mapa geoespacial interativo das áreas preservadas, créditos de carbono tokenizados e créditos de biodiversidade na blockchain Planet One."
+      />
       
       {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-border pb-5 gap-4">

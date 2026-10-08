@@ -82,7 +82,7 @@ const Header = () => {
       icon: Network,
       items: [
         { label: "Status da Rede", path: "/nodes", icon: Network },
-        { label: "Nós Validadores", path: "/validators", icon: Cpu }
+        // { label: "Nós Validadores", path: "/validators", icon: Cpu }
       ]
     },
     {

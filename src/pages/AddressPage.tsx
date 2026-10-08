@@ -1,4 +1,5 @@
 import AddressView from "@/components/AddressView";
+import SEO from "@/components/SEO";
 import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -157,6 +158,10 @@ const AddressPage = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen px-4 md:px-8 py-8 pb-24 md:pb-8"
     >
+      <SEO 
+        title={`Endereço ${address ? address.substring(0, 10) + '...' : ''}`}
+        description={`Consulta on-chain do endereço ${address} na blockchain Planet One. Saldo de PLO, tokens eRWA, NFTs ecológicos, transações e contratos associados.`}
+      />
       <div className="container mx-auto max-w-5xl">
         {loading ? (
           <div className="flex flex-col justify-center items-center p-20 gap-4">
