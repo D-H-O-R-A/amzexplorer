@@ -219,12 +219,8 @@ async function collectBlockchainData() {
   // 4. Ecosystem Tokens and Environmental Assets
   console.log('[Sitemap Generator] 4/4 Collecting ecosystem tokens & environmental assets...');
   const assets = [
-    'AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk', // VERDE
-    'BXwyK6pvWnJUmTzQznGU6C5tK1og2vmUjSnW4FbYNMZD',
-    'BBFzqFCYd6ouAXWqBCLsMVC2ErgmyfPjBzLdnRByMR83',
-    '9vn6nbkRecBTNiCFpwvv9aFz5G8mPr1rgbQ48YLbzeF',
-    '2u2uTcgNmETDHnbAouV65KM5Qa46QH3JXi39Nsh9JFgE',
-    '5HkAvQoZHnB66TBiPwwYY6Xix4KP6LiY9z9J7uaRaHyK',
+    '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz', // amz1
+    '7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU', // AUSDTW
   ];
 
   return {
@@ -241,7 +237,7 @@ async function main() {
   const { height, getBlockDate, transactions, addresses, assets } = data;
 
   // ============================================================================
-  // 1. GENERATE MAIN EXPLORER SITEMAPS (explorer.amzexplorer.com)
+  // 1. GENERATE MAIN EXPLORER SITEMAPS (amzexplorer.com)
   // ============================================================================
   console.log('\n[Sitemap Generator] Generating XML files for Main Explorer (Max 10.000 URLs each)...');
 
@@ -253,8 +249,8 @@ async function main() {
     { loc: `${EXPLORER_BASE}/nodes`, priority: '0.9', changefreq: 'always', lastmod: todayDate },
     { loc: `${EXPLORER_BASE}/contracts`, priority: '0.85', changefreq: 'daily', lastmod: todayDate },
     { loc: `${EXPLORER_BASE}/ranking`, priority: '0.85', changefreq: 'daily', lastmod: todayDate },
-    { loc: `${EXPLORER_BASE}/carbon-map`, priority: '0.9', changefreq: 'daily', lastmod: todayDate },
-    { loc: `${EXPLORER_BASE}/tokenplanet/VERDE`, priority: '0.95', changefreq: 'daily', lastmod: todayDate },
+    { loc: `${EXPLORER_BASE}/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz`, priority: '0.95', changefreq: 'daily', lastmod: todayDate },
+    { loc: `${EXPLORER_BASE}/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU`, priority: '0.9', changefreq: 'daily', lastmod: todayDate },
     { loc: `${EXPLORER_BASE}/address-converter`, priority: '0.8', changefreq: 'weekly', lastmod: todayDate },
     { loc: `${EXPLORER_BASE}/faucet`, priority: '0.8', changefreq: 'daily', lastmod: todayDate },
   ];
@@ -353,10 +349,9 @@ async function main() {
 
   // (e) Assets (< 10.000)
   const explorerAssetUrls = [
-    { loc: `${EXPLORER_BASE}/tokenplanet/VERDE`, priority: '1.0', changefreq: 'daily', lastmod: todayDate },
     ...assets.map(assetId => ({
       loc: `${EXPLORER_BASE}/asset/${assetId}`,
-      priority: '0.9',
+      priority: assetId === '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' ? '1.0' : '0.9',
       changefreq: 'daily',
       lastmod: todayDate
     }))

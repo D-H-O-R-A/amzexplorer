@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "planetoneexplorer",
+    "site": "amzexplorer1",
     "public": "dist",
     "ignore": [
       "firebase.json",

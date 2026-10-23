@@ -1,5 +1,5 @@
 # ==============================================================================
-# Planet One Explorer - Robots.txt (SEO & AISEO Standard)
+# AMZ Explorer - Robots.txt (SEO & AISEO Standard)
 # ==============================================================================
 
 # Search Engines
@@ -94,13 +94,13 @@ Allow: /
 Disallow: /api/faucet
 
 # Sitemaps
-Sitemap: https://explorer.planetone.io/sitemap.xml
-Sitemap: https://explorer.planetone.io/sitemap-main.xml
-Sitemap: https://explorer.planetone.io/sitemap-blocks.xml
-Sitemap: https://explorer.planetone.io/sitemap-transactions.xml
-Sitemap: https://explorer.planetone.io/sitemap-addresses.xml
-Sitemap: https://explorer.planetone.io/sitemap-assets.xml
+Sitemap: https://amzexplorer.com/sitemap.xml
+Sitemap: https://amzexplorer.com/sitemap-main.xml
+Sitemap: https://amzexplorer.com/sitemap-blocks.xml
+Sitemap: https://amzexplorer.com/sitemap-transactions.xml
+Sitemap: https://amzexplorer.com/sitemap-addresses.xml
+Sitemap: https://amzexplorer.com/sitemap-assets.xml
 
 # LLM & AI Context Directives (https://llmstxt.org/)
-# LLMs-Context: https://explorer.planetone.io/llms.txt
-# LLMs-Full: https://explorer.planetone.io/llms-full.txt
+# LLMs-Context: https://amzexplorer.com/llms.txt
+# LLMs-Full: https://amzexplorer.com/llms-full.txt

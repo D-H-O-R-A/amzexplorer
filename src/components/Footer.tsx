@@ -6,179 +6,234 @@ import {
   Compass, 
   Network, 
   ArrowUpRight,
-  Globe
+  Globe,
+  Mail,
+  MapPin,
+  Building,
+  ShieldCheck,
+  Server,
+  Lock,
+  Layers
 } from 'lucide-react';
-import { isTestnet, getChainId, getCoinName } from '@/lib/utils';
+import { 
+  getChainId, 
+  getCoinName,
+  NODE_SWAGGER_URL,
+  MATCHER_SWAGGER_URL,
+  METAMASK_RPC_URL,
+  DATA_SERVICE_DOCS_URL,
+  GRPC_DEX_URL,
+  GRPC_UPDATES_URL
+} from '@/lib/utils';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const testnet = isTestnet();
   const chainId = getChainId();
   const coinName = getCoinName();
 
+  const institutionalLinks = [
+    { label: "Início", href: "https://amazonicone.com.br" },
+    { label: "A Floresta", href: "https://amazonicone.com.br/#floresta" },
+    { label: "Comunidades", href: "https://amazonicone.com.br/#comunidades" },
+    { label: "Créditos de Carbono", href: "https://amazonicone.com.br/#creditos" },
+    { label: "Mesa de Trade", href: "https://amazonicone.com.br/#trade" },
+    { label: "Contato", href: "mailto:contact@amazonicone.com" },
+  ];
+
+  const explorerLinks = [
+    { label: "Blocos em Tempo Real", path: "/blocks" },
+    { label: "Transações On-Chain", path: "/transactions" },
+    { label: "Contratos Inteligentes Ride", path: "/contracts" },
+    { label: "Ranking de Endereços", path: "/ranking" },
+    { label: "Status da Rede & Peers", path: "/nodes" },
+    { label: "Token amz1 (Oficial)", path: "/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" },
+    { label: "Token AUSDTW (18 Decimais)", path: "/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" },
+  ];
+
+  const secureEndpoints = [
+    { name: "Node Swagger API", url: NODE_SWAGGER_URL, protocol: "HTTPS / REST" },
+    { name: "Matcher DEX API", url: MATCHER_SWAGGER_URL, protocol: "HTTPS / ORDERBOOK" },
+    { name: "MetaMask JSON-RPC", url: METAMASK_RPC_URL, protocol: "EVM RPC" },
+    { name: "AMZX Data Service", url: DATA_SERVICE_DOCS_URL, protocol: "REST / DOCS" },
+    { name: "gRPC Control / DEX", url: GRPC_DEX_URL, protocol: "WSS / GRPCS:443" },
+    { name: "gRPC Blockchain Updates", url: GRPC_UPDATES_URL, protocol: "GRPCS:443" },
+  ];
+
   return (
-    <footer className="relative w-full mt-12 md:mt-16 bg-gradient-to-b from-background/30 via-muted/30 to-muted/80 dark:from-background/10 dark:via-slate-950/40 dark:to-slate-950 border-t border-border/80 backdrop-blur-xl shadow-2xl overflow-hidden">
-      {/* Ambient glow effects */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+    <footer className="relative w-full mt-16 bg-slate-950 text-slate-200 border-t border-emerald-500/20 overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-0 left-1/3 w-96 h-96 bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-teal-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-8 py-12 md:py-16 relative z-10">
-        {/* Top Section: Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-border/40">
+      <div className="container mx-auto px-4 lg:px-8 py-16 relative z-10">
+        
+        {/* Top Tier: Company Info Banner */}
+        <div className="p-6 md:p-8 rounded-3xl bg-emerald-950/25 border border-emerald-500/20 backdrop-blur-md mb-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl shadow-black/30">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold tracking-widest uppercase">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Entidade Registrada & Certificada</span>
+            </div>
+            <h2 className="text-xl md:text-2xl font-black text-white font-mono tracking-tight">
+              Amazonic One Eco Tecnologia S. A.
+            </h2>
+            <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
+              Proteção real e direta de Floresta Amazônica. Originamos e comercializamos créditos de carbono de alta integridade (REDD+) diretamente de terras sob gestão com rastreabilidade criptográfica total.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="mailto:contact@amazonicone.com"
+              className="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Falar com Mesa de Trade</span>
+            </a>
+            <a
+              href="https://amazonicone.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-emerald-500/30 text-white font-semibold text-xs transition-all flex items-center gap-2"
+            >
+              <Globe className="w-4 h-4 text-emerald-400" />
+              <span>amazonicone.com.br</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Middle Tier: 4 Columns Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-800">
           
-          {/* Brand & Mission (5 cols) */}
-          <div className="md:col-span-12 lg:col-span-5 flex flex-col space-y-5">
+          {/* Col 1: Corporate & Contact (4 cols) */}
+          <div className="lg:col-span-4 space-y-5">
             <div className="flex items-center gap-3">
-              <div className="relative group">
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-300" />
-                <img
-                  src="/logo.png"
-                  alt="AMZ Explorer Logo"
-                  className="relative w-10 h-10 md:w-11 md:h-11 object-contain rounded-full border border-emerald-500/20 shadow-md"
-                />
-              </div>
+              <img src="/logo.png" alt="AMZX Logo" className="w-9 h-9 object-contain" />
               <div className="flex flex-col">
-                <span className="text-base font-bold font-mono tracking-wider text-foreground dark:text-white uppercase">
-                  AMZ Explorer
+                <span className="text-base font-black font-mono tracking-wider text-white uppercase">
+                  AMZ<span className="text-emerald-400">X</span> Explorer
                 </span>
-                <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                  Amazonic One Blockchain
+                <span className="text-[10px] text-emerald-400/90 font-mono">
+                  Blockchain Oficial Amazonic One
                 </span>
               </div>
             </div>
-            
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md">
-              O ecossistema descentralizado de alta performance da Amazonic One (AMZX). Monitore transações em tempo real, audite blocos e acompanhe os ativos na blockchain.
+
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Infraestrutura de consensus distribuído (Proof of Stake) para custódia imutável, contratos inteligentes e liquidez de créditos ambientais e token nativo AMZ.
             </p>
 
-            {/* Website Link */}
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://amazonicone.com.br/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-background/50 hover:bg-emerald-500/10 border border-border/60 hover:border-emerald-500/30 text-muted-foreground hover:text-emerald-500 transition-all duration-300 shadow-sm flex items-center gap-2 text-xs font-semibold"
-              >
-                <Globe className="h-4 w-4 text-emerald-500" />
-                <span>amazonicone.com.br</span>
-              </a>
+            <div className="space-y-2.5 pt-2 text-xs text-slate-300">
+              <div className="flex items-center gap-2.5">
+                <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
+                <a href="mailto:contact@amazonicone.com" className="hover:text-emerald-400 transition-colors font-mono">
+                  contact@amazonicone.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Operações de campo: Amazonas, Brasil</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Building className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Atendimento corporativo global</span>
+              </div>
             </div>
           </div>
 
-          {/* Links Sections (7 cols divided) */}
-          <div className="md:col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            
-            {/* Quick Links Column */}
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center gap-2 text-foreground font-bold text-sm uppercase tracking-wider">
-                <Compass className="h-4 w-4 text-emerald-500" />
-                <span>Navegação</span>
-              </div>
-              <ul className="flex flex-col space-y-2.5 text-xs md:text-sm font-medium">
-                <li>
-                  <Link to="/blocks" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Blocos Ledger</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/transactions" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Transações</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/nodes" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Configuração de Nós</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ranking" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Ranking de Endereços</span>
-                  </Link>
-                </li>
-              </ul>
+          {/* Col 2: Institutional Amazonic One (2 cols) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
+              <Leaf className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Institucional</span>
             </div>
-
-            {/* Ecosystem Column */}
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center gap-2 text-foreground font-bold text-sm uppercase tracking-wider">
-                <Leaf className="h-4 w-4 text-emerald-500" />
-                <span>Ecossistema</span>
-              </div>
-              <ul className="flex flex-col space-y-2.5 text-xs md:text-sm font-medium">
-                <li>
-                  <a href="https://amazonicone.com.br/" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-1 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span>Website Amazonic One</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              {institutionalLinks.map((item, idx) => (
+                <li key={idx}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-emerald-400 transition-colors flex items-center justify-between group"
+                  >
+                    <span>{item.label}</span>
+                    <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-400" />
                   </a>
                 </li>
-                <li>
-                  <Link to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Token amz1</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" className="group flex items-center gap-1.5 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span className="h-1 w-1 rounded-full bg-border group-hover:bg-emerald-500 transition-colors" />
-                    <span>Token AUSDTW (18 Dec)</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Developers Column */}
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center gap-2 text-foreground font-bold text-sm uppercase tracking-wider">
-                <Cpu className="h-4 w-4 text-emerald-500" />
-                <span>Desenvolvedores</span>
-              </div>
-              <ul className="flex flex-col space-y-2.5 text-xs md:text-sm font-medium">
-                <li>
-                  <a href="https://nodes.amzexplorer.com/api-docs/index.html" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-1 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span>Node Swagger API</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://matcher.amzexplorer.com/api-docs/index.html" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-1 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 transform hover:translate-x-1">
-                    <span>Matcher REST API</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-
-        {/* Bottom Section: Copyright, Credits & Network Badge */}
-        <div className="mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          
-          {/* Copyright Amazonic One */}
-          <div className="flex flex-col items-center md:items-start space-y-1 text-center md:text-left">
-            <p className="text-xs text-muted-foreground dark:text-gray-400 font-medium">
-              &copy; {currentYear} <span className="text-foreground font-semibold">Amazonic One</span>. Todos os direitos reservados.
-            </p>
-            <p className="text-[10px] text-muted-foreground/80 leading-normal">
-              Infraestrutura blockchain descentralizada de alta velocidade.
-            </p>
+              ))}
+            </ul>
           </div>
 
-          {/* Network Specs badge */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background border border-border/80 text-[10px] md:text-xs font-mono font-bold text-muted-foreground shadow-sm">
-              <Network className="h-3 w-3 text-emerald-500" />
-              <span>ChainID: <span className="text-emerald-500 font-bold">{chainId}</span></span>
-              <span className="text-border">|</span>
-              <span className="text-emerald-500 uppercase">{testnet ? 'Testnet' : 'Mainnet'}</span>
+          {/* Col 3: Explorer Navigation (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
+              <Compass className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Explorer Ledger</span>
+            </div>
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              {explorerLinks.map((item, idx) => (
+                <li key={idx}>
+                  <Link
+                    to={item.path}
+                    className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-emerald-500/50" />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 4: Encrypted Endpoints (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
+              <Lock className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Endpoints Criptografados</span>
+            </div>
+            <div className="space-y-2">
+              {secureEndpoints.map((ep, idx) => (
+                <a
+                  key={idx}
+                  href={ep.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">
+                      {ep.name}
+                    </span>
+                    <span className="text-[8px] font-mono text-emerald-400 font-bold px-1.5 py-0.2 rounded bg-emerald-500/10">
+                      {ep.protocol}
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-mono text-slate-500 truncate mt-0.5">
+                    {ep.url}
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
 
         </div>
+
+        {/* Bottom Tier: Copyright & Network Bar */}
+        <div className="mt-8 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <p className="text-center md:text-left leading-relaxed">
+            &copy; {currentYear} <strong className="text-white">Amazonic One</strong> - Preservação real e direta na Floresta Amazônica. Todos os direitos reservados.
+          </p>
+
+          <div className="flex items-center gap-2 font-mono text-[10px]">
+            <span className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300">
+              Chain ID: <strong className="text-emerald-400">{chainId}</strong> (Mainnet)
+            </span>
+            <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">
+              Moeda: {coinName}
+            </span>
+          </div>
+        </div>
+
       </div>
     </footer>
   );

@@ -1,4 +1,6 @@
-# Logs
+# Firebase cache
+.firebase/
+.firebase/*
 logs
 *.log
 npm-debug.log*
