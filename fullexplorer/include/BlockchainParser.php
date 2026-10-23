@@ -299,7 +299,9 @@ class BlockchainParser
             w8_err( __FUNCTION__ );
         $name = htmlentities( trim( preg_replace( '/\s+/', ' ', $tx['name'] ) ) );
         $info = $this->kvAssetInfo->getValueByKey( $id );
-        $this->kvAssetInfo->setKeyValue( $id, substr( $info, 0, 2 ) . $name );
+        [ $decimals, , $isNFT, $weight ] = w8io_asset_info( $info );
+        $prefix = $isNFT ? 'N' : (string)$decimals;
+        $this->kvAssetInfo->setKeyValue( $id, $prefix . chr( $weight ) . $name );
         return $id;
     }
 
@@ -773,29 +775,17 @@ class BlockchainParser
         ] );
     }
 
-    private function getQPrice( $asset )
+    private function getDecimals( $asset )
     {
-        if( $asset === 0 )
-            $qp = 1;
-        else
-        switch( $this->kvAssetInfo->getValueByKey( $asset )[0] )
-        {
-            case 'N':
-            case '0': $qp = 100000000; break;
-            case '1': $qp = 10000000; break;
-            case '2': $qp = 1000000; break;
-            case '3': $qp = 100000; break;
-            case '4': $qp = 10000; break;
-            case '5': $qp = 1000; break;
-            case '6': $qp = 100; break;
-            case '7': $qp = 10; break;
-            case '8': $qp = 1; break;
-            default:
-                w8_err();
-        }
-        $qps = [ 100000000 * $qp, $qp ];
-        $this->qps[$asset] = $qps;
-        return $qps;
+        if( $asset === 0 || $asset === WAVES_ASSET )
+            return 8;
+
+        $info = $this->kvAssetInfo->getValueByKey( $asset );
+        if( $info === false )
+            return 8;
+
+        [ $decimals ] = w8io_asset_info( $info );
+        return $decimals;
     }
 
     private function processExchangeTransaction( $txkey, $tx )
@@ -870,24 +860,35 @@ class BlockchainParser
             }
         }
 
+        $adecs = $this->getDecimals( $basset );
+        $sdecs = $this->getDecimals( $sasset );
+
+        $bamount = (string)$tx['amount'];
+        $price = (string)$tx['price'];
+
         if( $tx['version'] >= 3 )
         {
-            $qa = $this->qps[$basset] ?? $this->getQPrice( $basset );
-            $qp = $this->qps[$sasset] ?? $this->getQPrice( $sasset );
+            $exp = 8 + $adecs - $sdecs;
+            if( $exp >= 0 )
+                $samount = gmp_strval( gmp_div( gmp_mul( $price, $bamount ), gmp_pow( '10', $exp ) ) );
+            else
+                $samount = gmp_strval( gmp_mul( gmp_mul( $price, $bamount ), gmp_pow( '10', -$exp ) ) );
 
-            $bamount = $tx['amount'];
-            $price = $tx['price'];
-            $samount = gmp_intval( gmp_div( gmp_mul( $price, $bamount ), intdiv( $qp[0], $qa[1] ) ) );
-            $addon = intdiv( $price, $qp[1] );
+            $addonExp = $sdecs - 8;
+            if( $addonExp >= 0 )
+                $addon = gmp_strval( gmp_mul( $price, gmp_pow( '10', $addonExp ) ) );
+            else
+                $addon = gmp_strval( gmp_div( $price, gmp_pow( '10', -$addonExp ) ) );
         }
         else
         {
-            $qa = $this->qps[$basset] ?? $this->getQPrice( $basset );
+            $samount = gmp_strval( gmp_div( gmp_mul( $price, $bamount ), '100000000' ) );
 
-            $bamount = $tx['amount'];
-            $price = $tx['price'];
-            $samount = gmp_intval( gmp_div( gmp_mul( $price, $bamount ), 100000000 ) );
-            $addon = intdiv( $price, $qa[1] );
+            $addonExp = $adecs - 8;
+            if( $addonExp >= 0 )
+                $addon = gmp_strval( gmp_mul( $price, gmp_pow( '10', $addonExp ) ) );
+            else
+                $addon = gmp_strval( gmp_div( $price, gmp_pow( '10', -$addonExp ) ) );
         }
 
         // SELLER -> BUYER

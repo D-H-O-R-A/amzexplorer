@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { shortenHash } from "@/utils/formatter";
+import { shortenHash, formatAmount } from "@/utils/formatter";
 import { 
   Trophy, Medal, Wallet, Copy, Check, Loader2, AlertCircle, 
   TrendingUp, Search, Coins, Sparkles, ExternalLink, RefreshCw, Info, Flame
@@ -28,7 +28,7 @@ interface RankedAddress {
 interface AssetMeta {
   name: string;
   decimals: number;
-  totalSupply: number;
+  rawTotalSupply: string | number | bigint;
   assetId: string;
 }
 
@@ -49,7 +49,7 @@ const RankingPage: React.FC = () => {
   const [assetMeta, setAssetMeta] = useState<AssetMeta>({
     name: "PLO",
     decimals: 8,
-    totalSupply: 10000000,
+    rawTotalSupply: "1000000000000000",
     assetId: "PLO"
   });
 
@@ -67,18 +67,18 @@ const RankingPage: React.FC = () => {
       let targetAssetId = assetKey;
       let decimals = 8;
       let name = "PLO";
-      let totalSupply = 10000000; // sensical base fallback
+      let rawTotalSupply: string | number | bigint = "1000000000000000"; // fallback
 
       if (assetKey === "PLO") {
         try {
           const rewardsResponse = await fetch(`${getNodeUrl()}/blockchain/rewards`);
           if (rewardsResponse.ok) {
             const rewards = await rewardsResponse.json();
-            totalSupply = (rewards.totalWavesAmount || 0) / Math.pow(10, decimals);
+            rawTotalSupply = rewards.totalWavesAmount || "1001242000000000";
           }
         } catch (err) {
           console.error("Failed to fetch precise PLO supply from node rewards:", err);
-          totalSupply = 10012420; // Fallback
+          rawTotalSupply = "1001242000000000";
         }
       } else {
         try {
@@ -87,7 +87,7 @@ const RankingPage: React.FC = () => {
             targetAssetId = assetData.assetId;
             decimals = assetData.decimals;
             name = assetData.name;
-            totalSupply = (assetData.quantity || 0) / Math.pow(10, decimals);
+            rawTotalSupply = assetData.quantity || "0";
           } else {
             throw new Error("Asset details not returned");
           }
@@ -98,7 +98,7 @@ const RankingPage: React.FC = () => {
             targetAssetId = "AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk";
             decimals = 4;
             name = "VERDE";
-            totalSupply = 1153688786;
+            rawTotalSupply = "11536887860000";
           }
         }
       }
@@ -128,7 +128,7 @@ const RankingPage: React.FC = () => {
           setAssetMeta({
             name: mappedData[0]?.assetName || name,
             decimals: mappedData[0]?.decimals !== undefined ? mappedData[0].decimals : decimals,
-            totalSupply: totalSupply,
+            rawTotalSupply: rawTotalSupply,
             assetId: targetAssetId
           });
         }
@@ -220,9 +220,15 @@ const RankingPage: React.FC = () => {
 
   // Top holder concentration math helper
   const topHolderConcentration = useMemo(() => {
-    if (ranking.length === 0 || !assetMeta.totalSupply) return 0;
-    const topHolderBalance = ranking[0].balance / Math.pow(10, assetMeta.decimals);
-    return (topHolderBalance / assetMeta.totalSupply) * 100;
+    if (ranking.length === 0 || !assetMeta.rawTotalSupply) return 0;
+    try {
+      const topRaw = BigInt(ranking[0].balance || 0);
+      const totalRaw = BigInt(assetMeta.rawTotalSupply || 0);
+      if (totalRaw === 0n) return 0;
+      return (Number(topRaw) / Number(totalRaw)) * 100;
+    } catch {
+      return 0;
+    }
   }, [ranking, assetMeta]);
 
   return (
@@ -363,7 +369,7 @@ const RankingPage: React.FC = () => {
           <CardContent className="p-5">
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Suprimento Emitido</span>
             <h3 className="text-xl font-extrabold text-foreground mt-1 font-mono">
-              {assetMeta.totalSupply.toLocaleString(undefined, { maximumFractionDigits: assetMeta.decimals })}
+              {formatAmount(assetMeta.rawTotalSupply, assetMeta.decimals)}
             </h3>
             <p className="text-[10px] text-muted-foreground mt-2">
               Distribuição máxima indexada
@@ -467,8 +473,16 @@ const RankingPage: React.FC = () => {
                   <TableBody>
                     {ranking.map((row, index) => {
                       const decimals = row.decimals !== undefined ? row.decimals : assetMeta.decimals;
-                      const balanceDecimal = row.balance / Math.pow(10, decimals);
-                      const percentOfSupply = assetMeta.totalSupply > 0 ? (balanceDecimal / assetMeta.totalSupply) * 100 : 0;
+                      let percentOfSupply = 0;
+                      try {
+                        const bal = BigInt(row.balance || 0);
+                        const tot = BigInt(assetMeta.rawTotalSupply || 0);
+                        if (tot > 0n) {
+                          percentOfSupply = (Number(bal) / Number(tot)) * 100;
+                        }
+                      } catch {
+                        percentOfSupply = 0;
+                      }
                       const avatarClass = getAvatarColor(row.address);
 
                       return (
@@ -519,10 +533,7 @@ const RankingPage: React.FC = () => {
 
                           {/* Balance (PLO / Asset) */}
                           <TableCell className="text-right py-4 font-mono text-xs md:text-sm font-extrabold text-foreground">
-                            {balanceDecimal.toLocaleString(undefined, { 
-                              minimumFractionDigits: Math.min(2, Math.max(0, decimals ?? 0)), 
-                              maximumFractionDigits: Math.max(0, decimals ?? 0) 
-                            })}
+                            {formatAmount(row.balance, decimals)}
                           </TableCell>
 
                           {/* Supply Bar and Percent */}

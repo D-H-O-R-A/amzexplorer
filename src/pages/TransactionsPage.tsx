@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Transaction, getTransactionTypeName, fetchNetworkStats, NetworkStats } from '@/services/api';
-import { formatTimeAgo, formatGicBalance } from '@/utils/formatter';
+import { formatTimeAgo, formatGicBalance, formatAmount } from '@/utils/formatter';
 import { Link } from 'react-router-dom';
 import { 
   ExternalLink, Search, ChevronDown, ChevronUp, CreditCard, Clock, 
@@ -943,10 +943,10 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
                                 return <span className="text-xs font-medium text-muted-foreground italic">None / Call</span>;
                               }
 
-                              const assetId = transaction?.payload?.asset?.asset ?? transaction.assetId ?? (transaction.type === 3 ? (transaction.assetId || transaction.id) : null);
-                              const decimals = assetId ? (assetMap[assetId]?.decimals ?? 8) : 8;
+                              const assetId = transaction?.payload?.asset?.asset ?? transaction?.payload?.asset ?? transaction.assetId ?? (transaction.type === 3 ? (transaction.assetId || transaction.id) : null);
+                              const decimals = assetId ? (assetMap[assetId]?.decimals ?? (transaction.payload ? 18 : 8)) : 8;
                               const symbol = assetId ? (assetMap[assetId]?.name ?? assetId.substring(0, 6).toUpperCase()) : getCoinName();
-                              const formattedAmount = (amountRaw / Math.pow(10, decimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+                              const formattedAmount = formatAmount(amountRaw, decimals, 2);
                               const isNegative = transaction.type === 6;
                               const isPositive = transaction.type === 5;
                               return (
@@ -971,7 +971,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
                               const feeAssetId = transaction.feeAsset;
                               const decimals = feeAssetId ? (assetMap[feeAssetId]?.decimals ?? 8) : 8;
                               const symbol = feeAssetId ? (assetMap[feeAssetId]?.name ?? feeAssetId.substring(0, 6).toUpperCase()) : getCoinName();
-                              const formattedFee = (transaction.fee / Math.pow(10, decimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+                              const formattedFee = formatAmount(transaction.fee, decimals, 2);
                               return (
                                 <>
                                   Fee: {formattedFee}{" "}

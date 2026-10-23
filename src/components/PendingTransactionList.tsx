@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, RefreshCw, Clock } from 'lucide-react';
 import { Transaction, getTransactionTypeName, fetchAssetDetails } from '@/services/api';
-import { formatTimeAgo } from '@/utils/formatter';
+import { formatTimeAgo, formatAmount } from '@/utils/formatter';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getGCSApiUrl, getCoinName } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -282,20 +282,20 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
                     <div className="text-xs font-semibold font-mono">
                       <span className={tx.type === 6 ? "text-rose-500 font-extrabold" : tx.type === 5 ? "text-emerald-500 font-extrabold" : ""}>
                         {tx.type === 6 ? "-" : tx.type === 5 ? "+" : ""}
-                        {(displayAmount / Math.pow(10, amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}
+                        {formatAmount(displayAmount, amountDecimals, 2)}
                       </span>{" "}
                       <span className="text-primary font-bold text-[10px] uppercase">{amountSymbol}</span>
                     </div>
                   )}
                   {tx.type === 7 && tx.price !== undefined && (
                     <div className="text-[9px] text-muted-foreground font-mono mt-0.5">
-                      Preço: {(tx.price / Math.pow(10, 8 + (tx.order1?.assetPair?.priceAsset ? (assetMap[tx.order1.assetPair.priceAsset]?.decimals ?? 8) : 8) - amountDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}{" "}
+                      Preço: {formatAmount(tx.price, Math.max(0, 8 + (tx.order1?.assetPair?.priceAsset ? (assetMap[tx.order1.assetPair.priceAsset]?.decimals ?? 8) : 8) - amountDecimals), 2)}{" "}
                       <span className="text-[9px] uppercase font-bold">PLO</span>
                     </div>
                   )}
                   {tx.fee !== undefined && (
                     <div className="text-[10px] text-muted-foreground font-mono">
-                      Fee: {(tx.fee / Math.pow(10, feeDecimals)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 8 })}{" "}
+                      Fee: {formatAmount(tx.fee, feeDecimals, 2)}{" "}
                       <span className="text-primary text-[9px] uppercase font-bold">{feeSymbol}</span>
                     </div>
                   )}

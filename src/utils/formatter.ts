@@ -12,27 +12,92 @@ export const formatDate = (timestamp: number): string => {
 /**
  * Format a number to a human-readable number with thousands separators
  */
-export const formatNumber = (num: number): string => {
-  return new Intl.NumberFormat().format(num);
+export const formatNumber = (num: number | string | bigint, maxDecimals: number = 18): string => {
+  if (num === undefined || num === null || num === '') return '0';
+  const str = num.toString().trim();
+  if (str.includes('.')) {
+    return formatDecimal(str, maxDecimals);
+  }
+  try {
+    return BigInt(str).toLocaleString('pt-BR');
+  } catch {
+    return str;
+  }
 };
 
 /**
- * Format a number with specified decimal places
+ * Format a number with specified decimal places (supports up to 18 decimals)
  */
-export const formatDecimal = (num: number, decimals: number = 8): string => {
-  return new Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimals
-  }).format(num);
+export const formatDecimal = (num: number | string | bigint, decimals: number = 8, minDecimals: number = 0): string => {
+  if (num === undefined || num === null || num === '') return '0';
+  const str = num.toString().trim();
+  if (str === '0') return minDecimals > 0 ? '0,' + '0'.repeat(minDecimals) : '0';
+  
+  const isNegative = str.startsWith('-');
+  const cleanStr = isNegative ? str.slice(1) : str;
+  const [intPart = '0', fracPart = ''] = cleanStr.split('.');
+  
+  let formattedInt = intPart;
+  try {
+    formattedInt = BigInt(intPart).toLocaleString('pt-BR');
+  } catch {}
+  
+  const trimmedFrac = fracPart.slice(0, decimals).replace(/0+$/, '');
+  const finalFrac = trimmedFrac.length < minDecimals ? trimmedFrac.padEnd(minDecimals, '0') : trimmedFrac;
+  const res = finalFrac.length > 0 ? `${formattedInt},${finalFrac}` : formattedInt;
+  return isNegative ? `-${res}` : res;
 };
 
 /**
- * Format an amount of PLO (or other asset) with correct decimals
- * Divides the value by 10^decimals to convert from blockchain format
+ * Format an amount of PLO (or any custom token up to 18 decimals)
+ * Converts from atomic satoshis to human-readable units using exact string BigInt arithmetic.
  */
-export const formatAmount = (amount: number, decimals: number = 8): string => {
-  const value = amount / Math.pow(10, decimals);
-  return formatDecimal(value, decimals);
+export const formatAmount = (
+  amount: number | string | bigint,
+  decimals: number = 8,
+  minDecimals: number = 0
+): string => {
+  if (amount === undefined || amount === null || amount === '') return '0';
+  
+  let str = typeof amount === 'number'
+    ? (Number.isFinite(amount) ? Math.floor(amount).toString() : '0')
+    : amount.toString().trim();
+  
+  str = str.split('.')[0] || '0';
+  let isNegative = false;
+  if (str.startsWith('-')) {
+    isNegative = true;
+    str = str.slice(1);
+  }
+  str = str.replace(/^0+/, '') || '0';
+  if (str === '0') return minDecimals > 0 ? '0,' + '0'.repeat(minDecimals) : '0';
+
+  const dec = Math.max(0, Math.min(18, Number(decimals) || 0));
+  if (dec === 0) {
+    try {
+      const formatted = BigInt(str).toLocaleString('pt-BR');
+      return (isNegative ? '-' : '') + formatted;
+    } catch {
+      return (isNegative ? '-' : '') + str;
+    }
+  }
+
+  const padded = str.padStart(dec + 1, '0');
+  const intPart = padded.slice(0, padded.length - dec);
+  let fracPart = padded.slice(padded.length - dec);
+
+  let formattedInt = intPart;
+  try {
+    formattedInt = BigInt(intPart).toLocaleString('pt-BR');
+  } catch {}
+
+  fracPart = fracPart.replace(/0+$/, '');
+  if (fracPart.length < minDecimals) {
+    fracPart = fracPart.padEnd(minDecimals, '0');
+  }
+
+  const result = fracPart.length > 0 ? `${formattedInt},${fracPart}` : formattedInt;
+  return (isNegative ? '-' : '') + result;
 };
 
 /**
@@ -147,18 +212,18 @@ export const formatTimestamp = (timestamp: number): string => {
 /**
  * Format PLO balance (dividing by 10^8)
  */
-export const formatPloBalance = (balance: number): string => {
-  return formatNumber(balance / Math.pow(10, 8));
+export const formatPloBalance = (balance: number | string | bigint): string => {
+  return formatAmount(balance, 8);
 };
 
 // Alias for internal legacy compatibility
 export const formatGicBalance = formatPloBalance;
 
 /**
- * Format asset amount with appropriate decimal places
+ * Format asset amount with appropriate decimal places (supports up to 18 decimals)
  */
-export const formatAssetAmount = (amount: number, decimals: number = 8): string => {
-  return formatNumber(amount / Math.pow(10, decimals));
+export const formatAssetAmount = (amount: number | string | bigint, decimals: number = 8): string => {
+  return formatAmount(amount, decimals);
 };
 
 /**

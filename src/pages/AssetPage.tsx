@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { formatDate, formatNumber, shortenHash } from "@/utils/formatter";
+import { formatDate, formatNumber, shortenHash, formatAmount } from "@/utils/formatter";
 import { toast } from "sonner";
 import { wavesAsset2Eth, ethAsset2Waves } from "@better2better/waves-node-api-js";
 import { getCoinName, isTestnet, getFullExplorerApiUrl } from "@/lib/utils";
@@ -243,7 +243,7 @@ const AssetPage = () => {
 
   const isNFT = asset && asset.quantity === 1 && asset.decimals === 0;
   const assetDecimals = asset?.decimals !== undefined ? asset.decimals : 8;
-  const assetTotalSupply = asset ? asset.quantity / Math.pow(10, assetDecimals) : 0;
+  const assetTotalSupplyFormatted = asset ? formatAmount(asset.quantity, assetDecimals) : "0";
 
   return (
     <MotionContainer 
@@ -410,7 +410,7 @@ const AssetPage = () => {
               <CardContent className="p-5">
                 <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Suprimento Total</span>
                 <h3 className="text-xl font-extrabold text-foreground mt-1 font-mono">
-                  {assetTotalSupply.toLocaleString(undefined, { maximumFractionDigits: assetDecimals })}
+                  {assetTotalSupplyFormatted}
                 </h3>
                 <div className="mt-2">
                   {asset.reissuable ? (
@@ -681,8 +681,14 @@ const AssetPage = () => {
                         </TableHeader>
                         <TableBody>
                           {filteredHolders.map((row, index) => {
-                            const balanceDecimal = row.balance / Math.pow(10, assetDecimals);
-                            const percentOfSupply = assetTotalSupply > 0 ? (balanceDecimal / assetTotalSupply) * 100 : 0;
+                            let percentOfSupply = 0;
+                            try {
+                              if (asset && BigInt(asset.quantity || 0) > 0n) {
+                                percentOfSupply = (Number(BigInt(row.balance || 0)) / Number(BigInt(asset.quantity))) * 100;
+                              }
+                            } catch {
+                              percentOfSupply = 0;
+                            }
                             const avatarClass = getAvatarColor(row.address);
 
                             return (
@@ -726,10 +732,7 @@ const AssetPage = () => {
 
                                 {/* Balance */}
                                 <TableCell className="text-right py-3.5 font-mono text-xs font-extrabold text-foreground">
-                                  {balanceDecimal.toLocaleString(undefined, { 
-                                    minimumFractionDigits: Math.min(2, Math.max(0, assetDecimals ?? 0)), 
-                                    maximumFractionDigits: Math.max(0, assetDecimals ?? 0) 
-                                  })}
+                                  {formatAmount(row.balance, assetDecimals)}
                                 </TableCell>
 
                                 {/* Percent of Supply distribution bar */}

@@ -34,9 +34,7 @@ function selftest( $start, $apikey )
 
         $aid = $assetId === 'WAVES' ? WAVES_ASSET : $RO->getIdByAsset( $assetId );
         $info = $RO->getAssetInfoById( $aid );
-
-        $decimals = ( $decimals = $info[0] ) === 'N' ? 0 : (int)$decimals;
-        $asset = substr( $info, 2 );
+        [ $decimals, $asset ] = w8io_asset_info( $info );
 
         $node_items = [];
         $after = '';

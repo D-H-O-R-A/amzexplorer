@@ -436,8 +436,9 @@ if( $address === 'api' )
             apiexit( 404, [ 'code' => 404, 'message' => 'asset not found' ] );
         
         $info = $RO->getAssetInfoById( $aid );
-        $decimals = $aid === 0 ? 8 : ( ( $info[0] === 'N' ) ? 0 : (int)$info[0] );
-        $assetName = $aid === 0 ? 'PLO' : substr( $info, 2 );
+        [ $parsedDecimals, $parsedName ] = w8io_asset_info( $info );
+        $decimals = $aid === 0 ? 8 : $parsedDecimals;
+        $assetName = $aid === 0 ? 'PLO' : $parsedName;
 
         $limit = 100;
         $offset = $arg2 === false ? 0 : (int)$arg2;
@@ -447,8 +448,8 @@ if( $address === 'api' )
         $rank = $offset + 1;
         foreach( $balances as $balance )
         {
-            $amount = (int)$balance[3];
-            if( $amount <= 0 )
+            $amount = $balance[3];
+            if( gmp_cmp( (string)$amount, '0' ) <= 0 )
                 break;
             $addrId = (int)$balance[1];
             $address = $RO->getAddressById( $addrId );
@@ -861,7 +862,23 @@ function prolog()
         $description = 'Histórico de transações, saldo e dados on-chain do endereço ' . htmlspecialchars( $displayAddress ) . ' na Planet One.';
     }
 
-    $canonicalUrl = 'https://fullexplorer.planetone.io/' . ( !empty( $urio ) && $urio !== 'GENERATORS' ? htmlspecialchars( $urio ) : '' );
+    $canonicalPath = '';
+    if( $address === 'tx' && $f !== false )
+        $canonicalPath = 'tx/' . $f;
+    else if( $address === 'b' && $f !== false )
+        $canonicalPath = 'b/' . $f;
+    else if( $address === 'tk' && $f !== false )
+        $canonicalPath = 'tk/' . $f;
+    else if( $address === 'top' )
+        $canonicalPath = 'top';
+    else if( $address === 'ACTIVATION' )
+        $canonicalPath = 'ACTIVATION';
+    else if( $address !== false && $address !== 'GENERATORS' )
+        $canonicalPath = $address;
+    else if( !empty( $urio ) && $urio !== 'GENERATORS' )
+        $canonicalPath = $urio;
+
+    $canonicalUrl = 'https://fullexplorer.planetone.io/' . htmlspecialchars( $canonicalPath );
 
     echo sprintf( '
 <!DOCTYPE html>
@@ -967,6 +984,7 @@ function prolog()
         </header>
         
         <main class="explorer-content">
+        <h1 class="seo-page-title" style="font-size:1.5rem;font-weight:700;margin:1rem 0;color:#10b981;word-break:break-all;">%1$s</h1>
         <pre class="monospace-content">
 ', 
     $title, 
@@ -1108,19 +1126,18 @@ function w8io_print_distribution( $f, $aid, $info, $n )
     global $z;
     global $RO;
 
-    $decimals = ( $decimals = $info[0] ) === 'N' ? 0 : (int)$decimals;
-    $asset = substr( $info, 2 );
+    [ $decimals, $asset ] = w8io_asset_info( $info );
 
     $balances = $RO->db->query( 'SELECT * FROM balances WHERE r2 = ' . $aid . ' ORDER BY r3 DESC LIMIT ' . $n );
-    $total = 0;
+    $total = '0';
     $n = 0;
     $out = '';
     foreach( $balances as $balance )
     {
-        $amount = (int)$balance[3];
-        if( $amount <= 0 )
+        $amount = $balance[3];
+        if( gmp_cmp( (string)$amount, '0' ) <= 0 )
             break;
-        $total += $amount;
+        $total = gmp_strval( gmp_add( $total, (string)$amount ) );
         $aid = (int)$balance[1];
         $address = $RO->getAddressById( $aid );
         $out .= str_pad( ++$n, 5, ' ', STR_PAD_LEFT ) . ') <a href="' . W8IO_ROOT . $address . '/f/' . $f . '">' . $address . '</a>: ' . w8io_amount( $amount, $decimals ) . PHP_EOL;
@@ -1176,8 +1193,7 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
                     {
                         $sign = $amount < 0 ? -1 : 1;
                         $info = $RO->getAssetInfoById( $asset );
-                        $name = substr( $info, 2 );
-                        $decimals = ( $decimals = $info[0] ) === 'N' ? 0 : (int)$decimals;
+                        [ $decimals, $name ] = w8io_asset_info( $info );
                         $amount = w8io_amount( $amount, $decimals, 0, false );
                         $amount = ' ' . w8io_sign( $sign ) . $amount;
                         $asset = ' <a href="' . W8IO_ROOT . $address . '/f/' . $asset . '">' . $name . '</a>';
@@ -1290,11 +1306,10 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
                     $sign = ( $amount < 0 ? -1 : 1 ) * ( $isb ? ( $isa ? 0 : 1 ) : -1 );
 
                 $info = $RO->getAssetInfoById( $asset );
-                if( $info[1] === chr( 1 ) )
+                [ $decimals, $name, , , $isSpam ] = w8io_asset_info( $info );
+                if( $isSpam )
                     $aspam = true;
 
-                $name = substr( $info, 2 );
-                $decimals = ( $decimals = $info[0] ) === 'N' ? 0 : (int)$decimals;
                 $amount = w8io_amount( $amount, $decimals, 0, false );
                 $amount = ' ' . w8io_sign( $sign ) . $amount;
                 $asset = ' <a href="' . W8IO_ROOT . $address . '/f/' . $asset . '">' . $name . '</a>';
@@ -1328,8 +1343,8 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
             if( $afee )
             {
                 $info = $RO->getAssetInfoById( $afee );
-                $decimals = ( $decimals = $info[0] ) === 'N' ? 0 : (int)$decimals;
-                $fee = ' <small>' . w8io_amount( $fee, $decimals, 0 ) . ' <a href="' . W8IO_ROOT . $address . '/f/' . $afee . '">' . substr( $info, 2 ) . '</a></small>';
+                [ $decimals, $feeAssetName ] = w8io_asset_info( $info );
+                $fee = ' <small>' . w8io_amount( $fee, $decimals, 0 ) . ' <a href="' . W8IO_ROOT . $address . '/f/' . $afee . '">' . $feeAssetName . '</a></small>';
             }
             else
             {
@@ -1369,10 +1384,8 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
                     $buy = $RO->getAssetInfoById( (int)$pair[0] );
                     $sell = $RO->getAssetInfoById( (int)$pair[1] );
 
-                    $bdecimals = ( $bdecimals = $buy[0] ) === 'N' ? 0 : (int)$bdecimals;
-                    $bname = substr( $buy, 2 );
-                    $sdecimals = ( $sdecimals = $sell[0] ) === 'N' ? 0 : (int)$sdecimals;
-                    $sname = substr( $sell, 2 );
+                    [ $bdecimals, $bname ] = w8io_asset_info( $buy );
+                    [ $sdecimals, $sname ] = w8io_asset_info( $sell );
 
                     $link = ' <a href="' . W8IO_ROOT . 'txs/g/' . $groupId . '">';
                     $linklen = strlen( $link ) + 3;
@@ -2541,23 +2554,15 @@ else
             if( $asset > 0 )
             {
                 $info = $RO->getAssetInfoById( $asset );
-                $weight = ord( $info[1] );
-                if( $weight === 1 && $arg !== $asset )
+                [ $decimals, $assetName, $isNFT, $weight, $isSpam ] = w8io_asset_info( $info );
+                if( $isSpam && $arg !== $asset )
                     continue;
 
                 $id = $asset;
                 $b = $asset === $arg && $filter === 1;
-                $decimals = $info[0];
-                if( $decimals === 'N' )
-                {
-                    $decimals = 0;
+                if( $isNFT )
                     $weight = -1;
-                }
-                else
-                {
-                    $decimals = (int)$decimals;
-                }
-                $asset = substr( $info, 2 );
+                $asset = $assetName;
                 $amount = w8io_amount( $amount, $decimals );
 
                 $furl = W8IO_ROOT . $address . '/f/' . $id;

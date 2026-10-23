@@ -124,18 +124,18 @@ function asset_out( $type ){ return TX_ASSET_OUT - $type; }
 
 function w8io_amount( $amount, $decimals, $pad = 20, $setSign = true )
 {
-    if( $amount < 0 )
+    $amount = (string)$amount;
+    if( isset( $amount[0] ) && $amount[0] === '-' )
     {
         $sign = $setSign ? '-' : '';
-        $amount = (string)-$amount;
+        $amount = substr( $amount, 1 );
     }
     else
     {
         $sign = '';
-        $amount = (string)$amount;
     }
 
-    if( $decimals )
+    if( $decimals > 0 )
     {
         if( strlen( $amount ) <= $decimals )
             $amount = str_pad( $amount, $decimals + 1, '0', STR_PAD_LEFT );
@@ -144,6 +144,53 @@ function w8io_amount( $amount, $decimals, $pad = 20, $setSign = true )
 
     $amount = $sign . $amount;
     return $pad ? str_pad( $amount, $pad, ' ', STR_PAD_LEFT ) : $amount;
+}
+
+function w8io_asset_info( $info )
+{
+    if( $info === false || $info === null || $info === '' )
+        return [ 8, '', false, 0, false ];
+
+    $len = strlen( $info );
+    $sepPos = false;
+    for( $i = 0; $i < $len; ++$i )
+    {
+        $ch = $info[$i];
+        if( $ch < '0' || $ch > '9' )
+        {
+            if( $ch === 'N' && $i === 0 )
+                continue;
+            $sepPos = $i;
+            break;
+        }
+    }
+
+    if( $sepPos === false )
+    {
+        $prefix = $info;
+        $sep = chr( 0 );
+        $name = '';
+    }
+    else
+    {
+        $prefix = substr( $info, 0, $sepPos );
+        $sep = $info[$sepPos];
+        $name = substr( $info, $sepPos + 1 );
+    }
+
+    $isNFT = ( $prefix === 'N' );
+    $decimals = $isNFT ? 0 : (int)$prefix;
+    $weight = ord( $sep );
+    $isSpam = ( $weight === 1 );
+
+    return [ $decimals, $name, $isNFT, $weight, $isSpam ];
+}
+
+function w8io_set_asset_scam( $info, $isScam )
+{
+    [ $decimals, $name, $isNFT ] = w8io_asset_info( $info );
+    $prefix = $isNFT ? 'N' : (string)$decimals;
+    return $prefix . chr( $isScam ? 1 : 0 ) . $name;
 }
 
 function isAliasType( $type )

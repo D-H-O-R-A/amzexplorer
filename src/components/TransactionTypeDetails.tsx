@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "@/components/ui/table";
 import { Check, Clipboard, Code, Hash, Link as LinkIcon, Database, ShieldAlert, Coins, Tag, Key, FileCode, User, ShoppingCart } from 'lucide-react';
-import { formatNumber } from '@/utils/formatter';
+import { formatNumber, formatAmount } from '@/utils/formatter';
 import { getCoinName } from '@/lib/utils';
 import { fetchAssetDetails } from '@/services/api';
 import TokenImage from './TokenImage';
@@ -72,14 +72,22 @@ const ExchangeDetails = ({
   const priceDecimals = priceAsset?.decimals ?? 8;
 
   // Traded Amount
-  const actualAmount = transaction.amount / Math.pow(10, amountDecimals);
+  const actualAmount = formatAmount(transaction.amount, amountDecimals);
 
   // Unit Price
   const pricePower = 8 + priceDecimals - amountDecimals;
-  const actualPrice = transaction.price / Math.pow(10, pricePower);
+  const actualPrice = pricePower >= 0
+    ? formatAmount(transaction.price, pricePower)
+    : (transaction.price * Math.pow(10, -pricePower)).toLocaleString('pt-BR', { maximumFractionDigits: 8 });
 
-  // Total volume
-  const actualTotal = (transaction.amount * transaction.price) / 1e8 / Math.pow(10, priceDecimals);
+  // Total volume in price asset
+  let actualTotal = "0";
+  try {
+    const totalAtomic = (BigInt(transaction.amount) * BigInt(transaction.price)) / BigInt(100000000);
+    actualTotal = formatAmount(totalAtomic.toString(), priceDecimals);
+  } catch {
+    actualTotal = formatAmount((transaction.amount / 1e8) * (transaction.price / Math.pow(10, priceDecimals)), 0);
+  }
 
   const buyOrder = transaction.order1?.orderType === 'buy' ? transaction.order1 : transaction.order2;
   const sellOrder = transaction.order1?.orderType === 'sell' ? transaction.order1 : transaction.order2;
@@ -177,7 +185,7 @@ const ExchangeDetails = ({
           </div>
           <div className="md:col-span-2">
             <span className="font-mono text-base font-extrabold text-foreground tracking-tight select-all">
-              {formatNumber(actualAmount, amountDecimals)} <span className="text-emerald-600 dark:text-emerald-400 font-bold ml-0.5">{amountAsset?.name}</span>
+              {actualAmount} <span className="text-emerald-600 dark:text-emerald-400 font-bold ml-0.5">{amountAsset?.name}</span>
             </span>
             <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
               Valor bruto da blockchain (satoshis): {transaction.amount}
@@ -194,7 +202,7 @@ const ExchangeDetails = ({
           <div className="md:col-span-2">
             <div className="space-y-2">
               <span className="font-mono text-base font-extrabold text-foreground tracking-tight select-all block">
-                {formatNumber(actualPrice, 8)} <span className="text-muted-foreground font-medium text-xs ml-0.5">{priceAsset?.name} / {amountAsset?.name}</span>
+                {actualPrice} <span className="text-muted-foreground font-medium text-xs ml-0.5">{priceAsset?.name} / {amountAsset?.name}</span>
               </span>
               <div className="text-xs text-muted-foreground font-medium flex flex-col gap-1.5 mt-1.5 bg-muted/30 p-3 rounded-xl border border-border/40 max-w-md shadow-inner">
                 <div className="flex justify-between items-center">
@@ -223,7 +231,7 @@ const ExchangeDetails = ({
           </div>
           <div className="md:col-span-2">
             <span className="font-mono text-lg font-black text-emerald-600 dark:text-emerald-400 tracking-tight select-all">
-              {formatNumber(actualTotal, priceDecimals)} <span className="font-bold text-sm ml-0.5">{priceAsset?.name}</span>
+              {actualTotal} <span className="font-bold text-sm ml-0.5">{priceAsset?.name}</span>
             </span>
           </div>
         </div>
@@ -325,7 +333,7 @@ const IssueDetails = ({
       </DetailRow>
       <DetailRow label="Quantidade (Total Supply)" icon={Coins}>
         <span className="font-tech text-base font-bold">
-          {transaction.quantity ? formatNumber(transaction.quantity / Math.pow(10, decimals)) : 0}
+          {transaction.quantity !== undefined && transaction.quantity !== null ? formatAmount(transaction.quantity, decimals) : 0}
         </span>
       </DetailRow>
       <DetailRow label="Decimais" icon={Hash}>
@@ -399,7 +407,7 @@ const ReissueDetails = ({
   const decimals = assetDetails?.decimals ?? 8;
   const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
   const rawQuantity = transaction.quantity !== undefined ? transaction.quantity : 0;
-  const actualQuantity = rawQuantity / Math.pow(10, decimals);
+  const actualQuantity = formatAmount(rawQuantity, decimals);
 
   return (
     <>
@@ -437,7 +445,7 @@ const ReissueDetails = ({
       </DetailRow>
       <DetailRow label="Quantidade Reemitida" icon={Coins}>
         <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
-          +{formatNumber(actualQuantity, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+          +{actualQuantity} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
         </span>
         <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
           Valor bruto da blockchain (satoshis): {transaction.quantity}
@@ -488,7 +496,7 @@ const BurnDetails = ({
   const decimals = assetDetails?.decimals ?? 8;
   const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
   const rawAmount = transaction.amount !== undefined ? transaction.amount : 0;
-  const actualAmount = rawAmount / Math.pow(10, decimals);
+  const actualAmount = formatAmount(rawAmount, decimals);
 
   return (
     <>
@@ -526,7 +534,7 @@ const BurnDetails = ({
       </DetailRow>
       <DetailRow label="Quantidade Queimada" icon={Coins}>
         <span className="font-tech text-base font-bold text-red-500">
-          -{formatNumber(actualAmount, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+          -{actualAmount} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
         </span>
         <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
           Valor bruto da blockchain (satoshis): {transaction.amount}
@@ -572,7 +580,7 @@ const SponsorFeeDetails = ({
   const decimals = assetDetails?.decimals ?? 8;
   const name = assetDetails?.name ?? (transaction.assetId ? transaction.assetId.substring(0, 6).toUpperCase() : "Token");
   const isEnabled = transaction.minSponsoredAssetFee !== null && transaction.minSponsoredAssetFee !== undefined && transaction.minSponsoredAssetFee > 0;
-  const actualMinFee = isEnabled ? transaction.minSponsoredAssetFee / Math.pow(10, decimals) : 0;
+  const actualMinFee = isEnabled ? formatAmount(transaction.minSponsoredAssetFee, decimals) : "0";
 
   return (
     <>
@@ -617,7 +625,7 @@ const SponsorFeeDetails = ({
         <span className="font-tech text-base font-bold text-emerald-600 dark:text-emerald-400">
           {isEnabled ? (
             <>
-              {formatNumber(actualMinFee, decimals)} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
+              {actualMinFee} <span className="text-xs font-mono font-bold text-foreground ml-1">{name}</span>
             </>
           ) : (
             <span className="text-muted-foreground text-sm">0 (Desativado)</span>
@@ -663,7 +671,7 @@ const MassTransferDetails = ({
 
   const decimals = transaction.assetId ? (assetDetails?.decimals ?? 8) : 8;
   const name = transaction.assetId ? (assetDetails?.name ?? transaction.assetId.substring(0, 6).toUpperCase()) : coinName;
-  const actualTotal = transaction.totalAmount ? transaction.totalAmount / Math.pow(10, decimals) : 0;
+  const actualTotal = transaction.totalAmount !== undefined && transaction.totalAmount !== null ? formatAmount(transaction.totalAmount, decimals) : "0";
 
   return (
     <>
@@ -674,7 +682,7 @@ const MassTransferDetails = ({
       </DetailRow>
       <DetailRow label="Volume Total Transferido" icon={Coins}>
         <span className="font-tech text-base font-bold text-foreground">
-          {formatNumber(actualTotal, decimals)} 
+          {actualTotal} 
           <span className="text-emerald-500 dark:text-emerald-400 ml-1 font-semibold">{name}</span>
         </span>
       </DetailRow>
@@ -699,7 +707,7 @@ const MassTransferDetails = ({
               </TableHeader>
               <TableBody>
                 {transaction.transfers.map((transfer: any, index: number) => {
-                  const transferAmount = transfer.amount ? transfer.amount / Math.pow(10, decimals) : 0;
+                  const transferAmount = transfer.amount !== undefined && transfer.amount !== null ? formatAmount(transfer.amount, decimals) : "0";
                   return (
                     <TableRow key={`${transfer.recipient}-${index}`} className="hover:bg-muted/10 transition-colors">
                       <TableCell className="font-mono text-xs">
@@ -708,7 +716,7 @@ const MassTransferDetails = ({
                         </Link>
                       </TableCell>
                       <TableCell className="font-mono text-xs text-right font-bold text-foreground">
-                        {formatNumber(transferAmount, decimals)} <span className="text-muted-foreground text-[10px] ml-1">{name}</span>
+                        {transferAmount} <span className="text-muted-foreground text-[10px] ml-1">{name}</span>
                       </TableCell>
                     </TableRow>
                   );
@@ -759,7 +767,7 @@ const InvokePaymentsList = ({ payments }: { payments: any[] }) => {
       {payments.map((payment: any, idx: number) => {
         const decimals = payment.assetId ? (assetMap[payment.assetId]?.decimals ?? 8) : 8;
         const symbol = payment.assetId ? (assetMap[payment.assetId]?.name ?? maskedAssetId(payment.assetId)) : coinName;
-        const formattedAmount = formatNumber(payment.amount / Math.pow(10, decimals), decimals);
+        const formattedAmount = formatAmount(payment.amount, decimals);
         return (
           <div key={idx} className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/10 px-3 py-2 rounded-xl w-fit">
             <span className="font-tech font-bold text-foreground">
@@ -784,6 +792,144 @@ export const maskedAssetId = (id: string) => {
   if (!id) return "";
   if (id.length <= 10) return id;
   return `${id.slice(0, 5)}...${id.slice(-5)}`;
+};
+
+const EthereumDetails = ({ 
+  transaction, 
+  copiedFields, 
+  handleCopyToClipboard,
+  DetailRow
+}: { 
+  transaction: any; 
+  copiedFields: Record<string, boolean>; 
+  handleCopyToClipboard: (text: string, field: string) => void;
+  DetailRow: any;
+}) => {
+  const [assetDetails, setAssetDetails] = useState<any>(null);
+  const coinName = getCoinName();
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadAsset = async () => {
+      const assetId = transaction.payload?.asset;
+      if (assetId) {
+        try {
+          const data = await fetchAssetDetails(assetId);
+          if (isMounted) setAssetDetails(data);
+        } catch (e) {
+          console.warn("Failed to load ethereum asset details:", e);
+        }
+      }
+    };
+    loadAsset();
+    return () => { isMounted = false; };
+  }, [transaction.payload?.asset]);
+
+  const decimals = transaction.payload?.asset ? (assetDetails?.decimals ?? 18) : 8;
+  const symbol = transaction.payload?.asset ? (assetDetails?.name ?? maskedAssetId(transaction.payload.asset)) : coinName;
+  const formattedAmount = transaction.payload?.amount !== undefined && transaction.payload?.amount !== null
+    ? formatAmount(transaction.payload.amount, decimals)
+    : "0";
+
+  return (
+    <>
+      {transaction.payload && (
+        <DetailRow label="Tipo de Payload Ethereum" icon={Code}>
+          <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
+            {transaction.payload.type}
+          </Badge>
+        </DetailRow>
+      )}
+      {transaction.payload?.dApp && (
+        <DetailRow label="Contrato dApp Ethereum" icon={Code}>
+          <div className="flex items-start gap-2 break-all text-foreground bg-muted/10 hover:bg-muted/25 border border-border/30 rounded-xl p-2.5 transition-colors">
+            <Link 
+              to={`/address/${transaction.payload.dApp}`}
+              className="flex-1 font-mono text-xs sm:text-sm text-primary hover:underline font-bold"
+            >
+              {transaction.payload.dApp}
+            </Link>
+          </div>
+        </DetailRow>
+      )}
+      {transaction.payload?.call?.function && (
+        <DetailRow label="Função Invocada Ethereum" icon={FileCode}>
+          <div className="flex flex-col gap-2">
+            <Badge variant="outline" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-sm px-3 py-1 rounded-lg w-fit">
+              {transaction.payload.call.function}()
+            </Badge>
+            {transaction.payload.call.args && transaction.payload.call.args.length > 0 && (
+              <div className="overflow-x-auto rounded-xl border border-border bg-card/40 shadow-sm mt-1">
+                <Table>
+                  <TableHeader className="bg-muted/50">
+                    <TableRow>
+                      <TableHead className="text-xs font-semibold">Parâmetro (Index)</TableHead>
+                      <TableHead className="text-xs font-semibold">Tipo (Type)</TableHead>
+                      <TableHead className="text-xs font-semibold text-right">Valor (Value)</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {transaction.payload.call.args.map((arg: any, index: number) => (
+                      <TableRow key={index} className="hover:bg-muted/10 transition-colors">
+                        <TableCell className="font-mono text-xs font-semibold"># {index}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-[10px] bg-muted py-0 px-2 rounded-md">
+                            {arg.type}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="font-mono text-xs text-right break-all select-all font-bold text-foreground">
+                          {JSON.stringify(arg.value)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </div>
+        </DetailRow>
+      )}
+      {transaction.payload?.amount !== undefined && transaction.payload?.amount !== null && (
+        <DetailRow label="Valor Transferido Ethereum" icon={Coins}>
+          <span className="font-tech text-base font-bold text-foreground">
+            {formattedAmount}{" "}
+            <span className="text-emerald-500 dark:text-emerald-400 ml-1 font-semibold">
+              {symbol}
+            </span>
+          </span>
+        </DetailRow>
+      )}
+      {transaction.payload?.recipient && (
+        <DetailRow label="Destinatário Ethereum" icon={Key}>
+          <Link 
+            to={`/address/${transaction.payload.recipient}`}
+            className="font-mono text-sm text-primary hover:underline break-all"
+          >
+            {transaction.payload.recipient}
+          </Link>
+        </DetailRow>
+      )}
+      {transaction.bytes && (
+        <DetailRow label="Dados Brutos Ethereum (Bytes)" icon={Database}>
+          <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
+            <span className="flex-1 text-muted-foreground truncate">{transaction.bytes}</span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600 flex-shrink-0"
+              onClick={() => handleCopyToClipboard(transaction.bytes || '', "Raw Bytes")}
+            >
+              {copiedFields["Raw Bytes"] ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              ) : (
+                <Clipboard className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
+        </DetailRow>
+      )}
+    </>
+  );
 };
 
 const TransactionTypeDetails = ({ 
@@ -1161,103 +1307,12 @@ const TransactionTypeDetails = ({
 
     case 18: // Ethereum Transaction
       return (
-        <>
-          {transaction.payload && (
-            <DetailRow label="Tipo de Payload Ethereum" icon={Code}>
-              <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
-                {transaction.payload.type}
-              </Badge>
-            </DetailRow>
-          )}
-          {transaction.payload?.dApp && (
-            <DetailRow label="Contrato dApp Ethereum" icon={Code}>
-              <div className="flex items-start gap-2 break-all text-foreground bg-muted/10 hover:bg-muted/25 border border-border/30 rounded-xl p-2.5 transition-colors">
-                <Link 
-                  to={`/address/${transaction.payload.dApp}`}
-                  className="flex-1 font-mono text-xs sm:text-sm text-primary hover:underline font-bold"
-                >
-                  {transaction.payload.dApp}
-                </Link>
-              </div>
-            </DetailRow>
-          )}
-          {transaction.payload?.call?.function && (
-            <DetailRow label="Função Invocada Ethereum" icon={FileCode}>
-              <div className="flex flex-col gap-2">
-                <Badge variant="outline" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-sm px-3 py-1 rounded-lg w-fit">
-                  {transaction.payload.call.function}()
-                </Badge>
-                {transaction.payload.call.args && transaction.payload.call.args.length > 0 && (
-                  <div className="overflow-x-auto rounded-xl border border-border bg-card/40 shadow-sm mt-1">
-                    <Table>
-                      <TableHeader className="bg-muted/50">
-                        <TableRow>
-                          <TableHead className="text-xs font-semibold">Parâmetro (Index)</TableHead>
-                          <TableHead className="text-xs font-semibold">Tipo (Type)</TableHead>
-                          <TableHead className="text-xs font-semibold text-right">Valor (Value)</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {transaction.payload.call.args.map((arg: any, index: number) => (
-                          <TableRow key={index} className="hover:bg-muted/10 transition-colors">
-                            <TableCell className="font-mono text-xs font-semibold"># {index}</TableCell>
-                            <TableCell>
-                              <Badge variant="outline" className="text-[10px] bg-muted py-0 px-2 rounded-md">
-                                {arg.type}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="font-mono text-xs text-right break-all select-all font-bold text-foreground">
-                              {JSON.stringify(arg.value)}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
-              </div>
-            </DetailRow>
-          )}
-          {transaction.payload?.amount && (
-            <DetailRow label="Valor Transferido Ethereum" icon={Coins}>
-              <span className="font-tech text-base font-bold text-foreground">
-                {formatNumber(transaction.payload.amount / 1e8)} 
-                <span className="text-emerald-500 dark:text-emerald-400 ml-1 font-semibold">
-                  {transaction.payload?.asset ? maskedAssetId(transaction.payload.asset) : coinName}
-                </span>
-              </span>
-            </DetailRow>
-          )}
-          {transaction.payload?.recipient && (
-            <DetailRow label="Destinatário Ethereum" icon={Key}>
-              <Link 
-                to={`/address/${transaction.payload.recipient}`}
-                className="font-mono text-sm text-primary hover:underline break-all"
-              >
-                {transaction.payload.recipient}
-              </Link>
-            </DetailRow>
-          )}
-          {transaction.bytes && (
-            <DetailRow label="Dados Brutos Ethereum (Bytes)" icon={Database}>
-              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm bg-muted/30 p-2 rounded-xl border border-border/40 break-all select-all">
-                <span className="flex-1 text-muted-foreground truncate">{transaction.bytes}</span>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 w-6 p-0 rounded-lg hover:bg-emerald-500/10 text-muted-foreground hover:text-emerald-600 flex-shrink-0"
-                  onClick={() => handleCopyToClipboard(transaction.bytes || '', "Raw Bytes")}
-                >
-                  {copiedFields["Raw Bytes"] ? (
-                    <Check className="h-3.5 w-3.5 text-emerald-500" />
-                  ) : (
-                    <Clipboard className="h-3.5 w-3.5" />
-                  )}
-                </Button>
-              </div>
-            </DetailRow>
-          )}
-        </>
+        <EthereumDetails
+          transaction={transaction}
+          copiedFields={copiedFields}
+          handleCopyToClipboard={handleCopyToClipboard}
+          DetailRow={DetailRow}
+        />
       );
 
     default:

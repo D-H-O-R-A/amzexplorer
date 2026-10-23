@@ -91,7 +91,11 @@ const AddressView = ({
       const processed = await Promise.all(
         transactions.slice(0, 100).map(async (tx) => {
           try {
-            const assetId = tx.assetId || (tx.type === 3 ? (tx.assetId || tx.id) : null);
+            const assetId = tx.assetId 
+              || (tx.type === 3 ? (tx.assetId || tx.id) : null)
+              || (tx.type === 7 ? tx.order1?.assetPair?.amountAsset : null)
+              || (tx.type === 18 || tx.type === 17 ? (tx?.payload?.asset?.asset || tx?.payload?.asset) : null)
+              || (tx.type === 16 ? tx.payment?.[0]?.assetId : null);
             const decimals = (!assetId || assetId === 'null' || assetId === 'undefined')
               ? 8
               : (await fetchDecimalsAsset(assetId)) ?? 8;

@@ -106,8 +106,7 @@ function procResetInfo( $parser )
             if( $info === false )
                 w8_err();
             {
-                $info[1] = chr( 0 );
-                $assetInfo->setKeyValue( $i, $info );
+                $assetInfo->setKeyValue( $i, w8io_set_asset_scam( $info, false ) );
             }
         }
 
@@ -171,8 +170,7 @@ function procScam( $parser )
             $info = $assetInfo->getValueByKey( $id );
             if( $info === false )
                 w8_err();
-            $info[1] = chr( 1 );
-            $assetInfo->setKeyValue( $id, $info );
+            $assetInfo->setKeyValue( $id, w8io_set_asset_scam( $info, true ) );
         }
 
     foreach( $unset_scam as $scamid )
@@ -187,8 +185,7 @@ function procScam( $parser )
             $info = $assetInfo->getValueByKey( $id );
             if( $info === false )
                 w8_err();
-            $info[1] = chr( 0 );
-            $assetInfo->setKeyValue( $id, $info );
+            $assetInfo->setKeyValue( $id, w8io_set_asset_scam( $info, false ) );
         }
 
     file_put_contents( $scam_file, $fresh_scam );

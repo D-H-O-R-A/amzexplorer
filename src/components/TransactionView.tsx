@@ -11,7 +11,7 @@ import {
   Flame, Coins, Tag, Code
 } from 'lucide-react';
 import { fetchAssetDetails, fetchTransaction, Transaction, fetchLatestHeight } from '@/services/api';
-import { formatDate, formatNumber } from '@/utils/formatter';
+import { formatDate, formatNumber, formatAmount } from '@/utils/formatter';
 import { useToast } from '@/hooks/use-toast';
 import { getCoinName } from '@/lib/utils';
 import {
@@ -194,8 +194,8 @@ const TransactionView = () => {
 
   const formattedData = {
     timestamp: formatDate(transaction.timestamp),
-    amount: rawTxAmount !== undefined && rawTxAmount !== null ? formatNumber(rawTxAmount / Math.pow(10, assetDecimals), assetDecimals) : null,
-    fee: formatNumber(transaction.fee / Math.pow(10, feeassetDecimals)),
+    amount: rawTxAmount !== undefined && rawTxAmount !== null ? formatAmount(rawTxAmount, assetDecimals) : null,
+    fee: formatAmount(transaction.fee, feeassetDecimals),
   };
 
   return (

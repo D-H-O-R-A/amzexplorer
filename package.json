@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vite",
     "sitemap:generate": "node scripts/generate-sitemaps.js",
-    "build": "node scripts/generate-sitemaps.js && vite build",
+    "build": "node scripts/generate-sitemaps.js && vite build && node scripts/prerender.cjs",
     "build:dev": "vite build --mode development",
+    "deploy": "firebase deploy",
     "lint": "eslint .",
     "preview": "vite preview",
     "start:explorer": "bash ./scripts/start-explorer.sh",
