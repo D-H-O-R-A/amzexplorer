@@ -1,27 +1,17 @@
 import { Link } from 'react-router-dom';
 import { 
-  ExternalLink, 
   Leaf, 
-  Cpu, 
   Compass, 
-  Network, 
   ArrowUpRight,
   Globe,
   Mail,
   MapPin,
   Building,
-  ShieldCheck,
-  Server,
-  Lock,
-  Layers
+  ShieldCheck
 } from 'lucide-react';
 import { 
   getChainId, 
-  getCoinName,
-  NODE_SWAGGER_URL,
-  MATCHER_SWAGGER_URL,
-  METAMASK_RPC_URL,
-  DATA_SERVICE_DOCS_URL
+  getCoinName
 } from '@/lib/utils';
 
 const Footer = () => {
@@ -45,13 +35,6 @@ const Footer = () => {
     { label: "Network Nodes & Peers", path: "/nodes" },
     { label: "amz1 Official Token", path: "/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" },
     { label: "AUSDTW (Wrapped USDT)", path: "/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" },
-  ];
-
-  const secureEndpoints = [
-    { name: "Node Swagger API", url: NODE_SWAGGER_URL, protocol: "HTTPS / REST" },
-    { name: "Matcher DEX API", url: MATCHER_SWAGGER_URL, protocol: "HTTPS / ORDERBOOK" },
-    { name: "MetaMask JSON-RPC", url: METAMASK_RPC_URL, protocol: "EVM RPC" },
-    { name: "AMZX Data Service", url: DATA_SERVICE_DOCS_URL, protocol: "REST / DOCS" },
   ];
 
   return (
@@ -97,11 +80,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Middle Tier: 4 Columns Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-800">
+        {/* Middle Tier: 3 Columns Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-slate-800">
           
-          {/* Col 1: Corporate & Contact (4 cols) */}
-          <div className="lg:col-span-4 space-y-5">
+          {/* Col 1: Corporate & Contact (5 cols) */}
+          <div className="lg:col-span-5 space-y-5">
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="AMZX Logo" className="w-9 h-9 object-contain" />
               <div className="flex flex-col">
@@ -114,7 +97,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed max-w-md">
               Distributed Proof-of-Stake consensus infrastructure providing immutable ledger custody, smart contract execution, and verified on-chain asset settlements.
             </p>
 
@@ -136,8 +119,8 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Col 2: Institutional Amazonic One (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Col 2: Institutional Amazonic One (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
             <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
               <Leaf className="w-3.5 h-3.5 text-emerald-400" />
               <span>Ecosystem</span>
@@ -159,8 +142,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Col 3: Explorer Navigation (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Col 3: Explorer Navigation (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
               <Compass className="w-3.5 h-3.5 text-emerald-400" />
               <span>Blockchain</span>
@@ -178,37 +161,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Col 4: Encrypted Endpoints (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
-            <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
-              <Lock className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Network Endpoints</span>
-            </div>
-            <div className="space-y-2">
-              {secureEndpoints.map((ep, idx) => (
-                <a
-                  key={idx}
-                  href={ep.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col group"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">
-                      {ep.name}
-                    </span>
-                    <span className="text-[8px] font-mono text-emerald-400 font-bold px-1.5 py-0.2 rounded bg-emerald-500/10">
-                      {ep.protocol}
-                    </span>
-                  </div>
-                  <span className="text-[9px] font-mono text-slate-500 truncate mt-0.5">
-                    {ep.url}
-                  </span>
-                </a>
-              ))}
-            </div>
           </div>
 
         </div>
