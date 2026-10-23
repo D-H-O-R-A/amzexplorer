@@ -617,7 +617,9 @@ const Index = () => {
               {/* AUSDTW Token */}
               <tr className="hover:bg-emerald-500/5 transition-colors">
                 <td className="py-4 px-4 flex items-center gap-3">
-                  <img src="/ausdtw.png" alt="AUSDTW" className="w-8 h-8 rounded-full object-contain border border-emerald-500/30 bg-black/40 p-0.5" />
+                  <div className="w-8 h-8 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center font-bold text-teal-400 font-mono text-sm">
+                    ₮
+                  </div>
                   <div>
                     <span className="font-bold text-white text-sm">AUSDTW</span>
                     <span className="block text-[10px] text-teal-400">Amazonic USDT Wrapped (1:1 Peg)</span>

@@ -244,7 +244,9 @@ const Header = () => {
                   className="flex items-center justify-between p-2 rounded-xl bg-card border border-border/60 hover:border-emerald-500/30 text-xs font-semibold"
                 >
                   <div className="flex items-center gap-2">
-                    <img src="/ausdtw.png" alt="AUSDTW" className="w-5 h-5 rounded-full object-contain" />
+                    <div className="w-5 h-5 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-[10px] font-bold text-teal-400 font-mono">
+                      ₮
+                    </div>
                     <span>AUSDTW (Wrapped USDT)</span>
                   </div>
                   <span className="text-[10px] font-mono text-emerald-500 font-bold">1:1 Peg</span>
