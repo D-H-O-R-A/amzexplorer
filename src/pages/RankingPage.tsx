@@ -156,7 +156,7 @@ const RankingPage: React.FC = () => {
   const handleCopy = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
     setCopiedIndex(index);
-    toast.success("Copiado com sucesso!");
+    toast.success("Copied to clipboard!");
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
@@ -236,8 +236,8 @@ const RankingPage: React.FC = () => {
       className="w-full max-w-6xl mx-auto space-y-8 px-2 md:px-0 animate-fade-in pb-16"
     >
       <SEO 
-        title="Ranking de Detentores (Rich List)"
-        description="Ranking oficial das maiores carteiras e detentores de AMZ e tokens ambientais da blockchain AMZX. Distribuição de saldo e concentração de tokens."
+        title="Top Accounts & Rich List"
+        description="Official leaderboard of top account balances and asset holders on the AMZX blockchain. Inspect coin distribution and holder concentration."
       />
       
       {/* Header Block */}
@@ -248,14 +248,14 @@ const RankingPage: React.FC = () => {
               <Trophy className="w-6 h-6" />
             </span>
             <Badge variant="outline" className="text-[10px] bg-background/50 border-border/80 font-bold px-2 py-0.5 rounded-md">
-              Rich List Analítica
+              Analytics Rich List
             </Badge>
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-foreground bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground bg-clip-text">
-            Ranking de Holders
+            Top Account Holders
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-xl">
-            Classificação em tempo real de contas por volume de ativos. Explore baleias, posições acumuladas e distribuição de suprimento on-chain.
+            Real-time balance ranking of accounts and smart contracts by asset volume. Inspect accumulated balances and circulating token distribution.
           </p>
         </div>
 
@@ -434,14 +434,14 @@ const RankingPage: React.FC = () => {
               <div>
                 <CardTitle className="text-base font-extrabold text-foreground flex items-center gap-1.5">
                   <Coins className="w-4 h-4 text-primary" />
-                  Rich List - Top 100+ Endereços
+                  Top Accounts & Balances ({assetMeta.name})
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground mt-0.5">
-                  Endereços on-chain com maiores saldos acumulados de {assetMeta.name} em blocos consolidados.
+                  On-chain accounts holding accumulated balances of {assetMeta.name} in confirmed blocks.
                 </CardDescription>
               </div>
               <Badge variant="outline" className="bg-background/80 border-border/80 text-[10px] font-mono px-2 py-0.5">
-                Exibindo {ranking.length} contas
+                Showing {ranking.length} accounts
               </Badge>
             </div>
           </CardHeader>
@@ -451,15 +451,15 @@ const RankingPage: React.FC = () => {
               <div className="flex flex-col items-center justify-center py-28 gap-4">
                 <Loader2 className="w-10 h-10 text-primary animate-spin" />
                 <div className="space-y-1 text-center">
-                  <p className="text-xs font-bold text-foreground">Sincronizando com os saldos da rede...</p>
-                  <p className="text-[10px] text-muted-foreground animate-pulse">Indexando registros SQLite em tempo real</p>
+                  <p className="text-xs font-bold text-foreground">Synchronizing network ledger balances...</p>
+                  <p className="text-[10px] text-muted-foreground animate-pulse">Querying live index in real time</p>
                 </div>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center text-center py-20 px-6 gap-3 bg-destructive/5 border-t border-destructive/10">
                 <AlertCircle className="w-12 h-12 text-destructive" />
                 <div className="space-y-1">
-                  <p className="text-sm font-extrabold text-foreground">Falha ao compilar ranking do indexador</p>
+                  <p className="text-sm font-extrabold text-foreground">Failed to compile account leaderboard</p>
                   <p className="text-xs text-muted-foreground max-w-md mx-auto leading-relaxed">{error}</p>
                 </div>
                 <Button 
@@ -467,23 +467,23 @@ const RankingPage: React.FC = () => {
                   variant="outline" 
                   className="rounded-xl mt-2 h-9 border-destructive/25 text-destructive hover:bg-destructive hover:text-white"
                 >
-                  Tentar Novamente
+                  Try Again
                 </Button>
               </div>
             ) : ranking.length === 0 ? (
               <div className="text-center py-24 text-muted-foreground text-xs font-medium space-y-2">
-                <p>Nenhum endereço com saldo detectado para este ativo.</p>
-                <p className="text-[10px] font-normal text-muted-foreground">Experimente filtrar por outro contrato na barra de pesquisa.</p>
+                <p>No addresses found holding balances for this asset.</p>
+                <p className="text-[10px] font-normal text-muted-foreground">Try querying another asset ID or contract address.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="border-b border-border/60 hover:bg-transparent bg-muted/5">
-                      <TableHead className="w-[100px] text-center font-bold text-xs pl-6 text-foreground/80">Posição</TableHead>
-                      <TableHead className="text-left font-bold text-xs text-foreground/80">Endereço da Conta</TableHead>
-                      <TableHead className="text-right font-bold text-xs text-foreground/80">Saldo Acumulado ({assetMeta.name})</TableHead>
-                      <TableHead className="text-right font-bold text-xs pr-6 text-foreground/80">% de Participação</TableHead>
+                      <TableHead className="w-[100px] text-center font-bold text-xs pl-6 text-foreground/80">Rank</TableHead>
+                      <TableHead className="text-left font-bold text-xs text-foreground/80">Account Address</TableHead>
+                      <TableHead className="text-right font-bold text-xs text-foreground/80">Balance ({assetMeta.name})</TableHead>
+                      <TableHead className="text-right font-bold text-xs pr-6 text-foreground/80">% Share</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -594,7 +594,7 @@ const RankingPage: React.FC = () => {
                 ) : (
                   <>
                     <TrendingUp className="h-4 w-4 text-primary group-hover:text-primary-foreground" />
-                    Carregar Mais 100 Detentores (Rich List)
+                    Load More 100 Accounts (Rich List)
                   </>
                 )}
               </Button>

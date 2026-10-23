@@ -172,7 +172,7 @@ const SearchBar = () => {
           
           <Input
             type="text"
-            placeholder="Search by address (0x... or 35 chars), asset (44 chars), alias (<35 chars), block, or transaction..."
+            placeholder="Search by Address, Tx Hash, Block Height, or Token..."
             className={`w-full pl-12 pr-28 py-6 text-lg rounded-full shadow-md input-animated bg-white/40 
               ${searchStatus === 'error' ? 'border-green-500/50 focus:border-green-500' : 
               searchStatus === 'success' ? 'border-green-500/50 focus:border-green-500' : 

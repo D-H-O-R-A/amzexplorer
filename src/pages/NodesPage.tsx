@@ -71,7 +71,7 @@ const NodesPage = () => {
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedText(text);
-    toast.success('Endereço copiado para a área de transferência.');
+    toast.success('Address copied to clipboard');
     setTimeout(() => setCopiedText(null), 2000);
   };
 
@@ -103,12 +103,12 @@ const NodesPage = () => {
     return (
       <div className="w-full max-w-5xl mx-auto py-12 text-center space-y-4">
         <AlertCircle className="w-12 h-12 text-destructive mx-auto animate-bounce" />
-        <h1 className="text-3xl font-black text-foreground">Falha de Conexão</h1>
+        <h1 className="text-3xl font-black text-foreground">Connection Failed</h1>
         <p className="text-muted-foreground max-w-md mx-auto">
-          Não foi possível estabelecer contato com as APIs de telemetria e sincronização de rede da AMZX.
+          Unable to establish communication with AMZX network telemetry and synchronization APIs.
         </p>
         <Button onClick={() => loadNodesData(true)} variant="outline" className="border-border">
-          Tentar Novamente
+          Try Again
         </Button>
       </div>
     );
@@ -117,11 +117,11 @@ const NodesPage = () => {
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case 'activated':
-        return <Badge className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Ativado</Badge>;
+        return <Badge className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Activated</Badge>;
       case 'voting':
-        return <Badge className="bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Em Votação</Badge>;
+        return <Badge className="bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Voting</Badge>;
       case 'implemented':
-        return <Badge className="bg-teal-500/10 text-teal-500 border border-teal-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Implementado</Badge>;
+        return <Badge className="bg-teal-500/10 text-teal-500 border border-teal-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Implemented</Badge>;
       default:
         return <Badge variant="outline" className="rounded-lg text-xs font-semibold px-2.5 py-0.5">{status}</Badge>;
     }
@@ -137,8 +137,8 @@ const NodesPage = () => {
   return (
     <div className="w-full max-w-5xl mx-auto space-y-10 py-6 pb-20 animate-fade-in">
       <SEO 
-        title="Status da Rede & Nós Validadores"
-        description="Monitoramento e telemetria de nós validadores, peers conectados, ativação de features de protocolo e recompensas de bloco da blockchain AMZX."
+        title="Network Status & Validator Nodes"
+        description="Real-time telemetry of validator nodes, connected peers, protocol feature activation, and block rewards on the AMZX blockchain."
       />
       
       {/* Header and Telemetry state */}
@@ -146,15 +146,15 @@ const NodesPage = () => {
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-black tracking-tight text-foreground bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text text-transparent">
-              Nós & Telemetria da Rede
+              Nodes & Network Telemetry
             </h1>
             <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 flex items-center gap-1 py-0.5 px-2 rounded-full font-bold text-[10px] animate-pulse">
               <Activity className="w-3 h-3" />
-              Ao Vivo
+              Live
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Estatísticas de conexão em tempo real, status de ativação de recursos, nós validadores e parâmetros globais da blockchain {isTest ? 'Testnet' : 'Mainnet'}.
+            Real-time peer connectivity statistics, feature activation tracking, consensus validator nodes, and global protocol parameters for {isTest ? 'Testnet' : 'Mainnet'}.
           </p>
         </div>
         <Button 
@@ -165,7 +165,7 @@ const NodesPage = () => {
           className="border-border self-start md:self-center hover:bg-muted/50 rounded-xl"
         >
           <RefreshCw className={`w-3.5 h-3.5 mr-1.5 text-emerald-500 ${refreshing ? 'animate-spin' : ''}`} />
-          {refreshing ? 'Sincronizando...' : 'Atualizar'}
+          {refreshing ? 'Syncing...' : 'Refresh'}
         </Button>
       </div>
 
@@ -175,7 +175,7 @@ const NodesPage = () => {
         {/* Metric 1 */}
         <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Peers Conectados</CardTitle>
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Connected Peers</CardTitle>
             <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
               <Wifi className="h-4 w-4 animate-pulse" />
             </div>
@@ -185,7 +185,7 @@ const NodesPage = () => {
               {nodesData.connectedPeers.length + 1}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1">
-              <Server className="w-3 h-3 text-emerald-500" /> Incluindo nó principal
+              <Server className="w-3 h-3 text-emerald-500" /> Including primary node
             </p>
           </CardContent>
         </Card>
@@ -193,7 +193,7 @@ const NodesPage = () => {
         {/* Metric 2 */}
         <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-rose-500/15 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Nós Bloqueados</CardTitle>
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Blacklisted Peers</CardTitle>
             <div className="p-1.5 rounded-lg bg-rose-500/10 text-rose-500">
               <WifiOff className="h-4 w-4" />
             </div>
@@ -202,14 +202,14 @@ const NodesPage = () => {
             <div className="text-3xl font-black tracking-tight text-foreground">
               {nodesData.blacklistedPeers.length}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Endereços suspensos por segurança</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Suspended for network safety</p>
           </CardContent>
         </Card>
 
         {/* Metric 3 */}
         <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-amber-500/15 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Peers Suspensos</CardTitle>
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Suspended Peers</CardTitle>
             <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-500">
               <Clock className="h-4 w-4" />
             </div>
@@ -218,14 +218,14 @@ const NodesPage = () => {
             <div className="text-3xl font-black tracking-tight text-foreground">
               {nodesData.suspendedPeers.length}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Suspensões temporárias na rede</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Temporary peer suspensions</p>
           </CardContent>
         </Card>
 
         {/* Metric 4 */}
         <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Altura de Bloco</CardTitle>
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Block Height</CardTitle>
             <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
               <Database className="h-4 w-4" />
             </div>
@@ -234,7 +234,7 @@ const NodesPage = () => {
             <div className="text-3xl font-black tracking-tight text-foreground">
               {formatNumber(nodesData.activationStatus.height)}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Blocos consolidados no ledger</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Blocks verified on ledger</p>
           </CardContent>
         </Card>
 
@@ -245,22 +245,22 @@ const NodesPage = () => {
         
         <TabsList className="flex flex-wrap h-auto gap-1 bg-muted/30 p-1 border border-border/60 rounded-xl overflow-x-auto w-full md:grid md:grid-cols-6">
           <TabsTrigger value="connected" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <Wifi className="w-3.5 h-3.5" /> Ativos
+            <Wifi className="w-3.5 h-3.5" /> Active Peers
           </TabsTrigger>
           <TabsTrigger value="features" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <Settings className="w-3.5 h-3.5" /> Recursos
+            <Settings className="w-3.5 h-3.5" /> Features
           </TabsTrigger>
           <TabsTrigger value="rewards" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <Award className="w-3.5 h-3.5" /> Recompensas
+            <Award className="w-3.5 h-3.5" /> Rewards
           </TabsTrigger>
           <TabsTrigger value="time" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <Clock className="w-3.5 h-3.5" /> Sincronismo
+            <Clock className="w-3.5 h-3.5" /> Time Sync
           </TabsTrigger>
           <TabsTrigger value="blacklisted" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <WifiOff className="w-3.5 h-3.5" /> Bloqueados
+            <WifiOff className="w-3.5 h-3.5" /> Blacklisted
           </TabsTrigger>
           <TabsTrigger value="suspended" className="flex items-center gap-1.5 rounded-lg py-2.5 font-semibold text-xs md:text-sm">
-            <Shield className="w-3.5 h-3.5" /> Suspensos
+            <Shield className="w-3.5 h-3.5" /> Suspended
           </TabsTrigger>
         </TabsList>
 
@@ -273,7 +273,7 @@ const NodesPage = () => {
             <Input
               value={peerSearch}
               onChange={(e) => setPeerSearch(e.target.value)}
-              placeholder="Filtrar peers por nome ou IP..."
+              placeholder="Filter peers by name or address..."
               className="pl-9 pr-4 py-5 bg-background/50 border-border text-xs rounded-xl focus-visible:ring-emerald-500/50"
             />
           </div>
@@ -282,10 +282,10 @@ const NodesPage = () => {
             <CardHeader className="pb-4 border-b border-border/40">
               <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
                 <Wifi className="w-4 h-4 text-emerald-500" />
-                Conexões de Peers Ativas
+                Active Connected Peers
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Lista de nós ativos propagando blocos e transações no ledger da AMZX.
+                Active nodes broadcasting blocks and transactions across the AMZX ledger.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -295,10 +295,10 @@ const NodesPage = () => {
                 <Table>
                   <TableHeader className="bg-muted/10">
                     <TableRow className="border-b border-border/40">
-                      <TableHead className="text-xs font-bold text-muted-foreground pl-6">Nome do Nó</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground">Endereço IP</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground">Aplicação</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground">Versão</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground pl-6">Node Name</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">IP / Endpoint</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">Application</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">Version</TableHead>
                       <TableHead className="text-xs font-bold text-muted-foreground pr-6 text-right">Peer Nonce</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -307,7 +307,7 @@ const NodesPage = () => {
                     <TableRow className="border-b border-border/30 hover:bg-muted/10">
                       <TableCell className="font-bold text-emerald-500 flex items-center gap-1.5 pl-6 py-4">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        AMZX Blockchain Node (Principal)
+                        AMZX Blockchain Node (Primary)
                       </TableCell>
                       <TableCell className="font-mono text-xs">
                         <span className="inline-flex items-center gap-1">
@@ -427,26 +427,26 @@ const NodesPage = () => {
             <CardHeader className="pb-4 border-b border-border/40">
               <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
                 <Settings className="w-4 h-4 text-emerald-500" />
-                Ativação de Recursos da Blockchain
+                Blockchain Protocol Feature Activation
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Recursos tecnológicos implementados na rede e o progresso de votação de novos protocolos.
+                Protocol features implemented across the network and ongoing voting progress.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 space-y-6">
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-xl border border-border/50 bg-background/50 flex flex-col justify-between">
-                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Intervalo de Votos</span>
-                  <div className="text-xl font-extrabold text-foreground mt-2">{nodesData.activationStatus.votingInterval} blocos</div>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Voting Interval</span>
+                  <div className="text-xl font-extrabold text-foreground mt-2">{nodesData.activationStatus.votingInterval} blocks</div>
                 </div>
                 <div className="p-4 rounded-xl border border-border/50 bg-background/50 flex flex-col justify-between">
-                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Próxima Verificação</span>
-                  <div className="text-xl font-extrabold text-foreground mt-2">Bloco #{formatNumber(nodesData.activationStatus.nextCheck)}</div>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Next Check</span>
+                  <div className="text-xl font-extrabold text-foreground mt-2">Block #{formatNumber(nodesData.activationStatus.nextCheck)}</div>
                 </div>
                 <div className="p-4 rounded-xl border border-border/50 bg-background/50 flex flex-col justify-between">
-                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Limite de Votação</span>
-                  <div className="text-xl font-extrabold text-foreground mt-2">{nodesData.activationStatus.votingThreshold} votos</div>
+                  <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block">Voting Threshold</span>
+                  <div className="text-xl font-extrabold text-foreground mt-2">{nodesData.activationStatus.votingThreshold} votes</div>
                 </div>
               </div>
 
@@ -455,11 +455,11 @@ const NodesPage = () => {
                 <Table>
                   <TableHeader className="bg-muted/10">
                     <TableRow className="border-b border-border/40">
-                      <TableHead className="text-xs font-bold text-muted-foreground">ID do Recurso</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground">Descrição</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">Feature ID</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">Description</TableHead>
                       <TableHead className="text-xs font-bold text-muted-foreground">Status</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground">Altura de Ativação</TableHead>
-                      <TableHead className="text-xs font-bold text-muted-foreground text-right">Blocos Apoiadores</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground">Activation Height</TableHead>
+                      <TableHead className="text-xs font-bold text-muted-foreground text-right">Supporting Blocks</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -490,49 +490,49 @@ const NodesPage = () => {
             
             <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all">
               <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Recompensa Atual</CardTitle>
+                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Current Reward</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-black text-emerald-500 font-mono">
                   {formatNumber(nodesData.blockchainRewards.currentReward / Math.pow(10, 8))} {getCoinName()}
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">Por bloco minerado</p>
+                <p className="text-[10px] text-muted-foreground mt-1">Per forged block</p>
               </CardContent>
             </Card>
 
             <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all">
               <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Fornecimento Total ({getCoinName()})</CardTitle>
+                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total Supply ({getCoinName()})</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-black text-foreground font-mono">
                   {formatNumber(nodesData.blockchainRewards.totalWavesAmount / Math.pow(10, 8))} {getCoinName()}
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">Em circulação no ledger</p>
+                <p className="text-[10px] text-muted-foreground mt-1">Circulating on ledger</p>
               </CardContent>
             </Card>
 
             <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all">
               <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Mandato de Votos</CardTitle>
+                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Voting Term</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-black text-foreground font-mono">
                   {nodesData.blockchainRewards.term}
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">Duração do mandato de voto</p>
+                <p className="text-[10px] text-muted-foreground mt-1">Voting term duration</p>
               </CardContent>
             </Card>
 
             <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all">
               <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Verificação de Recompensa</CardTitle>
+                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Next Reward Check</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-black text-foreground font-mono">
                   {formatNumber(nodesData.blockchainRewards.nextCheck)}
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">Próxima verificação de altura</p>
+                <p className="text-[10px] text-muted-foreground mt-1">Next target height check</p>
               </CardContent>
             </Card>
 
@@ -545,10 +545,10 @@ const NodesPage = () => {
               <CardHeader className="border-b border-border/40 pb-4">
                 <CardTitle className="text-sm font-bold flex items-center gap-2">
                   <BarChart3 className="w-4 h-4 text-emerald-500" />
-                  Status de Votação (Ajuste de Incentivos)
+                  Voting Status (Incentive Adjustments)
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
-                  Propostas de incentivo e votos ativos para modificação de recompensa dos validadores.
+                  Incentive proposals and active validator votes for reward parameter modifications.
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6 space-y-4">
@@ -556,7 +556,7 @@ const NodesPage = () => {
                   <div className="flex items-center justify-between py-2 border-b border-border/30">
                     <div className="flex items-center gap-2">
                       <ArrowUp className="h-4 w-4 text-emerald-500" />
-                      <span className="text-muted-foreground">Votos para Aumentar</span>
+                      <span className="text-muted-foreground">Votes to Increase</span>
                     </div>
                     <span className="font-bold text-foreground font-mono">
                       {nodesData.blockchainRewards.votes.increase}
@@ -565,7 +565,7 @@ const NodesPage = () => {
                   <div className="flex items-center justify-between py-2 border-b border-border/30">
                     <div className="flex items-center gap-2">
                       <ArrowDown className="h-4 w-4 text-rose-500" />
-                      <span className="text-muted-foreground">Votos para Diminuir</span>
+                      <span className="text-muted-foreground">Votes to Decrease</span>
                     </div>
                     <span className="font-bold text-foreground font-mono">
                       {nodesData.blockchainRewards.votes.decrease}
@@ -574,10 +574,10 @@ const NodesPage = () => {
                   <div className="flex items-center justify-between py-2">
                     <div className="flex items-center gap-2">
                       <Info className="h-4 w-4 text-emerald-500/80" />
-                      <span className="text-muted-foreground">Limite Regulatório (Threshold)</span>
+                      <span className="text-muted-foreground">Regulatory Voting Threshold</span>
                     </div>
                     <span className="font-bold text-foreground font-mono">
-                      {nodesData.blockchainRewards.votingThreshold} votos
+                      {nodesData.blockchainRewards.votingThreshold} votes
                     </span>
                   </div>
                 </div>
@@ -589,30 +589,30 @@ const NodesPage = () => {
               <CardHeader className="border-b border-border/40 pb-4">
                 <CardTitle className="text-sm font-bold flex items-center gap-2">
                   <Database className="w-4 h-4 text-emerald-500" />
-                  Parâmetros e Endereço DAO
+                  Parameters & DAO Address
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
-                  Alocações corporativas e incremento mínimo de ajustes de recompensas da DAO.
+                  Corporate allocations and minimum reward increment adjustments.
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6 space-y-4">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between items-center py-2 border-b border-border/30">
-                    <span className="text-muted-foreground">Incremento Mínimo</span>
+                    <span className="text-muted-foreground">Minimum Increment</span>
                     <span className="font-bold text-foreground font-mono">
                       {formatNumber(nodesData.blockchainRewards.minIncrement / Math.pow(10, 8))} {getCoinName()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-border/30">
-                    <span className="text-muted-foreground">Início do Intervalo de Votação</span>
+                    <span className="text-muted-foreground">Voting Interval Start</span>
                     <span className="font-bold text-foreground font-mono">
                       {formatNumber(nodesData.blockchainRewards.votingIntervalStart)}
                     </span>
                   </div>
                   <div className="flex flex-col py-2 gap-1.5">
-                    <span className="text-muted-foreground">Endereço da Carteira DAO</span>
+                    <span className="text-muted-foreground">DAO Treasury Address</span>
                     <span className="font-mono text-xs break-all bg-muted/40 p-2 rounded-xl border border-border">
-                      {nodesData.blockchainRewards.daoAddress || 'Não configurado'}
+                      {nodesData.blockchainRewards.daoAddress || 'Not configured'}
                     </span>
                   </div>
                 </div>
@@ -675,10 +675,10 @@ const NodesPage = () => {
             <CardHeader className="pb-4 border-b border-border/40">
               <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
                 <WifiOff className="w-4 h-4 text-rose-500" />
-                Peers Bloqueados (Segurança)
+                Blacklisted Peers (Security)
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Lista de endereços e hostnames banidos temporariamente ou permanentemente do ledger por mau comportamento.
+                Hostnames and IP addresses temporarily or permanently banned from the peer ledger.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -689,8 +689,8 @@ const NodesPage = () => {
                     <TableHeader className="bg-muted/10">
                       <TableRow className="border-b border-border/40">
                         <TableHead className="text-xs font-bold text-muted-foreground pl-6">Hostname / IP</TableHead>
-                        <TableHead className="text-xs font-bold text-muted-foreground">Data do Banimento</TableHead>
-                        <TableHead className="text-xs font-bold text-muted-foreground pr-6">Motivo da Suspensão</TableHead>
+                        <TableHead className="text-xs font-bold text-muted-foreground">Banned At</TableHead>
+                        <TableHead className="text-xs font-bold text-muted-foreground pr-6">Reason</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -707,7 +707,7 @@ const NodesPage = () => {
               ) : (
                 <div className="text-center py-12 text-xs text-muted-foreground">
                   <Heart className="w-8 h-8 text-emerald-500/60 mx-auto mb-2" />
-                  Nenhum peer bloqueado na rede atualmente. Comportamento excelente!
+                  No peers blacklisted on the network. Excellent consensus behavior!
                 </div>
               )}
 
@@ -721,10 +721,10 @@ const NodesPage = () => {
             <CardHeader className="pb-4 border-b border-border/40">
               <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
                 <Shield className="w-4 h-4 text-amber-500" />
-                Peers Suspensos Temporariamente
+                Suspended Peers
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Nós com conexões interrompidas temporariamente para estabilização de latência.
+                Nodes with connections temporarily suspended for peer latency stabilization.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -735,7 +735,7 @@ const NodesPage = () => {
                     <TableHeader className="bg-muted/10">
                       <TableRow className="border-b border-border/40">
                         <TableHead className="text-xs font-bold text-muted-foreground pl-6">Hostname / IP</TableHead>
-                        <TableHead className="text-xs font-bold text-muted-foreground pr-6">Suspenso em</TableHead>
+                        <TableHead className="text-xs font-bold text-muted-foreground pr-6">Suspended At</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -751,7 +751,7 @@ const NodesPage = () => {
               ) : (
                 <div className="text-center py-12 text-xs text-muted-foreground">
                   <Heart className="w-8 h-8 text-emerald-500/60 mx-auto mb-2" />
-                  Nenhum peer temporariamente suspenso. Sincronização impecável!
+                  No peers currently suspended. Flawless synchronization!
                 </div>
               )}
 

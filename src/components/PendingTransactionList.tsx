@@ -136,9 +136,9 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-bold font-mono text-card-foreground">Mempool Vazio</p>
+            <p className="text-sm font-bold font-mono text-card-foreground">Empty Mempool</p>
             <p className="text-xs text-muted-foreground mt-1 max-w-[260px] mx-auto">
-              Nenhuma transação pendente. A rede está 100% sincronizada e processando as transações instantaneamente!
+              No pending transactions. All network transactions have been confirmed into blocks.
             </p>
           </div>
         </CardContent>

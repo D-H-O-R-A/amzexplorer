@@ -292,7 +292,7 @@ const TransactionView = () => {
           <AccordionTrigger className="px-4 sm:px-6 py-4 border-b border-border/80 hover:no-underline bg-muted/20 text-foreground font-bold text-sm sm:text-base">
             <div className="flex items-center gap-2">
               <Fingerprint className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" />
-              TRANSAÇÕES RELACIONADAS
+              RELATED TRANSACTIONS
             </div>
           </AccordionTrigger>
           <AccordionContent className="p-6 bg-transparent">
@@ -301,7 +301,7 @@ const TransactionView = () => {
                 <div className="rounded-full border border-dashed border-border p-3.5 bg-muted/30">
                   <Code className="w-5 h-5 text-muted-foreground/60" />
                 </div>
-                <p className="text-muted-foreground text-sm font-medium">Nenhuma transação relacionada encontrada para este ID.</p>
+                <p className="text-muted-foreground text-sm font-medium">No related transactions found for this ID.</p>
               </div>
             </div>
           </AccordionContent>

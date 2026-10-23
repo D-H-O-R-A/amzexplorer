@@ -756,9 +756,9 @@ function prettyAddress( $address )
 {
     $len = strlen( $address );
     if( $len >= 34 && $len <= 36 )
-        return substr( $address, 0, 6 ) . '&#183;&#183;&#183;' . substr( $address, -4 );
+        return substr( $address, 0, 6 ) . '···' . substr( $address, -4 );
     if( $len >= 32 )
-        return substr( $address, 0, 3 ) . '&#183;&#183;&#183;' . substr( $address, -3 );
+        return substr( $address, 0, 3 ) . '···' . substr( $address, -3 );
     return $address;
 }
 
@@ -786,14 +786,14 @@ function w8io_print_sync_pending()
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; z-index: 1;">⚡</div>
             </div>
             
-            <h3 style="font-size: 26px; font-weight: 700; margin: 0 0 15px 0; background: linear-gradient(135deg, #00ffcc 0%, #0099ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; z-index: 1; letter-spacing: -0.5px;">Sincronização em Andamento</h3>
-            <p style="font-size: 15px; color: #a0aec0; line-height: 1.6; margin: 0 0 25px 0; position: relative; z-index: 1;">
-                O indexador do FullExplorer está reconstruindo o banco de dados a partir do bloco gênese da nova blockchain.
+            <h3 style="font-size: 26px; font-weight: 700; margin: 0 0 15px 0; background: linear-gradient(135deg, #10b981 0%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; z-index: 1; letter-spacing: -0.5px;">Synchronization in Progress</h3>
+            <p style="font-size: 15px; color: #64748b; line-height: 1.6; margin: 0 0 25px 0; position: relative; z-index: 1;">
+                The FullExplorer indexer is synchronizing the database directly from the blockchain genesis block.
             </p>
             
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 255, 204, 0.06); border: 1px solid rgba(0, 255, 204, 0.15); border-radius: 12px; padding: 10px 20px; font-size: 13px; color: #00ffcc; font-weight: 500; position: relative; z-index: 1; animation: pulse 2s infinite;">
-                <span style="display: inline-block; width: 6px; height: 6px; background-color: #00ffcc; border-radius: 50%; animation: ping 1.5s infinite;"></span>
-                Aguardando blocos serem indexados...
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 10px 20px; font-size: 13px; color: #10b981; font-weight: 500; position: relative; z-index: 1; animation: pulse 2s infinite;">
+                <span style="display: inline-block; width: 6px; height: 6px; background-color: #10b981; border-radius: 50%; animation: ping 1.5s infinite;"></span>
+                Waiting for blocks to index...
             </div>
         </div>
     </div>
@@ -821,45 +821,45 @@ function prolog()
     global $L;
     global $urio;
 
-    $L = (int)( $_COOKIE['L'] ?? 0 ) === 1;
+    $L = !isset( $_COOKIE['L'] ) || (int)$_COOKIE['L'] === 1;
     $displayAddress = prettyAddress( $address );
-    $title = 'AMZ Explorer FullExplorer';
-    $description = 'AMZ Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain AMZX Blockchain (AMZ).';
+    $title = 'AMZ FullExplorer';
+    $description = 'AMZ FullExplorer - High-performance on-chain block, address, and transaction indexer for AMZX Blockchain.';
     
     if( $address === 'tx' && $f !== false )
     {
-        $title = 'Transação ' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
-        $description = 'Consulte a transação ' . htmlspecialchars( $f ) . ' na rede blockchain AMZ Explorer. Inspecione remetente, destinatário, taxas, transferências e confirmações.';
+        $title = 'Transaction ' . htmlspecialchars( $f ) . ' · AMZ FullExplorer';
+        $description = 'Inspect transaction ' . htmlspecialchars( $f ) . ' on AMZ Blockchain. View sender, recipient, fees, token transfers, and confirmations.';
     }
     else if( $address === 'b' && $f !== false )
     {
-        $title = 'Bloco #' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
-        $description = 'Consulte o bloco #' . htmlspecialchars( $f ) . ' na blockchain AMZ Explorer. Validador gerador, transações incluídas, taxas coletadas e consenso.';
+        $title = 'Block #' . htmlspecialchars( $f ) . ' · AMZ FullExplorer';
+        $description = 'Inspect block #' . htmlspecialchars( $f ) . ' on AMZ Blockchain. Validator generator, included transactions, fees, and consensus.';
     }
     else if( $address === 'GENERATORS' )
     {
-        $title = 'Geradores de Blocos & Validadores · AMZ Explorer FullExplorer';
-        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede AMZX Blockchain (AMZ).';
+        $title = 'Block Generators & Validators · AMZ FullExplorer';
+        $description = 'Leaderboard of block generators, mining nodes, and PoS consensus validators on AMZX Blockchain.';
     }
     else if( $address === 'top' )
     {
-        $title = 'Ranking de Maiores Balanços (Rich List) · AMZ Explorer FullExplorer';
-        $description = 'Contas com maiores saldos e distribuição de moedas AMZ na blockchain AMZ Explorer.';
+        $title = 'Top Balances (Rich List) · AMZ FullExplorer';
+        $description = 'Top balance accounts and token distribution on AMZX Blockchain.';
     }
     else if( $address === 'ACTIVATION' )
     {
-        $title = 'Status das Features de Protocolo · AMZ Explorer FullExplorer';
-        $description = 'Status de consenso e ativação de propostas de melhoria na blockchain AMZ Explorer.';
+        $title = 'Protocol Feature Status · AMZ FullExplorer';
+        $description = 'Consensus status and feature activation tracking on AMZX Blockchain.';
     }
     else if( $address === 'tk' && $f !== false )
     {
-        $title = 'Token / Ativo ' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
-        $description = 'Detalhes do token/ativo ' . htmlspecialchars( $f ) . ' na blockchain AMZ Explorer.';
+        $title = 'Token / Asset ' . htmlspecialchars( $f ) . ' · AMZ FullExplorer';
+        $description = 'Token and asset details for ' . htmlspecialchars( $f ) . ' on AMZ Blockchain.';
     }
     else if( $address !== false && $address !== 'GENERATORS' )
     {
-        $title = 'Endereço ' . htmlspecialchars( $displayAddress ) . ' · AMZ Explorer FullExplorer';
-        $description = 'Histórico de transações, saldo e dados on-chain do endereço ' . htmlspecialchars( $displayAddress ) . ' na AMZ Explorer.';
+        $title = 'Address ' . htmlspecialchars( $displayAddress ) . ' · AMZ FullExplorer';
+        $description = 'Transaction history, balances, and on-chain records for address ' . htmlspecialchars( $displayAddress ) . ' on AMZ Blockchain.';
     }
 
     $canonicalPath = '';
@@ -882,16 +882,16 @@ function prolog()
 
     echo sprintf( '
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="format-detection" content="telephone=no">
         <title>%1$s</title>
         
-        <!-- Meta Tags Principais & SEO para Mecanismos de Busca -->
+        <!-- Primary SEO Meta Tags -->
         <meta name="description" content="%5$s">
-        <meta name="keywords" content="AMZ Explorer, AMZ, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
+        <meta name="keywords" content="AMZ Explorer, AMZ, Full Explorer, indexer, gRPC, RPC, blockchain, transactions, blocks, crypto, smart contracts, Ride, PoS, validators">
         <meta name="author" content="AMZ Explorer">
         <meta name="publisher" content="AMZ Explorer Foundation">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -943,8 +943,8 @@ function prolog()
           "@context": "https://schema.org",
           "@type": "WebSite",
           "url": "https://fullexplorer.amzexplorer.com/",
-          "name": "AMZ Full Explorer",
-          "description": "Indexador de alta performance para a blockchain AMZ Explorer",
+          "name": "AMZ FullExplorer",
+          "description": "High-performance on-chain indexer for AMZX Blockchain",
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://fullexplorer.amzexplorer.com/{search_term_string}",
@@ -977,7 +977,7 @@ function prolog()
                 <nav class="nav-links">
                     <a href="/GENERATORS" class="nav-link">Generators</a>
                     <a href="/ACTIVATION" class="nav-link">Activation</a>
-                    <a href="https://explorer.amzexplorer.com" class="nav-link external-link" target="_blank">Explorer &rarr;</a>
+                    <a href="https://amzexplorer.com" class="nav-link external-link" target="_blank">Explorer &rarr;</a>
                     <a id="L" href="" class="theme-toggle">%4$s</a>
                 </nav>
             </div>

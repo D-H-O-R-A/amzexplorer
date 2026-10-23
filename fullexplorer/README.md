@@ -1,66 +1,63 @@
-# ⚡ AMZ Full Explorer (API & Indexador Backend)
+# ⚡ AMZ Full Explorer (Backend Indexer & Archival API)
 
-O **AMZ Full Explorer** é um indexador de blockchain de alto desempenho e servidor de API leve e veloz baseado em PHP e SQLite. 
+The **AMZ Full Explorer** is a high-performance blockchain indexer and lightweight API engine built on PHP and SQLite.
 
-Ele atua como o cérebro relacional para a rede **AMZX Blockchain (Amazonic One)**. O indexador escuta a blockchain em tempo real, normaliza, analisa e armazena os blocos, transações de consenso, transferências, balanços de contas e interações de contratos inteligentes em tabelas SQLite locais altamente otimizadas. Isso permite consultas de API REST instantâneas para alimentar o frontend premium e fornecer dados históricos que o nó gRPC bruto não consegue responder com eficiência relacional.
-
----
-
-## 🛠️ Requisitos de Ambiente
-
-Para executar o indexador e a API localmente ou em produção, você precisará de:
-* **PHP**: Versão 7.4, 8.0, 8.1, 8.2 ou 8.3 instalado.
-* **Extensões PHP Habilitadas**:
-  * `sqlite3` (Banco de dados de armazenamento local)
-  * `curl` (Para realizar requisições HTTP rápidas ao nó de consenso)
-  * `json` (Tratamento estruturado de dados das respostas do nó)
-  * `mbstring` (Tratamento e codificação de strings UTF-8)
+It serves as the relational indexing engine for the **AMZX Network (Amazonic One)**. The indexer streams blocks from the node in real time, normalizing and persisting consensus transactions, transfers, balances, aliases, and smart contract execution traces into optimized SQLite tables. This enables fast REST API queries and historical analytics.
 
 ---
 
-## 💻 Como Iniciar e Testar Localmente
+## 🛠️ Environment Requirements
 
-### 1. Inicializar Diretórios e Permissões
-Antes do primeiro uso, certifique-se de criar a estrutura de pastas temporárias necessárias e dar permissões de gravação ao PHP:
+To run the indexer and API locally or in production:
+* **PHP**: 7.4, 8.0, 8.1, 8.2, or 8.3.
+* **Required PHP Extensions**:
+  * `sqlite3` (Local high-throughput storage)
+  * `curl` (Node RPC polling and gRPC proxy)
+  * `json` (Transaction payload serialization)
+  * `mbstring` (UTF-8 string and encoding handling)
+
+---
+
+## 💻 Local Setup & Development
+
+### 1. Initialize Directories & Permissions
+Create the required directory hierarchy and grant write permissions:
 ```bash
 mkdir -p var/db var/log var/tmp
 chmod -R 775 var
 ```
 
-### 2. Iniciar a Sincronização da Blockchain (Indexer)
-O script `w8_updater.php` é o daemon que se conecta ao nó RPC e faz o download incremental de todos os blocos:
+### 2. Start Blockchain Indexer
+The `w8_updater.php` daemon connects to the node RPC and indexes blocks incrementally:
 
-* **Sincronização Padrão (Incrementar blocos)**:
+* **Standard Continuous Indexing**:
   ```bash
   php w8_updater.php
   ```
-* **Sincronização Manual por Argumento**:
+* **Explicit Indexer Run**:
   ```bash
   php w8_updater.php indexer
   ```
-* **Rollback de Blocos (Se necessário)**:
-  Para reverter a indexação até um bloco específico em caso de reorganização de rede:
+* **Block Rollback (In case of chain reorganization)**:
   ```bash
-  php w8_updater.php rollback <numero_do_bloco>
+  php w8_updater.php rollback <target_height>
   ```
 
-Os logs de sincronização serão gravados em tempo real em `var/log/updater.log`.
+Real-time indexing logs are stored in `var/log/updater.log`.
 
-### 3. Iniciar o Servidor Web da API Localmente
-Você pode utilizar o servidor embutido do PHP para levantar o endpoint da API na porta `8000`:
+### 3. Start Local Web Server
+You can use PHP's built-in development server on port `8000`:
 ```bash
 php -S 0.0.0.0:8000 -t .
 ```
-A API REST e os endpoints de dados do Full Explorer estarão disponíveis localmente em `http://localhost:8000`.
+The REST API and Full Explorer web UI will be accessible at `http://localhost:8000`.
 
 ---
 
-## 🌐 Implantação em Servidor de Produção (Acesso Público)
+## 🌐 Production Deployment (Nginx & Systemd)
 
-Para expor o Full Explorer de forma profissional em subdomínios como `fullexplorer.amzexplorer.com` utilizando o Nginx e o PHP-FPM, siga as instruções abaixo:
-
-### 1. VirtualHost no Nginx
-Crie ou edite um arquivo de configuração no diretório de sites do Nginx (ex: `/etc/nginx/sites-available/fullexplorer`):
+### 1. Nginx VirtualHost Configuration
+Create an Nginx configuration file (e.g. `/etc/nginx/sites-available/fullexplorer`):
 
 ```nginx
 server {
@@ -88,13 +85,14 @@ server {
     }
 }
 ```
-*Após configurar, valide e recarregue o Nginx:*
+
+Verify and reload Nginx:
 ```bash
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-### 2. Serviço de Segundo Plano no Systemd (Daemonizador)
-Para que a blockchain continue indexando em segundo plano continuamente, crie o arquivo de serviço `/etc/systemd/system/amzx-indexer.service`:
+### 2. Systemd Background Service
+To keep the indexer running continuously as a daemon, create `/etc/systemd/system/amzx-indexer.service`:
 
 ```ini
 [Unit]
@@ -116,28 +114,28 @@ SyslogIdentifier=amzx-indexer
 WantedBy=multi-user.target
 ```
 
-Habilite e inicie o indexador para rodar no boot da máquina:
+Enable and start the service:
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable amzx-indexer.service
 sudo systemctl start amzx-indexer.service
 ```
 
-Para inspecionar o status do indexador ativo:
+Check status:
 ```bash
 sudo systemctl status amzx-indexer.service
 ```
 
 ---
 
-## 📝 Direitos Autorais e Licença
+## 📝 License
 
 **Proprietary Software License**
 
-Copyright (c) 2026 **Amazonic One Eco Tecnologia S.A.** e **Diego Henrique Roa Antunes** (Diego Oris). Todos os direitos reservados.
+Copyright (c) 2026 **Amazonic One Eco Tecnologia S.A.** & **Diego Henrique Roa Antunes** (Diego Oris). All rights reserved.
 
 ---
 
-## 👥 Créditos e Agradecimentos
+## 👥 Acknowledgments
 
-Este projeto utiliza como motor central de indexação uma versão estendida e customizada do motor open-source de alto desempenho **W8IO**, concebido e desenvolvido originalmente pelo desenvolvedor **Dmitrii Pichulin** ([deemru](https://github.com/deemru) / [github.com/deemru](https://github.com/deemru)), distribuído sob os termos da Licença MIT.
+The core indexing pipeline is adapted from the open-source **W8IO** engine developed by **Dmitrii Pichulin** ([deemru](https://github.com/deemru)), released under the MIT License.

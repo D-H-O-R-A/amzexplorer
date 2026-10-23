@@ -159,17 +159,17 @@ const AddressPage = () => {
       className="min-h-screen px-4 md:px-8 py-8 pb-24 md:pb-8"
     >
       <SEO 
-        title={`Endereço ${address ? address.substring(0, 10) + '...' : ''}`}
-        description={`Consulta on-chain do endereço ${address} na blockchain AMZX. Saldo de AMZ, tokens eRWA, NFTs ecológicos, transações e contratos associados.`}
+        title={`Address ${address ? address.substring(0, 10) + '...' : ''}`}
+        description={`On-chain record for address ${address} on the AMZX blockchain. Balances, tokens, NFTs, transactions, and associated smart contracts.`}
       />
       <div className="container mx-auto max-w-5xl">
         {loading ? (
           <div className="flex flex-col justify-center items-center p-20 gap-4">
             <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <span className="text-sm text-muted-foreground font-medium">Carregando carteira e ativos...</span>
+            <span className="text-sm text-muted-foreground font-medium">Loading account and assets...</span>
           </div>
         ) : !isValidAddressState ? (
-          // Gorgeous High-Fidelity Validation Failure Screen
+          // High-Fidelity Validation Failure Screen
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -180,19 +180,19 @@ const AddressPage = () => {
             </div>
             
             <div className="space-y-2">
-              <h1 className="text-xl md:text-2xl font-extrabold text-foreground">Endereço Incompatível</h1>
+              <h1 className="text-xl md:text-2xl font-extrabold text-foreground">Incompatible Address</h1>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                O endereço fornecido <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> é inválido ou incompatível com a rede <span className="font-bold text-emerald-500">AMZX</span>.
+                The provided address <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> is invalid or incompatible with the <span className="font-bold text-emerald-500">AMZX</span> network.
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-background/50 border border-border/40 text-left space-y-2 text-xs text-muted-foreground leading-relaxed">
               <div className="flex items-center gap-1.5 font-bold text-foreground mb-1">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Regras de Rede AMZX:
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> AMZX Network Rules:
               </div>
-              <p>• O Chain ID esperado para este nó é <span className="font-bold text-emerald-500">"{String.fromCharCode(getChainId())}"</span> (Byte: {getChainId()}).</p>
-              <p>• Os endereços devem ser criptograficamente válidos seguindo o protocolo de hashing do ecossistema.</p>
-              <p>• Endereços EVM (<code className="font-mono">0x...</code>) são convertidos automaticamente se baseados no mesmo Chain ID.</p>
+              <p>• Expected Chain ID for this node is <span className="font-bold text-emerald-500">"{String.fromCharCode(getChainId())}"</span> (Byte: {getChainId()}).</p>
+              <p>• Addresses must be cryptographically valid Base58 strings.</p>
+              <p>• EVM addresses (<code className="font-mono">0x...</code>) are automatically mapped if originating on the same Chain ID.</p>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -200,7 +200,7 @@ const AddressPage = () => {
                 onClick={() => navigate('/')} 
                 className="w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold py-5 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/15"
               >
-                <ArrowLeft className="w-4 h-4" /> Voltar para o Início
+                <ArrowLeft className="w-4 h-4" /> Back to Home
               </Button>
             </div>
           </motion.div>
@@ -220,10 +220,10 @@ const AddressPage = () => {
             </div>
             <h2 className="text-2xl font-bold">Address Details Unavailable</h2>
             <p className="text-muted-foreground max-w-sm mx-auto">
-              Não foi possível renderizar os dados do portfólio deste endereço de conta. Tente novamente mais tarde.
+              Could not render account portfolio data for this address. Please try again later.
             </p>
             <Button variant="outline" onClick={() => navigate('/')}>
-              Voltar ao Início
+              Back to Home
             </Button>
           </div>
         )}

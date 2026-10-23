@@ -39,7 +39,7 @@ const BlockView = () => {
           setBlock(blockData);
         } catch (error) {
           console.error("Error loading block:", error);
-          toast.error("Erro ao obter dados do bloco on-chain.");
+          toast.error("Failed to load on-chain block data.");
         } finally {
           setLoading(false);
         }
@@ -81,9 +81,9 @@ const BlockView = () => {
     return (
       <div className="p-8 text-center border border-dashed border-border/80 rounded-3xl bg-background/20 max-w-xl mx-auto space-y-3.5">
         <Terminal className="w-10 h-10 text-rose-500 mx-auto animate-pulse" />
-        <h3 className="text-lg font-bold text-foreground">Bloco Não Encontrado</h3>
+        <h3 className="text-lg font-bold text-foreground">Block Not Found</h3>
         <p className="text-xs text-muted-foreground leading-normal">
-          O bloco de altura <strong className="text-foreground font-mono">#{height}</strong> não pôde ser localizado na rede atual ou ainda não foi emitido pelos validadores.
+          Block at height <strong className="text-foreground font-mono">#{height}</strong> could not be found on the current network or has not been forged yet.
         </p>
       </div>
     );

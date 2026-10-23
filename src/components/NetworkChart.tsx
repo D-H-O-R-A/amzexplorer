@@ -55,8 +55,8 @@ interface MetricMeta {
 const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
   transactions: {
     id: 'transactions',
-    label: 'Volume de Transações',
-    shortLabel: 'Transações',
+    label: 'Transaction Volume',
+    shortLabel: 'Transactions',
     unit: 'txs',
     icon: Zap,
     strokeColor: '#10b981', // emerald-500
@@ -68,8 +68,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
   },
   blockTime: {
     id: 'blockTime',
-    label: 'Tempo de Produção (Latência)',
-    shortLabel: 'Tempo de Bloco',
+    label: 'Block Generation Time (Latency)',
+    shortLabel: 'Block Time',
     unit: 's',
     icon: Clock,
     strokeColor: '#8b5cf6', // violet-500
@@ -81,8 +81,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
   },
   blockSize: {
     id: 'blockSize',
-    label: 'Tamanho dos Blocos',
-    shortLabel: 'Tamanho (KB)',
+    label: 'Block Size (KB)',
+    shortLabel: 'Size (KB)',
     unit: 'KB',
     icon: Database,
     strokeColor: '#f59e0b', // amber-500
@@ -94,8 +94,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
   },
   fees: {
     id: 'fees',
-    label: 'Taxas Coletadas por Bloco',
-    shortLabel: 'Taxas (AMZ)',
+    label: 'Collected Block Fees',
+    shortLabel: 'Fees (AMZ)',
     unit: 'AMZ',
     icon: Coins,
     strokeColor: '#10b981', // emerald-500
@@ -134,12 +134,12 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 
       // 1. Get latest block height
       const lastRes = await fetch(`${apiUrl}/blocks/last`);
-      if (!lastRes.ok) throw new Error('Falha ao obter último bloco da rede');
+      if (!lastRes.ok) throw new Error('Failed to fetch latest block');
       const lastBlock = await lastRes.json();
       const latestHeight = Number(lastBlock.height);
 
       if (!latestHeight || isNaN(latestHeight)) {
-        throw new Error('Altura do bloco inválida');
+        throw new Error('Invalid block height');
       }
 
       const fromHeight = Math.max(1, latestHeight - blockRange + 1);
@@ -287,7 +287,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
           <div className="space-y-1.5 text-[11px]">
             <div className="flex items-center justify-between">
               <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                <Zap className="h-3 w-3 text-emerald-600 dark:text-emerald-400" /> Transações:
+                <Zap className="h-3 w-3 text-emerald-600 dark:text-emerald-400" /> Transactions:
               </span>
               <span className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded text-[11px]">
                 {data.transactions} txs
@@ -354,11 +354,11 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                 </h3>
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-500 font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                  Tempo Real
+                  Live
                 </span>
               </div>
               <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                Monitoramento de vazão (throughput), latência e blocos validados
+                Real-time throughput, latency, and block validation telemetry
               </p>
             </div>
           </div>
@@ -419,30 +419,30 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
 
       {/* 2. Micro KPI Stats Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {/* KPI 1: Transações no Período */}
+        {/* KPI 1: Transactions in Range */}
         <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-emerald-500/20 dark:border-emerald-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/40 transition-all">
           <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <Zap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              Volume de Tx ({blockRange}B)
+              Tx Volume ({blockRange}B)
             </span>
           </div>
           <div className="mt-1.5">
             <div className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400">
-              {isLoading ? '...' : `${stats.totalTxs.toLocaleString('pt-BR')} txs`}
+              {isLoading ? '...' : `${stats.totalTxs.toLocaleString('en-US')} txs`}
             </div>
             <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
-              Média: ~{stats.avgTxs.toFixed(1)} / bloco
+              Avg: ~{stats.avgTxs.toFixed(1)} / block
             </div>
           </div>
         </div>
 
-        {/* KPI 2: Tempo Médio de Bloco */}
+        {/* KPI 2: Average Block Time */}
         <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-violet-500/20 dark:border-violet-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/40 transition-all">
           <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
-              Tempo Médio
+              Avg Block Time
             </span>
           </div>
           <div className="mt-1.5">
@@ -450,17 +450,17 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
               {isLoading ? '...' : `${stats.avgBlockTime.toFixed(1)}s`}
             </div>
             <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
-              Alvo da Rede: ~60s
+              Target: ~60s
             </div>
           </div>
         </div>
 
-        {/* KPI 3: Pico de Atividade */}
+        {/* KPI 3: Peak Activity */}
         <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-amber-500/20 dark:border-amber-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-amber-500/40 transition-all">
           <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <TrendingUp className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-              Pico de Atividade
+              Peak Activity
             </span>
           </div>
           <div className="mt-1.5">
@@ -468,17 +468,17 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
               {isLoading ? '...' : `${stats.peakBlock.txs} txs`}
             </div>
             <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
-              Bloco #{stats.peakBlock.height}
+              Block #{stats.peakBlock.height}
             </div>
           </div>
         </div>
 
-        {/* KPI 4: Tamanho Médio */}
+        {/* KPI 4: Average Size */}
         <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-emerald-500/20 dark:border-emerald-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/40 transition-all">
           <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <Database className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              Tamanho Médio
+              Avg Block Size
             </span>
           </div>
           <div className="mt-1.5">
@@ -486,7 +486,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
               {isLoading ? '...' : `${stats.avgSizeKb.toFixed(2)} KB`}
             </div>
             <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
-              {chartData.length} blocos analisados
+              {chartData.length} blocks analyzed
             </div>
           </div>
         </div>
@@ -620,12 +620,12 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
             <span className="text-foreground font-medium">{currentMeta.label}</span>
           </span>
           <span className="text-slate-400 dark:text-slate-600">|</span>
-          <span>Amostragem: Últimos {blockRange} blocos validados</span>
+          <span>Sample: Last {blockRange} confirmed blocks</span>
         </div>
 
         {lastUpdated && (
           <span className="text-[10px] text-slate-500 dark:text-slate-500">
-            Atualizado às {lastUpdated.toLocaleTimeString('pt-BR')} (Auto-refresh 30s)
+            Updated at {lastUpdated.toLocaleTimeString('en-US')} (Auto-refresh 30s)
           </span>
         )}
       </div>

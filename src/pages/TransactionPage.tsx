@@ -97,8 +97,8 @@ const TransactionPage = () => {
         className="min-h-screen bg-transparent text-foreground"
       >
         <SEO 
-          title={`Transação ${id ? id.substring(0, 12) + '...' : ''}`}
-          description={`Detalhes da transação ${id} na blockchain AMZX. Remetente, destinatário, valores transferidos, taxas, bloco e confirmações on-chain.`}
+          title={`Transaction ${id ? id.substring(0, 12) + '...' : ''}`}
+          description={`Details for transaction ${id} on the AMZX blockchain. Sender, recipient, amount, fees, block height, and confirmations.`}
         />
         <div className="container mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Mobile-first sticky header */}

@@ -64,7 +64,7 @@ const BlocksPage = () => {
         }
       } catch (error) {
         console.error("Error loading blocks:", error);
-        toast.error("Erro ao carregar blocos on-chain.");
+        toast.error("Failed to fetch on-chain blocks.");
       } finally {
         setIsLoading(false);
       }
@@ -153,7 +153,7 @@ const BlocksPage = () => {
       setHasMore(moreBlocks.length > 0 && moreBlocks[moreBlocks.length - 1].height > 1);
     } catch (error) {
       console.error("Error loading more blocks:", error);
-      toast.error("Erro ao carregar lote adicional de blocos.");
+      toast.error("Failed to load additional blocks.");
     } finally {
       setIsLoading(false);
     }
@@ -163,7 +163,7 @@ const BlocksPage = () => {
     e.preventDefault();
     const h = parseInt(searchHeight.trim());
     if (isNaN(h) || h <= 0) {
-      toast.error("Por favor, digite uma altura de bloco válida.");
+      toast.error("Please enter a valid block height.");
       return;
     }
     navigate(`/block/${h}`);
@@ -178,8 +178,8 @@ const BlocksPage = () => {
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in pb-20">
       <SEO 
-        title="Explorador de Blocos On-Chain"
-        description="Navegue, inspecione e filtre em tempo real todos os blocos minerados e validados na blockchain AMZX. Acompanhe geradores, tamanhos de bloco e transações."
+        title="On-Chain Blocks Explorer"
+        description="Inspect and filter all mined and validated blocks on the AMZX blockchain in real time. Track block proposers, sizes, and transactions."
       />
       
       {/* Hero Banner Section */}
@@ -189,13 +189,13 @@ const BlocksPage = () => {
           <div className="space-y-3">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
-              Consenso LPoS Telemetria
+              PoS Consensus Telemetry
             </div>
             <h1 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">
-              Explorador de <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">Blocos</span>
+              Block <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">Explorer</span>
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-              Navegue, inspecione e filtre em tempo real todos os blocos emitidos e validados pela rede descentralizada do <strong className="text-foreground font-semibold">AMZX ({getCoinName()})</strong>.
+              Inspect and verify all blocks emitted and secured by the decentralized <strong className="text-foreground font-semibold">AMZX ({getCoinName()})</strong> consensus network.
             </p>
           </div>
           
@@ -203,14 +203,14 @@ const BlocksPage = () => {
           <Card className="border border-border/60 bg-background/50 backdrop-blur-xl p-4 md:p-5 shadow-lg rounded-2xl w-full md:max-w-xs shrink-0">
             <form onSubmit={handleSearch} className="space-y-3">
               <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider block">
-                Buscar Bloco por Altura
+                Search Block by Height
               </label>
               <div className="relative">
                 <Input
                   type="text"
                   value={searchHeight}
                   onChange={(e) => setSearchHeight(e.target.value.replace(/[^0-9]/g, ""))}
-                  placeholder="Ex: 104523"
+                  placeholder="e.g. 104523"
                   className="pl-4 pr-10 py-5 text-sm font-mono font-bold rounded-xl border-border bg-background focus-visible:ring-emerald-500/50"
                 />
                 <Button 
@@ -258,12 +258,12 @@ const BlocksPage = () => {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500" />
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Transações Recentes</span>
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Recent Transactions</span>
               <h3 className="text-2xl font-black text-foreground font-mono">
                 {totalTxsRecent > 0 ? formatNumber(totalTxsRecent) : '0'} txs
               </h3>
               <span className="text-[10px] text-muted-foreground block pt-1">
-                Soma nos últimos 20 blocos
+                Sum in last 20 blocks
               </span>
             </div>
             <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0">
@@ -277,12 +277,12 @@ const BlocksPage = () => {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500" />
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Tamanho Médio</span>
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Avg Block Size</span>
               <h3 className="text-2xl font-black text-foreground font-mono">
                 {avgBlockSize > 0 ? `${(avgBlockSize / 1024).toFixed(1)} KB` : 'Unknown'}
               </h3>
               <span className="text-[10px] text-muted-foreground block pt-1">
-                {avgBlockSize > 0 ? `${formatNumber(avgBlockSize)} bytes` : 'Calibrando métricas...'}
+                {avgBlockSize > 0 ? `${formatNumber(avgBlockSize)} bytes` : 'Calibrating...'}
               </span>
             </div>
             <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0">
@@ -296,13 +296,13 @@ const BlocksPage = () => {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500" />
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1 max-w-[calc(100%-48px)]">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Último Propositor</span>
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Latest Generator</span>
               <h3 className="text-base font-bold text-foreground font-mono truncate pt-1">
                 {latestProposer ? shortenHash(latestProposer, 6) : <Loader2 className="w-4 h-4 text-emerald-500 animate-spin" />}
               </h3>
               {latestProposer && (
                 <Link to={`/address/${latestProposer}`} className="text-[10px] text-emerald-500 hover:underline font-bold inline-flex items-center gap-0.5">
-                  Ver Validador <ChevronRight className="w-3 h-3" />
+                  View Validator <ChevronRight className="w-3 h-3" />
                 </Link>
               )}
             </div>
@@ -321,15 +321,15 @@ const BlocksPage = () => {
             <div>
               <CardTitle className="text-lg font-bold flex items-center gap-2">
                 <Blocks className="w-5.5 h-5.5 text-emerald-500" />
-                Últimos Blocos Emitidos
+                Latest Emitted Blocks
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Lista de blocos on-chain sincronizados e validados pelos nós.
+                Verified on-chain blocks synchronized across consensus nodes.
               </CardDescription>
             </div>
             {blocks.length > 0 && (
               <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 font-mono text-[10px] font-bold">
-                Mostrando {blocks.length} blocos
+                Showing {blocks.length} blocks
               </Badge>
             )}
           </div>
@@ -341,12 +341,12 @@ const BlocksPage = () => {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-b border-border/50">
-                  <TableHead className="font-bold text-muted-foreground">Altura</TableHead>
-                  <TableHead className="font-bold text-muted-foreground">Idade / Timestamp</TableHead>
-                  <TableHead className="font-bold text-muted-foreground">Transações</TableHead>
-                  <TableHead className="font-bold text-muted-foreground">Validador Propositor</TableHead>
-                  <TableHead className="font-bold text-muted-foreground">Tamanho do Bloco</TableHead>
-                  <TableHead className="font-bold text-muted-foreground text-right">Taxas (Fees)</TableHead>
+                  <TableHead className="font-bold text-muted-foreground">Height</TableHead>
+                  <TableHead className="font-bold text-muted-foreground">Timestamp</TableHead>
+                  <TableHead className="font-bold text-muted-foreground">Transactions</TableHead>
+                  <TableHead className="font-bold text-muted-foreground">Proposer Validator</TableHead>
+                  <TableHead className="font-bold text-muted-foreground">Block Size</TableHead>
+                  <TableHead className="font-bold text-muted-foreground text-right">Fees</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -478,7 +478,7 @@ const BlocksPage = () => {
           {isLoading && (
             <div className="flex flex-col items-center justify-center py-16 gap-3">
               <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
-              <p className="text-xs text-muted-foreground animate-pulse">Sincronizando lote de blocos com a blockchain...</p>
+              <p className="text-xs text-muted-foreground animate-pulse">Syncing blocks batch with the blockchain...</p>
             </div>
           )}
 
@@ -486,9 +486,9 @@ const BlocksPage = () => {
           {blocks.length === 0 && !isLoading && (
             <div className="flex flex-col items-center justify-center text-center py-16 px-4 gap-2">
               <Blocks className="w-12 h-12 text-muted-foreground opacity-40 animate-pulse" />
-              <p className="text-sm font-semibold text-foreground">Nenhum bloco localizado</p>
+              <p className="text-sm font-semibold text-foreground">No blocks found</p>
               <p className="text-xs text-muted-foreground max-w-xs leading-normal">
-                Não foi possível encontrar blocos on-chain nesta rede. Verifique se o nó local está respondendo.
+                No on-chain blocks found. Ensure the network node is reachable.
               </p>
             </div>
           )}
@@ -500,7 +500,7 @@ const BlocksPage = () => {
                 onClick={loadMoreBlocks}
                 className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl px-10 py-5 text-xs shadow-lg shadow-emerald-500/15"
               >
-                Carregar Mais Blocos
+                Load More Blocks
               </Button>
             </div>
           )}

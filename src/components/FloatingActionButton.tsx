@@ -75,17 +75,17 @@ const FloatingActionButton = () => {
     try {
       // 1. If starts with 0x, convert or search as TX
       if (query.startsWith('0x')) {
-        toast.info("Identificado endereço Ethereum. Buscando...");
+        toast.info("Identified Ethereum address. Resolving...");
         const convertedAddress = convertEthToWavesAddress(query);
         if (!convertedAddress) {
           setSearchStatus('error');
-          toast.info("Tentando identificar como Transação EVM...");
+          toast.info("Attempting to identify as EVM Transaction...");
           navigate(`/tx/${query}`);
           setIsOpen(false);
           return;
         }
         setSearchStatus('success');
-        toast.success("Endereço Ethereum convertido com sucesso!");
+        toast.success("Ethereum address resolved successfully!");
         navigate(`/address/${convertedAddress}`);
         setIsOpen(false);
         return;
@@ -95,7 +95,7 @@ const FloatingActionButton = () => {
       const isBase58Address = /^[1-9A-HJ-NP-Za-km-z]{34,36}$/.test(query);
       if (isBase58Address) {
         setSearchStatus('success');
-        toast.success("Endereço localizado!");
+        toast.success("Address found!");
         navigate(`/address/${query}`);
         setIsOpen(false);
         return;
@@ -104,7 +104,7 @@ const FloatingActionButton = () => {
       // 3. Asset ID
       if (query.length === 44) {
         setSearchStatus('success');
-        toast.success("Asset localizado!");
+        toast.success("Asset found!");
         navigate(`/asset/${query}`);
         setIsOpen(false);
         return;
@@ -121,7 +121,7 @@ const FloatingActionButton = () => {
       // 5. Block height
       if (!isNaN(Number(query))) {
         setSearchStatus('success');
-        toast.success("Bloco localizado!");
+        toast.success("Block found!");
         navigate(`/block/${query}`);
         setIsOpen(false);
         return;
@@ -129,32 +129,32 @@ const FloatingActionButton = () => {
       
       // 6. Alias
       if (query.length < 37) {
-        toast.info("Buscando alias...");
+        toast.info("Resolving alias...");
         const resolvedAddress = await resolveAlias(query);
         
         if (resolvedAddress) {
           setSearchStatus('success');
-          toast.success("Alias resolvido com sucesso!");
+          toast.success("Alias resolved successfully!");
           navigate(`/address/${resolvedAddress}`);
           setIsOpen(false);
           return;
         } else {
           setSearchStatus('error');
-          toast.error("Alias não encontrado");
+          toast.error("Alias not found");
           return;
         }
       }
       
       // Fallback - Treat as Waves Tx ID
       setSearchStatus('success');
-      toast.success("Buscando transação...");
+      toast.success("Fetching transaction...");
       navigate(`/tx/${query}`);
       setIsOpen(false);
       
     } catch (error) {
       console.error("Search error:", error);
       setSearchStatus('error');
-      toast.error("Ocorreu um erro ao realizar a busca");
+      toast.error("An error occurred during search");
     } finally {
       setIsSearching(false);
       setTimeout(() => {
@@ -217,7 +217,7 @@ const FloatingActionButton = () => {
             <SheetHeader>
               <SheetTitle className="text-emerald-500 flex items-center gap-2 text-lg font-bold">
                 <Compass className="w-5 h-5 text-emerald-500 animate-spin-slow" />
-                <span>Busca Rápida</span>
+                <span>Quick Search</span>
                 {searchStatus === 'searching' && (
                   <Loader2 className="ml-2 w-4 h-4 text-emerald-500 animate-spin" />
                 )}
@@ -230,7 +230,7 @@ const FloatingActionButton = () => {
                   <Input
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Endereço (0x ou Base58), transação, bloco, alias..."
+                    placeholder="Address (0x or Base58), tx hash, block, alias..."
                     className={`pr-10 bg-muted/40 border-border text-foreground rounded-xl py-6 text-sm focus-visible:ring-emerald-500/50 
                       ${searchStatus === 'error' ? 'border-rose-500/50 focus-visible:ring-rose-500/45' : 
                       searchStatus === 'success' ? 'border-emerald-500/50 focus-visible:ring-emerald-500/45' : 
@@ -252,7 +252,7 @@ const FloatingActionButton = () => {
                 {searchStatus === 'error' && (
                   <div className="text-rose-500 text-xs flex items-center gap-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                    Nenhum resultado correspondente localizado. Verifique e tente novamente.
+                    No matching results found. Please check and try again.
                   </div>
                 )}
                 
@@ -264,7 +264,7 @@ const FloatingActionButton = () => {
                       onClick={() => setIsOpen(false)}
                       className="w-full border-border text-foreground hover:bg-muted/50 rounded-xl py-5 font-semibold text-xs"
                     >
-                      Cancelar
+                      Cancel
                     </Button>
                   </motion.div>
                   <motion.div whileTap={{ scale: 0.95 }} className="w-full">
@@ -276,9 +276,9 @@ const FloatingActionButton = () => {
                       {isSearching ? (
                         <span className="flex items-center justify-center gap-1.5">
                           <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          Buscando...
+                          Searching...
                         </span>
-                      ) : "Buscar"}
+                      ) : "Search"}
                     </Button>
                   </motion.div>
                 </div>

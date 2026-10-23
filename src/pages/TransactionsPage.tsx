@@ -77,133 +77,133 @@ const getTxTypeStyles = (type: number) => {
       return {
         bg: 'bg-amber-500/10 border-amber-500/20 text-amber-500 dark:text-amber-400',
         icon: <PlusCircle className="h-4 w-4" />,
-        label: 'Gênese (Genesis)',
-        desc: 'Ativação de Conta (Genesis Allocation)'
+        label: 'Genesis',
+        desc: 'Genesis Allocation'
       };
     case 2: // Payment
       return {
         bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
         icon: <ArrowRight className="h-4 w-4 text-emerald-500" />,
-        label: 'Transferência Direta',
-        desc: 'Pagamento Direto (Direct Payment)'
+        label: 'Direct Payment',
+        desc: 'Direct Payment'
       };
     case 3: // Issue
       return {
         bg: 'bg-teal-500/10 border-teal-500/20 text-teal-500 dark:text-teal-400',
         icon: <PlusCircle className="h-4 w-4" />,
-        label: 'Criação de Token (Issue)',
-        desc: 'Criação de novo ativo (Token Issue)'
+        label: 'Token Issue',
+        desc: 'Token Creation'
       };
     case 4: // Transfer
       return {
         bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
         icon: <ArrowRight className="h-4 w-4 text-emerald-500" />,
-        label: 'Transferência (Transfer)',
-        desc: 'Transferência de ativo (Asset Transfer)'
+        label: 'Transfer',
+        desc: 'Asset Transfer'
       };
     case 5: // Reissue
       return {
         bg: 'bg-teal-600/10 border-teal-600/20 text-teal-600 dark:text-teal-400',
         icon: <PlusCircle className="h-4 w-4" />,
-        label: 'Emissão Adicional (Reissue)',
-        desc: 'Geração de novos tokens do mesmo ativo (Reissue)'
+        label: 'Reissue',
+        desc: 'Asset Additional Issue'
       };
     case 6: // Burn
       return {
         bg: 'bg-rose-500/10 border-rose-500/20 text-rose-500 dark:text-rose-400',
         icon: <Flame className="h-4 w-4" />,
-        label: 'Queima de Ativo (Burn)',
-        desc: 'Redução permanente de suprimento (Token Burn)'
+        label: 'Burn',
+        desc: 'Token Supply Burn'
       };
     case 7: // Exchange
       return {
         bg: 'bg-violet-500/10 border-violet-500/20 text-violet-500 dark:text-violet-400',
         icon: <ArrowLeftRight className="h-4 w-4" />,
-        label: 'Ordem Executada (DEX)',
-        desc: 'Ordem de Matcher executada (Exchange)'
+        label: 'DEX Exchange',
+        desc: 'Matcher Order Fill'
       };
     case 8: // Lease
       return {
         bg: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-500 dark:text-indigo-400',
         icon: <Bookmark className="h-4 w-4" />,
-        label: 'Arrendamento (Lease)',
-        desc: 'Arrendamento de Stake LPoS'
+        label: 'Lease',
+        desc: 'LPoS Stake Lease'
       };
     case 9: // Lease Cancel
       return {
         bg: 'bg-purple-500/10 border-purple-500/20 text-purple-500 dark:text-purple-400',
         icon: <Bookmark className="h-4 w-4 animate-pulse" />,
-        label: 'Cancelar Lease',
-        desc: 'Cancelamento de Arrendamento de Stake'
+        label: 'Cancel Lease',
+        desc: 'Cancel Stake Lease'
       };
     case 10: // Alias
       return {
         bg: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500 dark:text-yellow-400',
         icon: <Tag className="h-4 w-4" />,
-        label: 'Criar Apelido (Alias)',
-        desc: 'Criação de Alias para Endereço'
+        label: 'Create Alias',
+        desc: 'Address Alias Registration'
       };
     case 11: // Mass Transfer
       return {
         bg: 'bg-teal-500/10 border-teal-500/20 text-teal-500 dark:text-teal-400',
         icon: <Coins className="h-4 w-4" />,
-        label: 'Transf. em Massa (Mass)',
-        desc: 'Transferência múltipla (Mass Transfer)'
+        label: 'Mass Transfer',
+        desc: 'Batch Multi-Recipient Transfer'
       };
     case 12: // Data
       return {
         bg: 'bg-zinc-500/10 border-zinc-500/20 text-zinc-500 dark:text-zinc-400',
         icon: <Database className="h-4 w-4" />,
-        label: 'Gravar Dados (Data)',
-        desc: 'Armazenamento de dados na rede'
+        label: 'Data Entry',
+        desc: 'On-Chain Account Key-Value Data'
       };
     case 13: // Set Script
       return {
         bg: 'bg-pink-500/10 border-pink-500/20 text-pink-500 dark:text-pink-400',
         icon: <Terminal className="h-4 w-4" />,
-        label: 'Registrar Script',
-        desc: 'Definição de script de dApp'
+        label: 'Set Script',
+        desc: 'Smart Account / dApp Script'
       };
     case 14: // Sponsor Fee
       return {
         bg: 'bg-orange-500/10 border-orange-500/20 text-orange-500 dark:text-orange-400',
         icon: <Coins className="h-4 w-4" />,
-        label: 'Ativar Patrocínio',
-        desc: 'Patrocínio de taxas de transação'
+        label: 'Sponsor Fee',
+        desc: 'Asset Fee Sponsorship'
       };
     case 15: // Set Asset Script
       return {
         bg: 'bg-lime-500/10 border-lime-500/20 text-lime-500 dark:text-lime-400',
         icon: <Terminal className="h-4 w-4" />,
-        label: 'Script de Ativo',
-        desc: 'Definição de script de ativo inteligente'
+        label: 'Set Asset Script',
+        desc: 'Smart Asset Script'
       };
     case 16: // Invoke Script
       return {
         bg: 'bg-fuchsia-500/10 border-fuchsia-500/20 text-fuchsia-500 dark:text-fuchsia-400',
         icon: <Terminal className="h-4 w-4" />,
-        label: 'Chamada de Contrato',
-        desc: 'Invocação de Smart Contract (Invoke)'
+        label: 'Invoke Script',
+        desc: 'Smart Contract Call'
       };
     case 17: // Update Asset Info
       return {
         bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
         icon: <CreditCard className="h-4 w-4" />,
-        label: 'Atualizar Token',
-        desc: 'Atualização de nome e descrição de token'
+        label: 'Update Asset Info',
+        desc: 'Asset Metadata Update'
       };
     case 18: // Ethereum Transaction (EVM)
       return {
         bg: 'bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/25 text-emerald-500 dark:text-emerald-400',
         icon: <Layers className="h-4 w-4 text-emerald-500 animate-pulse" />,
-        label: 'Transação EVM (0x)',
-        desc: 'Transação do MetaMask / EVM (Type 18)'
+        label: 'EVM Transaction (0x)',
+        desc: 'MetaMask / EVM Transaction (Type 18)'
       };
     case 20: // Commit to Generation
       return {
         bg: 'bg-purple-500/10 border-purple-500/20 text-purple-500 dark:text-purple-400',
         icon: <Code className="h-4 w-4" />,
-        label: 'Compromisso de Geração',
+        label: 'Commit to Generation',
         desc: 'Deterministic Finality (Type 20)'
       };
     default:
@@ -426,7 +426,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
       handlePageChange(pageNum);
       setJumpPageInput('');
     } else {
-      toast.error(`Informe uma página válida entre 1 e ${totalPages.toLocaleString('pt-BR')}`);
+      toast.error(`Please enter a valid page number between 1 and ${totalPages.toLocaleString('en-US')}`);
     }
   };
 
@@ -488,8 +488,8 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl space-y-8 animate-in fade-in duration-300">
       <SEO 
-        title="Transações On-Chain em Tempo Real"
-        description="Acompanhe todas as transações da rede AMZX em tempo real. Filtros por transferências, contratos inteligentes, tokens ambientais, emissões e EVM."
+        title="Real-Time On-Chain Transactions"
+        description="Inspect all AMZX blockchain transactions in real time. Filter by transfers, smart contracts, token issuances, and EVM executions."
       />
       
       {/* 1. Header Section */}
@@ -571,7 +571,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              {address ? "Transações registradas para este endereço" : "Total histórico de transações confirmadas na rede"}
+              {address ? "Recorded transactions for this address" : "Historical confirmed transactions on network"}
             </p>
           </CardContent>
         </Card>
@@ -594,7 +594,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Taxas processadas no lote de transações atual</p>
+            <p className="text-xs text-muted-foreground">Fees processed in current transaction batch</p>
           </CardContent>
         </Card>
 
@@ -610,13 +610,13 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
               {isLoading && !networkStats ? (
                 <Skeleton className="h-9 w-20" />
               ) : (
-                totalAddressesCount.toLocaleString('pt-BR')
+                totalAddressesCount.toLocaleString('en-US')
               )}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              {address ? "Contas únicas com interação recente" : "Total de contas e endereços registrados na blockchain"}
+              {address ? "Unique accounts with recent interaction" : "Total accounts and addresses registered on-chain"}
             </p>
           </CardContent>
         </Card>
@@ -633,13 +633,13 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
               {isLoading && !networkStats ? (
                 <Skeleton className="h-9 w-20" />
               ) : (
-                totalTokensCount.toLocaleString('pt-BR')
+                totalTokensCount.toLocaleString('en-US')
               )}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              Ativos ambientais e tokens criados na AMZX
+              Environmental assets and tokens created on AMZX
             </p>
           </CardContent>
         </Card>
@@ -1005,7 +1005,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
         {!isLoading && totalPages > 1 && (
           <div className="pt-6 border-t border-border/40 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-xs text-muted-foreground order-2 md:order-1 text-center md:text-left">
-              Mostrando {Math.min((currentPage - 1) * transactionsPerPage + 1, totalTransactionsCount).toLocaleString('pt-BR')} - {Math.min(currentPage * transactionsPerPage, totalTransactionsCount).toLocaleString('pt-BR')} de {totalTransactionsCount.toLocaleString('pt-BR')} transações
+              Showing {Math.min((currentPage - 1) * transactionsPerPage + 1, totalTransactionsCount).toLocaleString('en-US')} - {Math.min(currentPage * transactionsPerPage, totalTransactionsCount).toLocaleString('en-US')} of {totalTransactionsCount.toLocaleString('en-US')} transactions
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-2 order-1 md:order-2">

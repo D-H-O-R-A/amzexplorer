@@ -30,22 +30,21 @@ const Footer = () => {
   const coinName = getCoinName();
 
   const institutionalLinks = [
-    { label: "Início", href: "https://amazonicone.com.br" },
-    { label: "A Floresta", href: "https://amazonicone.com.br/#floresta" },
-    { label: "Comunidades", href: "https://amazonicone.com.br/#comunidades" },
-    { label: "Créditos de Carbono", href: "https://amazonicone.com.br/#creditos" },
-    { label: "Mesa de Trade", href: "https://amazonicone.com.br/#trade" },
-    { label: "Contato", href: "mailto:contact@amazonicone.com" },
+    { label: "Official Portal", href: "https://amazonicone.com.br" },
+    { label: "The Rainforest", href: "https://amazonicone.com.br/#floresta" },
+    { label: "Local Communities", href: "https://amazonicone.com.br/#comunidades" },
+    { label: "Carbon Credits", href: "https://amazonicone.com.br/#creditos" },
+    { label: "Contact Us", href: "mailto:contact@amazonicone.com" },
   ];
 
   const explorerLinks = [
-    { label: "Blocos em Tempo Real", path: "/blocks" },
-    { label: "Transações On-Chain", path: "/transactions" },
-    { label: "Contratos Inteligentes Ride", path: "/contracts" },
-    { label: "Ranking de Endereços", path: "/ranking" },
-    { label: "Status da Rede & Peers", path: "/nodes" },
-    { label: "Token amz1 (Oficial)", path: "/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" },
-    { label: "Token AUSDTW (18 Decimais)", path: "/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" },
+    { label: "Recent Blocks", path: "/blocks" },
+    { label: "On-Chain Transactions", path: "/transactions" },
+    { label: "Smart Contracts (Ride)", path: "/contracts" },
+    { label: "Top Accounts (Rich List)", path: "/ranking" },
+    { label: "Network Nodes & Peers", path: "/nodes" },
+    { label: "amz1 Official Token", path: "/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" },
+    { label: "AUSDTW (Wrapped USDT)", path: "/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" },
   ];
 
   const secureEndpoints = [
@@ -68,13 +67,13 @@ const Footer = () => {
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold tracking-widest uppercase">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Entidade Registrada & Certificada</span>
+              <span>Registered Organization</span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white font-mono tracking-tight">
               Amazonic One Eco Tecnologia S. A.
             </h2>
             <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-              Proteção real e direta de Floresta Amazônica. Originamos e comercializamos créditos de carbono de alta integridade (REDD+) diretamente de terras sob gestão com rastreabilidade criptográfica total.
+              Direct and audited protection of the Amazon Rainforest. Originating high-integrity environmental assets and REDD+ carbon credits on the decentralized AMZX ledger.
             </p>
           </div>
 
@@ -84,7 +83,7 @@ const Footer = () => {
               className="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2"
             >
               <Mail className="w-4 h-4" />
-              <span>Falar com Mesa de Trade</span>
+              <span>Contact Team</span>
             </a>
             <a
               href="https://amazonicone.com.br"
@@ -110,13 +109,13 @@ const Footer = () => {
                   AMZ<span className="text-emerald-400">X</span> Explorer
                 </span>
                 <span className="text-[10px] text-emerald-400/90 font-mono">
-                  Blockchain Oficial Amazonic One
+                  Official Amazonic One Blockchain
                 </span>
               </div>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Infraestrutura de consensus distribuído (Proof of Stake) para custódia imutável, contratos inteligentes e liquidez de créditos ambientais e token nativo AMZ.
+              Distributed Proof-of-Stake consensus infrastructure providing immutable ledger custody, smart contract execution, and verified on-chain asset settlements.
             </p>
 
             <div className="space-y-2.5 pt-2 text-xs text-slate-300">
@@ -128,11 +127,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Operações de campo: Amazonas, Brasil</span>
+                <span>Field Operations: Amazonas, Brazil</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Building className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Atendimento corporativo global</span>
+                <span>Global Corporate Operations</span>
               </div>
             </div>
           </div>
@@ -141,7 +140,7 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
               <Leaf className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Institucional</span>
+              <span>Ecosystem</span>
             </div>
             <ul className="space-y-2.5 text-xs text-slate-400">
               {institutionalLinks.map((item, idx) => (
@@ -164,7 +163,7 @@ const Footer = () => {
           <div className="lg:col-span-3 space-y-4">
             <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
               <Compass className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Explorer Ledger</span>
+              <span>Blockchain</span>
             </div>
             <ul className="space-y-2.5 text-xs text-slate-400">
               {explorerLinks.map((item, idx) => (
@@ -185,7 +184,7 @@ const Footer = () => {
           <div className="lg:col-span-3 space-y-4">
             <div className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider font-mono">
               <Lock className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Endpoints Criptografados</span>
+              <span>Network Endpoints</span>
             </div>
             <div className="space-y-2">
               {secureEndpoints.map((ep, idx) => (
@@ -217,7 +216,7 @@ const Footer = () => {
         {/* Bottom Tier: Copyright & Network Bar */}
         <div className="mt-8 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p className="text-center md:text-left leading-relaxed">
-            &copy; {currentYear} <strong className="text-white">Amazonic One</strong> - Preservação real e direta na Floresta Amazônica. Todos os direitos reservados.
+            &copy; {currentYear} <strong className="text-white">Amazonic One Eco Tecnologia S.A.</strong> All rights reserved.
           </p>
 
           <div className="flex items-center gap-2 font-mono text-[10px]">
@@ -225,7 +224,7 @@ const Footer = () => {
               Chain ID: <strong className="text-emerald-400">{chainId}</strong> (Mainnet)
             </span>
             <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">
-              Moeda: {coinName}
+              Native: {coinName}
             </span>
           </div>
         </div>

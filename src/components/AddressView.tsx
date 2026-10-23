@@ -215,7 +215,7 @@ const AddressView = ({
                     size="icon"
                     className="h-8 w-8 shrink-0 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all rounded-lg" 
                     onClick={() => copyToClipboard(addressData.wavesAddress || '', `${getCoinName()} Address`)}
-                    title="Copiar endereço"
+                    title="Copy address"
                   >
                     {copiedField === `${getCoinName()} Address` ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                   </Button>
@@ -237,7 +237,7 @@ const AddressView = ({
                       size="icon"
                       className="h-8 w-8 shrink-0 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all rounded-lg" 
                       onClick={() => copyToClipboard(addressData.ethAddress || '', "EVM Address")}
-                      title="Copiar endereço EVM"
+                      title="Copy EVM address"
                     >
                       {copiedField === "EVM Address" ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                     </Button>
@@ -289,7 +289,7 @@ const AddressView = ({
             <div className="space-y-4">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                 <Sparkles className="h-4 w-4 text-emerald-500" />
-                Saldos Detalhados do Portfólio
+                Portfolio Balances
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Total Balance Card */}
@@ -299,7 +299,7 @@ const AddressView = ({
                       <Wallet className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Saldo Total</div>
+                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Total Balance</div>
                       <div className="text-lg md:text-xl font-bold truncate">
                         {formatAmzBalance(detailedBalance.balance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
@@ -314,7 +314,7 @@ const AddressView = ({
                       <Coins className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Disponível</div>
+                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Available</div>
                       <div className="text-lg md:text-xl font-bold truncate">
                         {formatAmzBalance(detailedBalance.availableBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
@@ -329,7 +329,7 @@ const AddressView = ({
                       <Landmark className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Efetivo</div>
+                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Effective</div>
                       <div className="text-lg md:text-xl font-bold truncate">
                         {formatAmzBalance(detailedBalance.effectiveBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
@@ -344,7 +344,7 @@ const AddressView = ({
                       <Award className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Gerador</div>
+                      <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Generating</div>
                       <div className="text-lg md:text-xl font-bold truncate">
                         {formatAmzBalance(detailedBalance.generatingBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
@@ -356,8 +356,8 @@ const AddressView = ({
               {/* Portfolio Allocation Progress bar comparison */}
               <div className="border border-border/50 rounded-2xl bg-card/10 p-5 space-y-3">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="font-semibold text-muted-foreground uppercase tracking-wider">Uso e Alocação do Saldo</span>
-                  <span className="text-muted-foreground">Saldos expressos em {getCoinName()}</span>
+                  <span className="font-semibold text-muted-foreground uppercase tracking-wider">Balance Allocation</span>
+                  <span className="text-muted-foreground">Expressed in {getCoinName()}</span>
                 </div>
                 {(() => {
                   const total = detailedBalance.balance || 1;
@@ -371,12 +371,12 @@ const AddressView = ({
                         <div 
                           className="bg-emerald-500 h-full transition-all" 
                           style={{ width: `${availablePercent}%` }}
-                          title={`Disponível: ${availablePercent.toFixed(1)}%`}
+                          title={`Available: ${availablePercent.toFixed(1)}%`}
                         />
                         <div 
                           className="bg-amber-500 h-full transition-all" 
                           style={{ width: `${generatingPercent}%` }}
-                          title={`Gerador: ${generatingPercent.toFixed(1)}%`}
+                          title={`Generating: ${generatingPercent.toFixed(1)}%`}
                         />
                       </div>
                       
@@ -384,11 +384,11 @@ const AddressView = ({
                       <div className="flex flex-wrap gap-4 text-xs font-medium pt-1">
                         <div className="flex items-center gap-1.5">
                           <div className="h-3 w-3 rounded-full bg-emerald-500" />
-                          <span>Disponível para transferências ({availablePercent.toFixed(1)}%)</span>
+                          <span>Available for transfers ({availablePercent.toFixed(1)}%)</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <div className="h-3 w-3 rounded-full bg-amber-500" />
-                          <span>Gerando recompensas / Bloco ({generatingPercent.toFixed(1)}%)</span>
+                          <span>Generating block rewards ({generatingPercent.toFixed(1)}%)</span>
                         </div>
                       </div>
                     </div>
@@ -404,9 +404,9 @@ const AddressView = ({
               <div className="flex items-start gap-4">
                 <ShieldAlert className="h-6 w-6 text-amber-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <h4 className="font-semibold text-amber-500 dark:text-amber-400">Nó Validador Ativo Detectado</h4>
+                  <h4 className="font-semibold text-amber-500 dark:text-amber-400">Active Validator Node Detected</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    O saldo gerador deste endereço difere do saldo regular devido à sua participação no consenso do protocolo AMZX. Os blocos e recompensas que ele assina e distribui são baseados no Saldo Gerador efetivo, que se consolida ao término de cada época da rede.
+                    The generating balance of this address differs from regular balance due to active consensus participation on AMZX. Block rewards forged and distributed are calculated from effective generating stake.
                   </p>
                 </div>
               </div>
@@ -419,27 +419,27 @@ const AddressView = ({
               <CardHeader className="pb-3 border-b border-border/30">
                 <CardTitle className="text-base flex items-center gap-2">
                   <User className="h-4 w-4 text-emerald-500" />
-                  Metadados da Conta
+                  Account Metadata
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">Volume de Transações:</span>
+                    <span className="text-muted-foreground">Transaction Volume:</span>
                     <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.totalTransactions || 0} Tx</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">Tokens Criados ou Detidos:</span>
+                    <span className="text-muted-foreground">Tokens Created / Held:</span>
                     <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.assets?.length || 0} Assets</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">Colecionáveis (NFTs):</span>
+                    <span className="text-muted-foreground">Collectibles (NFTs):</span>
                     <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{nfts.length} NFTs</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">Smart Contract Script:</span>
                     <Badge variant={addressData.scriptInfo ? "default" : "secondary"} className="text-xs px-2.5">
-                      {addressData.scriptInfo ? "Ativo (Ride Script)" : "Inativo"}
+                      {addressData.scriptInfo ? "Active (Ride Script)" : "Inactive"}
                     </Badge>
                   </div>
                 </div>
@@ -450,17 +450,17 @@ const AddressView = ({
               <CardHeader className="pb-3 border-b border-border/30">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Database className="h-4 w-4 text-emerald-500" />
-                  Base de Dados (State Key)
+                  On-Chain State Entries
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-muted-foreground">Registros na Blockchain (Database entries):</span>
-                    <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.dataEntries?.length || 0} chaves</span>
+                    <span className="text-muted-foreground">Database entries:</span>
+                    <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.dataEntries?.length || 0} entries</span>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Contas e dApps na rede AMZX podem persistir dados indexados diretamente no estado distribuído. Isso permite criar registros imutáveis de identidade, parâmetros de contrato e estados operacionais acessíveis publicamente. Explore as chaves na aba <strong>Database entries</strong>.
+                    Accounts and dApps on AMZX persist indexed key-value state directly on the ledger. This enables immutable identity records, contract parameters, and verifiable public states.
                   </p>
                 </div>
               </CardContent>
@@ -473,8 +473,8 @@ const AddressView = ({
           <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-border/30 flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="text-lg font-bold">Histórico de Transações</CardTitle>
-                <CardDescription className="text-xs text-muted-foreground">Últimas 100 transações envolvendo esta conta</CardDescription>
+                <CardTitle className="text-lg font-bold">Transaction History</CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">Recent transactions involving this account</CardDescription>
               </div>
               <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
                 Total: {transactions.length}
@@ -485,15 +485,15 @@ const AddressView = ({
                 <Table>
                   <TableHeader className="bg-muted/10">
                     <TableRow className="border-b border-border/30">
-                      <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Tipo</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Tx ID</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Bloco</TableHead>
+                      <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Type</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Tx Hash</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Block</TableHead>
                       <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Timestamp</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Montante</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Taxa (Fee)</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Remetente</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Destinatário / dApp</TableHead>
-                      <TableHead className="py-4 pr-6 text-xs uppercase tracking-wider text-muted-foreground">Informações</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Amount</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Fee</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Sender</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Recipient / dApp</TableHead>
+                      <TableHead className="py-4 pr-6 text-xs uppercase tracking-wider text-muted-foreground">Details</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -643,7 +643,7 @@ const AddressView = ({
                       <TableRow>
                         <TableCell colSpan={9} className="text-center py-20">
                           <p className="text-muted-foreground text-sm">
-                            Nenhuma transação encontrada para este endereço na blockchain.
+                            No transactions found for this address on the blockchain.
                           </p>
                         </TableCell>
                       </TableRow>
@@ -659,18 +659,18 @@ const AddressView = ({
         <TabsContent value="assets" className="outline-none">
           <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-border/30">
-              <CardTitle className="text-lg font-bold">Ativos Disponíveis</CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">Tokens customizados emitidos na blockchain AMZX detidos por esta conta</CardDescription>
+              <CardTitle className="text-lg font-bold">Portfolio Assets</CardTitle>
+              <CardDescription className="text-xs text-muted-foreground">Custom tokens and assets held by this account on AMZX</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader className="bg-muted/10">
                     <TableRow className="border-b border-border/30">
-                      <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Nome do Ativo</TableHead>
+                      <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Asset Name</TableHead>
                       <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Asset ID</TableHead>
-                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Emissor</TableHead>
-                      <TableHead className="py-4 pr-6 text-right text-xs uppercase tracking-wider text-muted-foreground">Saldo Disponível</TableHead>
+                      <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Issuer</TableHead>
+                      <TableHead className="py-4 pr-6 text-right text-xs uppercase tracking-wider text-muted-foreground">Available Balance</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -730,7 +730,7 @@ const AddressView = ({
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-20">
                           <p className="text-muted-foreground text-sm">
-                            Nenhum token customizado encontrado para esta conta.
+                            No custom tokens found for this account.
                           </p>
                         </TableCell>
                       </TableRow>
@@ -746,8 +746,8 @@ const AddressView = ({
         <TabsContent value="nfts" className="outline-none">
           <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-border/30">
-              <CardTitle className="text-lg font-bold">Galeria de NFTs</CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">Fungible digital collectibles e NFTs detidos por esta conta</CardDescription>
+              <CardTitle className="text-lg font-bold">NFT Gallery</CardTitle>
+              <CardDescription className="text-xs text-muted-foreground">Digital collectibles and NFTs held by this account</CardDescription>
             </CardHeader>
             <CardContent className="p-6">
               {loadingNFTs ? (
@@ -756,7 +756,7 @@ const AddressView = ({
                 </div>
               ) : nfts.length === 0 ? (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Nenhum NFT colecionável detido por esta conta.</p>
+                  <p className="text-sm">No NFT collectibles held by this account.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -770,14 +770,14 @@ const AddressView = ({
                         <ImageIcon className="h-16 w-16 text-emerald-500/30 group-hover:scale-110 transition-transform duration-300" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-2 backdrop-blur-sm">
                           <ExternalLink className="h-4 w-4" />
-                          Ver Detalhes do NFT
+                          View NFT Details
                         </div>
                       </div>
                       <CardContent className="p-4 space-y-3">
                         <div className="min-w-0">
                           <h4 className="font-bold text-base truncate text-card-foreground">{nft.name || "Art Collectible"}</h4>
                           <p className="text-xs text-muted-foreground line-clamp-2 mt-1 min-h-[2rem]">
-                            {nft.description || 'Nenhuma descrição imutável anexada.'}
+                            {nft.description || 'No metadata description provided.'}
                           </p>
                         </div>
                         <div className="flex justify-between items-center pt-2 border-t border-border/30 text-xs">
@@ -785,7 +785,7 @@ const AddressView = ({
                             ID: {shortenHash(nft.assetId, 6)}
                           </span>
                           <span className="text-emerald-500 font-semibold text-xs group-hover:underline flex items-center gap-1">
-                            Explorar
+                            Explore
                           </span>
                         </div>
                       </CardContent>
@@ -803,9 +803,9 @@ const AddressView = ({
             <CardHeader className="pb-4 border-b border-border/30">
               <CardTitle className="text-lg font-bold flex items-center gap-2">
                 <Code className="h-5 w-5 text-purple-500" />
-                Arquitetura do Contrato (Ride dApp)
+                Contract Architecture (Ride dApp)
               </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">Informações de chamadas, scripts de complexidade e funções callable públicas</CardDescription>
+              <CardDescription className="text-xs text-muted-foreground">Callable functions, complexity metrics, and smart script schema</CardDescription>
             </CardHeader>
             <CardContent className="p-6">
               {addressData.scriptInfo ? (
@@ -813,7 +813,7 @@ const AddressView = ({
                   {/* Action buttons and callable functions header */}
                   <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                     <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      Funções dApp Públicas Disponíveis (API)
+                      Public Callable Functions (API)
                     </h3>
                     <Button 
                       onClick={openAmzxDApp}
@@ -821,7 +821,7 @@ const AddressView = ({
                       variant="outline"
                     >
                       <ExternalLink className="h-4 w-4" />
-                      Visualizar dApp Console
+                      View dApp Console
                     </Button>
                   </div>
 
@@ -836,14 +836,14 @@ const AddressView = ({
                                 {funcName}()
                               </Badge>
                               <span className="text-xs text-muted-foreground">
-                                {params.length} argumento{params.length !== 1 ? 's' : ''}
+                                {params.length} argument{params.length !== 1 ? 's' : ''}
                               </span>
                             </div>
                             
                             {params.length > 0 ? (
                               <div className="mt-3 space-y-2 border-t border-border/30 pt-3">
                                 <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider block mb-1">
-                                  Parâmetros de Entrada:
+                                  Input Parameters:
                                 </span>
                                 <div className="space-y-1.5">
                                   {params.map((param, index) => (
@@ -859,7 +859,7 @@ const AddressView = ({
                                 </div>
                               </div>
                             ) : (
-                              <p className="text-xs text-muted-foreground mt-2 italic">Nenhum parâmetro de entrada exigido.</p>
+                              <p className="text-xs text-muted-foreground mt-2 italic">No input parameters required.</p>
                             )}
                           </div>
                         </div>
@@ -867,7 +867,7 @@ const AddressView = ({
                     </div>
                   ) : (
                     <div className="bg-purple-500/5 border border-purple-500/10 rounded-xl p-4 text-center">
-                      <p className="text-xs text-muted-foreground">O Smart Contract está ativo mas não expõe funções `callable` públicas ou assinaturas de parâmetros.</p>
+                      <p className="text-xs text-muted-foreground">Smart Contract is active but does not expose public callable functions.</p>
                     </div>
                   )}
 
@@ -885,7 +885,7 @@ const AddressView = ({
                         onClick={() => copyToClipboard(addressData.scriptInfo?.script || '', "Metadata dApp")}
                       >
                         {copiedField === "Metadata dApp" ? <Check className="h-3 w-3 mr-1" /> : <Copy className="h-3 w-3 mr-1" />}
-                        Copiar Script
+                        Copy Script
                       </Button>
                     </div>
                     <div className="bg-black/40 border border-border/40 p-4 rounded-xl overflow-auto max-h-96">
@@ -897,7 +897,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Esta conta não possui dApp ou Script ativados na rede AMZX.</p>
+                  <p className="text-sm">This account does not have a Ride dApp script deployed on AMZX.</p>
                 </div>
               )}
             </CardContent>
@@ -911,9 +911,9 @@ const AddressView = ({
               <div>
                 <CardTitle className="text-lg font-bold flex items-center gap-2">
                   <Terminal className="h-5 w-5 text-emerald-500 animate-pulse" />
-                  Banco de Dados Imutável (On-chain State)
+                  Immutable State Key-Value
                 </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground">Registros persistentes indexados por chaves e tipos primitivos na blockchain</CardDescription>
+                <CardDescription className="text-xs text-muted-foreground">Persistent state indexed by key and primitive data types on the blockchain</CardDescription>
               </div>
               <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
                 {addressData.dataEntries?.length || 0} entries
@@ -925,9 +925,9 @@ const AddressView = ({
                   <Table>
                     <TableHeader className="bg-muted/10">
                       <TableRow className="border-b border-border/30">
-                        <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Chave (Key)</TableHead>
-                        <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Tipo de Dado</TableHead>
-                        <TableHead className="py-4 pr-6 text-xs uppercase tracking-wider text-muted-foreground">Valor Armazenado (Value)</TableHead>
+                        <TableHead className="py-4 pl-6 text-xs uppercase tracking-wider text-muted-foreground">Key</TableHead>
+                        <TableHead className="py-4 text-xs uppercase tracking-wider text-muted-foreground">Data Type</TableHead>
+                        <TableHead className="py-4 pr-6 text-xs uppercase tracking-wider text-muted-foreground">Stored Value</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -955,7 +955,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Nenhum registro no banco de dados imutável encontrado para este endereço.</p>
+                  <p className="text-sm">No state entries found for this address on the ledger.</p>
                 </div>
               )}
             </CardContent>
@@ -969,10 +969,10 @@ const AddressView = ({
               <div>
                 <CardTitle className="text-lg font-bold flex items-center gap-2">
                   <Tag className="h-5 w-5 text-emerald-500" />
-                  Aliases Registrados na Blockchain
+                  Registered Account Aliases
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
-                  Nomes legíveis vinculados diretamente a este endereço na rede AMZX
+                  Human-readable names bound directly to this address on AMZX
                 </CardDescription>
               </div>
               <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
@@ -1007,7 +1007,7 @@ const AddressView = ({
                           size="icon"
                           className="h-8 w-8 opacity-70 group-hover:opacity-100 hover:bg-emerald-500/10 hover:text-emerald-500"
                           onClick={() => copyToClipboard(cleanName, `alias-${index}`)}
-                          title="Copiar Alias"
+                          title="Copy Alias"
                         >
                           {copiedField === `alias-${index}` ? (
                             <Check className="h-3.5 w-3.5 text-emerald-500" />
@@ -1021,7 +1021,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Nenhum alias registrado para este endereço na rede AMZX.</p>
+                  <p className="text-sm">No aliases registered for this address on the AMZX network.</p>
                 </div>
               )}
             </CardContent>

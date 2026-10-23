@@ -84,7 +84,7 @@ export const NodeSettingsDialog: React.FC = () => {
       localStorage.setItem('custom_chain_id_letter', normalizedLetter);
       localStorage.setItem('custom_chain_id', String(normalizedLetter.charCodeAt(0)));
 
-      toast.success("Configurações salvas com sucesso! Reconectando...");
+      toast.success("Settings saved successfully! Reconnecting...");
       setOpen(false);
 
       // Reload to apply settings globally across the app
@@ -93,7 +93,7 @@ export const NodeSettingsDialog: React.FC = () => {
       }, 800);
     } catch (error) {
       console.error(error);
-      toast.error("Falha ao salvar as configurações");
+      toast.error("Failed to save network settings");
     }
   };
 
@@ -102,7 +102,7 @@ export const NodeSettingsDialog: React.FC = () => {
     setEthRpcUrl(preset.ethRpcUrl);
     setCoinName(preset.coinName);
     setChainIdLetter(preset.chainIdLetter);
-    toast.info(`Predefinição "${preset.name}" aplicada!`);
+    toast.info(`Preset "${preset.name}" applied!`);
   };
 
   const handleReset = () => {
@@ -117,7 +117,7 @@ export const NodeSettingsDialog: React.FC = () => {
     setCoinName("AMZ");
     setChainIdLetter(CHAIN_ID_LETTER);
 
-    toast.success("Configurações redefinidas para o padrão!");
+    toast.success("Settings reset to defaults!");
     setOpen(false);
     setTimeout(() => {
       window.location.reload();
@@ -128,21 +128,21 @@ export const NodeSettingsDialog: React.FC = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button 
-          title="Configurações de Rede"
+          title="Network Settings"
           className="px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/40 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 font-semibold text-xs"
         >
           <Settings className="w-4 h-4 animate-spin-hover text-emerald-500" />
-          <span>Configurações</span>
+          <span>Settings</span>
         </button>
       </DialogTrigger>
       
       <DialogContent className="sm:max-w-[480px] bg-background border border-border text-foreground shadow-2xl rounded-2xl p-6 overflow-hidden">
         <DialogHeader className="space-y-1">
           <DialogTitle className="text-lg font-bold flex items-center gap-2.5 text-foreground">
-            <Server className="w-5 h-5 text-emerald-500" /> Configurações de Rede
+            <Server className="w-5 h-5 text-emerald-500" /> Network Settings
           </DialogTitle>
           <DialogDescription className="text-muted-foreground text-xs leading-relaxed">
-            Personalize as conexões dos nós RPC, o símbolo da moeda e as propriedades da rede AMZX.
+            Customize RPC node endpoints, primary token ticker, and AMZX consensus parameters.
           </DialogDescription>
         </DialogHeader>
 
@@ -218,11 +218,11 @@ export const NodeSettingsDialog: React.FC = () => {
             {/* Chain ID Letter */}
             <div className="space-y-1">
               <div className="flex items-center gap-1">
-                <Label htmlFor="chain-id-letter" className="text-xs font-semibold text-foreground/90">Letra da Rede</Label>
+                <Label htmlFor="chain-id-letter" className="text-xs font-semibold text-foreground/90">Network Byte / Letter</Label>
                 <div className="group relative">
                   <HelpCircle className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground cursor-help" />
                   <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-48 p-2 bg-popover border border-border text-[10px] text-muted-foreground rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-50 leading-normal">
-                    Letra identificadora da rede (ex: 'A' para AMZX Mainnet, 'S' para Testnet). Usado para decodificar e validar os endereços criptográficos.
+                    Network identifier character (e.g. 'A' for AMZX Mainnet, 'S' for Testnet). Used to decode and validate cryptographic addresses.
                   </div>
                 </div>
               </div>
@@ -244,7 +244,7 @@ export const NodeSettingsDialog: React.FC = () => {
             onClick={handleReset}
             className="w-full sm:w-auto text-xs text-muted-foreground hover:text-rose-500 hover:bg-rose-500/10 cursor-pointer flex items-center justify-center gap-1.5 h-9 rounded-xl font-medium"
           >
-            <RotateCcw className="w-3.5 h-3.5" /> Restaurar Padrões
+            <RotateCcw className="w-3.5 h-3.5" /> Restore Defaults
           </Button>
 
           <div className="flex w-full sm:w-auto gap-2">
@@ -254,14 +254,14 @@ export const NodeSettingsDialog: React.FC = () => {
               onClick={() => setOpen(false)}
               className="flex-1 sm:flex-none border-border text-muted-foreground hover:bg-muted/50 cursor-pointer text-xs h-9 rounded-xl font-semibold"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               type="button"
               onClick={handleSave}
               className="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer text-xs font-bold h-9 rounded-xl px-4 shadow-lg shadow-emerald-500/10"
             >
-              Salvar Alterações
+              Save Changes
             </Button>
           </div>
         </DialogFooter>

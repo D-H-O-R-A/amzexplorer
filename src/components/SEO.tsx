@@ -11,8 +11,8 @@ export interface SEOProps {
   jsonLd?: Record<string, any> | null;
 }
 
-const DEFAULT_TITLE = 'AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)';
-const DEFAULT_DESC = 'Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes e acompanhe os ativos na rede.';
+const DEFAULT_TITLE = 'AMZ Explorer - Official AMZX Blockchain Explorer';
+const DEFAULT_DESC = 'Official block explorer and ledger analytics engine for the AMZX Blockchain. Monitor real-time blocks, trace transactions, audit smart contracts, and track ecosystem assets.';
 const BASE_URL = 'https://amzexplorer.com';
 const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 

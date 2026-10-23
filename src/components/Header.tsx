@@ -45,12 +45,12 @@ const Header = () => {
   };
 
   const navLinks = [
-    { label: "Início", path: "/" },
-    { label: "Blocos", path: "/blocks", icon: Box },
-    { label: "Transações", path: "/transactions", icon: ArrowRightLeft },
-    { label: "Contratos", path: "/contracts", icon: FileCode },
-    { label: "Ranking", path: "/ranking", icon: Trophy },
-    { label: "Nós & RPC", path: "/nodes", icon: Network },
+    { label: "Home", path: "/" },
+    { label: "Blocks", path: "/blocks", icon: Box },
+    { label: "Transactions", path: "/transactions", icon: ArrowRightLeft },
+    { label: "Contracts", path: "/contracts", icon: FileCode },
+    { label: "Rankings", path: "/ranking", icon: Trophy },
+    { label: "Nodes & RPC", path: "/nodes", icon: Network },
   ];
 
   return (
@@ -68,7 +68,7 @@ const Header = () => {
           <span className="text-border">|</span>
           <span>Ledger: Chain ID {chainId} (Mainnet)</span>
           <span className="text-border">|</span>
-          <span className="text-emerald-500">Consenso: Proof of Stake (Fair PoS)</span>
+          <span className="text-emerald-500">Consensus: Proof of Stake (Fair PoS)</span>
         </div>
 
         <div className="flex items-center gap-3">
@@ -149,7 +149,7 @@ const Header = () => {
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="p-2 rounded-xl bg-card border border-border/70 text-foreground hover:bg-muted hover:text-emerald-500 transition-all duration-200 flex items-center justify-center shadow-sm"
-              title={`Alternar para modo ${theme === 'dark' ? 'claro' : 'escuro'}`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? (
                 <Sun className="w-4 h-4 text-amber-500 animate-pulse" />
@@ -162,7 +162,7 @@ const Header = () => {
             <button 
               onClick={() => setIsMenuOpen(true)}
               className="xl:hidden p-2 rounded-xl bg-card border border-border/70 text-foreground hover:bg-muted active:scale-95 transition-all flex items-center justify-center shadow-sm"
-              aria-label="Abrir Menu"
+              aria-label="Open Navigation Menu"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -189,13 +189,13 @@ const Header = () => {
 
             {/* Mobile Search */}
             <div>
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-1.5 pl-1">Busca Direta</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-1.5 pl-1">Quick Search</p>
               <SearchForm />
             </div>
 
             {/* Navigation Links Grid */}
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-2 pl-1">Navegação Principal</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-2 pl-1">Navigation</p>
               {navLinks.map((item) => {
                 const active = isActive(item.path);
                 const Icon = item.icon || Layers;
@@ -222,9 +222,9 @@ const Header = () => {
               })}
             </div>
 
-            {/* Tokens Rápidos */}
+            {/* Verified Tokens */}
             <div className="space-y-2 p-3.5 rounded-2xl bg-muted/30 border border-emerald-500/10">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Ativos Oficiais AMZX</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Verified Ecosystem Tokens</p>
               <div className="space-y-1.5">
                 <Link
                   to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz"
@@ -233,7 +233,7 @@ const Header = () => {
                 >
                   <div className="flex items-center gap-2">
                     <img src="/logo.png" alt="amz1" className="w-5 h-5 rounded-full object-contain" />
-                    <span>Token amz1 (Oficial)</span>
+                    <span>amz1 Token</span>
                   </div>
                   <span className="text-[10px] font-mono text-emerald-500 font-bold">100B Supply</span>
                 </Link>
@@ -245,9 +245,9 @@ const Header = () => {
                 >
                   <div className="flex items-center gap-2">
                     <img src="/ausdtw.png" alt="AUSDTW" className="w-5 h-5 rounded-full object-contain" />
-                    <span>Token AUSDTW</span>
+                    <span>AUSDTW (Wrapped USDT)</span>
                   </div>
-                  <span className="text-[10px] font-mono text-emerald-500 font-bold">18 Decimais</span>
+                  <span className="text-[10px] font-mono text-emerald-500 font-bold">1:1 Peg</span>
                 </Link>
               </div>
             </div>
@@ -259,7 +259,7 @@ const Header = () => {
                 <span>Amazonic One Eco Tecnologia S.A.</span>
               </div>
               <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Preservação real e direta da Floresta Amazônica vinculada a tecnologia de ledger distribuído.
+                Direct preservation of the Amazon rainforest backed by decentralized ledger technology.
               </p>
               <a
                 href="https://amazonicone.com.br"
@@ -267,7 +267,7 @@ const Header = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500 hover:underline pt-1"
               >
-                <span>Conhecer a Mesa de Trade</span>
+                <span>Visit Official Portal</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -275,7 +275,7 @@ const Header = () => {
 
           {/* Drawer footer */}
           <div className="pt-6 border-t border-border/40 text-center space-y-1">
-            <p className="text-[10px] font-mono text-muted-foreground">© 2026 Amazonic One - Preservação real na Amazônia</p>
+            <p className="text-[10px] font-mono text-muted-foreground">© 2026 Amazonic One Eco Tecnologia S.A. All rights reserved.</p>
           </div>
         </SheetContent>
       </Sheet>

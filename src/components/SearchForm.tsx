@@ -108,58 +108,58 @@ const SearchForm = () => {
     
     try {
       if (query.startsWith('0x')) {
-        toast.info("Analisando endereço Ethereum...");
+        toast.info("Analyzing Ethereum address...");
         const convertedAddress = convertEthToWavesAddress(query);
         if (!convertedAddress) {
-          toast.info("Processando hash como transação Ethereum...");
+          toast.info("Processing hash as Ethereum transaction...");
           navigate(`/tx/${query}`);
           return;
         }
   
-        toast.success("Endereço Ethereum convertido com sucesso!");
+        toast.success("Ethereum address resolved successfully!");
         navigate(`/address/${convertedAddress}`);
         return;
       }
       
       const isBase58Address = /^[1-9A-HJ-NP-Za-km-z]{34,36}$/.test(query);
       if (isBase58Address) {
-        toast.success("Endereço AMZ encontrado!");
+        toast.success("AMZ Address found");
         navigate(`/address/${query}`);
         return;
       }
       
       if (query.length === 44) {
-        toast.success("Token encontrado!");
+        toast.success("Token found");
         navigate(`/asset/${query}`);
         return;
       }
       
       if (!isNaN(Number(query))) {
-        toast.success("Bloco encontrado!");
+        toast.success("Block found");
         navigate(`/block/${query}`);
         return;
       }
       
       if (query.length < 37) {
-        toast.info("Buscando alias...");
+        toast.info("Resolving alias...");
         const resolvedAddress = await resolveAlias(query);
         
         if (resolvedAddress) {
-          toast.success("Alias resolvido!");
+          toast.success("Alias resolved");
           navigate(`/address/${resolvedAddress}`);
           return;
         } else {
-          toast.error("Alias não encontrado ou inválido");
+          toast.error("Alias not found or invalid");
           return;
         }
       }
       
-      toast.success("Transação encontrada!");
+      toast.success("Transaction found");
       navigate(`/tx/${query}`);
       
     } catch (error) {
       console.error("Search error:", error);
-      toast.error("Erro ao realizar busca");
+      toast.error("Failed to perform search");
     } finally {
       setIsSearching(false);
     }
@@ -167,24 +167,24 @@ const SearchForm = () => {
 
   const getBadgeColor = (type: string) => {
     switch (type) {
-      case 'Endereço AMZ': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-      case 'Endereço EVM': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
-      case 'Transação AMZ': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
-      case 'Transação EVM': return 'bg-emerald-600/10 text-emerald-400 border-emerald-600/20';
-      case 'Bloco': return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
+      case 'AMZ Address': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      case 'EVM Address': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
+      case 'AMZ Transaction': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
+      case 'EVM Transaction': return 'bg-emerald-600/10 text-emerald-400 border-emerald-600/20';
+      case 'Block': return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
       case 'Asset / Token': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-      case 'Alias de Endereço': return 'bg-pink-500/10 text-pink-400 border-pink-500/20';
+      case 'Address Alias': return 'bg-pink-500/10 text-pink-400 border-pink-500/20';
       default: return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
     }
   };
 
   const getEntityIcon = (type: string) => {
     switch (type) {
-      case 'Endereço AMZ': return <Wallet className="w-4 h-4 text-emerald-400" />;
-      case 'Endereço EVM': return <Wallet className="w-4 h-4 text-teal-400" />;
-      case 'Transação AMZ': return <ShieldCheck className="w-4 h-4 text-teal-400" />;
-      case 'Transação EVM': return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
-      case 'Bloco': return <Database className="w-4 h-4 text-purple-400" />;
+      case 'AMZ Address': return <Wallet className="w-4 h-4 text-emerald-400" />;
+      case 'EVM Address': return <Wallet className="w-4 h-4 text-teal-400" />;
+      case 'AMZ Transaction': return <ShieldCheck className="w-4 h-4 text-teal-400" />;
+      case 'EVM Transaction': return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
+      case 'Block': return <Database className="w-4 h-4 text-purple-400" />;
       case 'Asset / Token': return <Coins className="w-4 h-4 text-amber-400" />;
       default: return <Hash className="w-4 h-4 text-pink-400" />;
     }
@@ -203,7 +203,7 @@ const SearchForm = () => {
         <Input
           ref={inputRef}
           type="text"
-          placeholder="Endereço, tx, bloco ou alias..."
+          placeholder="Address, Tx, Block, or Token..."
           className="w-full pl-10 pr-24 py-5 text-xs rounded-xl bg-card border border-border/80 text-foreground placeholder:text-muted-foreground/75 focus-visible:ring-1 focus-visible:ring-emerald-500/50 focus-visible:border-emerald-500/50 shadow-sm transition-all duration-300 group-hover:border-border-hover"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -268,7 +268,7 @@ const SearchForm = () => {
 
             {/* Instruction Footer */}
             <div className="mt-2.5 pt-2 border-t border-border/40 px-2 flex items-center justify-between text-[10px] text-muted-foreground">
-              <span className="flex items-center gap-1 font-medium"><CornerDownLeft className="w-3 h-3" /> Pressione Enter para pesquisar</span>
+              <span className="flex items-center gap-1 font-medium"><CornerDownLeft className="w-3 h-3" /> Press Enter to search</span>
               <span className="font-mono text-[9px] font-bold bg-muted px-1.5 py-0.5 border border-border rounded">W8DB INDEXER</span>
             </div>
 

@@ -55,7 +55,7 @@ const VERIFIED_ASSETS_METADATA: Record<string, AssetSocialMetadata> = {
     github: "https://github.com/D-H-O-R-A/amzx",
     discord: "https://amazonicone.com.br/",
     whitepaper: "https://amazonicone.com.br/",
-    description: "Amazonic USDT Wrapped token 1:1 Peg com suporte completo a 18 casas decimais."
+    description: "Amazonic USDT Wrapped token 1:1 Peg on the AMZX blockchain."
   }
 };
 
@@ -148,15 +148,15 @@ const AssetPage = () => {
             try {
               assetIdToFetch = ethAsset2Waves(id);
             } catch (error) {
-              console.error("Erro ao converter asset ID 0x para AMZX:", error);
-              toast.error("Erro ao converter asset ID para formato AMZX");
+              console.error("Error converting 0x asset ID to AMZX format:", error);
+              toast.error("Failed to convert asset ID to AMZX format");
               setLoading(false);
               return;
             }
           }
           
           if (assetIdToFetch.startsWith("3") && assetIdToFetch.length < 40) {
-            toast.error("Este parece ser um endereço, não um asset ID");
+            toast.error("Input appears to be an address, not an asset ID");
             setLoading(false);
             return;
           }
@@ -195,7 +195,7 @@ const AssetPage = () => {
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
-    toast.success("Copiado com sucesso!");
+    toast.success("Copied to clipboard!");
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
@@ -359,7 +359,7 @@ const AssetPage = () => {
                     <button 
                       onClick={() => handleCopy(asset.assetId, "assetid")}
                       className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-                      title="Copiar ID"
+                      title="Copy ID"
                     >
                       {copiedKey === "assetid" ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                     </button>
@@ -571,7 +571,7 @@ const AssetPage = () => {
                         <button 
                           onClick={() => handleCopy(convertedEthId, "ethid")}
                           className="p-2 bg-muted/60 text-muted-foreground hover:text-foreground rounded-xl border border-border/40 transition-colors"
-                          title="Copiar ID EVM"
+                          title="Copy EVM ID"
                         >
                           {copiedKey === "ethid" ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                         </button>
@@ -660,7 +660,7 @@ const AssetPage = () => {
                       <Input
                         value={searchHolderQuery}
                         onChange={(e) => setSearchHolderQuery(e.target.value)}
-                        placeholder="Pesquise o endereço de uma carteira para verificar sua posição..."
+                        placeholder="Search wallet address to check holder ranking..."
                         className="pl-9 h-10 bg-background/50 border-border/60 hover:border-border rounded-xl text-xs font-semibold"
                       />
                     </div>
@@ -669,21 +669,21 @@ const AssetPage = () => {
                   {loadingHolders && holders.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20 gap-3">
                       <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-                      <p className="text-xs text-muted-foreground animate-pulse font-medium">Buscando holders do indexador...</p>
+                      <p className="text-xs text-muted-foreground animate-pulse font-medium">Fetching holders from indexer...</p>
                     </div>
                   ) : filteredHolders.length === 0 ? (
                     <div className="text-center py-16 text-xs text-muted-foreground font-medium">
-                      {searchHolderQuery.trim() ? "Nenhum holder correspondente ao endereço pesquisado." : "Nenhum holder indexado para este ativo."}
+                      {searchHolderQuery.trim() ? "No holders found matching the search address." : "No holders indexed for this asset."}
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader>
                           <TableRow className="border-b border-border hover:bg-transparent bg-muted/10">
-                            <TableHead className="w-[80px] text-center font-bold text-xs pl-5 text-foreground/80">Posição</TableHead>
-                            <TableHead className="text-left font-bold text-xs text-foreground/80">Detentor (Wallet)</TableHead>
-                            <TableHead className="text-right font-bold text-xs text-foreground/80">Saldo Acumulado ({asset.name})</TableHead>
-                            <TableHead className="text-right font-bold text-xs pr-5 text-foreground/80">% do Supply</TableHead>
+                            <TableHead className="w-[80px] text-center font-bold text-xs pl-5 text-foreground/80">Rank</TableHead>
+                            <TableHead className="text-left font-bold text-xs text-foreground/80">Holder (Wallet)</TableHead>
+                            <TableHead className="text-right font-bold text-xs text-foreground/80">Balance ({asset.name})</TableHead>
+                            <TableHead className="text-right font-bold text-xs pr-5 text-foreground/80">% of Supply</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -729,7 +729,7 @@ const AssetPage = () => {
                                       <button
                                         onClick={() => handleCopy(row.address, "holder-" + index)}
                                         className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Copiar Endereço"
+                                        title="Copy Address"
                                       >
                                         {copiedKey === "holder-" + index ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                                       </button>
@@ -779,12 +779,12 @@ const AssetPage = () => {
                       {loadingHolders ? (
                         <>
                           <RefreshCw className="h-3.5 w-3.5 animate-spin text-primary group-hover:text-primary-foreground" />
-                          Buscando mais holders...
+                          Fetching more holders...
                         </>
                       ) : (
                         <>
                           <RefreshCw className="h-3.5 w-3.5 text-primary group-hover:text-primary-foreground" />
-                          Carregar Próximos 100 Holders (Rich List)
+                          Load Next 100 Holders (Rich List)
                         </>
                       )}
                     </Button>

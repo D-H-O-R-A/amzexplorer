@@ -132,8 +132,8 @@ const ContractsPage = () => {
   return (
     <MotionContainer className="space-y-8 pb-12">
       <SEO 
-        title="Contratos Inteligentes (dApps)"
-        description="Diretório de Smart Contracts e dApps na blockchain AMZX. Inspecione scripts Ride, chamadas callable, complexidade e estado dos contratos."
+        title="Smart Contracts & dApps Directory"
+        description="Smart Contracts and dApps directory on the AMZX blockchain. Inspect Ride scripts, callable functions, verification status, and complexity."
       />
       {/* Premium Page Header */}
       <MotionChild>
@@ -470,7 +470,7 @@ const ContractsPage = () => {
                 ) : (
                   <>
                     <Clock className="h-4 w-4 text-primary group-hover:text-primary-foreground" />
-                    Carregar Próximos 100 Contratos (RIDE)
+                    Load Next 100 Contracts (RIDE)
                   </>
                 )}
               </Button>

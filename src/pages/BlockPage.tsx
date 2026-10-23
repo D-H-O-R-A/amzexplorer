@@ -16,14 +16,14 @@ const BlockPage = () => {
       transition={{ duration: 0.3 }}
     >
       <SEO 
-        title={`Bloco #${height}`}
-        description={`Detalhes do Bloco #${height} na blockchain AMZX. Validador gerador, transações incluídas, taxas, recompensas de bloco e assinatura VRF.`}
+        title={`Block #${height}`}
+        description={`Details for Block #${height} on the AMZX blockchain. Proposer validator, transactions included, fees, rewards, and VRF signature.`}
       />
       {/* Breadcrumb Navigation Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground font-semibold">
           <Link to="/blocks" className="hover:text-emerald-500 transition-colors">
-            Blocos
+            Blocks
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-foreground font-mono">
@@ -34,7 +34,7 @@ const BlockPage = () => {
         <Button variant="ghost" size="sm" asChild className="hover:bg-muted/50 text-muted-foreground hover:text-foreground text-xs font-semibold rounded-xl">
           <Link to="/blocks">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar para a Lista
+            Back to List
           </Link>
         </Button>
       </div>

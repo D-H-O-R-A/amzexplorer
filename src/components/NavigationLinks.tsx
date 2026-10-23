@@ -51,38 +51,38 @@ export const NavigationLinks = () => {
       icon: Database,
       items: [
         {
-          label: "Blocos Recentes",
-          sub: "Consulte os últimos blocos minerados",
+          label: "Recent Blocks",
+          sub: "Inspect the latest forged blocks",
           path: "/blocks",
           icon: Box
         },
         {
-          label: "Transações",
-          sub: "Monitore transferências em tempo real",
+          label: "Transactions",
+          sub: "Real-time ledger activity & transfers",
           path: "/transactions",
           icon: ArrowRightLeft
         },
         {
-          label: "Contratos Ride",
-          sub: "Visualize dApps e scripts ativos",
+          label: "Smart Contracts",
+          sub: "Explore Ride dApps and active accounts",
           path: "/contracts",
           icon: FileCode
         },
         {
-          label: "Ranking de Endereços",
-          sub: `Consulte as maiores contas e distribuição de ${getCoinName()}`,
+          label: "Address Ranking",
+          sub: `Top accounts and balance distribution`,
           path: "/ranking",
           icon: Trophy
         }
       ]
     },
     network: {
-      label: "Rede & Nós",
+      label: "Network & Nodes",
       icon: Network,
       items: [
         {
-          label: "Status da Rede",
-          sub: "Status de nós, peers e distribuição",
+          label: "Network Telemetry",
+          sub: "Node status, peers and block consensus",
           path: "/nodes",
           icon: Network
         }
@@ -101,7 +101,7 @@ export const NavigationLinks = () => {
             : 'text-foreground/80 hover:text-emerald-500 hover:bg-muted/80'
         }`}
       >
-        Início
+        Home
       </Link>
 
       {/* Dropdown Categories */}

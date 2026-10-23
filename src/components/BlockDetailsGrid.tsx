@@ -75,7 +75,7 @@ const BlockDetailsGrid = ({ block, blockSize, copiedField, copyToClipboard }: Bl
           </div>
 
           <div className="pt-3 border-t border-border/20 flex justify-between items-center text-xs">
-            <span className="text-muted-foreground">Tempo do bloco:</span>
+            <span className="text-muted-foreground">Block Time:</span>
             <span className="font-mono font-semibold text-foreground flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-muted-foreground" />
               {new Date(block.timestamp).toLocaleTimeString()}
@@ -267,7 +267,7 @@ const BlockDetailsGrid = ({ block, blockSize, copiedField, copyToClipboard }: Bl
                   <Link 
                     to={`/block/${block.height - 1}`} 
                     className="font-mono text-emerald-500 hover:text-emerald-600 hover:underline truncate break-all"
-                    title="Navegar para o bloco anterior"
+                    title="Navigate to previous block"
                   >
                     {block.reference}
                   </Link>

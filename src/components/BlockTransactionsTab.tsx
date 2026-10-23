@@ -74,45 +74,45 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
   const getTxTypeDetails = (type: number) => {
     switch (type) {
       case 1:
-        return { name: "Ativação de Conta (Gênese)", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Flame };
+        return { name: "Genesis Allocation", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Flame };
       case 2:
-        return { name: "Criação de Conta", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Database };
+        return { name: "Direct Payment", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Database };
       case 3:
-        return { name: "Criação de Token (Issue)", color: "bg-teal-500/10 text-teal-500 border-teal-500/20", icon: PlusCircle };
+        return { name: "Token Issue", color: "bg-teal-500/10 text-teal-500 border-teal-500/20", icon: PlusCircle };
       case 4:
-        return { name: "Transferência", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Send };
+        return { name: "Transfer", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Send };
       case 5:
-        return { name: "Emissão Adicional (Reissue)", color: "bg-teal-600/10 text-teal-600 border-teal-600/20", icon: PlusCircle };
+        return { name: "Reissue", color: "bg-teal-600/10 text-teal-600 border-teal-600/20", icon: PlusCircle };
       case 6:
-        return { name: "Queima de Ativo (Burn)", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Flame };
+        return { name: "Token Burn", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Flame };
       case 7:
-        return { name: "Ordem Executada (DEX)", color: "bg-violet-500/10 text-violet-500 border-violet-500/20", icon: ArrowRight };
+        return { name: "DEX Exchange", color: "bg-violet-500/10 text-violet-500 border-violet-500/20", icon: ArrowRight };
       case 8:
-        return { name: "Lease (Arrendar)", color: "bg-emerald-700/10 text-emerald-600 border-emerald-700/20", icon: Bookmark };
+        return { name: "Lease", color: "bg-emerald-700/10 text-emerald-600 border-emerald-700/20", icon: Bookmark };
       case 9:
-        return { name: "Cancelar Lease", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Bookmark };
+        return { name: "Cancel Lease", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Bookmark };
       case 10:
-        return { name: "Criação de Apelido (Alias)", color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", icon: Tag };
+        return { name: "Create Alias", color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", icon: Tag };
       case 11:
         return { name: "Mass Transfer", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Layers };
       case 12:
-        return { name: "Gravar Dados (Data)", color: "bg-zinc-500/10 text-zinc-500 border-zinc-500/20", icon: Database };
+        return { name: "Data Entry", color: "bg-zinc-500/10 text-zinc-500 border-zinc-500/20", icon: Database };
       case 13:
-        return { name: "Registrar Script", color: "bg-pink-500/10 text-pink-500 border-pink-500/20", icon: Code };
+        return { name: "Set Script", color: "bg-pink-500/10 text-pink-500 border-pink-500/20", icon: Code };
       case 14:
-        return { name: "Ativar Patrocínio", color: "bg-orange-500/10 text-orange-500 border-orange-500/20", icon: Coins };
+        return { name: "Sponsor Fee", color: "bg-orange-500/10 text-orange-500 border-orange-500/20", icon: Coins };
       case 15:
-        return { name: "Script de Ativo", color: "bg-lime-500/10 text-lime-500 border-lime-500/20", icon: Code };
+        return { name: "Set Asset Script", color: "bg-lime-500/10 text-lime-500 border-lime-500/20", icon: Code };
       case 16:
-        return { name: "Invocação de Smart Contract", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Code };
+        return { name: "Invoke Script", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Code };
       case 17:
-        return { name: "Atualizar Token", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: CreditCard };
+        return { name: "Update Asset Info", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: CreditCard };
       case 18:
-        return { name: "Transação EVM (0x)", color: "bg-gradient-to-r from-emerald-500/10 to-teal-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/25", icon: Layers };
+        return { name: "EVM Transaction (0x)", color: "bg-gradient-to-r from-emerald-500/10 to-teal-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/25", icon: Layers };
       case 20:
-        return { name: "Compromisso de Geração", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Code };
+        return { name: "Commit to Generation", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Code };
       default:
-        return { name: `Tipo ${type}`, color: "bg-muted text-muted-foreground border-border", icon: Coins };
+        return { name: `Type ${type}`, color: "bg-muted text-muted-foreground border-border", icon: Coins };
     }
   };
 
@@ -120,7 +120,7 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
     <div className="space-y-4">
       {!block.transactions || block.transactions.length === 0 ? (
         <Card className="border border-dashed border-border/80 bg-background/20 p-8 text-center">
-          <p className="text-muted-foreground text-sm">Nenhuma transação registrada neste bloco.</p>
+          <p className="text-muted-foreground text-sm">No transactions recorded in this block.</p>
         </Card>
       ) : (
         <div className="space-y-3.5">
