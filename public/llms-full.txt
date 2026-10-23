@@ -1,176 +1,71 @@
-# Planet One Blockchain Explorer - Complete Technical Specification (LLMs Full)
+# AMZX Blockchain Explorer - Complete Technical Specification (LLMs Full)
 
-> Comprehensive reference for Large Language Models (LLMs), AI autonomous agents, search engines, and developers integrating with the Planet One blockchain ecosystem.
-
----
-
-## 1. Executive Summary & Ecosystem Architecture
-
-Planet One is an enterprise-grade, carbon-negative Layer-1 blockchain engineered to bridge real-world environmental assets (eRWA) with institutional Web3 decentralized finance. 
-
-- **Primary Mission**: Trustless verification, tokenization, retirement, and trading of certified carbon credits, blue carbon ecosystems, biodiversity offsets, and sustainable forestry projects.
-- **Consensus Protocol**: Fair Proof-of-Stake (FPoS) with Waves-NG microblock architecture for instantaneous finality and high transaction throughput (~1000+ TPS).
-- **Dual Virtual Machine Layer**:
-  1. **Ride Native VM**: Deterministic, non-Turing-complete, formally verifiable smart contracts with predictable gas/fees and no reentrancy vulnerabilities.
-  2. **EVM Compatibility Engine**: Native processing of Ethereum-formatted Type 18 transactions, allowing seamless operation with MetaMask, Rabby, ethers.js, and web3.js via RPC.
+> Comprehensive reference for Large Language Models (LLMs), AI autonomous agents, search engines, and developers integrating with the AMZX blockchain ecosystem by Amazonic One.
 
 ---
 
-## 2. Cryptographic Encodings & Address Resolution
+## 1. Executive Summary & Ecosystem Topology
 
-Planet One supports dual address representations for every key pair:
+AMZX is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **Amazonic One Eco Tecnologia S.A.** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
 
-### Native Base58 (Planet One / Waves Standard)
-- Prefix: Starts with `3P` on Mainnet (Chain ID 80) and `3S` on Testnet (Chain ID 83).
-- Length: 35 characters Base58 encoded.
-- Structure: `[1 byte version (0x01)] + [1 byte chainId] + [20 bytes pubkey hash] + [4 bytes checksum]`.
-
-### EVM Hexadecimal Format (Ethereum Standard)
-- Prefix: Starts with `0x`.
-- Length: 42 characters (20 bytes hexadecimal).
-- Interoperability: Planet One RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa using `@better2better/waves-node-api-js` (`ethAddress2waves`, `wavesAddress2eth`).
+### Key Ecosystem Components
+- **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with Waves-NG microblock protocol enabling ~6-second blocks.
+- **AMZ Native Utility Coin**: Powers consensus staking, transaction gas fees, and network governance.
+- **amz1 Flagship Token**: Asset ID `7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz`. Verified REDD+ high-integrity carbon credit token directly backed by preserved Amazon rainforest tracts.
+- **AUSDTW Token**: Asset ID `7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU`. Amazonic USDT Wrapped token with 18 decimal places precision.
+- **Trade Desk**: Direct institutional corporate offset trade desk (`contact@amazonicone.com`, Amazonas, Brasil).
 
 ---
 
-## 3. Network Parameters & Public Endpoints
+## 2. Address Representation & Interoperability
 
-### Mainnet
-- **Chain ID**: `80` (ASCII letter: `P` / 0x50)
-- **Native Coin**: `PLO` (Precision: 8 decimals; 1 PLO = 100,000,000 atomic units)
-- **Block Target Time**: 60 seconds
-- **Public Node RPC**: `https://nodes.planetone.io`
-- **EVM RPC Endpoint**: `https://rpc.planetone.io`
-- **FullExplorer Web UI**: `https://fullexplorer.planetone.io`
-- **FullExplorer REST API**: `https://fullexplorer.planetone.io/api`
-- **Standard Explorer Web UI**: `https://explorer.planetone.io`
+AMZX supports dual address representations for every key pair:
 
-### Testnet
-- **Chain ID**: `83` (ASCII letter: `S` / 0x53)
-- **Testnet Coin**: `PLOT` (Precision: 8 decimals)
-- **Testnet Public Node**: `https://nodes-testnet.planetone.io`
-- **Testnet EVM RPC**: `https://rpc-testnet.planetone.io`
-- **Testnet FullExplorer**: `https://testnet-fullexplorer.planetone.io`
+### Native Base58 (AMZX Standard)
+- Format: Starts with `3x...` or `3...` (26 bytes encoded in Base58).
+- Derived via SHA-256 and BLAKE2b checksums.
+
+### EVM Hexadecimal Format
+- Format: `0x` followed by 40 hexadecimal characters.
+- Interoperability: AMZX RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa using `@better2better/waves-node-api-js` (`ethAddress2waves`, `wavesAddress2eth`).
 
 ---
 
-## 4. Blockchain Transaction Types Registry
+## 3. Official Encrypted Network Endpoints
 
-Planet One records state changes via deterministic transaction types:
-
-| Type ID | Name | Description | Base Fee (PLO) |
-|---|---|---|---|
-| 1 | Genesis | Initial coin distribution at block 1 | N/A |
-| 2 | Payment | Legacy payment transaction | 0.001 |
-| 3 | Issue | Token issuance (Fungible, NFT, eRWA) | 1.000 / 0.001 (NFT) |
-| 4 | Transfer | Native PLO or asset transfer | 0.001 |
-| 5 | Reissue | Increase total supply of reissuable asset | 1.000 |
-| 6 | Burn | Irreversible token destruction | 0.001 |
-| 7 | Exchange | Matcher atomic order book exchange | 0.003 |
-| 8 | Lease | Lease consensus generating balance to node | 0.001 |
-| 9 | LeaseCancel | Terminate an active balance lease | 0.001 |
-| 10 | CreateAlias | Assign human-readable name to address | 0.001 |
-| 11 | MassTransfer | Multi-recipient batch transfer (up to 100) | 0.001 + 0.0005*N |
-| 12 | DataTransaction | On-chain key-value state storage (Oracle, ESG) | 0.001 / KB |
-| 13 | SetScript | Deploy or update dApp account script (Ride) | 0.010 |
-| 14 | SponsorFee | Enable transaction fee payment in custom asset | 1.000 |
-| 15 | SetAssetScript | Attach compliance rules or transfer restrictions | 1.000 |
-| 16 | InvokeScript | Execute callable functions on smart contracts | 0.005 |
-| 17 | UpdateAssetInfo | Update asset name, description, or metadata | 0.001 |
-| 18 | EthereumTransaction | EVM compatible signed payload (MetaMask 0x) | 0.005 |
+- **Node Swagger API**: `https://nodes.amzexplorer.com/`
+- **Matcher DEX API**: `https://matcher.amzexplorer.com`
+- **MetaMask JSON-RPC**: `https://rpc.amzexplorer.com`
+- **AMZX Data Service**: `https://data-service.amzexplorer.com`
+- **gRPC Control / DEX**: `https://grpc-dex.amzexplorer.com` (WSS/GRPCS:443)
+- **gRPC Updates**: `https://grpc-updates.amzexplorer.com` (GRPCS:443)
+- **Explorer Web UI**: `https://amzexplorer1.web.app` / `https://amzexplorer.com`
+- **FullExplorer Web UI**: `https://fullexplorer.amzexplorer.com`
 
 ---
 
-## 5. Core Public REST API Endpoints (Node & Indexer)
+## 4. Transaction Architecture & Types
 
-All endpoints accept standard HTTP GET/POST queries:
-
-### Block Telemetry
-- `GET /blocks/height`: Returns `{ "height": number }` of latest consolidated block.
-- `GET /blocks/last`: Returns full payload of the latest block.
-- `GET /blocks/at/{height}`: Returns block details at specific height.
-- `GET /blocks/seq/{from}/{to}`: Returns block sequence (maximum 100 blocks per request).
-- `GET /blocks/headers/last`: Returns lightweight header of the latest block.
-
-### Address & State Queries
-- `GET /addresses/balance/{address}`: Returns `{ "address": string, "confirmations": 0, "balance": number }`.
-- `GET /addresses/balance/details/{address}`: Returns detailed regular, generating, available, and effective balances.
-- `GET /addresses/data/{address}`: Returns all key-value entries stored in address state.
-- `GET /addresses/data/{address}/{key}`: Returns specific key-value entry (used for ESG carbon metadata).
-- `GET /addresses/scriptInfo/{address}`: Returns compiled script, complexity, and callable ABI functions.
-
-### Transactions
-- `GET /transactions/info/{id}`: Returns transaction status, block height, and full payload.
-- `GET /transactions/address/{address}/limit/{limit}`: Returns transaction history for an address (up to 100).
-- `GET /transactions/unconfirmed`: Returns current unconfirmed transaction pool (mempool).
-- `POST /transactions/broadcast`: Broadcasts a signed transaction to the network.
-
-### Assets & Environmental Tokens
-- `GET /assets/details/{assetId}`: Returns asset metadata (name, description, quantity, decimals, reissuable, issuer).
-- `GET /assets/balance/{address}/{assetId}`: Returns specific asset balance of an address.
-- `GET /assets/nft/{address}/limit/{limit}`: Returns non-fungible tokens owned by an address.
+AMZX records state changes via deterministic transaction types:
+- **Type 3 (Issue)**: Asset creation, supporting decimal precision up to 18 decimal places.
+- **Type 4 (Transfer)**: Direct peer-to-peer asset transfers.
+- **Type 5 (Reissue)**: Additional token generation for reissuable assets.
+- **Type 6 (Burn)**: Irreversible token retirement.
+- **Type 8 (Lease)**: Delegation of mining power to validator nodes without custody transfer.
+- **Type 9 (Cancel Lease)**: Unbonding delegated balance from validator nodes.
+- **Type 10 (Alias)**: Human-readable moniker mapping to addresses.
+- **Type 11 (Mass Transfer)**: Batch transfer sending assets to up to 100 recipients in a single atomic transaction.
+- **Type 12 (Data)**: Key-value data entries stored on-chain.
+- **Type 13 (Set Script)**: Deployment of Ride smart contracts to an account.
+- **Type 14 (Sponsor Fee)**: Allows transaction fees to be paid in secondary tokens.
+- **Type 15 (Set Asset Script)**: Attaching verification rules directly to Smart Assets.
+- **Type 16 (Invoke Script)**: Decentralized dApp contract function invocations with attached payments.
+- **Type 17 (Update Asset Info)**: Modifying non-immutable metadata of assets.
 
 ---
 
-## 6. Environmental Real-World Assets (eRWA) & VERDE Token Specification
+## 5. Sitemaps & Structured Index
 
-Planet One establishes an immutable chain of custody for tokenized natural assets:
-
-### The VERDE Token
-- **Symbol**: `VERDE`
-- **Underlying Value**: 1 VERDE represents certified carbon offset sequestration equivalence or preserved biological territory.
-- **On-chain Registry**: Georeferenced polygon boundaries stored using Data Transactions (Type 12) with latitude/longitude coordinate arrays.
-- **Verification Proofs**: Independent MRV (Measurement, Reporting, and Verification) reports referenced via IPFS hashes and digital signatures from accredited auditors.
-
-### 3D Carbon Terrain Model
-The explorer includes a real-time mathematical coordinate visualizer (`/carbon-map`) mapping polygonal vertice arrays to verified real-world preservation tracts.
-
----
-
-## 7. Smart Contracts with Ride Language
-
-Ride is designed specifically for high-integrity financial and environmental contracts:
-
-### Characteristic Features
-- No loops or infinite recursions: guarantees termination and fixed execution complexity.
-- Cost limit: Maximum 4,000 complexity per execution (checked at compile time).
-- State mutations are returned explicitly via `ScriptResult(actions, payments)`:
-  - `BinaryEntry`, `BooleanEntry`, `IntegerEntry`, `StringEntry`, `DeleteEntry`
-  - `ScriptTransfer`
-  - `Issue`, `Reissue`, `Burn`
-
-### Example Ride Environmental Escrow
-```ride
-{-# STDLIB_VERSION 6 #-}
-{-# CONTENT_TYPE DAPP #-}
-{-# SCRIPT_TYPE ACCOUNT #-}
-
-@Callable(i)
-func retireCredits(assetId: ByteVector, amount: Int, certificateId: String) = {
-  if (amount <= 0) then throw("Amount must be positive")
-  else if (i.payments[0].assetId != assetId) then throw("Invalid asset deposited")
-  else [
-    Burn(assetId, amount),
-    StringEntry("retirement_" + certificateId, i.caller.toString()),
-    IntegerEntry("amount_" + certificateId, amount),
-    IntegerEntry("timestamp_" + certificateId, lastBlock.timestamp)
-  ]
-}
-```
-
----
-
-## 8. Sitemaps, AI Crawlers & SEO Structure
-
-Planet One Explorer maintains a hierarchical Sitemap Index system at:
-- `https://explorer.planetone.io/sitemap.xml`
-- `https://fullexplorer.planetone.io/sitemap.xml`
-
-### Sub-sitemaps
-1. `sitemap-main.xml`: Core routes (`/`, `/blocks`, `/transactions`, `/nodes`, `/contracts`, `/ranking`, `/carbon-map`, `/tokenplanet/VERDE`).
-2. `sitemap-blocks.xml`: All consolidated block height URLs (`/block/{height}`).
-3. `sitemap-transactions.xml`: Indexed transaction URLs (`/tx/{id}`).
-4. `sitemap-addresses.xml`: Account and dApp contract URLs (`/address/{address}`).
-5. `sitemap-assets.xml`: Environmental assets and tokens (`/asset/{id}`).
-
-### AISEO Bot Permissions
-All compliant crawlers including `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, and `Applebot-Extended` are granted full indexing permissions in `robots.txt` without rate limitations.
+AMZ Explorer maintains a hierarchical Sitemap Index system at:
+- `https://amzexplorer.com/sitemap.xml`
+- `https://fullexplorer.amzexplorer.com/sitemap.xml`

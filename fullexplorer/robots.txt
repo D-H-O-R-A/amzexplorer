@@ -1,5 +1,5 @@
 # ==============================================================================
-# Planet One FullExplorer - Robots.txt (SEO & AISEO Standard)
+# AMZ FullExplorer - Robots.txt (SEO & AISEO Standard)
 # ==============================================================================
 
 # Search Engines
@@ -95,12 +95,12 @@ Disallow: /var/
 Disallow: /db/
 
 # Sitemaps
-Sitemap: https://fullexplorer.planetone.io/sitemap.xml
-Sitemap: https://fullexplorer.planetone.io/sitemap-main.xml
-Sitemap: https://fullexplorer.planetone.io/sitemap-blocks.xml
-Sitemap: https://fullexplorer.planetone.io/sitemap-transactions.xml
-Sitemap: https://fullexplorer.planetone.io/sitemap-addresses.xml
+Sitemap: https://fullexplorer.amzexplorer.com/sitemap.xml
+Sitemap: https://fullexplorer.amzexplorer.com/sitemap-main.xml
+Sitemap: https://fullexplorer.amzexplorer.com/sitemap-blocks.xml
+Sitemap: https://fullexplorer.amzexplorer.com/sitemap-transactions.xml
+Sitemap: https://fullexplorer.amzexplorer.com/sitemap-addresses.xml
 
 # LLM & AI Context Directives (https://llmstxt.org/)
-# LLMs-Context: https://fullexplorer.planetone.io/llms.txt
-# LLMs-Full: https://fullexplorer.planetone.io/llms-full.txt
+# LLMs-Context: https://fullexplorer.amzexplorer.com/llms.txt
+# LLMs-Full: https://fullexplorer.amzexplorer.com/llms-full.txt

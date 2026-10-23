@@ -7,11 +7,7 @@ const { transfer, broadcast } = require("@waves/waves-transactions");
 const { ethAddress2waves, wavesAddress2eth } = require("@waves/node-api-js");
 
 if (!admin.apps.length) {
-  admin.initializeApp({
-    databaseURL: process.env.FIREBASE_DATABASE_EMULATOR_HOST
-      ? `http://${process.env.FIREBASE_DATABASE_EMULATOR_HOST}?ns=planetonebr-default-rtdb`
-      : "https://planetonebr-default-rtdb.firebaseio.com",
-  });
+  admin.initializeApp();
 }
 
 function getRtdb() {
@@ -23,12 +19,12 @@ function getRtdb() {
 }
 
 // Define Secrets using Google Cloud Secret Manager via Firebase params
-const faucetPrivateKey = defineSecret("PLANETONE_PRIVATE_KEY");
-const faucetNodeUrl = defineSecret("PLANETONE_NODE_URL");
-const faucetChainId = defineSecret("PLANETONE_CHAIN_ID");
+const faucetPrivateKey = defineSecret("AMZX_PRIVATE_KEY");
+const faucetNodeUrl = defineSecret("AMZX_NODE_URL");
+const faucetChainId = defineSecret("AMZX_CHAIN_ID");
 
 const COOLDOWN_MS = 24 * 60 * 60 * 1000;
-const AMOUNT = 10 * 1e8; // 10 PLO in atomic units
+const AMOUNT = 10 * 1e8; // 10 AMZ in atomic units
 const FEE = 1_000_000;
 
 // Utility to get real client IP
@@ -71,8 +67,8 @@ exports.faucet = onRequest(
 
       // Retrieve values from Google Cloud Secret Manager
       const privateKey = faucetPrivateKey.value();
-      const nodeUrl = faucetNodeUrl.value() || "https://nodes-testnet.planetone.io";
-      const chainId = faucetChainId.value() || "S";
+      const nodeUrl = faucetNodeUrl.value() || "https://nodes.amzexplorer.com/";
+      const chainId = faucetChainId.value() || "A";
 
       if (!privateKey) {
         return res.status(500).json({ error: "Faucet service is misconfigured: private key is missing." });
@@ -83,7 +79,7 @@ exports.faucet = onRequest(
         : address;
 
       if (!/^([3DSTWYL][a-zA-Z0-9]{34,35})$/.test(gicAddress)) {
-        return res.status(400).json({ error: "Invalid PLO Testnet address" });
+        return res.status(400).json({ error: "Invalid AMZ address" });
       }
 
       const rtdb = getRtdb();
@@ -132,7 +128,7 @@ exports.faucet = onRequest(
       return res.json({
         success: true,
         txId: result.id,
-        amount: "10 PLO",
+        amount: "10 AMZ",
         to: gicAddress,
         ethAlias: wavesAddress2eth(gicAddress),
       });
@@ -161,14 +157,14 @@ exports.ssr = onRequest(
       if (fs.existsSync(templatePath)) {
         template = fs.readFileSync(templatePath, "utf-8");
       } else {
-        template = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Planet One Explorer</title><link rel="canonical" href="https://explorer.planetone.io/" /></head><body><div id="root"></div></body></html>`;
+        template = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>AMZ Explorer</title><link rel="canonical" href="https://amzexplorer.com/" /></head><body><div id="root"></div></body></html>`;
       }
 
-      let title = "Planet One Explorer - Blockchain Explorer & Environmental Ledger (eRWA)";
-      let description = "Explorer oficial da Blockchain Planet One. Monitore blocos, rastreie transações e acompanhe a tokenização de ativos ambientais (eRWA).";
-      let canonical = `https://explorer.planetone.io${urlPath}`;
-      let h1Text = "Planet One Explorer";
-      let subText = "Blockchain Explorer & Environmental Ledger (eRWA)";
+      let title = "AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)";
+      let description = "Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos, rastreie transações e acompanhe créditos de carbono REDD+ e tokens.";
+      let canonical = `https://amzexplorer.com${urlPath}`;
+      let h1Text = "AMZ Explorer";
+      let subText = "Blockchain Explorer & Ledger (Amazonic One)";
       let detailsHtml = "";
 
       const txMatch = urlPath.match(/^\/(?:tx|transaction)\/([a-zA-Z0-9]+)/i);
@@ -178,17 +174,17 @@ exports.ssr = onRequest(
 
       if (txMatch) {
         const txId = txMatch[1];
-        canonical = `https://explorer.planetone.io/tx/${txId}`;
-        title = `Transação ${txId} | Planet One Explorer`;
-        description = `Transação ${txId} registrada na Blockchain Planet One. Consulte dados no ledger ambiental eRWA, nós validadores, taxas e histórico.`;
+        canonical = `https://amzexplorer.com/tx/${txId}`;
+        title = `Transação ${txId} | AMZ Explorer`;
+        description = `Transação ${txId} registrada na Blockchain AMZX. Consulte dados no ledger, nós validadores, taxas e histórico.`;
         h1Text = `Transação ${txId}`;
-        subText = "Transação on-chain auditada no ledger ambiental eRWA da rede Planet One.";
+        subText = "Transação on-chain auditada no ledger da rede AMZX (Amazonic One).";
 
         let extraDetails = "";
         try {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 1200);
-          const resp = await fetch(`https://nodes.planetone.io/transactions/info/${txId}`, { signal: controller.signal });
+          const resp = await fetch(`https://nodes.amzexplorer.com/transactions/info/${txId}`, { signal: controller.signal });
           clearTimeout(timeout);
           if (resp.ok) {
             const data = await resp.json();
@@ -196,7 +192,7 @@ exports.ssr = onRequest(
             const recipientLink = data.recipient ? `<a href="/address/${data.recipient}" style="color:#38bdf8;">${data.recipient}</a>` : "N/A";
             const senderLink = data.sender ? `<a href="/address/${data.sender}" style="color:#38bdf8;">${data.sender}</a>` : (data.generator ? `<a href="/address/${data.generator}" style="color:#38bdf8;">${data.generator}</a>` : "N/A");
             const dateStr = data.timestamp ? new Date(data.timestamp).toUTCString() : "Confirmado";
-            const amountStr = typeof data.amount === "number" ? `${(data.amount / 1e8).toLocaleString("pt-BR")} PLO` : "N/A";
+            const amountStr = typeof data.amount === "number" ? `${(data.amount / 1e8).toLocaleString("pt-BR")} AMZ` : "N/A";
 
             extraDetails = `
               <dt style="color:#94a3b8;">Bloco:</dt><dd>${blockLink}</dd>
@@ -213,7 +209,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Transação</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Hash / ID:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${txId}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>Planet One L1 (Mainnet)</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
               <dt style="color:#94a3b8;">Status:</dt><dd><span style="color:#10b981;font-weight:600;">Confirmado em Bloco</span></dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
@@ -222,17 +218,17 @@ exports.ssr = onRequest(
         `;
       } else if (blockMatch) {
         const height = blockMatch[1];
-        canonical = `https://explorer.planetone.io/block/${height}`;
-        title = `Bloco #${height} | Planet One Explorer`;
-        description = `Bloco #${height} minerado e validado na Blockchain Planet One. Consulte transações contidas e consenso de nós.`;
+        canonical = `https://amzexplorer.com/block/${height}`;
+        title = `Bloco #${height} | AMZ Explorer`;
+        description = `Bloco #${height} minerado e validado na Blockchain AMZX. Consulte transações contidas e consenso de nós.`;
         h1Text = `Bloco #${height}`;
-        subText = "Bloco validado pelo consenso Proof of Stake da rede Planet One.";
+        subText = "Bloco validado pelo consenso Proof of Stake da rede AMZX.";
 
         let extraDetails = "";
         try {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 1200);
-          const resp = await fetch(`https://nodes.planetone.io/blocks/headers/at/${height}`, { signal: controller.signal });
+          const resp = await fetch(`https://nodes.amzexplorer.com/blocks/headers/at/${height}`, { signal: controller.signal });
           clearTimeout(timeout);
           if (resp.ok) {
             const data = await resp.json();
@@ -252,7 +248,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Bloco</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Altura:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;color:#38bdf8;">#${height}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>Planet One L1 (Mainnet)</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
             </dl>
@@ -260,23 +256,23 @@ exports.ssr = onRequest(
         `;
       } else if (addressMatch) {
         const addr = addressMatch[1];
-        canonical = `https://explorer.planetone.io/address/${addr}`;
-        title = `Endereço ${addr} | Planet One Explorer`;
-        description = `Conta e carteira ${addr} na Blockchain Planet One. Consulte saldo PLO, histórico e ativos ambientais eRWA.`;
+        canonical = `https://amzexplorer.com/address/${addr}`;
+        title = `Endereço ${addr} | AMZ Explorer`;
+        description = `Conta e carteira ${addr} na Blockchain AMZX. Consulte saldo AMZ, histórico e tokens REDD+.`;
         h1Text = `Endereço ${addr}`;
-        subText = "Conta de usuário ou contrato na rede Planet One.";
+        subText = "Conta de usuário ou contrato na rede AMZX (Amazonic One).";
 
         let extraDetails = "";
         try {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 1200);
-          const resp = await fetch(`https://nodes.planetone.io/addresses/balance/${addr}`, { signal: controller.signal });
+          const resp = await fetch(`https://nodes.amzexplorer.com/addresses/balance/${addr}`, { signal: controller.signal });
           clearTimeout(timeout);
           if (resp.ok) {
             const data = await resp.json();
-            const balStr = typeof data.balance === "number" ? `${(data.balance / 1e8).toLocaleString("pt-BR")} PLO` : "0 PLO";
+            const balStr = typeof data.balance === "number" ? `${(data.balance / 1e8).toLocaleString("pt-BR")} AMZ` : "0 AMZ";
             extraDetails = `
-              <dt style="color:#94a3b8;">Saldo PLO:</dt><dd><strong style="color:#10b981;">${balStr}</strong></dd>
+              <dt style="color:#94a3b8;">Saldo AMZ:</dt><dd><strong style="color:#10b981;">${balStr}</strong></dd>
             `;
           }
         } catch (_) {}
@@ -286,7 +282,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Conta</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Endereço:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${addr}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>Planet One Blockchain</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX Blockchain</dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
             </dl>
@@ -294,11 +290,11 @@ exports.ssr = onRequest(
         `;
       } else if (assetMatch) {
         const assetId = assetMatch[1];
-        canonical = `https://explorer.planetone.io/asset/${assetId}`;
-        title = `Ativo / Token ${assetId} | Planet One Explorer`;
-        description = `Detalhes do token/ativo ambiental ${assetId} na Blockchain Planet One.`;
+        canonical = `https://amzexplorer.com/asset/${assetId}`;
+        title = `Ativo / Token ${assetId} | AMZ Explorer`;
+        description = `Detalhes do token/ativo ${assetId} na Blockchain AMZX (Amazonic One).`;
         h1Text = `Ativo ${assetId}`;
-        subText = "Token ou Ativo Ambiental (eRWA) registrado na Planet One.";
+        subText = "Token ou Ativo registrado na AMZX Blockchain.";
         detailsHtml = `
           <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Ativo</h2>
@@ -324,7 +320,7 @@ exports.ssr = onRequest(
       const rootContent = `
         <div id="root">
           <main style="max-width:1200px;margin:2rem auto;padding:1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#f8fafc;">
-            <nav style="margin-bottom:1.5rem;"><a href="/" style="color:#10b981;text-decoration:none;font-weight:500;">← Planet One Explorer</a></nav>
+            <nav style="margin-bottom:1.5rem;"><a href="/" style="color:#10b981;text-decoration:none;font-weight:500;">← AMZ Explorer</a></nav>
             <h1 style="font-size:1.75rem;font-weight:700;margin:0 0 0.5rem 0;word-break:break-all;">${h1Text}</h1>
             <p style="color:#94a3b8;margin:0 0 1.5rem 0;font-size:1rem;">${subText}</p>
             ${detailsHtml}

@@ -263,7 +263,7 @@ export const validateAddress = (address: string): boolean => {
     return address.length === 42 && /^0x[0-9a-fA-F]{40}$/.test(address);
   }
   
-  // Basic length and character class checks for Waves / PLO addresses
+  // Basic length and character class checks for Waves / AMZ addresses
   if (address.length < 34 || address.length > 36) {
     return false;
   }
@@ -655,7 +655,7 @@ export const fetchTransactionData = async (id: string): Promise<Transaction> => 
 export const fetchTransaction = fetchTransactionData;
 
 export const fetchAssetData = async (assetId: string | null | undefined): Promise<Asset> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO' || assetId === 'AMZ') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'AMZ' || assetId === 'AMZ') {
     return {
       assetId: '',
       name: 'AMZ',
@@ -668,7 +668,7 @@ export const fetchAssetData = async (assetId: string | null | undefined): Promis
   }
 
   // Resolve 'amz1' / 'VERDE' alias to its actual contract/asset ID
-  const targetAssetId = (assetId === 'VERDE' || assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
+  const targetAssetId = (assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
 
   // 1. Try our Full Explorer PHP proxy first to bypass CORS
   const fullExplorerUrl = getFullExplorerApiUrl();
@@ -731,7 +731,7 @@ export const fetchNetworkStats = async (): Promise<NetworkStats> => {
       const sqlStats = await response.json();
       
       // Fetch total supply from Node API to ensure precision
-      let totalSupply = 100000000 * 100000000; // Default AMZ supply (100M PLO)
+      let totalSupply = 100000000 * 100000000; // Default AMZ supply (100M AMZ)
       try {
         const rewardsResponse = await fetch(`${nodeUrl}/blockchain/rewards`);
         if (rewardsResponse.ok) {
@@ -1047,10 +1047,10 @@ export const fetchActivationStatus = async (): Promise<ActivationStatus> => {
 };
 
 export const fetchDecimalsAsset = async (assetId: string | null | undefined): Promise<number> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO' || assetId === 'AMZ') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'AMZ' || assetId === 'AMZ') {
     return 8;
   }
-  const targetAssetId = (assetId === 'VERDE' || assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
+  const targetAssetId = (assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
   const apiUrl = getGCSApiUrl();
   const response = await fetch(`${apiUrl}/assets/details/${targetAssetId}`);
   if (!response.ok) {

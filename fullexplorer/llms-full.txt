@@ -1,17 +1,18 @@
-# Planet One FullExplorer - Complete Technical Specification (LLMs Full)
+# AMZX FullExplorer - Complete Technical Specification (LLMs Full)
 
-> In-depth technical architecture, SQLite Triples schema, daemon synchronizer loop, and query API reference for the Planet One FullExplorer service.
+> In-depth technical architecture, SQLite Triples schema, daemon synchronizer loop, and query API reference for the AMZX FullExplorer service by Amazonic One.
 
 ---
 
 ## 1. System Overview
 
-Planet One FullExplorer (`https://fullexplorer.planetone.io`) operates as a local or remote caching and indexing layer positioned directly in front of Planet One validation nodes.
+AMZX FullExplorer (`https://fullexplorer.amzexplorer.com`) operates as a local or remote caching and indexing layer positioned directly in front of AMZX validation nodes (`https://nodes.amzexplorer.com/`).
 
 ### Performance Objectives
 - Sub-millisecond indexed searches across millions of transactions, blocks, and account balances.
 - Minimal RAM footprint (<1GB) with WAL-mode SQLite database storage.
 - Real-time synchronization with microblocks, avoiding deep RPC latency on node state queries.
+- Support for token precision up to 18 decimals and REDD+ high-integrity carbon credit assets.
 
 ---
 
@@ -22,7 +23,7 @@ The SQLite database (`blockchain.sqlite3`) uses indexed numeric IDs mapped to st
 ### Tables
 1. **`pts` (Points/Relations)**: Core relational ledger table linking entities, transaction types, blocks, and timestamps.
 2. **`ts` (Transactions)**: Maps numeric internal transaction keys (`r0`) to Base58 transaction IDs partitioned into 8-byte buckets (`r1`, `r2`).
-3. **`data`**: Key-value pairs stored on-chain via Data Transactions (Type 12) for smart contract state and ESG environmental records.
+3. **`data`**: Key-value pairs stored on-chain via Data Transactions (Type 12) for smart contract state and carbon credits registry.
 4. **`balances`**: Materialized circulating balances per address and asset identifier.
 
 ---

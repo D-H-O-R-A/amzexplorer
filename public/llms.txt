@@ -1,54 +1,52 @@
-# Planet One Explorer
+# AMZ Explorer
 
-> Planet One is a high-throughput, carbon-negative Layer-1 blockchain engineered for environmental real-world asset tokenization (eRWA), certified carbon credit lifecycles, regenerative agriculture, biodiversity verification, and ESG compliance.
+> AMZX is a high-throughput, carbon-negative Layer-1 blockchain engineered by Amazonic One for environmental real-world asset tokenization (REDD+ carbon credits), forest preservation verification, and ESG compliance.
 
-Planet One Explorer (`https://explorer.planetone.io`) is the primary interface for inspecting blocks, transactions, smart contracts, decentralized accounts, validator nodes, and on-chain environmental assets.
+AMZ Explorer (`https://amzexplorer.com`) is the primary interface for inspecting blocks, transactions, smart contracts, decentralized accounts, validator nodes, and on-chain tokens.
 
 ## Core Network Specifications
 
-- **Network Name**: Planet One Mainnet
-- **Native Utility Coin**: PLO (1 PLO = 10^8 atomic units)
-- **Testnet Coin**: PLOT (1 PLOT = 10^8 atomic units)
-- **Flagship Environmental Asset**: VERDE (Tokenized Certified Carbon & Forest Reserves)
-- **Consensus Algorithm**: Fair Proof-of-Stake (FPoS) with Waves-NG microblocks
-- **Block Time**: ~60 seconds (with sub-second microblock confirmations)
-- **Chain ID**: 80 (Character: 'P')
-- **Testnet Chain ID**: 83 (Character: 'S')
-- **Address Encodings**: Native Base58 (starts with 3P...) and EVM Equivalence (0x...)
-- **Smart Contract Engine**: Ride (Functional, deterministic, formal verification) + EVM Transaction (Type 18) support
+- **Network Name**: AMZX Mainnet (Amazonic One)
+- **Native Utility Coin**: AMZ (1 AMZ = 10^8 atomic units)
+- **Flagship Carbon Asset**: amz1 (Asset ID: 7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz - High Integrity REDD+ Carbon Credit Token)
+- **High Precision Token**: AUSDTW (18 decimal places token)
+- **Consensus Algorithm**: Fair Leased Proof-of-Stake (LPoS) with Waves-NG microblocks
+- **Block Time**: ~6 seconds average
+- **Chain ID**: 65 (Character: 'A')
+- **Address Encodings**: Native Base58 (starts with 3...) and EVM Equivalence (0x...)
+- **Smart Contract Engine**: Ride (Functional, deterministic, formal verification) + EVM Transaction support
 
 ## Key Web Pages & Explorer Sections
 
-- [Home Dashboard](https://explorer.planetone.io/): Real-time network telemetry, block height, transactions/s, consensus voting, and live feed.
-- [Blocks Explorer](https://explorer.planetone.io/blocks): Chronological ledger of all blocks, generator validators, sizes, fees, and signatures.
-- [Transactions Stream](https://explorer.planetone.io/transactions): Comprehensive transaction stream with filters for transfers, dApp invocations, asset creation, and EVM executions.
-- [Smart Contracts & dApps](https://explorer.planetone.io/contracts): Directory of audited on-chain smart contracts with callable function interfaces and Ride bytecode inspection.
-- [Network & Validator Nodes](https://explorer.planetone.io/nodes): Global telemetry of active peers, block producers, protocol features, and consensus health.
-- [Rich List & Balances Ranking](https://explorer.planetone.io/ranking): On-chain ranking of top token and asset holders.
-- [3D Carbon Map](https://explorer.planetone.io/carbon-map): Interactive geospatial and 3D terrain visualization of tokenized preservation areas and carbon sink polygons.
-- [Address & Hash Converter](https://explorer.planetone.io/address-converter): Bidirectional converter between Base58 and EVM (0x MetaMask) representations.
-- [Testnet Faucet](https://explorer.planetone.io/faucet): Automated faucet providing testnet PLOT for developers and test suites.
-- [VERDE Environmental Asset Portal](https://explorer.planetone.io/tokenplanet/VERDE): Environmental verification metrics, preserved hectares, CO2 tons retired, and asset backing.
+- [Home Dashboard](https://amzexplorer.com/): Real-time network telemetry, block height, transactions/s, consensus voting, and live feed.
+- [Blocks Explorer](https://amzexplorer.com/blocks): Chronological ledger of all blocks, generator validators, sizes, fees, and signatures.
+- [Transactions Stream](https://amzexplorer.com/transactions): Comprehensive transaction stream with filters for transfers, dApp invocations, asset creation, and executions.
+- [Smart Contracts & dApps](https://amzexplorer.com/contracts): Directory of audited on-chain smart contracts with callable function interfaces and Ride bytecode inspection.
+- [Network & Validator Nodes](https://amzexplorer.com/nodes): Global telemetry of active peers, block producers, protocol features, and consensus health.
+- [Rich List & Balances Ranking](https://amzexplorer.com/ranking): On-chain ranking of top token and asset holders.
+- [Official Carbon Asset amz1](https://amzexplorer.com/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz): REDD+ Carbon Credits verification and trade desk.
+- [Official Wrapped Token AUSDTW](https://amzexplorer.com/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU): 18-decimal precision token details.
+- [Address Converter](https://amzexplorer.com/address-converter): Bidirectional converter between Base58 and EVM (0x MetaMask) representations.
 
-## Real-Time Node & FullExplorer Endpoints
+## Official Encrypted Network Endpoints
 
-- **Public Node RPC**: `https://nodes.planetone.io`
-- **EVM RPC Endpoint**: `https://rpc.planetone.io` (Chain ID 80)
-- **FullExplorer UI**: `https://fullexplorer.planetone.io`
-- **FullExplorer API**: `https://fullexplorer.planetone.io/api`
-- **Testnet Node RPC**: `https://nodes-testnet.planetone.io`
-- **Testnet EVM RPC**: `https://rpc-testnet.planetone.io`
+- **Public Node API**: `https://nodes.amzexplorer.com/`
+- **Matcher DEX API**: `https://matcher.amzexplorer.com`
+- **MetaMask JSON-RPC**: `https://rpc.amzexplorer.com` (Chain ID 65)
+- **AMZX Data Service**: `https://data-service.amzexplorer.com`
+- **gRPC Control / DEX**: `https://grpc-dex.amzexplorer.com` (WSS/GRPCS:443)
+- **gRPC Updates**: `https://grpc-updates.amzexplorer.com` (GRPCS:443)
+- **FullExplorer Web UI**: `https://fullexplorer.amzexplorer.com`
 
-## Sitemaps & Feeds
+## Sitemaps & Structured Indices
 
-- [Sitemap Index](https://explorer.planetone.io/sitemap.xml): Index of all blockchain objects (blocks, transactions, addresses, tokens).
-- [Main Pages Sitemap](https://explorer.planetone.io/sitemap-main.xml): Core explorer routes.
-- [Blocks Sitemap](https://explorer.planetone.io/sitemap-blocks.xml): Indexed block heights.
-- [Transactions Sitemap](https://explorer.planetone.io/sitemap-transactions.xml): Indexed transaction IDs.
-- [Addresses Sitemap](https://explorer.planetone.io/sitemap-addresses.xml): Indexed accounts and contracts.
-- [Assets Sitemap](https://explorer.planetone.io/sitemap-assets.xml): Native and tokenized assets.
+- [Sitemap Index](https://amzexplorer.com/sitemap.xml): Index of all blockchain objects (blocks, transactions, addresses, tokens).
+- [Main Pages Sitemap](https://amzexplorer.com/sitemap-main.xml): Core explorer routes.
+- [Blocks Sitemap](https://amzexplorer.com/sitemap-blocks.xml): Indexed block heights.
+- [Transactions Sitemap](https://amzexplorer.com/sitemap-transactions.xml): Indexed transaction IDs.
+- [Addresses Sitemap](https://amzexplorer.com/sitemap-addresses.xml): Indexed accounts and contracts.
+- [Assets Sitemap](https://amzexplorer.com/sitemap-assets.xml): Native and tokenized assets.
 
-## Comprehensive Context
+## Comprehensive Documentation
 
-For deep architecture specifications, complete REST API parameters, Ride contract syntax, and EVM compatibility guides, see:
-- [Full LLM Technical Documentation](https://explorer.planetone.io/llms-full.txt)
+- [Full LLM Technical Documentation](https://amzexplorer.com/llms-full.txt)

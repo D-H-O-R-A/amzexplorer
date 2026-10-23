@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Planet One FullExplorer Nginx & Certbot Server Production Deployment Script
+# AMZX FullExplorer Nginx & Certbot Server Production Deployment Script
 # ==============================================================================
 # Installs and configures Nginx, PHP-FPM, Certbot SSL, and sets up the subdomain
 # for production deployment of the FullExplorer PHP API backend.
@@ -33,7 +33,7 @@ log_error() {
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          PLANET ONE - FULLEXPLORER NGINX & SSL DEPLOYMENT            "
+echo "          AMZX - FULLEXPLORER NGINX & SSL DEPLOYMENT            "
 echo "======================================================================"
 echo -e "${color_reset}"
 
@@ -49,7 +49,7 @@ IS_TESTNET=false
 # Verify input domain
 if [ $# -lt 1 ]; then
     log_warning "Nenhum domínio foi informado nos argumentos."
-    read -p "Digite o domínio principal para o deploy (ex: planetone.io): " MAIN_DOMAIN
+    read -p "Digite o domínio principal para o deploy (ex: amzexplorer.com): " MAIN_DOMAIN
     if [ -z "$MAIN_DOMAIN" ]; then
         log_error "O domínio não pode estar em branco."
         exit 1
@@ -154,9 +154,9 @@ php composer.phar update --ignore-platform-reqs --no-audit --no-interaction
 
 # De-branding fallback nodes in composer library so it never connects to waves nodes
 log_info "Debranding default/fallback node addresses in PHP SDK libraries..."
-find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|nodes.wavesnodes.com|nodes.planetone.io|g" {} + 2>/dev/null || true
-find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|nodes-testnet.wavesnodes.com|nodes-testnet.planetone.io|g" {} + 2>/dev/null || true
-find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|testnode[0-9].wavesnodes.com|nodes-testnet.planetone.io|g" {} + 2>/dev/null || true
+find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|nodes.wavesnodes.com|nodes.amzexplorer.com|g" {} + 2>/dev/null || true
+find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|nodes-testnet.wavesnodes.com|nodes-testnet.amzexplorer.com|g" {} + 2>/dev/null || true
+find "${DEPLOY_DIR}/vendor" -type f -name "*.php" -exec sed -i "s|testnode[0-9].wavesnodes.com|nodes-testnet.amzexplorer.com|g" {} + 2>/dev/null || true
 
 # Correct ownership again after composer and search-and-replace
 chown -R www-data:www-data "${DEPLOY_DIR}"
@@ -264,7 +264,7 @@ SERVICE_FILE="/etc/systemd/system/fullexplorer-${SUBDOMAIN}.service"
 
 cat << EOF > "$SERVICE_FILE"
 [Unit]
-Description=Planet One FullExplorer Blockchain Indexer Daemon (${SUBDOMAIN})
+Description=AMZX FullExplorer Blockchain Indexer Daemon (${SUBDOMAIN})
 After=network.target
 
 [Service]
@@ -287,7 +287,7 @@ HEADERS_SERVICE_FILE="/etc/systemd/system/fullexplorer-headers-${SUBDOMAIN}.serv
 
 cat << EOF > "$HEADERS_SERVICE_FILE"
 [Unit]
-Description=Planet One FullExplorer Blockchain Headers Indexer Daemon (${SUBDOMAIN})
+Description=AMZX FullExplorer Blockchain Headers Indexer Daemon (${SUBDOMAIN})
 After=network.target
 
 [Service]
@@ -321,7 +321,7 @@ log_info "and: journalctl -u fullexplorer-headers-${SUBDOMAIN}.service -f"
 
 echo -e "${color_accent}"
 echo "======================================================================"
-echo "    PLANET ONE FULLEXPLORER SERVER DEPLOYMENT COMPLETED!             "
+echo "    AMZX FULLEXPLORER SERVER DEPLOYMENT COMPLETED!             "
 echo "======================================================================"
 echo " URL:         https://${SUBDOMAIN}"
 echo " Path:        ${DEPLOY_DIR}"

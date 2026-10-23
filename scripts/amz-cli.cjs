@@ -2,7 +2,7 @@
 
 /**
  * ============================================================================
- * PLANET ONE BLOCKCHAIN INTERACTION CLI
+ * AMZX BLOCKCHAIN BLOCKCHAIN INTERACTION CLI
  * Ferramenta Oficial de Interação, Gestão de Contas e Execução de Transações
  * ============================================================================
  */
@@ -42,7 +42,7 @@ const colors = {
 };
 
 // Configuration file path
-const CONFIG_FILE = path.join(__dirname, '.planetone-config.json');
+const CONFIG_FILE = path.join(__dirname, '.amz-config.json');
 let savedEncryptedSeed = null;
 
 // AES-256-GCM Encryption with PBKDF2 Key Derivation
@@ -156,7 +156,7 @@ function normalizeChainId(input) {
   return str.charAt(0);
 }
 
-// Helper to encode attachment message as Base58 (required by waves-transactions and Planet One node)
+// Helper to encode attachment message as Base58 (required by waves-transactions and AMZX node)
 function formatAttachment(attachment) {
   if (!attachment || typeof attachment !== 'string' || attachment.trim() === '') {
     return undefined;
@@ -169,7 +169,7 @@ function formatAttachment(attachment) {
   }
 }
 
-// Helper to calculate dynamic minimal fee using Planet One node
+// Helper to calculate dynamic minimal fee using AMZX node
 async function fetchCalculateFee(txObject, fallbackFee = 100000) {
   try {
     const res = await fetch(`${session.nodeUrl}/transactions/calculateFee`, {
@@ -192,9 +192,9 @@ async function fetchCalculateFee(txObject, fallbackFee = 100000) {
 // Global Session State
 let session = {
   seed: '',
-  nodeUrl: 'https://testnet.planetone.io',
-  chainId: 'P',
-  explorerUrl: 'https://explorer.planetone.io',
+  nodeUrl: 'https://nodes.amzexplorer.com/',
+  chainId: 'A',
+  explorerUrl: 'https://amzexplorer.com',
   address: '',
   publicKey: ''
 };
@@ -369,12 +369,12 @@ async function getAccountAssets(addr) {
 }
 
 async function getAssetDetails(assetId) {
-  if (!assetId || assetId === 'PLO' || assetId === 'null') {
+  if (!assetId || assetId === 'AMZ' || assetId === 'null') {
     return {
       assetId: null,
-      name: 'PLO',
+      name: 'AMZ',
       decimals: 8,
-      description: 'Moeda Nativa da Rede Planet One',
+      description: 'Moeda Nativa da Rede AMZX',
       quantity: 115368878600000000,
       reissuable: false
     };
@@ -413,10 +413,10 @@ async function compileRideScript(scriptSource) {
       throw new Error(res.error);
     }
   } catch (localErr) {
-    console.log(`${colors.yellow}Compilador local falhou: ${localErr.message}. Tentando nó Planet One...${colors.reset}`);
+    console.log(`${colors.yellow}Compilador local falhou: ${localErr.message}. Tentando nó AMZX...${colors.reset}`);
   }
 
-  // Fallback to Planet One Node compilation endpoint
+  // Fallback to AMZX Node compilation endpoint
   const url = `${session.nodeUrl.replace(/\/+$/, '')}/utils/script/compileCode`;
   const nodeRes = await makeRequest(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' } }, scriptSource);
   if (nodeRes && nodeRes.script) {
@@ -446,7 +446,7 @@ function printBanner() {
   console.log(`${colors.brightCyan}${colors.bold}`);
   console.log('╔═══════════════════════════════════════════════════════════════════════╗');
   console.log('║                                                                       ║');
-  console.log('║             🪐  PLANET ONE BLOCKCHAIN INTERACTION CLI  🪐             ║');
+  console.log('║             🪐  AMZX BLOCKCHAIN BLOCKCHAIN INTERACTION CLI  🪐             ║');
   console.log('║           Painel de Operações, Emissão de Tokens e Contratos          ║');
   console.log('║                                                                       ║');
   console.log('╚═══════════════════════════════════════════════════════════════════════╝');
@@ -468,10 +468,10 @@ function printSessionInfo() {
 
 // Success Transaction Reporter
 function printTxSuccess(txResult) {
-  console.log(`\n${colors.brightGreen}${colors.bold}✓ Transação transmitida com sucesso para a rede Planet One!${colors.reset}`);
+  console.log(`\n${colors.brightGreen}${colors.bold}✓ Transação transmitida com sucesso para a rede AMZX!${colors.reset}`);
   console.log(`${colors.bold}ID da Transação:${colors.reset} ${colors.brightCyan}${txResult.id}${colors.reset}`);
   console.log(`${colors.bold}Tipo:${colors.reset}            ${colors.yellow}${txResult.type}${colors.reset}`);
-  console.log(`${colors.bold}Taxa Paga:${colors.reset}       ${colors.white}${formatAmount(txResult.fee, 8)} PLO${colors.reset}`);
+  console.log(`${colors.bold}Taxa Paga:${colors.reset}       ${colors.white}${formatAmount(txResult.fee, 8)} AMZ${colors.reset}`);
   console.log(`${colors.bold}Link no Explorer:${colors.reset}`);
   console.log(`${colors.brightMagenta}${session.explorerUrl}/tx/${txResult.id}${colors.reset}\n`);
 }
@@ -488,7 +488,7 @@ async function handleCheckBalance() {
 
   try {
     const customAddr = await ask('Digite o endereço a consultar (ou pressione ENTER para usar sua conta atual)', session.address);
-    console.log(`\n${colors.gray}Consultando nó Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Consultando nó AMZX...${colors.reset}`);
 
     const [balanceData, assetData, scriptData, dataEntries] = await Promise.all([
       getAccountBalanceDetails(customAddr).catch(e => ({ regular: 0, available: 0, effective: 0, generating: 0 })),
@@ -497,12 +497,12 @@ async function handleCheckBalance() {
       getAccountData(customAddr).catch(e => [])
     ]);
 
-    console.log(`\n${colors.bold}${colors.green}=== Saldos Nativos (PLO) ===${colors.reset}`);
+    console.log(`\n${colors.bold}${colors.green}=== Saldos Nativos (AMZ) ===${colors.reset}`);
     console.log(`  • ${colors.bold}Endereço Consultado:${colors.reset} ${colors.brightCyan}${customAddr}${colors.reset}`);
-    console.log(`  • ${colors.bold}Saldo Regular:${colors.reset}       ${colors.brightGreen}${formatAmount(balanceData.regular, 8)} PLO${colors.reset}`);
-    console.log(`  • ${colors.bold}Saldo Disponível:${colors.reset}    ${colors.white}${formatAmount(balanceData.available, 8)} PLO${colors.reset}`);
-    console.log(`  • ${colors.bold}Saldo Efetivo:${colors.reset}     ${colors.white}${formatAmount(balanceData.effective, 8)} PLO${colors.reset} (com leasing)`);
-    console.log(`  • ${colors.bold}Saldo Gerador:${colors.reset}     ${colors.white}${formatAmount(balanceData.generating, 8)} PLO${colors.reset}`);
+    console.log(`  • ${colors.bold}Saldo Regular:${colors.reset}       ${colors.brightGreen}${formatAmount(balanceData.regular, 8)} AMZ${colors.reset}`);
+    console.log(`  • ${colors.bold}Saldo Disponível:${colors.reset}    ${colors.white}${formatAmount(balanceData.available, 8)} AMZ${colors.reset}`);
+    console.log(`  • ${colors.bold}Saldo Efetivo:${colors.reset}     ${colors.white}${formatAmount(balanceData.effective, 8)} AMZ${colors.reset} (com leasing)`);
+    console.log(`  • ${colors.bold}Saldo Gerador:${colors.reset}     ${colors.white}${formatAmount(balanceData.generating, 8)} AMZ${colors.reset}`);
 
     console.log(`\n${colors.bold}${colors.green}=== Tokens e Ativos na Carteira (${assetData.balances ? assetData.balances.length : 0}) ===${colors.reset}`);
     if (assetData.balances && assetData.balances.length > 0) {
@@ -520,7 +520,7 @@ async function handleCheckBalance() {
     if (scriptData && scriptData.script) {
       console.log(`  • ${colors.brightGreen}Smart Contract Ativo!${colors.reset}`);
       console.log(`    Complexidade: ${scriptData.complexity || 'N/A'}`);
-      console.log(`    Taxa Extra: ${formatAmount(scriptData.extraFee || 0, 8)} PLO`);
+      console.log(`    Taxa Extra: ${formatAmount(scriptData.extraFee || 0, 8)} AMZ`);
     } else {
       console.log(`  • ${colors.gray}Conta Comum (Sem Script / Contrato)${colors.reset}`);
     }
@@ -552,7 +552,7 @@ async function handleLookupAsset() {
     const assetId = await ask('Digite o Asset ID do token');
     if (!assetId) throw new Error('Asset ID não informado');
 
-    console.log(`\n${colors.gray}Buscando metadados no nó Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Buscando metadados no nó AMZX...${colors.reset}`);
     const details = await getAssetDetails(assetId);
 
     console.log(`\n${colors.bold}${colors.green}=== Detalhes do Token ===${colors.reset}`);
@@ -586,13 +586,13 @@ async function handleLookupAsset() {
 async function handleIssueToken() {
   printBanner();
   printSessionInfo();
-  console.log(`${colors.bold}${colors.cyan}🪙 CRIAR NOVO TOKEN NA PLANET ONE (ISSUE TOKEN - TIPO 3)${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.cyan}🪙 CRIAR NOVO TOKEN NA AMZX BLOCKCHAIN (ISSUE TOKEN - TIPO 3)${colors.reset}\n`);
 
   try {
     const name = await ask('Nome do Token (4 a 16 caracteres)');
     if (!name || name.length < 4 || name.length > 16) throw new Error('Nome deve ter entre 4 e 16 caracteres');
 
-    const description = await ask('Descrição do Token', 'Token criado via Planet One CLI');
+    const description = await ask('Descrição do Token', 'Token criado via AMZX CLI');
     const decimalsStr = await ask('Casas Decimais (0 a 8)', '8');
     const decimals = parseInt(decimalsStr, 10);
     if (isNaN(decimals) || decimals < 0 || decimals > 8) throw new Error('Decimais devem ser entre 0 e 8');
@@ -603,7 +603,7 @@ async function handleIssueToken() {
     const reissuableStr = await ask('Permitir Reemissão futura? (s/n)', 's');
     const reissuable = reissuableStr.toLowerCase().startsWith('s');
 
-    const feeStr = await ask('Taxa da transação em PLO', '1.0');
+    const feeStr = await ask('Taxa da transação em AMZ', '1.0');
     const fee = parseAmount(feeStr, 8);
 
     console.log(`\n${colors.yellow}Resumo da Emissão:${colors.reset}`);
@@ -611,7 +611,7 @@ async function handleIssueToken() {
     console.log(`  • Total Supply: ${supplyStr} (${quantity} unidades base)`);
     console.log(`  • Decimais: ${decimals}`);
     console.log(`  • Reemitível: ${reissuable ? 'Sim' : 'Não'}`);
-    console.log(`  • Taxa: ${feeStr} PLO`);
+    console.log(`  • Taxa: ${feeStr} AMZ`);
 
     const confirm = await ask('\nConfirmar emissão do Token? (s/n)', 's');
     if (!confirm.toLowerCase().startsWith('s')) {
@@ -630,7 +630,7 @@ async function handleIssueToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transação para o nó Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transação para o nó AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
     console.log(`${colors.bold}Novo Asset ID gerado:${colors.reset} ${colors.brightCyan}${result.id}${colors.reset}\n`);
@@ -646,20 +646,20 @@ async function handleIssueToken() {
 async function handleTransfer() {
   printBanner();
   printSessionInfo();
-  console.log(`${colors.bold}${colors.cyan}💸 TRANSFERIR PLO OU TOKEN (TRANSFER - TIPO 4)${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.cyan}💸 TRANSFERIR AMZ OU TOKEN (TRANSFER - TIPO 4)${colors.reset}\n`);
 
   try {
-    const assetIdInput = await ask('Asset ID do token a transferir (ou ENTER para moeda nativa PLO)', '');
+    const assetIdInput = await ask('Asset ID do token a transferir (ou ENTER para moeda nativa AMZ)', '');
     const assetId = assetIdInput ? assetIdInput.trim() : null;
 
     let decimals = 8;
-    let tokenName = 'PLO';
+    let tokenName = 'AMZ';
     let availableBalance = 0;
 
     if (!assetId) {
       const balanceData = await getAccountBalanceDetails(session.address);
       availableBalance = balanceData.available || 0;
-      tokenName = 'PLO';
+      tokenName = 'AMZ';
     } else {
       const [details, accountAssets] = await Promise.all([
         getAssetDetails(assetId),
@@ -688,7 +688,7 @@ async function handleTransfer() {
     const rawAttachment = await ask('Mensagem / Anexo opcional', '');
     const attachment = formatAttachment(rawAttachment);
 
-    // Consulta taxa mínima dinâmica calculada pelo nó Planet One
+    // Consulta taxa mínima dinâmica calculada pelo nó AMZX
     const tempTx = wt.transfer({
       recipient,
       amount,
@@ -699,12 +699,12 @@ async function handleTransfer() {
     }, session.seed);
 
     const calculatedFee = await fetchCalculateFee(tempTx, 100000);
-    const feeStr = await ask('Taxa da transação em PLO', (calculatedFee / 1e8).toString());
+    const feeStr = await ask('Taxa da transação em AMZ', (calculatedFee / 1e8).toString());
     const userFee = parseAmount(feeStr, 8);
     const fee = Math.max(userFee, calculatedFee);
 
     if (userFee < calculatedFee) {
-      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} PLO). Ajustando para a taxa mínima.${colors.reset}`);
+      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} AMZ). Ajustando para a taxa mínima.${colors.reset}`);
     }
 
     const tx = wt.transfer({
@@ -716,7 +716,7 @@ async function handleTransfer() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transferência para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transferência para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -734,17 +734,17 @@ async function handleMassTransfer() {
   console.log(`${colors.bold}${colors.cyan}👥 TRANSFERÊNCIA EM MASSA (MASS TRANSFER - TIPO 11)${colors.reset}\n`);
 
   try {
-    const assetIdInput = await ask('Asset ID do token a transferir (ou ENTER para moeda nativa PLO)', '');
+    const assetIdInput = await ask('Asset ID do token a transferir (ou ENTER para moeda nativa AMZ)', '');
     const assetId = assetIdInput ? assetIdInput.trim() : null;
 
     let decimals = 8;
-    let tokenName = 'PLO';
+    let tokenName = 'AMZ';
     let availableBalance = 0;
 
     if (!assetId) {
       const balanceData = await getAccountBalanceDetails(session.address);
       availableBalance = balanceData.available || 0;
-      tokenName = 'PLO';
+      tokenName = 'AMZ';
     } else {
       const [details, accountAssets] = await Promise.all([
         getAssetDetails(assetId),
@@ -798,7 +798,7 @@ async function handleMassTransfer() {
     const rawAttachment = await ask('Mensagem / Anexo opcional', '');
     const attachment = formatAttachment(rawAttachment);
 
-    // Consulta taxa mínima dinâmica calculada pelo nó Planet One
+    // Consulta taxa mínima dinâmica calculada pelo nó AMZX
     const tempTx = wt.massTransfer({
       transfers,
       assetId,
@@ -808,12 +808,12 @@ async function handleMassTransfer() {
     }, session.seed);
 
     const calculatedFee = await fetchCalculateFee(tempTx, Math.max(400000, 100000 + Math.ceil(transfers.length / 2) * 100000));
-    const feeStr = await ask('Taxa em PLO', (calculatedFee / 1e8).toString());
+    const feeStr = await ask('Taxa em AMZ', (calculatedFee / 1e8).toString());
     const userFee = parseAmount(feeStr, 8);
     const fee = Math.max(userFee, calculatedFee);
 
     if (userFee < calculatedFee) {
-      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} PLO). Ajustando para a taxa mínima.${colors.reset}`);
+      console.log(`${colors.yellow}Aviso: A taxa informada é menor que o mínimo exigido (${formatAmount(calculatedFee, 8)} AMZ). Ajustando para a taxa mínima.${colors.reset}`);
     }
 
     const tx = wt.massTransfer({
@@ -824,7 +824,7 @@ async function handleMassTransfer() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transferência em massa para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transferência em massa para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -859,7 +859,7 @@ async function handleReissueToken() {
     const reissuableStr = await ask('Manter o token reemitível para o futuro? (s/n)', 's');
     const reissuable = reissuableStr.toLowerCase().startsWith('s');
 
-    const feeStr = await ask('Taxa em PLO', '1.0');
+    const feeStr = await ask('Taxa em AMZ', '1.0');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.reissue({
@@ -870,7 +870,7 @@ async function handleReissueToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo reemissão para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo reemissão para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -911,7 +911,7 @@ async function handleBurnToken() {
       if (!proceed.toLowerCase().startsWith('s')) return;
     }
 
-    const feeStr = await ask('Taxa em PLO', '0.001');
+    const feeStr = await ask('Taxa em AMZ', '0.001');
     const fee = parseAmount(feeStr, 8);
 
     const confirm = await ask(`\n${colors.brightRed}Confirmar queima de ${amountStr} ${details.name}? Essa ação é IRREVERSÍVEL! (s/n)${colors.reset}`, 'n');
@@ -928,7 +928,7 @@ async function handleBurnToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo queima para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo queima para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -947,15 +947,15 @@ async function handleLease() {
 
   try {
     const balanceData = await getAccountBalanceDetails(session.address);
-    console.log(`Saldo Disponível para Leasing: ${colors.brightGreen}${formatAmount(balanceData.available, 8)} PLO${colors.reset}\n`);
+    console.log(`Saldo Disponível para Leasing: ${colors.brightGreen}${formatAmount(balanceData.available, 8)} AMZ${colors.reset}\n`);
 
-    const recipient = await ask('Endereço do Nó Gerador / Validador Planet One');
+    const recipient = await ask('Endereço do Nó Gerador / Validador AMZX');
     if (!recipient) throw new Error('Endereço do validador obrigatório');
 
-    const amountStr = await ask('Quantidade de PLO a colocar em Leasing');
+    const amountStr = await ask('Quantidade de AMZ a colocar em Leasing');
     const amount = parseAmount(amountStr, 8);
 
-    const feeStr = await ask('Taxa da transação em PLO', '0.001');
+    const feeStr = await ask('Taxa da transação em AMZ', '0.001');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.lease({
@@ -965,7 +965,7 @@ async function handleLease() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo lease para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo lease para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
     console.log(`${colors.bold}ID do Leasing para futuro cancelamento:${colors.reset} ${colors.brightCyan}${result.id}${colors.reset}\n`);
@@ -987,7 +987,7 @@ async function handleCancelLease() {
     const leaseId = await ask('ID da transação de Lease a cancelar');
     if (!leaseId) throw new Error('Lease ID obrigatório');
 
-    const feeStr = await ask('Taxa da transação em PLO', '0.001');
+    const feeStr = await ask('Taxa da transação em AMZ', '0.001');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.cancelLease({
@@ -996,7 +996,7 @@ async function handleCancelLease() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo cancelamento de lease para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo cancelamento de lease para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1017,7 +1017,7 @@ async function handleCreateAlias() {
     const alias = await ask('Nome do Alias desejado (4 a 30 caracteres: a-z, 0-9, @, -, _)');
     if (!alias || alias.length < 4 || alias.length > 30) throw new Error('Alias deve ter entre 4 e 30 caracteres');
 
-    const feeStr = await ask('Taxa da transação em PLO', '0.001');
+    const feeStr = await ask('Taxa da transação em AMZ', '0.001');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.alias({
@@ -1026,7 +1026,7 @@ async function handleCreateAlias() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Registrando alias na rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Registrando alias na rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1086,7 +1086,7 @@ async function handleDataTransaction() {
     }, session.seed);
 
     const calculatedFee = await fetchCalculateFee(tempTx, 100000);
-    const feeStr = await ask('Taxa em PLO', (calculatedFee / 1e8).toString());
+    const feeStr = await ask('Taxa em AMZ', (calculatedFee / 1e8).toString());
     const userFee = parseAmount(feeStr, 8);
     const fee = Math.max(userFee, calculatedFee);
 
@@ -1096,7 +1096,7 @@ async function handleDataTransaction() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Gravando dados na blockchain Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Gravando dados na blockchain AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1152,7 +1152,7 @@ async function handleSetScript() {
     console.log(`\n${colors.green}✓ Script compilado com sucesso!${colors.reset}`);
     console.log(`Script Base64: ${colors.gray}${compiledBase64.slice(0, 40)}...${colors.reset}\n`);
 
-    const feeStr = await ask('Taxa em PLO', '0.01');
+    const feeStr = await ask('Taxa em AMZ', '0.01');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.setScript({
@@ -1161,7 +1161,7 @@ async function handleSetScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Ativando Smart Contract na conta Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Ativando Smart Contract na conta AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1194,7 +1194,7 @@ async function handleRemoveScript() {
       return;
     }
 
-    const feeStr = await ask('Taxa em PLO', '0.01');
+    const feeStr = await ask('Taxa em AMZ', '0.01');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.setScript({
@@ -1203,7 +1203,7 @@ async function handleRemoveScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Removendo contrato da conta na rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Removendo contrato da conta na rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1227,8 +1227,8 @@ async function handleSponsorFee() {
     const details = await getAssetDetails(assetId);
     console.log(`\n${colors.bold}Token:${colors.reset} ${details.name} (Decimais: ${details.decimals})`);
 
-    console.log(`\n${colors.yellow}Informe o custo mínimo do token para pagar uma taxa básica de transação (0.001 PLO):${colors.reset}`);
-    console.log(`Exemplo: Se 1 ${details.name} = 1 PLO, digite 0.001. Digite 0 para DESATIVAR o patrocínio.`);
+    console.log(`\n${colors.yellow}Informe o custo mínimo do token para pagar uma taxa básica de transação (0.001 AMZ):${colors.reset}`);
+    console.log(`Exemplo: Se 1 ${details.name} = 1 AMZ, digite 0.001. Digite 0 para DESATIVAR o patrocínio.`);
     const minFeeStr = await ask(`Valor do token ${details.name} por taxa básica`, '1');
 
     let minSponsoredAssetFee = null;
@@ -1236,7 +1236,7 @@ async function handleSponsorFee() {
       minSponsoredAssetFee = parseAmount(minFeeStr, details.decimals);
     }
 
-    const feeStr = await ask('Taxa da transação em PLO', '1.0');
+    const feeStr = await ask('Taxa da transação em AMZ', '1.0');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.sponsorship({
@@ -1246,7 +1246,7 @@ async function handleSponsorFee() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Atualizando patrocínio de taxas na rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Atualizando patrocínio de taxas na rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1290,7 +1290,7 @@ async function handleSetAssetScript() {
       compiledBase64 = await ask('Base64 do script');
     }
 
-    const feeStr = await ask('Taxa em PLO', '1.0');
+    const feeStr = await ask('Taxa em AMZ', '1.0');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.setAssetScript({
@@ -1300,7 +1300,7 @@ async function handleSetAssetScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo script do asset para a rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo script do asset para a rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1348,10 +1348,10 @@ async function handleInvokeScript() {
     const payment = [];
     const attachPay = await ask('\nDeseja anexar pagamento a esta chamada? (s/n)', 'n');
     if (attachPay.toLowerCase().startsWith('s')) {
-      const payAsset = await ask('Asset ID do pagamento (ou ENTER para PLO)', '');
+      const payAsset = await ask('Asset ID do pagamento (ou ENTER para AMZ)', '');
       const assetId = payAsset || null;
       let decimals = 8;
-      let tokenName = 'PLO';
+      let tokenName = 'AMZ';
       if (assetId) {
         const det = await getAssetDetails(assetId);
         decimals = det.decimals;
@@ -1378,7 +1378,7 @@ async function handleInvokeScript() {
     }, session.seed);
 
     const calculatedFee = await fetchCalculateFee(tempTx, 500000);
-    const feeStr = await ask('\nTaxa em PLO', (calculatedFee / 1e8).toString());
+    const feeStr = await ask('\nTaxa em AMZ', (calculatedFee / 1e8).toString());
     const userFee = parseAmount(feeStr, 8);
     const fee = Math.max(userFee, calculatedFee);
 
@@ -1390,7 +1390,7 @@ async function handleInvokeScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Executando invocação no nó Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Executando invocação no nó AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1418,7 +1418,7 @@ async function handleUpdateAssetInfo() {
     const name = await ask('Novo Nome do Token (4 a 16 caracteres)', details.name);
     const description = await ask('Nova Descrição', details.description);
 
-    const feeStr = await ask('Taxa em PLO', '0.001');
+    const feeStr = await ask('Taxa em AMZ', '0.001');
     const fee = parseAmount(feeStr, 8);
 
     const tx = wt.updateAssetInfo({
@@ -1429,7 +1429,7 @@ async function handleUpdateAssetInfo() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Atualizando dados do token na rede Planet One...${colors.reset}`);
+    console.log(`\n${colors.gray}Atualizando dados do token na rede AMZX...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1443,19 +1443,19 @@ async function handleUpdateAssetInfo() {
 // Configuration Menu
 async function handleConfigureSettings() {
   printBanner();
-  console.log(`${colors.bold}${colors.cyan}⚙️ CONFIGURAÇÕES DE REDE E CONTA PLANET ONE${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.cyan}⚙️ CONFIGURAÇÕES DE REDE E CONTA AMZX BLOCKCHAIN${colors.reset}\n`);
 
-  const nodeUrl = await ask('URL do Nó da Blockchain Planet One', session.nodeUrl);
+  const nodeUrl = await ask('URL do Nó da Blockchain AMZX', session.nodeUrl);
   const chainIdRaw = await ask('Chain ID da Rede (P para Mainnet [3L...], S ou T para Testnet)', session.chainId);
   const chainId = normalizeChainId(chainIdRaw);
-  const explorerUrl = await ask('URL do Explorer Planet One', session.explorerUrl);
+  const explorerUrl = await ask('URL do Explorer AMZX', session.explorerUrl);
 
   const changeSeed = await ask('Deseja configurar / alterar a Seed Phrase da conta? (s/n)', session.seed ? 'n' : 's');
   let seed = session.seed;
   let encryptionPassword = '';
 
   if (changeSeed.toLowerCase().startsWith('s')) {
-    seed = await askSecret('Digite a Seed Phrase da sua conta Planet One');
+    seed = await askSecret('Digite a Seed Phrase da sua conta AMZX');
 
     console.log(`\n${colors.cyan}🔒 Proteção de Segurança (AES-256):${colors.reset}`);
     console.log(`${colors.gray}Defina uma senha para criptografar sua Seed Phrase no disco e evitar ataques.${colors.reset}`);
@@ -1484,7 +1484,7 @@ async function handleConfigureSettings() {
   saveConfig(encryptionPassword);
 
   console.log(`\n${colors.green}✓ Configurações salvas e Seed protegida com AES-256!${colors.reset}`);
-  console.log(`Endereço Planet One derivado: ${colors.brightGreen}${session.address}${colors.reset}`);
+  console.log(`Endereço AMZX derivado: ${colors.brightGreen}${session.address}${colors.reset}`);
   await ask('\nPressione ENTER para continuar');
 }
 
@@ -1555,7 +1555,7 @@ async function ensureConfiguration() {
     updateKeys();
   } else {
     printBanner();
-    console.log(`${colors.yellow}Bem-vindo ao Planet One Blockchain Interaction CLI!${colors.reset}`);
+    console.log(`${colors.yellow}Bem-vindo ao AMZX Blockchain Interaction CLI!${colors.reset}`);
     console.log(`${colors.gray}Para iniciar, vamos configurar sua conexão e conta com proteção criptográfica.${colors.reset}\n`);
     await handleConfigureSettings();
   }
@@ -1574,10 +1574,10 @@ async function main() {
     printSessionInfo();
 
     console.log(`${colors.bold}MENU DE OPERAÇÕES DISPONÍVEIS:${colors.reset}\n`);
-    console.log(`  ${colors.brightCyan}[1]${colors.reset}  📊 Consultar Saldos e Portfólio de Tokens (PLO e outros ativos)`);
+    console.log(`  ${colors.brightCyan}[1]${colors.reset}  📊 Consultar Saldos e Portfólio de Tokens (AMZ e outros ativos)`);
     console.log(`  ${colors.brightCyan}[2]${colors.reset}  🔍 Consultar Detalhes de um Token Específico (Asset ID)`);
     console.log(`  ${colors.brightCyan}[3]${colors.reset}  🪙 Criar Novo Token (Issue Token - Tipo 3)`);
-    console.log(`  ${colors.brightCyan}[4]${colors.reset}  💸 Transferir PLO ou Token (Transfer - Tipo 4)`);
+    console.log(`  ${colors.brightCyan}[4]${colors.reset}  💸 Transferir AMZ ou Token (Transfer - Tipo 4)`);
     console.log(`  ${colors.brightCyan}[5]${colors.reset}  👥 Transferência em Massa para Múltiplas Contas (Mass Transfer - Tipo 11)`);
     console.log(`  ${colors.brightCyan}[6]${colors.reset}  ➕ Reemitir Token Existente (Reissue - Tipo 5)`);
     console.log(`  ${colors.brightCyan}[7]${colors.reset}  🔥 Queimar Token (Burn - Tipo 6)`);
@@ -1652,7 +1652,7 @@ async function main() {
         await handleConfigureSettings();
         break;
       case '0':
-        console.log(`\n${colors.brightCyan}Até logo! Planet One Blockchain Interaction CLI finalizado.${colors.reset}\n`);
+        console.log(`\n${colors.brightCyan}Até logo! AMZX Blockchain Interaction CLI finalizado.${colors.reset}\n`);
         running = false;
         break;
       default:

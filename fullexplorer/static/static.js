@@ -126,14 +126,14 @@ function handleSearch( event )
     }
 
     // Check if it's an asset search
-    if( query.toUpperCase() === 'PLO' || query.toUpperCase() === 'WAVES' )
+    if( query.toUpperCase() === 'AMZ' || query.toUpperCase() === 'WAVES' )
     {
-        window.location.href = '/top/PLO';
+        window.location.href = '/top/AMZ';
         return;
     }
-    if( query.toUpperCase() === 'VERDE' )
+    if( query.toUpperCase() === 'amz1' )
     {
-        window.location.href = '/top/VERDE';
+        window.location.href = '/top/amz1';
         return;
     }
 

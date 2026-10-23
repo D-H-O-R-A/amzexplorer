@@ -17,9 +17,9 @@
     "setup:fullexplorer": "bash ./scripts/setup-fullexplorer.sh",
     "deploy:fullexplorer": "bash ./scripts/deploy-fullexplorer-nginx.sh",
     "logs:fullexplorer": "tail -f ./fullexplorer/fullexplorer_local.log",
-    "secrets:set": "firebase functions:secrets:set PLANETONE_PRIVATE_KEY PLANETONE_NODE_URL PLANETONE_CHAIN_ID",
+    "secrets:set": "firebase functions:secrets:set AMZX_PRIVATE_KEY AMZX_NODE_URL AMZX_CHAIN_ID",
     "deploy:functions": "firebase deploy --only functions",
-    "cli": "node scripts/planetone-cli.js"
+    "cli": "node scripts/amz-cli.js"
   },
   "dependencies": {
     "@better2better/waves-node-api-js": "^1.4.1",

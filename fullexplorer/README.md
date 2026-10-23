@@ -1,8 +1,8 @@
-# ⚡ Planet One Full Explorer (API & Indexador Backend)
+# ⚡ AMZ Full Explorer (API & Indexador Backend)
 
-O **Planet One Full Explorer** é um indexador de blockchain de alto desempenho e servidor de API leve e veloz baseado em PHP e SQLite. 
+O **AMZ Full Explorer** é um indexador de blockchain de alto desempenho e servidor de API leve e veloz baseado em PHP e SQLite. 
 
-Ele atua como o cérebro relacional para a rede **Planet One (PLO)**. O indexador escuta a blockchain em tempo real, normaliza, analisa e armazena os blocos, transações de consenso, transferências, balanços de endereços e interações de contratos inteligentes em tabelas SQLite locais altamente otimizadas. Isso permite consultas de API REST instantâneas para alimentar o frontend premium e fornecer dados históricos que o nó gRPC bruto não consegue responder com eficiência relacional.
+Ele atua como o cérebro relacional para a rede **AMZX Blockchain (Amazonic One)**. O indexador escuta a blockchain em tempo real, normaliza, analisa e armazena os blocos, transações de consenso, transferências, balanços de contas e interações de contratos inteligentes em tabelas SQLite locais altamente otimizadas. Isso permite consultas de API REST instantâneas para alimentar o frontend premium e fornecer dados históricos que o nó gRPC bruto não consegue responder com eficiência relacional.
 
 ---
 
@@ -39,7 +39,7 @@ O script `w8_updater.php` é o daemon que se conecta ao nó RPC e faz o download
   php w8_updater.php indexer
   ```
 * **Rollback de Blocos (Se necessário)**:
-  Para reverter a indexação até um bloco específico em caso de bifurcações ou reorganização de rede:
+  Para reverter a indexação até um bloco específico em caso de reorganização de rede:
   ```bash
   php w8_updater.php rollback <numero_do_bloco>
   ```
@@ -57,7 +57,7 @@ A API REST e os endpoints de dados do Full Explorer estarão disponíveis localm
 
 ## 🌐 Implantação em Servidor de Produção (Acesso Público)
 
-Para expor o Full Explorer de forma profissional em subdomínios como `fullexplorer.planetone.io` utilizando o Nginx e o PHP-FPM, siga as instruções abaixo:
+Para expor o Full Explorer de forma profissional em subdomínios como `fullexplorer.amzexplorer.com` utilizando o Nginx e o PHP-FPM, siga as instruções abaixo:
 
 ### 1. VirtualHost no Nginx
 Crie ou edite um arquivo de configuração no diretório de sites do Nginx (ex: `/etc/nginx/sites-available/fullexplorer`):
@@ -66,27 +66,22 @@ Crie ou edite um arquivo de configuração no diretório de sites do Nginx (ex: 
 server {
     listen 80;
     listen [::]:80;
-    server_name fullexplorer.planetone.io;
+    server_name fullexplorer.amzexplorer.com;
 
-    # Altere para o caminho absoluto do seu projeto
-    root /home/diegooris/Documentos/planetone/explorer/fullexplorer;
+    root /home/diegooris/amzexplore/fullexplorer;
     index index.php index.html;
 
     location / {
-        # Redireciona todas as rotas amigáveis da API para o script central index.php
         try_files $uri $uri/ /index.php?$args;
     }
 
-    # Proxy para o PHP-FPM
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        # Altere o caminho do socket para a versão do seu PHP-FPM instalada
         fastcgi_pass unix:/var/run/php/php-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
 
-    # Bloqueio de segurança para impedir acesso direto ao arquivo do banco de dados SQLite
     location /var {
         deny all;
         return 403;
@@ -99,23 +94,23 @@ sudo nginx -t && sudo systemctl reload nginx
 ```
 
 ### 2. Serviço de Segundo Plano no Systemd (Daemonizador)
-Para que a blockchain continue indexando em segundo plano continuamente sem depender do seu terminal aberto, crie o arquivo de serviço `/etc/systemd/system/planetone-indexer.service`:
+Para que a blockchain continue indexando em segundo plano continuamente, crie o arquivo de serviço `/etc/systemd/system/amzx-indexer.service`:
 
 ```ini
 [Unit]
-Description=Planet One Archival Indexer Service
+Description=AMZX Archival Blockchain Indexer Service
 After=network.target
 
 [Service]
 Type=simple
 User=diegooris
-WorkingDirectory=/home/diegooris/Documentos/planetone/explorer/fullexplorer
-ExecStart=/usr/bin/php /home/diegooris/Documentos/planetone/explorer/fullexplorer/w8_updater.php
+WorkingDirectory=/home/diegooris/amzexplore/fullexplorer
+ExecStart=/usr/bin/php /home/diegooris/amzexplore/fullexplorer/w8_updater.php
 Restart=always
 RestartSec=10
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=planetone-indexer
+SyslogIdentifier=amzx-indexer
 
 [Install]
 WantedBy=multi-user.target
@@ -124,13 +119,13 @@ WantedBy=multi-user.target
 Habilite e inicie o indexador para rodar no boot da máquina:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable planetone-indexer.service
-sudo systemctl start planetone-indexer.service
+sudo systemctl enable amzx-indexer.service
+sudo systemctl start amzx-indexer.service
 ```
 
 Para inspecionar o status do indexador ativo:
 ```bash
-sudo systemctl status planetone-indexer.service
+sudo systemctl status amzx-indexer.service
 ```
 
 ---
@@ -139,14 +134,10 @@ sudo systemctl status planetone-indexer.service
 
 **Proprietary Software License**
 
-Copyright (c) 2026 **Diego Henrique Roa Antunes** (Diego Oris). Todos os direitos reservados.
-
-Este indexador e API customizados fazem parte do ecossistema proprietário Planet One, licenciado exclusivamente para a **Zarra Digital** sob os termos contratuais do "Contrato Particular de Associação Estratégica, Licenciamento Exclusivo de Tecnologia, Participação nos Resultados, Governança da Propriedade Intelectual e Outras Avenças", firmado em 28 de Junho de 2026.
+Copyright (c) 2026 **Amazonic One Eco Tecnologia S.A.** e **Diego Henrique Roa Antunes** (Diego Oris). Todos os direitos reservados.
 
 ---
 
 ## 👥 Créditos e Agradecimentos
 
 Este projeto utiliza como motor central de indexação uma versão estendida e customizada do motor open-source de alto desempenho **W8IO**, concebido e desenvolvido originalmente pelo desenvolvedor **Dmitrii Pichulin** ([deemru](https://github.com/deemru) / [github.com/deemru](https://github.com/deemru)), distribuído sob os termos da Licença MIT.
-
-Deixamos registrado o nosso sincero agradecimento e reconhecimento ao autor Dmitrii por sua excelente arquitetura open-source que serviu como base sólida para esta implementação.

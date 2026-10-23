@@ -271,7 +271,7 @@ if( $address === 'api' )
 
         $resolveAssetId = function( $RO, $asset ) {
             $assetLower = strtolower( $asset );
-            if( $assetLower === 'waves' || $assetLower === 'plo' || $assetLower === 'amzx' || $asset === '0' || $asset === 0 )
+            if( $assetLower === 'waves' || $assetLower === 'amz' || $assetLower === 'amzx' || $asset === '0' || $asset === 0 )
                 return 0;
             return $RO->getIdByAsset( $asset );
         };
@@ -431,7 +431,7 @@ if( $address === 'api' )
         require_once 'include/RO.php';
         $RO = new RO( W8DB );
         $asset = $arg === false ? 'AMZ' : $arg;
-        $aid = ( $asset === 'Waves' || $asset === 'PLO' || $asset === 'WAVES' || $asset === 'AMZ' ) ? 0 : $RO->getIdByAsset( $asset );
+        $aid = ( $asset === 'Waves' || $asset === 'AMZ' || $asset === 'WAVES' || $asset === 'AMZ' ) ? 0 : $RO->getIdByAsset( $asset );
         if( $aid === false )
             apiexit( 404, [ 'code' => 404, 'message' => 'asset not found' ] );
         
@@ -459,7 +459,7 @@ if( $address === 'api' )
                 'balance' => $amount,
                 'decimals' => $decimals,
                 'assetName' => $assetName,
-                'assetId' => ($asset === 'PLO' || $asset === 'AMZ') ? 'AMZ' : $asset
+                'assetId' => ($asset === 'AMZ' || $asset === 'AMZ') ? 'AMZ' : $asset
             ];
         }
 
@@ -711,7 +711,7 @@ if( $address === 'top' && $f !== false )
             exit( header( 'location: ' . W8IO_ROOT . 'top/' . $f ) );
     }
 
-    $aid = ( $f === 'Waves' || $f === 'PLO' || $f === 'WAVES' || $f === 'AMZ' ) ? 0 : $RO->getIdByAsset( $f );
+    $aid = ( $f === 'Waves' || $f === 'AMZ' || $f === 'WAVES' || $f === 'AMZ' ) ? 0 : $RO->getIdByAsset( $f );
     if( $aid !== false )
     {
         $info = $RO->getAssetInfoById( $aid );
@@ -824,7 +824,7 @@ function prolog()
     $L = (int)( $_COOKIE['L'] ?? 0 ) === 1;
     $displayAddress = prettyAddress( $address );
     $title = 'AMZ Explorer FullExplorer';
-    $description = 'AMZ Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain AMZ Explorer (PLO).';
+    $description = 'AMZ Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain AMZX Blockchain (AMZ).';
     
     if( $address === 'tx' && $f !== false )
     {
@@ -839,12 +839,12 @@ function prolog()
     else if( $address === 'GENERATORS' )
     {
         $title = 'Geradores de Blocos & Validadores · AMZ Explorer FullExplorer';
-        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede AMZ Explorer (PLO).';
+        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede AMZX Blockchain (AMZ).';
     }
     else if( $address === 'top' )
     {
         $title = 'Ranking de Maiores Balanços (Rich List) · AMZ Explorer FullExplorer';
-        $description = 'Contas com maiores saldos e distribuição de moedas PLO na blockchain AMZ Explorer.';
+        $description = 'Contas com maiores saldos e distribuição de moedas AMZ na blockchain AMZ Explorer.';
     }
     else if( $address === 'ACTIVATION' )
     {
@@ -891,7 +891,7 @@ function prolog()
         
         <!-- Meta Tags Principais & SEO para Mecanismos de Busca -->
         <meta name="description" content="%5$s">
-        <meta name="keywords" content="AMZ Explorer, PLO, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
+        <meta name="keywords" content="AMZ Explorer, AMZ, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
         <meta name="author" content="AMZ Explorer">
         <meta name="publisher" content="AMZ Explorer Foundation">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -958,7 +958,7 @@ function prolog()
     </head>
     <body>
         <!-- AMZ Explorer Header -->
-        <header class="planetone-header">
+        <header class="amzx-header">
             <div class="header-container">
                 <a href="/" class="brand-link">
                     <img src="/static/logo.png" alt="AMZ Explorer Logo" class="brand-logo">
@@ -2261,7 +2261,7 @@ else
         if( $f[0] === 'f' )
         {
             {
-                if( $arg === 'Waves' || $arg === 'PLO' || $arg === 'WAVES' )
+                if( $arg === 'Waves' || $arg === 'AMZ' || $arg === 'WAVES' )
                     $arg = 0;
                 else
                 if( is_numeric( $arg ) )
@@ -2342,8 +2342,8 @@ else
                         $sep = strpos( $arg, ':' );
                         $asset1 = (int)substr( $arg, 1, $sep - 1 );
                         $asset2 = (int)substr( $arg, $sep + 1 );
-                        $asset1 = $asset1 === WAVES_ASSET ? 'PLO' : $RO->getAssetById( $asset1 );
-                        $asset2 = $asset2 === WAVES_ASSET ? 'PLO' : $RO->getAssetById( $asset2 );
+                        $asset1 = $asset1 === WAVES_ASSET ? 'AMZ' : $RO->getAssetById( $asset1 );
+                        $asset2 = $asset2 === WAVES_ASSET ? 'AMZ' : $RO->getAssetById( $asset2 );
                         $arg = ( $first === '>' ? '1_' : '2_' ) . $asset1 . '_' . $asset2;
                     }
                     else
@@ -2374,7 +2374,7 @@ else
                     if( !isset( $args[1] ) || !isset( $args[2] ) )
                         exit( 'not enough assets' );
 
-                    if( $args[1] === 'PLO' || $args[1] === 'WAVES' )
+                    if( $args[1] === 'AMZ' || $args[1] === 'WAVES' )
                     {
                         $asset1 = WAVES_ASSET;
                     }
@@ -2385,7 +2385,7 @@ else
                             exit( 'unknown asset1' );
                     }
 
-                    if( $args[2] === 'PLO' || $args[2] === 'WAVES' )
+                    if( $args[2] === 'AMZ' || $args[2] === 'WAVES' )
                     {
                         $asset2 = WAVES_ASSET;
                     }
@@ -2521,7 +2521,7 @@ else
 
             if( $arg === 0 && $filter === 1 )
             {
-                echo '<b>' . $amount . ' <a href="' . W8IO_ROOT . 'top/PLO">' . $asset . '</a></b>';
+                echo '<b>' . $amount . ' <a href="' . W8IO_ROOT . 'top/AMZ">' . $asset . '</a></b>';
                 echo ' <small><a href="' . W8IO_ROOT . $address . '/fi/AMZ">i</a><a href="' . W8IO_ROOT . $address . '/fo/AMZ">o</a></small>' . PHP_EOL;
                 echo '<span>' . str_repeat( '—', 39 ) . '&nbsp;</span>' .  PHP_EOL;
             }
@@ -2538,7 +2538,7 @@ else
 
             if( $balance[0] !== $amount )
             {
-                $asset = "PLO (GENERATOR)";
+                $asset = "AMZ (GENERATOR)";
                 $amount = w8io_amount( $amount, 8 );
 
                 $weights[WAVES_LEASE_ASSET] = 1000;

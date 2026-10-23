@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ==============================================================================
-// Planet One Explorer & FullExplorer - Strict 10,000 URLs Sitemap Generator
+// AMZX Explorer & FullExplorer - Strict 10,000 URLs Sitemap Generator
 // ==============================================================================
 // Strictly ensures EVERY generated sitemap has a MAXIMUM of 10,000 URLs.
 // Sitemaps are queried from FullExplorer API and distributed across cleanly
@@ -25,8 +25,8 @@ const PUBLIC_DIR = path.resolve(ROOT_DIR, 'public');
 const DIST_DIR = path.resolve(ROOT_DIR, 'dist');
 const FULLEXPLORER_DIR = path.resolve(ROOT_DIR, 'fullexplorer');
 
-const NODE_URL = process.env.PLANETONE_NODE_URL || 'https://nodes.amzexplorer.com';
-const FULLEXPLORER_API = process.env.PLANETONE_FULLEXPLORER_API || 'https://fullexplorer.amzexplorer.com/api';
+const NODE_URL = process.env.AMZX_NODE_URL || 'https://nodes.amzexplorer.com/';
+const FULLEXPLORER_API = process.env.AMZX_FULLEXPLORER_API || 'https://fullexplorer.amzexplorer.com/api';
 const EXPLORER_BASE = 'https://amzexplorer.com';
 const FULLEXPLORER_BASE = 'https://fullexplorer.amzexplorer.com';
 
@@ -195,7 +195,7 @@ async function collectBlockchainData() {
       const promises = [];
       for (let i = 0; i < 50; i++) {
         const idx = (burst * 50) + i;
-        promises.push(safeFetchJson(`${FULLEXPLORER_API}/top/PLO/${idx * 100}`));
+        promises.push(safeFetchJson(`${FULLEXPLORER_API}/top/AMZ/${idx * 100}`));
       }
       const results = await Promise.all(promises);
       for (const res of results) {

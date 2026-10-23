@@ -26,7 +26,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Planet One Full Explorer (w8io PHP/SQLite) local folders
+# AMZX Full Explorer (w8io PHP/SQLite) local folders
 fullexplorer/var/
 fullexplorer/vendor/
 fullexplorer/config.php
@@ -35,5 +35,5 @@ fullexplorer/composer.phar
 fullexplorer/composer.lock
 
 # CLI local configuration and keys
-.planetone-config.json
-scripts/.planetone-config.json
+.amz-config.json
+scripts/.amz-config.json

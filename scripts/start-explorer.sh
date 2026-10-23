@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Planet One Block Explorer Startup Script
+# AMZ Explorer Startup Script
 # ==============================================================================
 # Easily installs dependencies, builds, or spins up the development server
 # for the standard React-based block explorer.
@@ -36,7 +36,7 @@ cd "$SCRIPT_DIR"
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          PLANET ONE - BLOCK EXPLORER CONVENTIONAL STARTUP            "
+echo "          AMZX - BLOCK EXPLORER CONVENTIONAL STARTUP            "
 echo "======================================================================"
 echo -e "${color_reset}"
 

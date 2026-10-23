@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Planet One FullExplorer (w8io) Startup & Running Script
+# AMZX FullExplorer (w8io) Startup & Running Script
 # ==============================================================================
 # Verifies setup, starts the PHP blockchain indexing daemon, and serves the
 # web frontend on a designated port.
@@ -36,7 +36,7 @@ FULLEXPLORER_DIR="${SCRIPT_DIR}/../fullexplorer"
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          PLANET ONE - FULLEXPLORER RUNNING & INDEXING DAEMON        "
+echo "          AMZX - FULLEXPLORER RUNNING & INDEXING DAEMON        "
 echo "======================================================================"
 echo -e "${color_reset}"
 
@@ -76,7 +76,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Start indexing process
-log_info "Starting Planet One FullExplorer database indexing engine..."
+log_info "Starting AMZX FullExplorer database indexing engine..."
 if [ "$DAEMON_MODE" = true ]; then
     # Run the indexer in background loop
     log_info "Launching indexer process in the background..."

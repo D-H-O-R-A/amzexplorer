@@ -3,7 +3,7 @@
 {-# SCRIPT_TYPE ASSET #-}
 
 # ==============================================================================
-# Planet One Smart Asset Script - Basic Rule
+# AMZX Smart Asset Script - Basic Rule
 # Valida e permite transferências, transferências em massa, queima e reemissão.
 # ==============================================================================
 
