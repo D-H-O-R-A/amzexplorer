@@ -26,7 +26,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# AMZX Full Explorer (w8io PHP/SQLite) local folders
+# AMZ Full Explorer (w8io PHP/SQLite) local folders
 fullexplorer/var/
 fullexplorer/vendor/
 fullexplorer/config.php

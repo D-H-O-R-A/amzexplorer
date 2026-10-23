@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AMZX FullExplorer (w8io) Setup Script
+# AMZ FullExplorer (w8io) Setup Script
 # ==============================================================================
-# Sets up the SQL-backed lightweight FullExplorer (deemru/w8io) for AMZX Blockchain,
+# Sets up the SQL-backed lightweight FullExplorer (deemru/w8io) for AMZ Blockchain,
 # configuring the interface, endpoints, tokens, and networks.
 # ==============================================================================
 
@@ -37,7 +37,7 @@ TARGET_DIR="${SCRIPT_DIR}/../fullexplorer"
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          AMZX - FULLEXPLORER AUTOMATED SETUP SCRIPT                  "
+echo "          AMZ - FULLEXPLORER AUTOMATED SETUP SCRIPT                   "
 echo "======================================================================"
 echo -e "${color_reset}"
 
@@ -54,7 +54,7 @@ log_success "All system dependencies are present."
 cd "$TARGET_DIR"
 
 # 2. Handle Configuration creation
-log_info "Configuring AMZX environment variables in config.php..."
+log_info "Configuring AMZ environment variables in config.php..."
 
 if [ -f "config.sample.php" ] && [ ! -f "config.php" ]; then
     cp config.sample.php config.php
@@ -78,7 +78,7 @@ function wk( $full = true ) : WavesKit
         {
             define( 'WK_CURL_SETBESTONERROR', true );
             $wk->setNodeAddress( W8IO_NODES, 0 );
-            $wk->setCryptash( 'AMZX_SECRET_STRING_KEY' );
+            $wk->setCryptash( 'AMZ_SECRET_STRING_KEY' );
         }
     }
     return $wk;
@@ -111,7 +111,7 @@ define( 'W8DB', 'sqlite:' . W8IO_DB_PATH );
 define( 'W8IO_NODES', [ 'https://nodes.amzexplorer.com/' ] );
 define( 'W8IO_MULTI_NODES', [ 'https://nodes.amzexplorer.com/' ] );
 define( 'W8IO_MATCHER', 'https://matcher.amzexplorer.com' );
-define( 'W8IO_NETWORK', 'A' ); // 'A' -- AMZX mainnet
+define( 'W8IO_NETWORK', 'A' ); // 'A' -- AMZ mainnet
 define( 'W8IO_ROOT', '/' );
 define( 'W8IO_MAX_UPDATE_BATCH', 1 );
 define( 'W8IO_UPDATE_DELAY', 1 );
@@ -121,4 +121,4 @@ define( 'W8IO_MAX_MEMORY', 1024 * 1024 * 1024 );
 EOF
 fi
 
-log_success "AMZX FullExplorer configuration updated."
+log_success "AMZ FullExplorer configuration updated."

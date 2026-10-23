@@ -1,12 +1,12 @@
-# AMZX FullExplorer - Complete Technical Specification (LLMs Full)
+# AMZ FullExplorer - Complete Technical Specification (LLMs Full)
 
-> In-depth technical architecture, SQLite Triples schema, daemon synchronizer loop, and query API reference for the AMZX FullExplorer service by Amazonic One.
+> In-depth technical architecture, SQLite Triples schema, daemon synchronizer loop, and query API reference for the AMZ FullExplorer service by Amazonic One.
 
 ---
 
 ## 1. System Overview
 
-AMZX FullExplorer (`https://fullexplorer.amzexplorer.com`) operates as a local or remote caching and indexing layer positioned directly in front of AMZX validation nodes (`https://nodes.amzexplorer.com/`).
+AMZ FullExplorer (`https://fullexplorer.amzexplorer.com`) operates as a local or remote caching and indexing layer positioned directly in front of AMZ validation nodes (`https://nodes.amzexplorer.com/`).
 
 ### Performance Objectives
 - Sub-millisecond indexed searches across millions of transactions, blocks, and account balances.

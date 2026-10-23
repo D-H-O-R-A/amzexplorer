@@ -46,7 +46,7 @@ const VERIFIED_ASSETS_METADATA: Record<string, AssetSocialMetadata> = {
     github: "https://github.com/D-H-O-R-A/amzx",
     discord: "https://amazonicone.com.br/",
     whitepaper: "https://amazonicone.com.br/",
-    description: "amz1 é o token oficial da Amazonic One (AMZX), emitido na blockchain de alta performance com fornecimento total de 100 bilhões de unidades."
+    description: "amz1 is the official utility and governance token of Amazonic One (AMZ), issued on the high-performance blockchain with a total supply of 100 billion units."
   },
   "7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU": {
     website: "https://amazonicone.com.br/",
@@ -55,7 +55,7 @@ const VERIFIED_ASSETS_METADATA: Record<string, AssetSocialMetadata> = {
     github: "https://github.com/D-H-O-R-A/amzx",
     discord: "https://amazonicone.com.br/",
     whitepaper: "https://amazonicone.com.br/",
-    description: "Amazonic USDT Wrapped token 1:1 Peg on the AMZX blockchain."
+    description: "Amazonic USDT Wrapped token 1:1 Peg on the AMZ blockchain."
   }
 };
 
@@ -148,8 +148,8 @@ const AssetPage = () => {
             try {
               assetIdToFetch = ethAsset2Waves(id);
             } catch (error) {
-              console.error("Error converting 0x asset ID to AMZX format:", error);
-              toast.error("Failed to convert asset ID to AMZX format");
+              console.error("Error converting 0x asset ID to AMZ format:", error);
+              toast.error("Failed to convert asset ID to AMZ format");
               setLoading(false);
               return;
             }
@@ -163,7 +163,7 @@ const AssetPage = () => {
           
           setProcessedAssetId(assetIdToFetch);
           
-          // Fetch asset data using AMZX format
+          // Fetch asset data using AMZ format
           const assetData = await fetchAssetDetails(assetIdToFetch);
           setAsset(assetData);
           
@@ -261,8 +261,8 @@ const AssetPage = () => {
       className="min-h-screen px-4 md:px-8 py-8 pb-24 md:pb-12 max-w-6xl mx-auto space-y-8"
     >
       <SEO 
-        title={asset?.name ? `Ativo ${asset.name} (${asset.assetId.substring(0, 8)}...)` : `Ativo On-Chain`}
-        description={`Detalhes do token/ativo ${asset?.name || id} na blockchain AMZX. Total supply, emissor, precisão decimal, detentores e metadados ambientais.`}
+        title={asset?.name ? `Asset ${asset.name} (${asset.assetId.substring(0, 8)}...)` : `On-Chain Asset`}
+        description={`Details for token/asset ${asset?.name || id} on the AMZ blockchain. Total supply, issuer, decimal precision, holders, and on-chain metadata.`}
       />
       
       {/* Header and navigation */}
@@ -396,10 +396,10 @@ const AssetPage = () => {
                 </CardHeader>
                 <CardContent className="p-5 text-xs text-foreground/80 leading-relaxed space-y-3.5 max-w-4xl relative z-10">
                   <p>
-                    <strong className="text-emerald-500 font-bold">amz1</strong> é o token oficial da Amazonic One (AMZX), emitido na blockchain de alta performance com fornecimento total de 100 bilhões de unidades.
+                    <strong className="text-emerald-500 font-bold">amz1</strong> is the official token of Amazonic One (AMZ), issued on the high-performance blockchain with a total supply of 100 billion units.
                   </p>
                   <p>
-                    O token amz1 atua como combustível de governança, liquidez e ecossistema de contratos inteligentes da Amazonic One. Todas as informações de emissão, fornecimento e transferências podem ser auditadas diretamente em tempo real pelo AMZ Explorer.
+                    The amz1 token powers governance, liquidity, and smart contract ecosystem transactions across Amazonic One. Issuance, supply, and transfer records are directly auditable in real-time via AMZ Explorer.
                   </p>
                 </CardContent>
               </Card>
@@ -495,17 +495,17 @@ const AssetPage = () => {
                   <CardHeader className="pb-3 border-b border-emerald-500/20 bg-emerald-500/10">
                     <CardTitle className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                       <CheckCircle className="w-4 h-4 text-emerald-500" />
-                      Ativo Verificado AMZX
+                      Verified AMZ Asset
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-5 space-y-4">
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
-                      {VERIFIED_ASSETS_METADATA[asset.assetId]?.description || "Este token foi verificado oficialmente pelo ecossistema AMZX."}
+                      {VERIFIED_ASSETS_METADATA[asset.assetId]?.description || "This token has been officially verified by the AMZ ecosystem."}
                     </p>
                     
                     {/* Social Links Buttons */}
                     <div className="space-y-2 pt-1.5">
-                      <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider block mb-2">Links Oficiais</span>
+                      <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider block mb-2">Official Links</span>
                       <div className="grid grid-cols-2 gap-2">
                         {VERIFIED_ASSETS_METADATA[asset.assetId]?.website && (
                           <Button variant="outline" size="sm" asChild className="w-full text-xs font-bold rounded-xl border-emerald-500/20 hover:bg-emerald-500/10 hover:text-emerald-500 flex items-center justify-start gap-1.5 px-3">
@@ -577,12 +577,12 @@ const AssetPage = () => {
                         </button>
                       </div>
                       <p className="text-[10px] text-muted-foreground leading-relaxed mt-1">
-                        Utilizado em bridges, carteiras EVM e contratos Ethereum compatíveis integrados ao ecossistema AMZX.
+                        Used across bridges, EVM wallets, and compatible Ethereum contracts integrated into the AMZ ecosystem.
                       </p>
                     </div>
                   ) : (
                     <div className="text-muted-foreground leading-relaxed py-2">
-                      Sem paridade EVM ativa mapeada para este token.
+                      No active EVM parity mapped for this token.
                     </div>
                   )}
                 </CardContent>

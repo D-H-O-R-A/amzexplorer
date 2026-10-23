@@ -14,13 +14,13 @@ const SearchBar = () => {
   const [searchStatus, setSearchStatus] = useState<'idle' | 'searching' | 'success' | 'error'>('idle');
   const navigate = useNavigate();
 
-  // Convert Ethereum address to AMZX native address
+  // Convert Ethereum address to AMZ native address
   const convertEthToWavesAddress = (ethAddress: string): string => {
     try{
       const address = ethAddress2waves(ethAddress, getChainId());
       return address;
     } catch (error) {
-      console.error('Error converting Ethereum address to AMZX address:', error);
+      console.error('Error converting Ethereum address to AMZ address:', error);
       return null;
     }
   };

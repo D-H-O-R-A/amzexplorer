@@ -239,8 +239,8 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col gap-8 md:gap-14">
       <SEO 
-        title="AMZ Explorer - Official AMZX Blockchain Explorer"
-        description="The official high-performance block explorer and ledger analytics engine for the AMZX Blockchain. Monitor blocks, verify transactions, audit smart contracts, and track on-chain assets."
+        title="AMZ Explorer - Official AMZ Blockchain Explorer"
+        description="The official high-performance block explorer and ledger analytics engine for the AMZ Blockchain. Monitor blocks, verify transactions, audit smart contracts, and track on-chain assets."
       />
       
       {/* 1. Hero banner: Clean Emerald Dark Aesthetic */}
@@ -258,7 +258,7 @@ const Index = () => {
           <div className="lg:col-span-7 text-left space-y-6">
             
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white font-mono leading-tight">
-              AMZX <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-400 bg-clip-text text-transparent">Blockchain</span> Explorer
+              AMZ <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-400 bg-clip-text text-transparent">Blockchain</span> Explorer
             </h1>
             
             <p className="text-sm md:text-base text-slate-300 max-w-xl leading-relaxed">
@@ -534,7 +534,7 @@ const Index = () => {
             </h3>
           </div>
           <div className="text-xs text-slate-400 font-mono">
-            Tracked on AMZX Mainnet
+            Tracked on AMZ Mainnet
           </div>
         </div>
 
@@ -670,7 +670,7 @@ const Index = () => {
             </h2>
 
             <p className="text-slate-300 text-base md:text-lg leading-relaxed">
-              Origination and settlement of high-integrity environmental assets directly from conserved Amazon rainforest territories under cryptographic custody on the AMZX blockchain.
+              Origination and settlement of high-integrity environmental assets directly from conserved Amazon rainforest territories under cryptographic custody on the AMZ blockchain.
             </p>
           </div>
 

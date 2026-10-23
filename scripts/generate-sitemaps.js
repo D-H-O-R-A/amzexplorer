@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ==============================================================================
-// AMZX Explorer & FullExplorer - Strict 10,000 URLs Sitemap Generator
+// AMZ Explorer & FullExplorer - Strict 10,000 URLs Sitemap Generator
 // ==============================================================================
 // Strictly ensures EVERY generated sitemap has a MAXIMUM of 10,000 URLs.
 // Sitemaps are queried from FullExplorer API and distributed across cleanly
@@ -43,7 +43,7 @@ console.log('[Sitemap Generator] =============================================='
 
 async function safeFetchJson(url) {
   try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'AMZX-Sitemap-Generator/3.0' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'AMZ-Sitemap-Generator/3.0' } });
     if (!res.ok) return null;
     return await res.json();
   } catch (err) {

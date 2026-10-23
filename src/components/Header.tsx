@@ -63,7 +63,7 @@ const Header = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span>AMZX Network Active</span>
+            <span>AMZ Network Active</span>
           </div>
           <span className="text-border">|</span>
           <span>Ledger: Chain ID {chainId} (Mainnet)</span>
@@ -101,7 +101,7 @@ const Header = () => {
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
                 <span className="text-base font-black font-mono tracking-wider text-foreground uppercase">
-                  AMZ<span className="text-emerald-500">X</span>
+                  AMZ
                 </span>
                 <span className="px-1.5 py-0.2 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-mono font-bold text-emerald-600 dark:text-emerald-400 tracking-wider">
                   EXPLORER
@@ -180,9 +180,9 @@ const Header = () => {
           <div className="space-y-6">
             <SheetHeader className="pb-3 border-b border-border/60">
               <SheetTitle className="text-left flex items-center gap-2.5">
-                <img src="/logo.png" alt="AMZX Logo" className="w-7 h-7 object-contain" />
+                <img src="/logo.png" alt="AMZ Logo" className="w-7 h-7 object-contain" />
                 <span className="text-base font-black font-mono tracking-wider text-foreground uppercase">
-                  AMZ<span className="text-emerald-500">X</span> Explorer
+                  AMZ Explorer
                 </span>
               </SheetTitle>
             </SheetHeader>

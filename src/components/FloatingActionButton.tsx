@@ -32,7 +32,7 @@ const FloatingActionButton = () => {
     return () => window.removeEventListener('scroll', checkScroll);
   }, []);
 
-  // Convert Ethereum address to AMZX native address
+  // Convert Ethereum address to AMZ native address
   const convertEthToWavesAddress = (ethAddress: string): string => {
     try {
       return ethAddress2waves(ethAddress, getChainId());
@@ -145,7 +145,7 @@ const FloatingActionButton = () => {
         }
       }
       
-      // Fallback - Treat as AMZX Tx ID
+      // Fallback - Treat as AMZ Tx ID
       setSearchStatus('success');
       toast.success("Fetching transaction...");
       navigate(`/tx/${query}`);

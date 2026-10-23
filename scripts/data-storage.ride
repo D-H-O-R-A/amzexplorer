@@ -3,7 +3,7 @@
 {-# SCRIPT_TYPE ACCOUNT #-}
 
 # ==============================================================================
-# AMZX Smart Contract - Data Storage Contract
+# AMZ Smart Contract - Data Storage Contract
 # Permite registrar e atualizar entradas de dados (database entries)
 # na conta: Boolean, Integer, String e ByteVector (Bytes).
 # ==============================================================================

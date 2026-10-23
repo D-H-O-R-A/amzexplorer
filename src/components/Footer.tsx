@@ -56,7 +56,7 @@ const Footer = () => {
               AMZ1 LLC
             </h2>
             <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-              Direct and audited protection of the Amazon Rainforest. Originating high-integrity environmental assets and REDD+ carbon credits on the decentralized AMZX ledger.
+              Direct and audited protection of the Amazon Rainforest. Originating high-integrity environmental assets and REDD+ carbon credits on the decentralized AMZ ledger.
             </p>
           </div>
 
@@ -86,10 +86,10 @@ const Footer = () => {
           {/* Col 1: Corporate & Contact (5 cols) */}
           <div className="lg:col-span-5 space-y-5">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="AMZX Logo" className="w-9 h-9 object-contain" />
+              <img src="/logo.png" alt="AMZ Logo" className="w-9 h-9 object-contain" />
               <div className="flex flex-col">
                 <span className="text-base font-black font-mono tracking-wider text-white uppercase">
-                  AMZ<span className="text-emerald-400">X</span> Explorer
+                  AMZ Explorer
                 </span>
                 <span className="text-[10px] text-emerald-400/90 font-mono">
                   Official Amazonic One Blockchain

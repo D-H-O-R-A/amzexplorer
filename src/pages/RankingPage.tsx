@@ -237,7 +237,7 @@ const RankingPage: React.FC = () => {
     >
       <SEO 
         title="Top Accounts & Rich List"
-        description="Official leaderboard of top account balances and asset holders on the AMZX blockchain. Inspect coin distribution and holder concentration."
+        description="Official leaderboard of top account balances and asset holders on the AMZ blockchain. Inspect coin distribution and holder concentration."
       />
       
       {/* Header Block */}

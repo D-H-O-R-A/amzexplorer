@@ -2,7 +2,7 @@
 
 The **AMZ Full Explorer** is a high-performance blockchain indexer and lightweight API engine built on PHP and SQLite.
 
-It serves as the relational indexing engine for the **AMZX Network (Amazonic One)**. The indexer streams blocks from the node in real time, normalizing and persisting consensus transactions, transfers, balances, aliases, and smart contract execution traces into optimized SQLite tables. This enables fast REST API queries and historical analytics.
+It serves as the relational indexing engine for the **AMZ Network (Amazonic One)**. The indexer streams blocks from the node in real time, normalizing and persisting consensus transactions, transfers, balances, aliases, and smart contract execution traces into optimized SQLite tables. This enables fast REST API queries and historical analytics.
 
 ---
 
@@ -96,7 +96,7 @@ To keep the indexer running continuously as a daemon, create `/etc/systemd/syste
 
 ```ini
 [Unit]
-Description=AMZX Archival Blockchain Indexer Service
+Description=AMZ Archival Blockchain Indexer Service
 After=network.target
 
 [Service]

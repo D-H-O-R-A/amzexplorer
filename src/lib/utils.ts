@@ -9,9 +9,9 @@ export function cn(...inputs: ClassValue[]) {
 export const NODE_URL = 'https://nodes.amzexplorer.com';
 export const ETH_NODE_URL = 'https://rpc.amzexplorer.com';
 export const DATA_SERVICE_URL = 'https://data-service.amzexplorer.com';
-export const CHAIN_ID = 65; // 'A' in ASCII is 65 for AMZX Blockchain
+export const CHAIN_ID = 65; // 'A' in ASCII is 65 for AMZ Blockchain
 export const EXPLORER_URL = 'https://amzexplorer.com';
-export const CHAIN_ID_LETTER = 'A'; // Chain ID letter for AMZX
+export const CHAIN_ID_LETTER = 'A'; // Chain ID letter for AMZ
 
 // Official Encrypted HTTPS / GRPCS Endpoints
 export const NODE_SWAGGER_URL = 'https://nodes.amzexplorer.com/';

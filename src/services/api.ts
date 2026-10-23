@@ -263,7 +263,7 @@ export const validateAddress = (address: string): boolean => {
     return address.length === 42 && /^0x[0-9a-fA-F]{40}$/.test(address);
   }
   
-  // Basic length and character class checks for AMZX addresses
+  // Basic length and character class checks for AMZ addresses
   if (address.length < 34 || address.length > 36) {
     return false;
   }
@@ -661,7 +661,7 @@ export const fetchAssetData = async (assetId: string | null | undefined): Promis
       name: 'AMZ',
       decimals: 8,
       balance: 0,
-      description: 'Native utility asset of the AMZX network',
+      description: 'Native utility asset of the AMZ network',
       reissuable: false,
       quantity: 115368878600000000
     };

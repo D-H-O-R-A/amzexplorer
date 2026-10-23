@@ -36,7 +36,7 @@ cd "$SCRIPT_DIR"
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          AMZX - BLOCK EXPLORER CONVENTIONAL STARTUP            "
+echo "          AMZ - BLOCK EXPLORER CONVENTIONAL STARTUP             "
 echo "======================================================================"
 echo -e "${color_reset}"
 

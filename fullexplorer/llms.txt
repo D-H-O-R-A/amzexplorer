@@ -1,19 +1,19 @@
-# AMZX FullExplorer
+# AMZ FullExplorer
 
-> AMZX FullExplorer is a high-performance on-chain indexer, microblock synchronizer, and database search engine built on an optimized SQLite Triples relational store for the AMZX blockchain (AMZ) by Amazonic One.
+> AMZ FullExplorer is a high-performance on-chain indexer, microblock synchronizer, and database search engine built on an optimized SQLite Triples relational store for the AMZ blockchain (AMZ) by Amazonic One.
 
-AMZX FullExplorer (`https://fullexplorer.amzexplorer.com`) delivers real-time transaction lookups, block height validation, address ledger balances, generator mining statistics, and high-frequency JSON API queries.
+AMZ FullExplorer (`https://fullexplorer.amzexplorer.com`) delivers real-time transaction lookups, block height validation, address ledger balances, generator mining statistics, and high-frequency JSON API queries.
 
 ## Network & System Properties
 
 - **Host Service**: `https://fullexplorer.amzexplorer.com`
-- **Network Name**: AMZX Blockchain Mainnet (Amazonic One)
+- **Network Name**: AMZ Blockchain Mainnet (Amazonic One)
 - **Chain ID**: A (65)
 - **Ticker**: AMZ (1 AMZ = 10^8 satoshis)
 - **Official Tokens**: amz1 (Asset ID: 7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz), AUSDTW (18 decimals)
 - **Engine**: PHP 8.x + SQLite3 WAL Mode with Triples Architecture
-- **Sync Protocol**: Real-time gRPC & REST polling against AMZX validation nodes (`https://nodes.amzexplorer.com/`)
-- **Consensus**: Fair LPoS with AMZX-NG microblocks
+- **Sync Protocol**: Real-time gRPC & REST polling against AMZ validation nodes (`https://nodes.amzexplorer.com/`)
+- **Consensus**: Fair LPoS with AMZ-NG microblocks
 
 ## Key Web Pages & Navigation
 

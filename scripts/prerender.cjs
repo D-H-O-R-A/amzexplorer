@@ -90,70 +90,70 @@ function generateHtml(options) {
 const staticRoutes = [
   {
     path: 'transactions',
-    title: 'Transações da Blockchain | AMZX Explorer',
-    description: 'Acompanhe todas as transações em tempo real na Blockchain AMZX. Rastreie transferências, invocação de dApps e emissão de ativos eRWA.',
+    title: 'Blockchain Transactions | AMZ Explorer',
+    description: 'Inspect all real-time transactions on the AMZ Blockchain. Track transfers, dApp invocations, and asset originations.',
     canonical: 'https://amzexplorer.com/transactions',
-    h1: 'Transações da Blockchain AMZX',
-    subText: 'Histórico completo de transações e movimentações no ledger ambiental eRWA.',
+    h1: 'AMZ Blockchain Transactions',
+    subText: 'Complete transaction stream and ledger state history.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Transações On-Chain:</strong> Monitoramento contínuo em tempo real</p>
-        <p style="margin:0;color:#94a3b8;">Carregando feed de transações...</p>
+        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>On-Chain Transactions:</strong> Continuous real-time monitoring</p>
+        <p style="margin:0;color:#94a3b8;">Loading transactions feed...</p>
       </div>
     `
   },
   {
     path: 'blocks',
-    title: 'Blocos da Blockchain | AMZX Explorer',
-    description: 'Consulte os blocos minerados e validados na rede AMZX. Altura, geradores de bloco, recompensas e volume transacionado.',
+    title: 'Blockchain Blocks | AMZ Explorer',
+    description: 'Query mined and validated blocks on the AMZ network. Heights, block proposers, rewards, and transaction volume.',
     canonical: 'https://amzexplorer.com/blocks',
-    h1: 'Blocos da Blockchain AMZX',
-    subText: 'Cadeia de blocos com consenso Proof of Stake e finalidade instantânea.',
+    h1: 'AMZ Blockchain Blocks',
+    subText: 'Proof of Stake blockchain blocks with fast finality.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Consenso:</strong> Fair PoS com nós validadores distribuídos</p>
-        <p style="margin:0;color:#94a3b8;">Carregando últimos blocos validados...</p>
+        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Consensus:</strong> Fair PoS with distributed validator nodes</p>
+        <p style="margin:0;color:#94a3b8;">Loading latest validated blocks...</p>
       </div>
     `
   },
   {
     path: 'nodes',
-    title: 'Nós Validadores e Consenso | AMZX Explorer',
-    description: 'Monitore a descentralização da rede AMZX: nós validadores ativos, versões, localizações geográficas e saúde do consenso.',
+    title: 'Validator Nodes & Consensus | AMZ Explorer',
+    description: 'Monitor AMZ network decentralization: active validator nodes, versions, peer topology, and consensus health.',
     canonical: 'https://amzexplorer.com/nodes',
-    h1: 'Nós Validadores e Infraestrutura',
-    subText: 'Rede distribuída de nós mantendo a segurança do ledger ecológico AMZX.',
+    h1: 'Validator Nodes & Infrastructure',
+    subText: 'Distributed node network securing the AMZ decentralized ledger.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Status da Rede:</strong> Operando em alta disponibilidade</p>
-        <p style="margin:0;color:#94a3b8;">Carregando telemetria dos nós...</p>
+        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Network Status:</strong> Operating with high availability</p>
+        <p style="margin:0;color:#94a3b8;">Loading node telemetry...</p>
       </div>
     `
   },
   {
     path: 'contracts',
-    title: 'Contratos Inteligentes Ride & EVM | AMZX Explorer',
-    description: 'Audite e interaja com Smart Contracts na rede AMZX. Compatibilidade com Ride e EVM, contratos verificados e ativos eRWA.',
+    title: 'Smart Contracts Ride & EVM | AMZ Explorer',
+    description: 'Audit and interact with smart contracts on the AMZ network. Ride and EVM compatibility, verified scripts, and dApps.',
     canonical: 'https://amzexplorer.com/contracts',
-    h1: 'Contratos Inteligentes',
-    subText: 'Lógica descentralizada executada deterministicamente na blockchain.',
+    h1: 'Smart Contracts & dApps',
+    subText: 'Deterministic decentralized logic running on-chain.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Ambiente de Execução:</strong> Ride & EVM Compatibility</p>
-        <p style="margin:0;color:#94a3b8;">Carregando contratos auditados...</p>
+        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Execution Environment:</strong> Ride & EVM Compatibility</p>
+        <p style="margin:0;color:#94a3b8;">Loading audited contracts...</p>
       </div>
     `
   },
   {
     path: 'ranking',
-    title: 'Ranking de Validadores e Contas | AMZX Explorer',
-    description: 'Classificação de nós validadores, maiores detentores e contas mais ativas da blockchain AMZX.',
+    title: 'Validators & Top Balances Ranking | AMZ Explorer',
+    description: 'Leaderboard of validator nodes, top account balances, and active accounts on the AMZ blockchain.',
     canonical: 'https://amzexplorer.com/ranking',
-    h1: 'Ranking e Estatísticas da Rede',
-    subText: 'Métricas de participação, geração de blocos e volume financeiro na AMZX.',
+    h1: 'Network Ranking & Leaderboard',
+    subText: 'Staking metrics, block proposal distribution, and coin volume on AMZ.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0;color:#94a3b8;">Carregando tabela de classificação...</p>
+        <p style="margin:0;color:#94a3b8;">Loading leaderboard...</p>
       </div>
     `
   }
@@ -183,17 +183,17 @@ for (const assetId of keyAssets) {
   }
   const canonical = `https://amzexplorer.com/asset/${assetId}`;
   const content = generateHtml({
-    title: `Ativo ${assetId} | AMZX Explorer`,
-    description: `Token ${assetId} na Blockchain AMZX. Transações, detentores e suprimento on-chain.`,
+    title: `Asset ${assetId} | AMZ Explorer`,
+    description: `Token ${assetId} on the AMZ Blockchain. On-chain supply, transactions, and holder records.`,
     canonical: canonical,
-    h1: `Ativo ${assetId}`,
-    subText: 'Ativo emitido e auditado na blockchain AMZX.',
+    h1: `Asset ${assetId}`,
+    subText: 'Asset issued and audited on the AMZ blockchain.',
     detailsHtml: `
       <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
-        <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Ativo</h2>
+        <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Asset Details</h2>
         <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
           <dt style="color:#94a3b8;">ID:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${assetId}</code></dd>
-          <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
+          <dt style="color:#94a3b8;">Canonical:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
         </dl>
       </section>
     `
@@ -221,19 +221,19 @@ function prerenderAllSitemapTransactions() {
     }
     const canonical = `https://amzexplorer.com/tx/${txId}`;
     const content = generateHtml({
-      title: `Transação ${txId} | AMZX Explorer`,
-      description: `Transação ${txId} registrada na Blockchain AMZX. Ledger ambiental eRWA, status, bloco, taxas e transferências.`,
+      title: `Transaction ${txId} | AMZ Explorer`,
+      description: `Transaction ${txId} recorded on the AMZ Blockchain. Status, block, fees, and transfers.`,
       canonical: canonical,
-      h1: `Transação ${txId}`,
-      subText: 'Transação on-chain auditada no ledger ambiental eRWA da rede AMZX.',
+      h1: `Transaction ${txId}`,
+      subText: 'On-chain transaction audited on the AMZ network ledger.',
       detailsHtml: `
         <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
-          <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Transação</h2>
+          <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Transaction Details</h2>
           <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
             <dt style="color:#94a3b8;">Hash / ID:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${txId}</code></dd>
-            <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
-            <dt style="color:#94a3b8;">Status:</dt><dd><span style="color:#10b981;font-weight:600;">Confirmado em Bloco</span></dd>
-            <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
+            <dt style="color:#94a3b8;">Network:</dt><dd>AMZ L1 (Mainnet)</dd>
+            <dt style="color:#94a3b8;">Status:</dt><dd><span style="color:#10b981;font-weight:600;">Confirmed in Block</span></dd>
+            <dt style="color:#94a3b8;">Canonical:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
           </dl>
         </section>
       `
@@ -259,18 +259,18 @@ async function prerenderRecentBlocks() {
         }
         const canonical = `https://amzexplorer.com/block/${h}`;
         const content = generateHtml({
-          title: `Bloco #${h} | AMZX Explorer`,
-          description: `Bloco #${h} minerado e validado na Blockchain AMZX. Consulte transações contidas, taxas e consenso de nós.`,
+          title: `Block #${h} | AMZ Explorer`,
+          description: `Block #${h} mined and validated on the AMZ Blockchain. Transactions, fees, and consensus.`,
           canonical: canonical,
-          h1: `Bloco #${h}`,
-          subText: 'Bloco validado pelo consenso Proof of Stake da rede AMZX.',
+          h1: `Block #${h}`,
+          subText: 'Block validated by Proof of Stake consensus on the AMZ network.',
           detailsHtml: `
             <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
-              <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Bloco</h2>
+              <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Block Details</h2>
               <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
-                <dt style="color:#94a3b8;">Altura:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;color:#38bdf8;">#${h}</code></dd>
-                <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
-                <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
+                <dt style="color:#94a3b8;">Height:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;color:#38bdf8;">#${h}</code></dd>
+                <dt style="color:#94a3b8;">Network:</dt><dd>AMZ L1 (Mainnet)</dd>
+                <dt style="color:#94a3b8;">Canonical:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               </dl>
             </section>
           `

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AMZX FullExplorer Localhost Startup Script (100% Complete & Auto-Healing)
+# AMZ FullExplorer Localhost Startup Script (100% Complete & Auto-Healing)
 # ==============================================================================
 # Automatiza instalação de dependências, inicia o indexador daemon e servidor
 # API em background, valida o sucesso da inicialização e diagnostica o status
@@ -38,7 +38,7 @@ FULLEXPLORER_DIR="$(cd "${SCRIPT_DIR}/../fullexplorer" && pwd)"
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          AMZX - LOCAL FULLEXPLORER BACKGROUND SERVICE          "
+echo "          AMZ - LOCAL FULLEXPLORER BACKGROUND SERVICE          "
 echo "======================================================================"
 echo -e "${color_reset}"
 
@@ -233,20 +233,20 @@ case "$SYNC_CHECK" in
     SYNC_COMPLETE*)
         local_h=$(echo "$SYNC_CHECK" | cut -d'|' -f2)
         remote_h=$(echo "$SYNC_CHECK" | cut -d'|' -f3)
-        log_success "AMZX FullExplorer está ONLINE e ativo!"
+        log_success "AMZ FullExplorer está ONLINE e ativo!"
         log_success "STATUS: Totalmente sincronizado com a blockchain! (Bloco $local_h de $remote_h)"
         ;;
     SYNC_PENDING*)
         local_h=$(echo "$SYNC_CHECK" | cut -d'|' -f2)
         remote_h=$(echo "$SYNC_CHECK" | cut -d'|' -f3)
         pct=$(php -r "echo number_format(($local_h / $remote_h) * 100, 2);")
-        log_success "AMZX FullExplorer está ONLINE e ativo!"
+        log_success "AMZ FullExplorer está ONLINE e ativo!"
         log_warning "STATUS: Sincronização em andamento... $pct% completo (Bloco local: $local_h / Nó remoto: $remote_h)"
         log_warning "O indexador daemon continuará importando novos blocos silenciosamente em background."
         ;;
     NODE_ERROR*)
         local_h=$(echo "$SYNC_CHECK" | cut -d'|' -f2)
-        log_success "AMZX FullExplorer está ONLINE e ativo!"
+        log_success "AMZ FullExplorer está ONLINE e ativo!"
         log_warning "STATUS: Sincronização pendente. Não foi possível consultar a altura do nó remoto, mas o indexador local está no bloco $local_h."
         ;;
     API_ERROR)
@@ -277,7 +277,7 @@ trap cleanup INT TERM EXIT
 
 echo -e "${color_accent}"
 echo "======================================================================"
-echo "    AMZX FULLEXPLORER INICIALIZADO COM SUCESSO!                 "
+echo "    AMZ FULLEXPLORER INICIALIZADO COM SUCESSO!                 "
 echo "======================================================================"
 echo " URL local:   http://127.0.0.1:8080/"
 echo " Monitorando logs em tempo real abaixo (Pressione Ctrl+C para encerrar)..."

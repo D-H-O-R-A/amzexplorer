@@ -2,7 +2,7 @@
 
 /**
  * ============================================================================
- * AMZX BLOCKCHAIN BLOCKCHAIN INTERACTION CLI
+ * AMZ BLOCKCHAIN BLOCKCHAIN INTERACTION CLI
  * Ferramenta Oficial de Interação, Gestão de Contas e Execução de Transações
  * ============================================================================
  */
@@ -156,7 +156,7 @@ function normalizeChainId(input) {
   return str.charAt(0);
 }
 
-// Helper to encode attachment message as Base58 (required by waves-transactions and AMZX node)
+// Helper to encode attachment message as Base58 (required by waves-transactions and AMZ node)
 function formatAttachment(attachment) {
   if (!attachment || typeof attachment !== 'string' || attachment.trim() === '') {
     return undefined;
@@ -169,7 +169,7 @@ function formatAttachment(attachment) {
   }
 }
 
-// Helper to calculate dynamic minimal fee using AMZX node
+// Helper to calculate dynamic minimal fee using AMZ node
 async function fetchCalculateFee(txObject, fallbackFee = 100000) {
   try {
     const res = await fetch(`${session.nodeUrl}/transactions/calculateFee`, {
@@ -374,7 +374,7 @@ async function getAssetDetails(assetId) {
       assetId: null,
       name: 'AMZ',
       decimals: 8,
-      description: 'Moeda Nativa da Rede AMZX',
+      description: 'Moeda Nativa da Rede AMZ',
       quantity: 115368878600000000,
       reissuable: false
     };
@@ -413,10 +413,10 @@ async function compileRideScript(scriptSource) {
       throw new Error(res.error);
     }
   } catch (localErr) {
-    console.log(`${colors.yellow}Compilador local falhou: ${localErr.message}. Tentando nó AMZX...${colors.reset}`);
+    console.log(`${colors.yellow}Compilador local falhou: ${localErr.message}. Tentando nó AMZ...${colors.reset}`);
   }
 
-  // Fallback to AMZX Node compilation endpoint
+  // Fallback to AMZ Node compilation endpoint
   const url = `${session.nodeUrl.replace(/\/+$/, '')}/utils/script/compileCode`;
   const nodeRes = await makeRequest(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' } }, scriptSource);
   if (nodeRes && nodeRes.script) {
@@ -446,7 +446,7 @@ function printBanner() {
   console.log(`${colors.brightCyan}${colors.bold}`);
   console.log('╔═══════════════════════════════════════════════════════════════════════╗');
   console.log('║                                                                       ║');
-  console.log('║             🪐  AMZX BLOCKCHAIN BLOCKCHAIN INTERACTION CLI  🪐             ║');
+  console.log('║             🪐  AMZ BLOCKCHAIN BLOCKCHAIN INTERACTION CLI  🪐             ║');
   console.log('║           Painel de Operações, Emissão de Tokens e Contratos          ║');
   console.log('║                                                                       ║');
   console.log('╚═══════════════════════════════════════════════════════════════════════╝');
@@ -468,7 +468,7 @@ function printSessionInfo() {
 
 // Success Transaction Reporter
 function printTxSuccess(txResult) {
-  console.log(`\n${colors.brightGreen}${colors.bold}✓ Transação transmitida com sucesso para a rede AMZX!${colors.reset}`);
+  console.log(`\n${colors.brightGreen}${colors.bold}✓ Transação transmitida com sucesso para a rede AMZ!${colors.reset}`);
   console.log(`${colors.bold}ID da Transação:${colors.reset} ${colors.brightCyan}${txResult.id}${colors.reset}`);
   console.log(`${colors.bold}Tipo:${colors.reset}            ${colors.yellow}${txResult.type}${colors.reset}`);
   console.log(`${colors.bold}Taxa Paga:${colors.reset}       ${colors.white}${formatAmount(txResult.fee, 8)} AMZ${colors.reset}`);
@@ -488,7 +488,7 @@ async function handleCheckBalance() {
 
   try {
     const customAddr = await ask('Digite o endereço a consultar (ou pressione ENTER para usar sua conta atual)', session.address);
-    console.log(`\n${colors.gray}Consultando nó AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Consultando nó AMZ...${colors.reset}`);
 
     const [balanceData, assetData, scriptData, dataEntries] = await Promise.all([
       getAccountBalanceDetails(customAddr).catch(e => ({ regular: 0, available: 0, effective: 0, generating: 0 })),
@@ -552,7 +552,7 @@ async function handleLookupAsset() {
     const assetId = await ask('Digite o Asset ID do token');
     if (!assetId) throw new Error('Asset ID não informado');
 
-    console.log(`\n${colors.gray}Buscando metadados no nó AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Buscando metadados no nó AMZ...${colors.reset}`);
     const details = await getAssetDetails(assetId);
 
     console.log(`\n${colors.bold}${colors.green}=== Detalhes do Token ===${colors.reset}`);
@@ -586,13 +586,13 @@ async function handleLookupAsset() {
 async function handleIssueToken() {
   printBanner();
   printSessionInfo();
-  console.log(`${colors.bold}${colors.cyan}🪙 CRIAR NOVO TOKEN NA AMZX BLOCKCHAIN (ISSUE TOKEN - TIPO 3)${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.cyan}🪙 CRIAR NOVO TOKEN NA AMZ BLOCKCHAIN (ISSUE TOKEN - TIPO 3)${colors.reset}\n`);
 
   try {
     const name = await ask('Nome do Token (4 a 16 caracteres)');
     if (!name || name.length < 4 || name.length > 16) throw new Error('Nome deve ter entre 4 e 16 caracteres');
 
-    const description = await ask('Descrição do Token', 'Token criado via AMZX CLI');
+    const description = await ask('Descrição do Token', 'Token criado via AMZ CLI');
     const decimalsStr = await ask('Casas Decimais (0 a 8)', '8');
     const decimals = parseInt(decimalsStr, 10);
     if (isNaN(decimals) || decimals < 0 || decimals > 8) throw new Error('Decimais devem ser entre 0 e 8');
@@ -630,7 +630,7 @@ async function handleIssueToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transação para o nó AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transação para o nó AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
     console.log(`${colors.bold}Novo Asset ID gerado:${colors.reset} ${colors.brightCyan}${result.id}${colors.reset}\n`);
@@ -688,7 +688,7 @@ async function handleTransfer() {
     const rawAttachment = await ask('Mensagem / Anexo opcional', '');
     const attachment = formatAttachment(rawAttachment);
 
-    // Consulta taxa mínima dinâmica calculada pelo nó AMZX
+    // Consulta taxa mínima dinâmica calculada pelo nó AMZ
     const tempTx = wt.transfer({
       recipient,
       amount,
@@ -716,7 +716,7 @@ async function handleTransfer() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transferência para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transferência para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -798,7 +798,7 @@ async function handleMassTransfer() {
     const rawAttachment = await ask('Mensagem / Anexo opcional', '');
     const attachment = formatAttachment(rawAttachment);
 
-    // Consulta taxa mínima dinâmica calculada pelo nó AMZX
+    // Consulta taxa mínima dinâmica calculada pelo nó AMZ
     const tempTx = wt.massTransfer({
       transfers,
       assetId,
@@ -824,7 +824,7 @@ async function handleMassTransfer() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo transferência em massa para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo transferência em massa para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -870,7 +870,7 @@ async function handleReissueToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo reemissão para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo reemissão para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -928,7 +928,7 @@ async function handleBurnToken() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo queima para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo queima para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -949,7 +949,7 @@ async function handleLease() {
     const balanceData = await getAccountBalanceDetails(session.address);
     console.log(`Saldo Disponível para Leasing: ${colors.brightGreen}${formatAmount(balanceData.available, 8)} AMZ${colors.reset}\n`);
 
-    const recipient = await ask('Endereço do Nó Gerador / Validador AMZX');
+    const recipient = await ask('Endereço do Nó Gerador / Validador AMZ');
     if (!recipient) throw new Error('Endereço do validador obrigatório');
 
     const amountStr = await ask('Quantidade de AMZ a colocar em Leasing');
@@ -965,7 +965,7 @@ async function handleLease() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo lease para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo lease para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
     console.log(`${colors.bold}ID do Leasing para futuro cancelamento:${colors.reset} ${colors.brightCyan}${result.id}${colors.reset}\n`);
@@ -996,7 +996,7 @@ async function handleCancelLease() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo cancelamento de lease para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo cancelamento de lease para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1026,7 +1026,7 @@ async function handleCreateAlias() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Registrando alias na rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Registrando alias na rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1096,7 +1096,7 @@ async function handleDataTransaction() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Gravando dados na blockchain AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Gravando dados na blockchain AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1161,7 +1161,7 @@ async function handleSetScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Ativando Smart Contract na conta AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Ativando Smart Contract na conta AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1203,7 +1203,7 @@ async function handleRemoveScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Removendo contrato da conta na rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Removendo contrato da conta na rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1246,7 +1246,7 @@ async function handleSponsorFee() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Atualizando patrocínio de taxas na rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Atualizando patrocínio de taxas na rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1300,7 +1300,7 @@ async function handleSetAssetScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Transmitindo script do asset para a rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Transmitindo script do asset para a rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1390,7 +1390,7 @@ async function handleInvokeScript() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Executando invocação no nó AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Executando invocação no nó AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1429,7 +1429,7 @@ async function handleUpdateAssetInfo() {
       chainId: session.chainId
     }, session.seed);
 
-    console.log(`\n${colors.gray}Atualizando dados do token na rede AMZX...${colors.reset}`);
+    console.log(`\n${colors.gray}Atualizando dados do token na rede AMZ...${colors.reset}`);
     const result = await broadcastTx(tx);
     printTxSuccess(result);
 
@@ -1443,19 +1443,19 @@ async function handleUpdateAssetInfo() {
 // Configuration Menu
 async function handleConfigureSettings() {
   printBanner();
-  console.log(`${colors.bold}${colors.cyan}⚙️ CONFIGURAÇÕES DE REDE E CONTA AMZX BLOCKCHAIN${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.cyan}⚙️ CONFIGURAÇÕES DE REDE E CONTA AMZ BLOCKCHAIN${colors.reset}\n`);
 
-  const nodeUrl = await ask('URL do Nó da Blockchain AMZX', session.nodeUrl);
+  const nodeUrl = await ask('URL do Nó da Blockchain AMZ', session.nodeUrl);
   const chainIdRaw = await ask('Chain ID da Rede (P para Mainnet [3L...], S ou T para Testnet)', session.chainId);
   const chainId = normalizeChainId(chainIdRaw);
-  const explorerUrl = await ask('URL do Explorer AMZX', session.explorerUrl);
+  const explorerUrl = await ask('URL do Explorer AMZ', session.explorerUrl);
 
   const changeSeed = await ask('Deseja configurar / alterar a Seed Phrase da conta? (s/n)', session.seed ? 'n' : 's');
   let seed = session.seed;
   let encryptionPassword = '';
 
   if (changeSeed.toLowerCase().startsWith('s')) {
-    seed = await askSecret('Digite a Seed Phrase da sua conta AMZX');
+    seed = await askSecret('Digite a Seed Phrase da sua conta AMZ');
 
     console.log(`\n${colors.cyan}🔒 Proteção de Segurança (AES-256):${colors.reset}`);
     console.log(`${colors.gray}Defina uma senha para criptografar sua Seed Phrase no disco e evitar ataques.${colors.reset}`);
@@ -1484,7 +1484,7 @@ async function handleConfigureSettings() {
   saveConfig(encryptionPassword);
 
   console.log(`\n${colors.green}✓ Configurações salvas e Seed protegida com AES-256!${colors.reset}`);
-  console.log(`Endereço AMZX derivado: ${colors.brightGreen}${session.address}${colors.reset}`);
+  console.log(`Endereço AMZ derivado: ${colors.brightGreen}${session.address}${colors.reset}`);
   await ask('\nPressione ENTER para continuar');
 }
 
@@ -1555,7 +1555,7 @@ async function ensureConfiguration() {
     updateKeys();
   } else {
     printBanner();
-    console.log(`${colors.yellow}Bem-vindo ao AMZX Blockchain Interaction CLI!${colors.reset}`);
+    console.log(`${colors.yellow}Bem-vindo ao AMZ Blockchain Interaction CLI!${colors.reset}`);
     console.log(`${colors.gray}Para iniciar, vamos configurar sua conexão e conta com proteção criptográfica.${colors.reset}\n`);
     await handleConfigureSettings();
   }
@@ -1652,7 +1652,7 @@ async function main() {
         await handleConfigureSettings();
         break;
       case '0':
-        console.log(`\n${colors.brightCyan}Até logo! AMZX Blockchain Interaction CLI finalizado.${colors.reset}\n`);
+        console.log(`\n${colors.brightCyan}Até logo! AMZ Blockchain Interaction CLI finalizado.${colors.reset}\n`);
         running = false;
         break;
       default:

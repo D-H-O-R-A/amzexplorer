@@ -44,7 +44,7 @@ function fetchNodeData( $path )
     $ctx = stream_context_create([
         'http' => [
             'timeout' => 5,
-            'header' => "User-Agent: AMZX-FullExplorer-Sitemap/3.0\r\n"
+            'header' => "User-Agent: AMZ-FullExplorer-Sitemap/3.0\r\n"
         ]
     ]);
     $res = @file_get_contents( rtrim($nodeUrl, '/') . $path, false, $ctx );

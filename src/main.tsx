@@ -6,7 +6,7 @@ import './index.css';
 // Create root element
 const rootElement = document.getElementById("root");
 
-// Detect active theme (defaulting strictly to dark mode for AMZX Blockchain)
+// Detect active theme (defaulting strictly to dark mode for AMZ Blockchain)
 const savedTheme = localStorage.getItem("amzx-ui-theme") || "dark";
 const isDark = savedTheme !== "light";
 

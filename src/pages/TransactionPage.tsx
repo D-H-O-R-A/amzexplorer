@@ -31,7 +31,7 @@ const TransactionPage = () => {
   
   useEffect(() => {
     if(id.substr(0,2) === "0x") {
-      // Convert Ethereum transaction ID to AMZX native format
+      // Convert Ethereum transaction ID to AMZ native format
       const wavesId = ethTxId2waves(id);
       if (wavesId) {
         window.location.href = window.location.origin+ `/tx/${wavesId}`;
@@ -98,7 +98,7 @@ const TransactionPage = () => {
       >
         <SEO 
           title={`Transaction ${id ? id.substring(0, 12) + '...' : ''}`}
-          description={`Details for transaction ${id} on the AMZX blockchain. Sender, recipient, amount, fees, block height, and confirmations.`}
+          description={`Details for transaction ${id} on the AMZ blockchain. Sender, recipient, amount, fees, block height, and confirmations.`}
         />
         <div className="container mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Mobile-first sticky header */}

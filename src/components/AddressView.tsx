@@ -201,7 +201,7 @@ const AddressView = ({
             )}
 
             <div className="space-y-2">
-              {/* Main AMZX Address */}
+              {/* Main AMZ Address */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider w-24">
                   {getCoinName()} Address:
@@ -406,7 +406,7 @@ const AddressView = ({
                 <div className="space-y-1">
                   <h4 className="font-semibold text-amber-500 dark:text-amber-400">Active Validator Node Detected</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    The generating balance of this address differs from regular balance due to active consensus participation on AMZX. Block rewards forged and distributed are calculated from effective generating stake.
+                    The generating balance of this address differs from regular balance due to active consensus participation on AMZ. Block rewards forged and distributed are calculated from effective generating stake.
                   </p>
                 </div>
               </div>
@@ -460,7 +460,7 @@ const AddressView = ({
                     <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.dataEntries?.length || 0} entries</span>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Accounts and dApps on AMZX persist indexed key-value state directly on the ledger. This enables immutable identity records, contract parameters, and verifiable public states.
+                    Accounts and dApps on AMZ persist indexed key-value state directly on the ledger. This enables immutable identity records, contract parameters, and verifiable public states.
                   </p>
                 </div>
               </CardContent>
@@ -660,7 +660,7 @@ const AddressView = ({
           <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-border/30">
               <CardTitle className="text-lg font-bold">Portfolio Assets</CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">Custom tokens and assets held by this account on AMZX</CardDescription>
+              <CardDescription className="text-xs text-muted-foreground">Custom tokens and assets held by this account on AMZ</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
@@ -897,7 +897,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">This account does not have a Ride dApp script deployed on AMZX.</p>
+                  <p className="text-sm">This account does not have a Ride dApp script deployed on AMZ.</p>
                 </div>
               )}
             </CardContent>
@@ -972,7 +972,7 @@ const AddressView = ({
                   Registered Account Aliases
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
-                  Human-readable names bound directly to this address on AMZX
+                  Human-readable names bound directly to this address on AMZ
                 </CardDescription>
               </div>
               <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
@@ -998,7 +998,7 @@ const AddressView = ({
                               {cleanName}
                             </span>
                             <span className="text-[10px] text-muted-foreground uppercase font-mono">
-                              AMZX Alias
+                              AMZ Alias
                             </span>
                           </div>
                         </div>
@@ -1021,7 +1021,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">No aliases registered for this address on the AMZX network.</p>
+                  <p className="text-sm">No aliases registered for this address on the AMZ network.</p>
                 </div>
               )}
             </CardContent>

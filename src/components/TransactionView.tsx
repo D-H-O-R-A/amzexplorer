@@ -260,9 +260,9 @@ const TransactionView = () => {
 
         <CardFooter className="bg-muted/10 border-t border-border p-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground font-medium">Rede:</span>
+            <span className="text-xs text-muted-foreground font-medium">Network:</span>
             <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
-              AMZX Blockchain (65)
+              AMZ Blockchain (65)
             </Badge>
           </div>
           <a 

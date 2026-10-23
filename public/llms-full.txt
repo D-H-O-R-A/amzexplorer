@@ -1,33 +1,33 @@
-# AMZX Blockchain Explorer - Complete Technical Specification (LLMs Full)
+# AMZ Blockchain Explorer - Complete Technical Specification (LLMs Full)
 
-> Comprehensive reference for Large Language Models (LLMs), AI autonomous agents, search engines, and developers integrating with the AMZX blockchain ecosystem by Amazonic One.
+> Comprehensive reference for Large Language Models (LLMs), AI autonomous agents, search engines, and developers integrating with the AMZ blockchain ecosystem by Amazonic One.
 
 ---
 
 ## 1. Executive Summary & Ecosystem Topology
 
-AMZX is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **AMZ1 LLC** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
+AMZ is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **AMZ1 LLC** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
 
 ### Key Ecosystem Components
-- **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with AMZX-NG microblock protocol enabling ~6-second blocks.
+- **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with AMZ-NG microblock protocol enabling ~6-second blocks.
 - **AMZ Native Utility Coin**: Powers consensus staking, transaction gas fees, and network governance.
 - **amz1 Flagship Token**: Asset ID `7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz`. Verified REDD+ high-integrity carbon credit token directly backed by preserved Amazon rainforest tracts.
 - **AUSDTW Token**: Asset ID `7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU`. Amazonic USDT Wrapped token with 18 decimal places precision.
-- **Trade Desk**: Direct institutional corporate offset trade desk (`contact@amazonicone.com`, Amazonas, Brasil).
+- **Trade Desk**: Direct institutional corporate offset trade desk (`contact@amazonicone.com`, Dubai, UAE).
 
 ---
 
 ## 2. Address Representation & Interoperability
 
-AMZX supports dual address representations for every key pair:
+AMZ supports dual address representations for every key pair:
 
-### Native Base58 (AMZX Standard)
+### Native Base58 (AMZ Standard)
 - Format: Starts with `3x...` or `3...` (26 bytes encoded in Base58).
 - Derived via SHA-256 and BLAKE2b checksums.
 
 ### EVM Hexadecimal Format
 - Format: `0x` followed by 40 hexadecimal characters.
-- Interoperability: AMZX RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa via cryptographic curve translation.
+- Interoperability: AMZ RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa via cryptographic curve translation.
 
 ---
 
@@ -36,7 +36,7 @@ AMZX supports dual address representations for every key pair:
 - **Node Swagger API**: `https://nodes.amzexplorer.com/`
 - **Matcher DEX API**: `https://matcher.amzexplorer.com`
 - **MetaMask JSON-RPC**: `https://rpc.amzexplorer.com`
-- **AMZX Data Service**: `https://data-service.amzexplorer.com`
+- **AMZ Data Service**: `https://data-service.amzexplorer.com`
 - **gRPC Control / DEX**: `https://grpc-dex.amzexplorer.com` (WSS/GRPCS:443)
 - **gRPC Updates**: `https://grpc-updates.amzexplorer.com` (GRPCS:443)
 - **Explorer Web UI**: `https://amzexplorer1.web.app` / `https://amzexplorer.com`
@@ -46,7 +46,7 @@ AMZX supports dual address representations for every key pair:
 
 ## 4. Transaction Architecture & Types
 
-AMZX records state changes via deterministic transaction types:
+AMZ records state changes via deterministic transaction types:
 - **Type 3 (Issue)**: Asset creation, supporting decimal precision up to 18 decimal places.
 - **Type 4 (Transfer)**: Direct peer-to-peer asset transfers.
 - **Type 5 (Reissue)**: Additional token generation for reissuable assets.

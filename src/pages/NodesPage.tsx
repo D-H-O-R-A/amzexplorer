@@ -105,7 +105,7 @@ const NodesPage = () => {
         <AlertCircle className="w-12 h-12 text-destructive mx-auto animate-bounce" />
         <h1 className="text-3xl font-black text-foreground">Connection Failed</h1>
         <p className="text-muted-foreground max-w-md mx-auto">
-          Unable to establish communication with AMZX network telemetry and synchronization APIs.
+          Unable to establish communication with AMZ network telemetry and synchronization APIs.
         </p>
         <Button onClick={() => loadNodesData(true)} variant="outline" className="border-border">
           Try Again
@@ -138,7 +138,7 @@ const NodesPage = () => {
     <div className="w-full max-w-5xl mx-auto space-y-10 py-6 pb-20 animate-fade-in">
       <SEO 
         title="Network Status & Validator Nodes"
-        description="Real-time telemetry of validator nodes, connected peers, protocol feature activation, and block rewards on the AMZX blockchain."
+        description="Real-time telemetry of validator nodes, connected peers, protocol feature activation, and block rewards on the AMZ blockchain."
       />
       
       {/* Header and Telemetry state */}
@@ -285,7 +285,7 @@ const NodesPage = () => {
                 Active Connected Peers
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Active nodes broadcasting blocks and transactions across the AMZX ledger.
+                Active nodes broadcasting blocks and transactions across the AMZ ledger.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -307,7 +307,7 @@ const NodesPage = () => {
                     <TableRow className="border-b border-border/30 hover:bg-muted/10">
                       <TableCell className="font-bold text-emerald-500 flex items-center gap-1.5 pl-6 py-4">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        AMZX Blockchain Node (Primary)
+                        AMZ Blockchain Node (Primary)
                       </TableCell>
                       <TableCell className="font-mono text-xs">
                         <span className="inline-flex items-center gap-1">

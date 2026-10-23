@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AMZX FullExplorer Nginx & Certbot Server Production Deployment Script
+# AMZ FullExplorer Nginx & Certbot Server Production Deployment Script
 # ==============================================================================
 # Installs and configures Nginx, PHP-FPM, Certbot SSL, and sets up the subdomain
 # for production deployment of the FullExplorer PHP API backend.
@@ -33,7 +33,7 @@ log_error() {
 
 echo -e "${color_primary}"
 echo "======================================================================"
-echo "          AMZX - FULLEXPLORER NGINX & SSL DEPLOYMENT            "
+echo "          AMZ - FULLEXPLORER NGINX & SSL DEPLOYMENT             "
 echo "======================================================================"
 echo -e "${color_reset}"
 
@@ -264,7 +264,7 @@ SERVICE_FILE="/etc/systemd/system/fullexplorer-${SUBDOMAIN}.service"
 
 cat << EOF > "$SERVICE_FILE"
 [Unit]
-Description=AMZX FullExplorer Blockchain Indexer Daemon (${SUBDOMAIN})
+Description=AMZ FullExplorer Blockchain Indexer Daemon (${SUBDOMAIN})
 After=network.target
 
 [Service]
@@ -287,7 +287,7 @@ HEADERS_SERVICE_FILE="/etc/systemd/system/fullexplorer-headers-${SUBDOMAIN}.serv
 
 cat << EOF > "$HEADERS_SERVICE_FILE"
 [Unit]
-Description=AMZX FullExplorer Blockchain Headers Indexer Daemon (${SUBDOMAIN})
+Description=AMZ FullExplorer Blockchain Headers Indexer Daemon (${SUBDOMAIN})
 After=network.target
 
 [Service]
@@ -321,7 +321,7 @@ log_info "and: journalctl -u fullexplorer-headers-${SUBDOMAIN}.service -f"
 
 echo -e "${color_accent}"
 echo "======================================================================"
-echo "    AMZX FULLEXPLORER SERVER DEPLOYMENT COMPLETED!             "
+echo "    AMZ FULLEXPLORER SERVER DEPLOYMENT COMPLETED!              "
 echo "======================================================================"
 echo " URL:         https://${SUBDOMAIN}"
 echo " Path:        ${DEPLOY_DIR}"

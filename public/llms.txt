@@ -1,16 +1,16 @@
 # AMZ Explorer
 
-> AMZX is a high-throughput, carbon-negative Layer-1 blockchain engineered by Amazonic One for environmental real-world asset tokenization (REDD+ carbon credits), forest preservation verification, and ESG compliance.
+> AMZ is a high-throughput, carbon-negative Layer-1 blockchain engineered by Amazonic One for environmental real-world asset tokenization (REDD+ carbon credits), forest preservation verification, and ESG compliance.
 
 AMZ Explorer (`https://amzexplorer.com`) is the primary interface for inspecting blocks, transactions, smart contracts, decentralized accounts, validator nodes, and on-chain tokens.
 
 ## Core Network Specifications
 
-- **Network Name**: AMZX Mainnet (Amazonic One)
+- **Network Name**: AMZ Mainnet (Amazonic One)
 - **Native Utility Coin**: AMZ (1 AMZ = 10^8 atomic units)
 - **Flagship Carbon Asset**: amz1 (Asset ID: 7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz - High Integrity REDD+ Carbon Credit Token)
 - **High Precision Token**: AUSDTW (18 decimal places token)
-- **Consensus Algorithm**: Fair Leased Proof-of-Stake (LPoS) with AMZX-NG microblocks
+- **Consensus Algorithm**: Fair Leased Proof-of-Stake (LPoS) with AMZ-NG microblocks
 - **Block Time**: ~6 seconds average
 - **Chain ID**: 65 (Character: 'A')
 - **Address Encodings**: Native Base58 (starts with 3...) and EVM Equivalence (0x...)
@@ -33,7 +33,7 @@ AMZ Explorer (`https://amzexplorer.com`) is the primary interface for inspecting
 - **Public Node API**: `https://nodes.amzexplorer.com/`
 - **Matcher DEX API**: `https://matcher.amzexplorer.com`
 - **MetaMask JSON-RPC**: `https://rpc.amzexplorer.com` (Chain ID 65)
-- **AMZX Data Service**: `https://data-service.amzexplorer.com`
+- **AMZ Data Service**: `https://data-service.amzexplorer.com`
 - **gRPC Control / DEX**: `https://grpc-dex.amzexplorer.com` (WSS/GRPCS:443)
 - **gRPC Updates**: `https://grpc-updates.amzexplorer.com` (GRPCS:443)
 - **FullExplorer Web UI**: `https://fullexplorer.amzexplorer.com`

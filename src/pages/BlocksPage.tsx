@@ -179,7 +179,7 @@ const BlocksPage = () => {
     <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in pb-20">
       <SEO 
         title="On-Chain Blocks Explorer"
-        description="Inspect and filter all mined and validated blocks on the AMZX blockchain in real time. Track block proposers, sizes, and transactions."
+        description="Inspect and filter all mined and validated blocks on the AMZ blockchain in real time. Track block proposers, sizes, and transactions."
       />
       
       {/* Hero Banner Section */}
@@ -195,7 +195,7 @@ const BlocksPage = () => {
               Block <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">Explorer</span>
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-              Inspect and verify all blocks emitted and secured by the decentralized <strong className="text-foreground font-semibold">AMZX ({getCoinName()})</strong> consensus network.
+              Inspect and verify all blocks emitted and secured by the decentralized <strong className="text-foreground font-semibold">AMZ</strong> consensus network.
             </p>
           </div>
           

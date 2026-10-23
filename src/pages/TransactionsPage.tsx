@@ -489,7 +489,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
     <div className="container mx-auto py-8 px-4 max-w-7xl space-y-8 animate-in fade-in duration-300">
       <SEO 
         title="Real-Time On-Chain Transactions"
-        description="Inspect all AMZX blockchain transactions in real time. Filter by transfers, smart contracts, token issuances, and EVM executions."
+        description="Inspect all AMZ blockchain transactions in real time. Filter by transfers, smart contracts, token issuances, and EVM executions."
       />
       
       {/* 1. Header Section */}
@@ -639,7 +639,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              Environmental assets and tokens created on AMZX
+              Environmental assets and tokens created on AMZ
             </p>
           </CardContent>
         </Card>

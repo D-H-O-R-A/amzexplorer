@@ -3,7 +3,7 @@
 {-# SCRIPT_TYPE ASSET #-}
 
 # ==============================================================================
-# AMZX Smart Asset Script - Basic Rule
+# AMZ Smart Asset Script - Basic Rule
 # Valida e permite transferências, transferências em massa, queima e reemissão.
 # ==============================================================================
 

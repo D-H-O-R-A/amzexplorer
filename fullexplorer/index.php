@@ -824,7 +824,7 @@ function prolog()
     $L = !isset( $_COOKIE['L'] ) || (int)$_COOKIE['L'] === 1;
     $displayAddress = prettyAddress( $address );
     $title = 'AMZ FullExplorer';
-    $description = 'AMZ FullExplorer - High-performance on-chain block, address, and transaction indexer for AMZX Blockchain.';
+    $description = 'AMZ FullExplorer - High-performance on-chain block, address, and transaction indexer for AMZ Blockchain.';
     
     if( $address === 'tx' && $f !== false )
     {
@@ -839,17 +839,17 @@ function prolog()
     else if( $address === 'GENERATORS' )
     {
         $title = 'Block Generators & Validators · AMZ FullExplorer';
-        $description = 'Leaderboard of block generators, mining nodes, and PoS consensus validators on AMZX Blockchain.';
+        $description = 'Leaderboard of block generators, mining nodes, and PoS consensus validators on AMZ Blockchain.';
     }
     else if( $address === 'top' )
     {
         $title = 'Top Balances (Rich List) · AMZ FullExplorer';
-        $description = 'Top balance accounts and token distribution on AMZX Blockchain.';
+        $description = 'Top balance accounts and token distribution on AMZ Blockchain.';
     }
     else if( $address === 'ACTIVATION' )
     {
         $title = 'Protocol Feature Status · AMZ FullExplorer';
-        $description = 'Consensus status and feature activation tracking on AMZX Blockchain.';
+        $description = 'Consensus status and feature activation tracking on AMZ Blockchain.';
     }
     else if( $address === 'tk' && $f !== false )
     {
@@ -944,7 +944,7 @@ function prolog()
           "@type": "WebSite",
           "url": "https://fullexplorer.amzexplorer.com/",
           "name": "AMZ FullExplorer",
-          "description": "High-performance on-chain indexer for AMZX Blockchain",
+          "description": "High-performance on-chain indexer for AMZ Blockchain",
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://fullexplorer.amzexplorer.com/{search_term_string}",
@@ -962,7 +962,7 @@ function prolog()
             <div class="header-container">
                 <a href="/" class="brand-link">
                     <img src="/static/logo.png" alt="AMZ Explorer Logo" class="brand-logo">
-                    <span class="brand-name">AMZ<span class="highlight">X</span> <span class="sub-brand">FullExplorer</span></span>
+                    <span class="brand-name">AMZ <span class="sub-brand">FullExplorer</span></span>
                 </a>
                 
                 <div class="search-container">

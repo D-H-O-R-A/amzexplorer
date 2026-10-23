@@ -104,7 +104,7 @@ const ValidatorsPage: React.FC = () => {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Consensus validator nodes signing blocks, executing smart contracts, and maintaining the AMZX decentralized ledger.
+            Consensus validator nodes signing blocks, executing smart contracts, and maintaining the AMZ decentralized ledger.
           </p>
         </div>
         <Button 

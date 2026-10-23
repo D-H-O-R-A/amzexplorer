@@ -1,6 +1,6 @@
-# ⚡ AMZX Blockchain Explorer Suite
+# ⚡ AMZ Blockchain Explorer Suite
 
-Official explorer suite for the **AMZX Network (Amazonic One)**. This suite consists of two core components:
+Official explorer suite for the **AMZ Network (Amazonic One)**. This suite consists of two core components:
 
 1. **AMZ Explorer (Web Frontend)**: Fast, modern blockchain explorer built with **React, TypeScript, Vite, and Tailwind CSS**. Provides real-time block streaming, transaction search, token auditing, LPoS validator analytics, and EVM compatibility.
 2. **AMZ Full Explorer (Indexer & Archival API)**: Lightweight backend built in **PHP and SQLite** that indexes the entire ledger in real time, serving high-throughput REST APIs.
@@ -70,7 +70,7 @@ npm run logs:fullexplorer
 | **Node Swagger API** | HTTPS / TLS | `https://nodes.amzexplorer.com/` |
 | **Matcher DEX API** | HTTPS / TLS | `https://matcher.amzexplorer.com` |
 | **MetaMask JSON-RPC** | EVM Web3 | `https://rpc.amzexplorer.com` |
-| **AMZX Data Service** | REST API | `https://data-service.amzexplorer.com` |
+| **AMZ Data Service** | REST API | `https://data-service.amzexplorer.com` |
 | **gRPC DEX** | GRPCS / WSS | `https://grpc-dex.amzexplorer.com` |
 | **gRPC Updates** | GRPCS | `https://grpc-updates.amzexplorer.com` |
 
@@ -131,7 +131,7 @@ server {
 #### Systemd Indexer Service (`/etc/systemd/system/amzx-indexer.service`)
 ```ini
 [Unit]
-Description=AMZX Archival Blockchain Indexer Service
+Description=AMZ Archival Blockchain Indexer Service
 After=network.target
 
 [Service]

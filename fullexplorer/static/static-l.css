@@ -66,7 +66,7 @@ pre, code, .monospace-content {
     line-height: 1.7 !important;
 }
 
-/* --- AMZX Premium Header --- */
+/* --- AMZ Premium Header --- */
 .amzx-header {
     position: fixed;
     top: 0;
@@ -127,7 +127,7 @@ pre, code, .monospace-content {
 
 .brand-name .highlight {
     color: var(--primary);
-    background: linear-gradient(135deg, var(--primary), #00A3FF);
+    background: linear-gradient(135deg, var(--primary), #059669);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

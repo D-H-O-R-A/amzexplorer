@@ -33,7 +33,7 @@ interface Preset {
 
 const PRESETS: Preset[] = [
   {
-    name: "AMZX Mainnet",
+    name: "AMZ Mainnet",
     nodeUrl: "https://nodes.amzexplorer.com",
     ethRpcUrl: "https://rpc.amzexplorer.com",
     coinName: "AMZ",
@@ -142,13 +142,13 @@ export const NodeSettingsDialog: React.FC = () => {
             <Server className="w-5 h-5 text-emerald-500" /> Network Settings
           </DialogTitle>
           <DialogDescription className="text-muted-foreground text-xs leading-relaxed">
-            Customize RPC node endpoints, primary token ticker, and AMZX consensus parameters.
+            Customize RPC node endpoints, primary token ticker, and AMZ consensus parameters.
           </DialogDescription>
         </DialogHeader>
 
         {/* Presets Grid */}
         <div className="space-y-2 mt-4">
-          <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Predefinições Rápidas</Label>
+          <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Quick Presets</Label>
           <div className="grid grid-cols-2 gap-2">
             {PRESETS.map((preset) => {
               const isActive = nodeUrl === preset.nodeUrl && chainIdLetter === preset.chainIdLetter;
@@ -222,7 +222,7 @@ export const NodeSettingsDialog: React.FC = () => {
                 <div className="group relative">
                   <HelpCircle className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground cursor-help" />
                   <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-48 p-2 bg-popover border border-border text-[10px] text-muted-foreground rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-50 leading-normal">
-                    Network identifier character (e.g. 'A' for AMZX Mainnet, 'S' for Testnet). Used to decode and validate cryptographic addresses.
+                    Network identifier character (e.g. 'A' for AMZ Mainnet, 'S' for Testnet). Used to decode and validate cryptographic addresses.
                   </div>
                 </div>
               </div>

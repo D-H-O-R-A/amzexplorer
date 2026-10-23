@@ -72,7 +72,7 @@ const AddressPage = () => {
           try {
             ethAddress = wavesAddress2eth(address);
           } catch (error) {
-            console.warn("Could not derive Ethereum address from AMZX address format.", error);
+            console.warn("Could not derive Ethereum address from AMZ address format.", error);
           }
         }
 
@@ -160,7 +160,7 @@ const AddressPage = () => {
     >
       <SEO 
         title={`Address ${address ? address.substring(0, 10) + '...' : ''}`}
-        description={`On-chain record for address ${address} on the AMZX blockchain. Balances, tokens, NFTs, transactions, and associated smart contracts.`}
+        description={`On-chain record for address ${address} on the AMZ blockchain. Balances, tokens, NFTs, transactions, and associated smart contracts.`}
       />
       <div className="container mx-auto max-w-5xl">
         {loading ? (
@@ -182,13 +182,13 @@ const AddressPage = () => {
             <div className="space-y-2">
               <h1 className="text-xl md:text-2xl font-extrabold text-foreground">Incompatible Address</h1>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                The provided address <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> is invalid or incompatible with the <span className="font-bold text-emerald-500">AMZX</span> network.
+                The provided address <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> is invalid or incompatible with the <span className="font-bold text-emerald-500">AMZ</span> network.
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-background/50 border border-border/40 text-left space-y-2 text-xs text-muted-foreground leading-relaxed">
               <div className="flex items-center gap-1.5 font-bold text-foreground mb-1">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> AMZX Network Rules:
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> AMZ Network Rules:
               </div>
               <p>• Expected Chain ID for this node is <span className="font-bold text-emerald-500">"{String.fromCharCode(getChainId())}"</span> (Byte: {getChainId()}).</p>
               <p>• Addresses must be cryptographically valid Base58 strings.</p>

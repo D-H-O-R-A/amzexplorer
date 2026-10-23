@@ -1,6 +1,6 @@
-# 🌳 Scripts do Ecossistema AMZX Explorer
+# 🌳 Scripts do Ecossistema AMZ Explorer
 
-Este diretório contém os utilitários, automações e a ferramenta oficial de linha de comando para interação e gerenciamento da blockchain **AMZX (Amazonic One)**.
+Este diretório contém os utilitários, automações e a ferramenta oficial de linha de comando para interação e gerenciamento da blockchain **AMZ (Amazonic One)**.
 
 ---
 
@@ -8,20 +8,20 @@ Este diretório contém os utilitários, automações e a ferramenta oficial de 
 
 | Script / Arquivo | Finalidade / Descrição | Como Executar / Usar |
 | :--- | :--- | :--- |
-| **`amz-cli.js`** | **Ferramenta CLI interativa completa para operações na Blockchain AMZX**: Consulta de saldos/portfólio, emissão/edição/queima de tokens (com suporte nativo a 18 decimais), transferências simples e em massa, leasing/staking, data transactions e publicação/invocação/remoção de Smart Contracts Ride. Protegido com criptografia **AES-256**. | `npm run cli` ou `node scripts/amz-cli.js` |
+| **`amz-cli.js`** | **Ferramenta CLI interativa completa para operações na Blockchain AMZ**: Consulta de saldos/portfólio, emissão/edição/queima de tokens (com suporte nativo a 18 decimais), transferências simples e em massa, leasing/staking, data transactions e publicação/invocação/remoção de Smart Contracts Ride. Protegido com criptografia **AES-256**. | `npm run cli` ou `node scripts/amz-cli.js` |
 | **`data-storage.ride`** | Smart Contract Ride de exemplo para registrar e manipular entradas no **Database Entries** (On-chain State: Boolean, Integer, String e Bytes/ByteVector). | Publicar via opção `[12]` do CLI |
 | **`basic-asset-script.ride`** | Script Ride para **Smart Assets**, validando operações e regras de transferência/queima por assinatura digital. | Publicar via opção `[15]` do CLI |
 | **`start-explorer.sh`** | Inicia a aplicação web frontend do AMZ Explorer em modo de desenvolvimento (Vite). | `npm run start:explorer` ou `bash scripts/start-explorer.sh` |
 | **`start-fullexplorer-localhost.sh`** | Inicia o servidor backend PHP e o sincronizador de blocos do Full Explorer em localhost para indexação de dados. | `npm run start:fullexplorer` ou `bash scripts/start-fullexplorer-localhost.sh` |
 | **`setup-fullexplorer.sh`** | Configura dependências, extensões PHP (curl, sqlite3, gmp, mbstring), composer e permissões do Full Explorer. | `npm run setup:fullexplorer` ou `bash scripts/setup-fullexplorer.sh` |
 | **`deploy-fullexplorer-nginx.sh`** | Automação completa de deploy do Full Explorer em servidores Linux com Nginx, PHP-FPM e SSL Certbot. | `bash scripts/deploy-fullexplorer-nginx.sh` |
-| **`start-fullexplorer.sh`** | Executa em background o processo contínuo de sincronização e atualização de transações da rede AMZX. | `bash scripts/start-fullexplorer.sh` |
+| **`start-fullexplorer.sh`** | Executa em background o processo contínuo de sincronização e atualização de transações da rede AMZ. | `bash scripts/start-fullexplorer.sh` |
 
 ---
 
-## 🚀 AMZX Blockchain Interaction CLI (`amz-cli.js`)
+## 🚀 AMZ Blockchain Interaction CLI (`amz-cli.js`)
 
-O **AMZX CLI** é uma ferramenta interativa e segura desenvolvida em Node.js para conectar diretamente a qualquer nó da rede AMZX (Mainnet ou Testnet), permitindo inspecionar saldos, gerenciar ativos (incluindo **amz1** e **AUSDTW**) e executar todas as operações criptográficas nativas da blockchain com assinatura local.
+O **AMZ CLI** é uma ferramenta interativa e segura desenvolvida em Node.js para conectar diretamente a qualquer nó da rede AMZ (Mainnet ou Testnet), permitindo inspecionar saldos, gerenciar ativos (incluindo **amz1** e **AUSDTW**) e executar todas as operações criptográficas nativas da blockchain com assinatura local.
 
 ### 🌟 Principais Funcionalidades
 
@@ -38,8 +38,8 @@ O **AMZX CLI** é uma ferramenta interativa e segura desenvolvida em Node.js par
 
 Ao executar o CLI pela primeira vez via `npm run cli`, o assistente interativo solicitará:
 
-- **URL do Nó AMZX**: Padrão: `https://nodes.amzexplorer.com/`
-- **Chain ID**: `A` para Mainnet AMZX
+- **URL do Nó AMZ**: Padrão: `https://nodes.amzexplorer.com/`
+- **Chain ID**: `A` para Mainnet AMZ
 - **URL do Explorer**: `https://amzexplorer1.web.app` ou `https://amzexplorer.com`
 - **Seed Phrase da Conta**: Frase mnemônica (a digitação é mascarada para segurança)
 

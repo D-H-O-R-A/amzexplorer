@@ -161,7 +161,7 @@ exports.ssr = onRequest(
       }
 
       let title = "AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)";
-      let description = "Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos, rastreie transações e acompanhe créditos de carbono REDD+ e tokens.";
+      let description = "Official Blockchain Explorer for the AMZ Network (Amazonic One). Monitor blocks, track transactions, and audit assets.";
       let canonical = `https://amzexplorer.com${urlPath}`;
       let h1Text = "AMZ Explorer";
       let subText = "Blockchain Explorer & Ledger (Amazonic One)";
@@ -175,10 +175,10 @@ exports.ssr = onRequest(
       if (txMatch) {
         const txId = txMatch[1];
         canonical = `https://amzexplorer.com/tx/${txId}`;
-        title = `Transação ${txId} | AMZ Explorer`;
-        description = `Transação ${txId} registrada na Blockchain AMZX. Consulte dados no ledger, nós validadores, taxas e histórico.`;
-        h1Text = `Transação ${txId}`;
-        subText = "Transação on-chain auditada no ledger da rede AMZX (Amazonic One).";
+        title = `Transaction ${txId} | AMZ Explorer`;
+        description = `Transaction ${txId} recorded on the AMZ Blockchain. Check ledger data, validator nodes, fees, and history.`;
+        h1Text = `Transaction ${txId}`;
+        subText = "On-chain transaction audited on the AMZ Network ledger.";
 
         let extraDetails = "";
         try {
@@ -209,7 +209,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Transação</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Hash / ID:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${txId}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZ L1 (Mainnet)</dd>
               <dt style="color:#94a3b8;">Status:</dt><dd><span style="color:#10b981;font-weight:600;">Confirmado em Bloco</span></dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
@@ -220,9 +220,9 @@ exports.ssr = onRequest(
         const height = blockMatch[1];
         canonical = `https://amzexplorer.com/block/${height}`;
         title = `Bloco #${height} | AMZ Explorer`;
-        description = `Bloco #${height} minerado e validado na Blockchain AMZX. Consulte transações contidas e consenso de nós.`;
+        description = `Bloco #${height} minerado e validado na Blockchain AMZ. Consulte transações contidas e consenso de nós.`;
         h1Text = `Bloco #${height}`;
-        subText = "Bloco validado pelo consenso Proof of Stake da rede AMZX.";
+        subText = "Bloco validado pelo consenso Proof of Stake da rede AMZ.";
 
         let extraDetails = "";
         try {
@@ -248,7 +248,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Bloco</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Altura:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;color:#38bdf8;">#${height}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZ L1 (Mainnet)</dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
             </dl>
@@ -258,9 +258,9 @@ exports.ssr = onRequest(
         const addr = addressMatch[1];
         canonical = `https://amzexplorer.com/address/${addr}`;
         title = `Endereço ${addr} | AMZ Explorer`;
-        description = `Conta e carteira ${addr} na Blockchain AMZX. Consulte saldo AMZ, histórico e tokens REDD+.`;
+        description = `Conta e carteira ${addr} na Blockchain AMZ. Consulte saldo AMZ, histórico e tokens REDD+.`;
         h1Text = `Endereço ${addr}`;
-        subText = "Conta de usuário ou contrato na rede AMZX (Amazonic One).";
+        subText = "Conta de usuário ou contrato na rede AMZ (Amazonic One).";
 
         let extraDetails = "";
         try {
@@ -282,7 +282,7 @@ exports.ssr = onRequest(
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Conta</h2>
             <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
               <dt style="color:#94a3b8;">Endereço:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${addr}</code></dd>
-              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX Blockchain</dd>
+              <dt style="color:#94a3b8;">Rede:</dt><dd>AMZ Blockchain</dd>
               <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               ${extraDetails}
             </dl>
@@ -292,9 +292,9 @@ exports.ssr = onRequest(
         const assetId = assetMatch[1];
         canonical = `https://amzexplorer.com/asset/${assetId}`;
         title = `Ativo / Token ${assetId} | AMZ Explorer`;
-        description = `Detalhes do token/ativo ${assetId} na Blockchain AMZX (Amazonic One).`;
+        description = `Detalhes do token/ativo ${assetId} na Blockchain AMZ (Amazonic One).`;
         h1Text = `Ativo ${assetId}`;
-        subText = "Token ou Ativo registrado na AMZX Blockchain.";
+        subText = "Token ou Ativo registrado na AMZ Blockchain.";
         detailsHtml = `
           <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
             <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Ativo</h2>
