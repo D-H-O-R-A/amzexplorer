@@ -42,7 +42,7 @@ const NodesPage = () => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   
   const isTest = isTestnet();
-  const mainNodeUrl = isTest ? 'nodes-testnet.planetone.io' : 'nodes.planetone.io';
+  const mainNodeUrl = isTest ? 'nodes-testnet.amzexplorer.com' : 'nodes.amzexplorer.com';
 
   const loadNodesData = async (showProgress = true) => {
     try {
@@ -105,7 +105,7 @@ const NodesPage = () => {
         <AlertCircle className="w-12 h-12 text-destructive mx-auto animate-bounce" />
         <h1 className="text-3xl font-black text-foreground">Falha de Conexão</h1>
         <p className="text-muted-foreground max-w-md mx-auto">
-          Não foi possível estabelecer contato com as APIs de telemetria e sincronização de rede da Planet One.
+          Não foi possível estabelecer contato com as APIs de telemetria e sincronização de rede da AMZX.
         </p>
         <Button onClick={() => loadNodesData(true)} variant="outline" className="border-border">
           Tentar Novamente
@@ -138,7 +138,7 @@ const NodesPage = () => {
     <div className="w-full max-w-5xl mx-auto space-y-10 py-6 pb-20 animate-fade-in">
       <SEO 
         title="Status da Rede & Nós Validadores"
-        description="Monitoramento e telemetria de nós validadores, peers conectados, ativação de features de protocolo e recompensas de bloco da blockchain Planet One."
+        description="Monitoramento e telemetria de nós validadores, peers conectados, ativação de features de protocolo e recompensas de bloco da blockchain AMZX."
       />
       
       {/* Header and Telemetry state */}
@@ -285,7 +285,7 @@ const NodesPage = () => {
                 Conexões de Peers Ativas
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Lista de nós ativos propagando blocos e transações no ledger da Planet One.
+                Lista de nós ativos propagando blocos e transações no ledger da AMZX.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -307,7 +307,7 @@ const NodesPage = () => {
                     <TableRow className="border-b border-border/30 hover:bg-muted/10">
                       <TableCell className="font-bold text-emerald-500 flex items-center gap-1.5 pl-6 py-4">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Planet One Blockchain Node (Principal)
+                        AMZX Blockchain Node (Principal)
                       </TableCell>
                       <TableCell className="font-mono text-xs">
                         <span className="inline-flex items-center gap-1">
@@ -317,7 +317,7 @@ const NodesPage = () => {
                           </Button>
                         </span>
                       </TableCell>
-                      <TableCell className="font-medium text-foreground">ploP</TableCell>
+                      <TableCell className="font-medium text-foreground">amzA</TableCell>
                       <TableCell className="font-semibold text-foreground">
                         <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/15 text-[10px] font-mono">
                           Main Branch
@@ -377,7 +377,7 @@ const NodesPage = () => {
                     </div>
                     <div className="flex justify-between">
                       <span>Aplicação:</span>
-                      <span className="text-foreground">ploP</span>
+                      <span className="text-foreground">amzA</span>
                     </div>
                   </div>
                 </div>
@@ -502,7 +502,7 @@ const NodesPage = () => {
 
             <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all">
               <CardHeader className="pb-2">
-                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Fornecimento Total (PLO)</CardTitle>
+                <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Fornecimento Total ({getCoinName()})</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-black text-foreground font-mono">

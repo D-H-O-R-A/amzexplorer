@@ -39,14 +39,23 @@ interface AssetSocialMetadata {
 }
 
 const VERIFIED_ASSETS_METADATA: Record<string, AssetSocialMetadata> = {
-  "AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk": {
-    website: "https://planetone.io",
-    twitter: "https://x.com/planetone_io",
-    telegram: "https://t.me/planetone_io",
-    github: "https://github.com/planetone-io",
-    discord: "https://discord.gg/planetone",
-    whitepaper: "https://planetone.io/whitepaper.pdf",
-    description: "VERDE é o primeiro ativo ecológico e utilitário do ecossistema Planet One, lastreado e certificado em projetos de preservação de áreas florestais, biodiversidade e mitigação de créditos de carbono de alta integridade."
+  "7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz": {
+    website: "https://amazonicone.com.br/",
+    twitter: "https://amazonicone.com.br/",
+    telegram: "https://amazonicone.com.br/",
+    github: "https://github.com/D-H-O-R-A/amzx",
+    discord: "https://amazonicone.com.br/",
+    whitepaper: "https://amazonicone.com.br/",
+    description: "amz1 é o token oficial da Amazonic One (AMZX), emitido na blockchain de alta performance com fornecimento total de 100 bilhões de unidades."
+  },
+  "7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU": {
+    website: "https://amazonicone.com.br/",
+    twitter: "https://amazonicone.com.br/",
+    telegram: "https://amazonicone.com.br/",
+    github: "https://github.com/D-H-O-R-A/amzx",
+    discord: "https://amazonicone.com.br/",
+    whitepaper: "https://amazonicone.com.br/",
+    description: "Amazonic USDT Wrapped token 1:1 Peg com suporte completo a 18 casas decimais."
   }
 };
 
@@ -69,8 +78,9 @@ const AssetPage = () => {
   // Copy clipboards index tracker
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const VERDE_CONTRACT_ID = "AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk";
-  const isVerde = asset?.assetId === VERDE_CONTRACT_ID;
+  const AMZ1_CONTRACT_ID = "7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz";
+  const isAmz1 = asset?.assetId === AMZ1_CONTRACT_ID || asset?.name?.toLowerCase() === "amz1";
+  const isVerde = isAmz1;
 
   const [imgUrl, setImgUrl] = useState<string | null>(null);
 
@@ -138,8 +148,8 @@ const AssetPage = () => {
             try {
               assetIdToFetch = ethAsset2Waves(id);
             } catch (error) {
-              console.error("Erro ao converter asset ID 0x para Planet One:", error);
-              toast.error("Erro ao converter asset ID para formato Planet One");
+              console.error("Erro ao converter asset ID 0x para AMZX:", error);
+              toast.error("Erro ao converter asset ID para formato AMZX");
               setLoading(false);
               return;
             }
@@ -153,7 +163,7 @@ const AssetPage = () => {
           
           setProcessedAssetId(assetIdToFetch);
           
-          // Fetch asset data using Planet One format
+          // Fetch asset data using AMZX format
           const assetData = await fetchAssetDetails(assetIdToFetch);
           setAsset(assetData);
           
@@ -252,7 +262,7 @@ const AssetPage = () => {
     >
       <SEO 
         title={asset?.name ? `Ativo ${asset.name} (${asset.assetId.substring(0, 8)}...)` : `Ativo On-Chain`}
-        description={`Detalhes do token/ativo ${asset?.name || id} na blockchain Planet One. Total supply, emissor, precisão decimal, detentores e metadados ambientais.`}
+        description={`Detalhes do token/ativo ${asset?.name || id} na blockchain AMZX. Total supply, emissor, precisão decimal, detentores e metadados ambientais.`}
       />
       
       {/* Header and navigation */}
@@ -371,8 +381,8 @@ const AssetPage = () => {
             </div>
           </MotionChild>
 
-          {/* Special Verified VERDE Description Block */}
-          {isVerde && (
+          {/* Special Verified amz1 Description Block */}
+          {isAmz1 && (
             <MotionChild>
               <Card className="border border-emerald-500/15 bg-emerald-500/5 overflow-hidden rounded-2xl relative">
                 <div className="absolute right-4 top-4 text-emerald-500/15 pointer-events-none">
@@ -381,18 +391,15 @@ const AssetPage = () => {
                 <CardHeader className="pb-2 border-b border-emerald-500/10 bg-emerald-500/5">
                   <CardTitle className="text-sm font-extrabold text-emerald-500 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    Especificação do Ativo VERDE (Planet One)
+                    Especificação do Ativo amz1 (Amazonic One)
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-5 text-xs text-foreground/80 leading-relaxed space-y-3.5 max-w-4xl relative z-10">
                   <p>
-                    <strong className="text-emerald-500 font-bold">VERDE</strong> é o primeiro ativo ambiental tokenizado do ecossistema Planet One, desenvolvido para representar projetos certificados de créditos de carbono provenientes da preservação e conservação de ecossistemas naturais.
+                    <strong className="text-emerald-500 font-bold">amz1</strong> é o token oficial da Amazonic One (AMZX), emitido na blockchain de alta performance com fornecimento total de 100 bilhões de unidades.
                   </p>
                   <p>
-                    Cada emissão do VERDE está vinculada a ativos ambientais reais, auditáveis e georreferenciados, permitindo total transparência sobre sua origem, documentação e rastreabilidade. Por meio da blockchain Planet One, investidores, empresas e instituições podem acompanhar todas as informações do ativo em tempo real, desde a área protegida até sua evolução ao longo do ciclo de geração dos créditos de carbono.
-                  </p>
-                  <p>
-                    O VERDE foi projetado para transformar a preservação ambiental em um ativo digital acessível globalmente, conectando tecnologia blockchain, certificação ambiental e sustentabilidade em uma única infraestrutura. Seu objetivo é ampliar o financiamento de projetos de conservação, democratizar o acesso ao mercado de carbono e oferecer uma forma transparente de participar da economia ambiental.
+                    O token amz1 atua como combustível de governança, liquidez e ecossistema de contratos inteligentes da Amazonic One. Todas as informações de emissão, fornecimento e transferências podem ser auditadas diretamente em tempo real pelo AMZ Explorer.
                   </p>
                 </CardContent>
               </Card>
@@ -488,12 +495,12 @@ const AssetPage = () => {
                   <CardHeader className="pb-3 border-b border-emerald-500/20 bg-emerald-500/10">
                     <CardTitle className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                       <CheckCircle className="w-4 h-4 text-emerald-500" />
-                      Ativo Verificado Planet One
+                      Ativo Verificado AMZX
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-5 space-y-4">
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
-                      {VERIFIED_ASSETS_METADATA[asset.assetId]?.description || "Este token foi verificado oficialmente pelo ecossistema Planet One."}
+                      {VERIFIED_ASSETS_METADATA[asset.assetId]?.description || "Este token foi verificado oficialmente pelo ecossistema AMZX."}
                     </p>
                     
                     {/* Social Links Buttons */}
@@ -570,7 +577,7 @@ const AssetPage = () => {
                         </button>
                       </div>
                       <p className="text-[10px] text-muted-foreground leading-relaxed mt-1">
-                        Utilizado em bridges, carteiras EVM e contratos Ethereum compatíveis integrados ao ecossistema Planet One.
+                        Utilizado em bridges, carteiras EVM e contratos Ethereum compatíveis integrados ao ecossistema AMZX.
                       </p>
                     </div>
                   ) : (
@@ -600,7 +607,7 @@ const AssetPage = () => {
                   {asset.minSponsoredAssetFee && (
                     <div className="flex justify-between items-center py-1.5 border-b border-border/30">
                       <span className="text-muted-foreground">Sponsorship Mínimo</span>
-                      <span className="font-bold text-foreground font-mono">{formatNumber(asset.minSponsoredAssetFee / Math.pow(10, 8))} PLO</span>
+                      <span className="font-bold text-foreground font-mono">{formatNumber(asset.minSponsoredAssetFee / Math.pow(10, 8))} AMZ</span>
                     </div>
                   )}
                   {asset.description && !isVerde && (

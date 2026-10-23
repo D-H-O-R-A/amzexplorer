@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-/* --- Planet One Dark Cosmic Theme (static-n.css) --- */
+/* --- AMZ Explorer Dark Cosmic Theme (static-n.css) --- */
 
 :root {
     --bg-color: #020408;
@@ -8,17 +8,17 @@
     --border-color: rgba(255, 255, 255, 0.08);
     --text-color: #E2E8F0;
     --text-muted: #94A3B8;
-    --primary: #0066FF;
-    --primary-glow: rgba(0, 102, 255, 0.35);
-    --secondary: #00E054;
-    --secondary-glow: rgba(0, 224, 84, 0.35);
-    --accent: #8B5CF6;
+    --primary: #10B981;
+    --primary-glow: rgba(16, 185, 129, 0.35);
+    --secondary: #059669;
+    --secondary-glow: rgba(5, 150, 105, 0.35);
+    --accent: #34D399;
     --font-sans: 'Outfit', 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', 'Inconsolata', monospace;
     --header-height: 80px;
     --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 102, 255, 0.05);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.05);
 }
 
 * {
@@ -30,8 +30,8 @@ body {
     padding: 0;
     background-color: var(--bg-color);
     background-image: 
-        radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(0, 224, 84, 0.05) 0%, transparent 45%);
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 45%);
     background-attachment: fixed;
     color: var(--text-color);
     font-family: var(--font-sans);

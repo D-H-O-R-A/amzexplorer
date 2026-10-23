@@ -246,13 +246,13 @@ const ExchangeDetails = ({
             <div className="bg-muted/20 p-3 rounded-xl border border-border/40 flex-1">
               <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1 font-tech">Taxa Comprador</span>
               <span className="font-mono font-bold text-sm select-all">
-                {formatNumber(transaction.buyMatcherFee / 1e8, 8)} <span className="text-xs text-muted-foreground font-medium">PLO</span>
+                {formatNumber(transaction.buyMatcherFee / 1e8, 8)} <span className="text-xs text-muted-foreground font-medium">{getCoinName()}</span>
               </span>
             </div>
             <div className="bg-muted/20 p-3 rounded-xl border border-border/40 flex-1">
               <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider block mb-1 font-tech">Taxa Vendedor</span>
               <span className="font-mono font-bold text-sm select-all">
-                {formatNumber(transaction.sellMatcherFee / 1e8, 8)} <span className="text-xs text-muted-foreground font-medium">PLO</span>
+                {formatNumber(transaction.sellMatcherFee / 1e8, 8)} <span className="text-xs text-muted-foreground font-medium">{getCoinName()}</span>
               </span>
             </div>
           </div>

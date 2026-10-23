@@ -430,15 +430,15 @@ if( $address === 'api' )
     {
         require_once 'include/RO.php';
         $RO = new RO( W8DB );
-        $asset = $arg === false ? 'PLO' : $arg;
-        $aid = ( $asset === 'Waves' || $asset === 'PLO' || $asset === 'WAVES' ) ? 0 : $RO->getIdByAsset( $asset );
+        $asset = $arg === false ? 'AMZ' : $arg;
+        $aid = ( $asset === 'Waves' || $asset === 'PLO' || $asset === 'WAVES' || $asset === 'AMZ' ) ? 0 : $RO->getIdByAsset( $asset );
         if( $aid === false )
             apiexit( 404, [ 'code' => 404, 'message' => 'asset not found' ] );
         
         $info = $RO->getAssetInfoById( $aid );
         [ $parsedDecimals, $parsedName ] = w8io_asset_info( $info );
         $decimals = $aid === 0 ? 8 : $parsedDecimals;
-        $assetName = $aid === 0 ? 'PLO' : $parsedName;
+        $assetName = $aid === 0 ? 'AMZ' : $parsedName;
 
         $limit = 100;
         $offset = $arg2 === false ? 0 : (int)$arg2;
@@ -459,7 +459,7 @@ if( $address === 'api' )
                 'balance' => $amount,
                 'decimals' => $decimals,
                 'assetName' => $assetName,
-                'assetId' => $asset === 'PLO' ? 'PLO' : $asset
+                'assetId' => ($asset === 'PLO' || $asset === 'AMZ') ? 'AMZ' : $asset
             ];
         }
 
@@ -558,7 +558,7 @@ if( $address === 'api' )
 
                 $asset_id = (int)$primary[5];
                 if( $asset_id === 0 || $asset_id === -1 )
-                    $asset_str = 'PLO';
+                    $asset_str = 'AMZ';
                 else
                 {
                     $asset_str = $RO->getAssetById( $asset_id );
@@ -567,7 +567,7 @@ if( $address === 'api' )
 
                 $fee_asset_id = (int)$primary[7];
                 if( $fee_asset_id === 0 || $fee_asset_id === -1 )
-                    $fee_asset_str = 'PLO';
+                    $fee_asset_str = 'AMZ';
                 else
                 {
                     $fee_asset_str = $RO->getAssetById( $fee_asset_id );
@@ -625,7 +625,7 @@ if( $address === 'api' )
             $json[] = [
                 'address' => $contract_address,
                 'name' => 'Contract_' . substr($contract_address, -6),
-                'description' => 'Active Smart Contract / dApp on Planet One',
+                'description' => 'Active Smart Contract / dApp on AMZ Explorer',
                 'complexity' => 120,
                 'type' => 'dApp',
                 'deployer' => $contract_address,
@@ -711,7 +711,7 @@ if( $address === 'top' && $f !== false )
             exit( header( 'location: ' . W8IO_ROOT . 'top/' . $f ) );
     }
 
-    $aid = ( $f === 'Waves' || $f === 'PLO' || $f === 'WAVES' ) ? 0 : $RO->getIdByAsset( $f );
+    $aid = ( $f === 'Waves' || $f === 'PLO' || $f === 'WAVES' || $f === 'AMZ' ) ? 0 : $RO->getIdByAsset( $f );
     if( $aid !== false )
     {
         $info = $RO->getAssetInfoById( $aid );
@@ -823,43 +823,43 @@ function prolog()
 
     $L = (int)( $_COOKIE['L'] ?? 0 ) === 1;
     $displayAddress = prettyAddress( $address );
-    $title = 'Planet One FullExplorer';
-    $description = 'Planet One Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain Planet One (PLO).';
+    $title = 'AMZ Explorer FullExplorer';
+    $description = 'AMZ Full Explorer - Indexador de blocos e transações on-chain de alta performance para a rede blockchain AMZ Explorer (PLO).';
     
     if( $address === 'tx' && $f !== false )
     {
-        $title = 'Transação ' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
-        $description = 'Consulte a transação ' . htmlspecialchars( $f ) . ' na rede blockchain Planet One. Inspecione remetente, destinatário, taxas, transferências e confirmações.';
+        $title = 'Transação ' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
+        $description = 'Consulte a transação ' . htmlspecialchars( $f ) . ' na rede blockchain AMZ Explorer. Inspecione remetente, destinatário, taxas, transferências e confirmações.';
     }
     else if( $address === 'b' && $f !== false )
     {
-        $title = 'Bloco #' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
-        $description = 'Consulte o bloco #' . htmlspecialchars( $f ) . ' na blockchain Planet One. Validador gerador, transações incluídas, taxas coletadas e consenso.';
+        $title = 'Bloco #' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
+        $description = 'Consulte o bloco #' . htmlspecialchars( $f ) . ' na blockchain AMZ Explorer. Validador gerador, transações incluídas, taxas coletadas e consenso.';
     }
     else if( $address === 'GENERATORS' )
     {
-        $title = 'Geradores de Blocos & Validadores · Planet One FullExplorer';
-        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede Planet One (PLO).';
+        $title = 'Geradores de Blocos & Validadores · AMZ Explorer FullExplorer';
+        $description = 'Leaderboard de mineradores, geradores de blocos e nós validadores de consenso PoS da rede AMZ Explorer (PLO).';
     }
     else if( $address === 'top' )
     {
-        $title = 'Ranking de Maiores Balanços (Rich List) · Planet One FullExplorer';
-        $description = 'Contas com maiores saldos e distribuição de moedas PLO na blockchain Planet One.';
+        $title = 'Ranking de Maiores Balanços (Rich List) · AMZ Explorer FullExplorer';
+        $description = 'Contas com maiores saldos e distribuição de moedas PLO na blockchain AMZ Explorer.';
     }
     else if( $address === 'ACTIVATION' )
     {
-        $title = 'Status das Features de Protocolo · Planet One FullExplorer';
-        $description = 'Status de consenso e ativação de propostas de melhoria na blockchain Planet One.';
+        $title = 'Status das Features de Protocolo · AMZ Explorer FullExplorer';
+        $description = 'Status de consenso e ativação de propostas de melhoria na blockchain AMZ Explorer.';
     }
     else if( $address === 'tk' && $f !== false )
     {
-        $title = 'Token / Ativo ' . htmlspecialchars( $f ) . ' · Planet One FullExplorer';
-        $description = 'Detalhes do token/ativo ' . htmlspecialchars( $f ) . ' na blockchain Planet One.';
+        $title = 'Token / Ativo ' . htmlspecialchars( $f ) . ' · AMZ Explorer FullExplorer';
+        $description = 'Detalhes do token/ativo ' . htmlspecialchars( $f ) . ' na blockchain AMZ Explorer.';
     }
     else if( $address !== false && $address !== 'GENERATORS' )
     {
-        $title = 'Endereço ' . htmlspecialchars( $displayAddress ) . ' · Planet One FullExplorer';
-        $description = 'Histórico de transações, saldo e dados on-chain do endereço ' . htmlspecialchars( $displayAddress ) . ' na Planet One.';
+        $title = 'Endereço ' . htmlspecialchars( $displayAddress ) . ' · AMZ Explorer FullExplorer';
+        $description = 'Histórico de transações, saldo e dados on-chain do endereço ' . htmlspecialchars( $displayAddress ) . ' na AMZ Explorer.';
     }
 
     $canonicalPath = '';
@@ -878,7 +878,7 @@ function prolog()
     else if( !empty( $urio ) && $urio !== 'GENERATORS' )
         $canonicalPath = $urio;
 
-    $canonicalUrl = 'https://fullexplorer.planetone.io/' . htmlspecialchars( $canonicalPath );
+    $canonicalUrl = 'https://fullexplorer.amzexplorer.com/' . htmlspecialchars( $canonicalPath );
 
     echo sprintf( '
 <!DOCTYPE html>
@@ -891,45 +891,45 @@ function prolog()
         
         <!-- Meta Tags Principais & SEO para Mecanismos de Busca -->
         <meta name="description" content="%5$s">
-        <meta name="keywords" content="Planet One, PLO, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
-        <meta name="author" content="Planet One">
-        <meta name="publisher" content="Planet One Foundation">
+        <meta name="keywords" content="AMZ Explorer, PLO, Full Explorer, indexador, gRPC, RPC, blockchain, transações, blocos, cripto, sustentabilidade, tokenização, eRWA, créditos de carbono, Smart Contracts, Ride, PoS, validadores">
+        <meta name="author" content="AMZ Explorer">
+        <meta name="publisher" content="AMZ Explorer Foundation">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         <link rel="canonical" href="%6$s">
 
         <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
-        <meta property="og:site_name" content="Planet One Full Explorer">
+        <meta property="og:site_name" content="AMZ Full Explorer">
         <meta property="og:title" content="%1$s">
         <meta property="og:description" content="%5$s">
         <meta property="og:type" content="website">
         <meta property="og:url" content="%6$s">
-        <meta property="og:image" content="https://fullexplorer.planetone.io/static/logo.png">
-        <meta property="og:image:secure_url" content="https://fullexplorer.planetone.io/static/logo.png">
+        <meta property="og:image" content="https://fullexplorer.amzexplorer.com/static/logo.png">
+        <meta property="og:image:secure_url" content="https://fullexplorer.amzexplorer.com/static/logo.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
-        <meta property="og:image:alt" content="Planet One Full Explorer">
+        <meta property="og:image:alt" content="AMZ Full Explorer">
         <meta property="og:locale" content="pt_BR">
         <meta property="og:locale:alternate" content="en_US">
         <meta property="og:locale:alternate" content="es_ES">
 
         <!-- Twitter / Telegram -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:site" content="@planetone_oficial">
-        <meta name="twitter:creator" content="@planetone_oficial">
-        <meta name="twitter:domain" content="fullexplorer.planetone.io">
+        <meta name="twitter:site" content="@amazonicone">
+        <meta name="twitter:creator" content="@amazonicone">
+        <meta name="twitter:domain" content="fullexplorer.amzexplorer.com">
         <meta name="twitter:url" content="%6$s">
         <meta name="twitter:title" content="%1$s">
         <meta name="twitter:description" content="%5$s">
-        <meta name="twitter:image" content="https://fullexplorer.planetone.io/static/logo.png">
-        <meta name="twitter:image:alt" content="Planet One Full Explorer">
+        <meta name="twitter:image" content="https://fullexplorer.amzexplorer.com/static/logo.png">
+        <meta name="twitter:image:alt" content="AMZ Full Explorer">
 
         <!-- Discovery & AISEO Standards (llms.txt, sitemaps) -->
-        <link rel="alternate" type="application/xml" title="Sitemap Index" href="https://fullexplorer.planetone.io/sitemap.xml">
-        <link rel="help" type="text/markdown" href="https://fullexplorer.planetone.io/llms.txt" title="LLM & AI Agent Context">
-        <link rel="help" type="text/markdown" href="https://fullexplorer.planetone.io/llms-full.txt" title="Comprehensive LLM Documentation">
+        <link rel="alternate" type="application/xml" title="Sitemap Index" href="https://fullexplorer.amzexplorer.com/sitemap.xml">
+        <link rel="help" type="text/markdown" href="https://fullexplorer.amzexplorer.com/llms.txt" title="LLM & AI Agent Context">
+        <link rel="help" type="text/markdown" href="https://fullexplorer.amzexplorer.com/llms-full.txt" title="Comprehensive LLM Documentation">
 
         <!-- Favicons & App Icons -->
         <link rel="shortcut icon" href="/static/logo.png" type="image/x-icon">
@@ -942,12 +942,12 @@ function prolog()
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "url": "https://fullexplorer.planetone.io/",
-          "name": "Planet One Full Explorer",
-          "description": "Indexador de alta performance para a blockchain Planet One",
+          "url": "https://fullexplorer.amzexplorer.com/",
+          "name": "AMZ Full Explorer",
+          "description": "Indexador de alta performance para a blockchain AMZ Explorer",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://fullexplorer.planetone.io/{search_term_string}",
+            "target": "https://fullexplorer.amzexplorer.com/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }
@@ -957,12 +957,12 @@ function prolog()
         <script type="text/javascript" src="/static/static.js" charset="UTF-8"></script>
     </head>
     <body>
-        <!-- Planet One Header -->
+        <!-- AMZ Explorer Header -->
         <header class="planetone-header">
             <div class="header-container">
                 <a href="/" class="brand-link">
-                    <img src="/static/logo.png" alt="Planet One Logo" class="brand-logo">
-                    <span class="brand-name">PLANET<span class="highlight">ONE</span> <span class="sub-brand">FullExplorer</span></span>
+                    <img src="/static/logo.png" alt="AMZ Explorer Logo" class="brand-logo">
+                    <span class="brand-name">AMZ<span class="highlight">X</span> <span class="sub-brand">FullExplorer</span></span>
                 </a>
                 
                 <div class="search-container">
@@ -977,7 +977,7 @@ function prolog()
                 <nav class="nav-links">
                     <a href="/GENERATORS" class="nav-link">Generators</a>
                     <a href="/ACTIVATION" class="nav-link">Activation</a>
-                    <a href="https://explorer.planetone.io" class="nav-link external-link" target="_blank">Explorer &rarr;</a>
+                    <a href="https://explorer.amzexplorer.com" class="nav-link external-link" target="_blank">Explorer &rarr;</a>
                     <a id="L" href="" class="theme-toggle">%4$s</a>
                 </nav>
             </div>
@@ -1202,13 +1202,13 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
                     {
                         $sign = $amount < 0 ? -1 : 1;
                         $amount = ' ' . w8io_sign( $sign ) . w8io_amount( $amount, 8, 0, false );
-                        $asset = ' <a href="' . W8IO_ROOT . $address . '/f/PLO">PLO</a>';
+                        $asset = ' <a href="' . W8IO_ROOT . $address . '/f/AMZ">AMZ</a>';
                     }
                     else if( $asset === WAVES_LEASE_ASSET )
                     {
                         $sign = $amount < 0 ? -1 : 1;
                         $amount = ' ' . w8io_sign( $sign ) . w8io_amount( $amount, 8, 0, false );
-                        $asset = ' <a href="' . W8IO_ROOT . $address . '/f/PLO">PLO (GENERATOR)</a>';
+                        $asset = ' <a href="' . W8IO_ROOT . $address . '/f/AMZ">AMZ (GENERATOR)</a>';
                     }
                     else
                         continue;
@@ -1326,7 +1326,7 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
                 $sign = ( ( $type === TX_LEASE_CANCEL || $type === ITX_LEASE_CANCEL ) ? -1 : 1 ) * ( ( $amount < 0 ) ? -1 : 1 ) * ( $isb ? ( $isa ? 0 : 1 ) : -1 );
 
                 $amount = ' ' . w8io_sign( $sign ) . w8io_amount( $amount, 8, 0, false );
-                $asset = ' <a href="' . W8IO_ROOT . $address . '/f/PLO">PLO</a>';
+                $asset = ' <a href="' . W8IO_ROOT . $address . '/f/AMZ">AMZ</a>';
                 $reclen = strlen( $amount ) + 5;
             }
         }
@@ -1348,7 +1348,7 @@ function w8io_print_transactions( $aid, $where, $uid, $count, $address, $d, $sum
             }
             else
             {
-                $fee = ' <small>' . w8io_amount( $fee, 8, 0 ) . ' <a href="' . W8IO_ROOT . $address . '/f/PLO">PLO</a></small>';
+                $fee = ' <small>' . w8io_amount( $fee, 8, 0 ) . ' <a href="' . W8IO_ROOT . $address . '/f/AMZ">AMZ</a></small>';
             }
         }
         else
@@ -2515,14 +2515,14 @@ else
 
         // WAVES
         {
-            $asset = "PLO";
+            $asset = "AMZ";
             $amount = w8io_amount( $balance[0], 8 );
-            $furl = W8IO_ROOT . $address . '/f/PLO';
+            $furl = W8IO_ROOT . $address . '/f/AMZ';
 
             if( $arg === 0 && $filter === 1 )
             {
                 echo '<b>' . $amount . ' <a href="' . W8IO_ROOT . 'top/PLO">' . $asset . '</a></b>';
-                echo ' <small><a href="' . W8IO_ROOT . $address . '/fi/PLO">i</a><a href="' . W8IO_ROOT . $address . '/fo/PLO">o</a></small>' . PHP_EOL;
+                echo ' <small><a href="' . W8IO_ROOT . $address . '/fi/AMZ">i</a><a href="' . W8IO_ROOT . $address . '/fo/AMZ">o</a></small>' . PHP_EOL;
                 echo '<span>' . str_repeat( '—', 39 ) . '&nbsp;</span>' .  PHP_EOL;
             }
             else
@@ -2670,7 +2670,7 @@ else
 
                 echo "pay ($from .. $to) ($percent %):" . PHP_EOL . PHP_EOL;
                 echo w8io_amount( $waves_blocks, 0 ) . ' Blocks' . PHP_EOL;
-                echo w8io_amount( $waves_fees, 8 ) . " PLO" . PHP_EOL;
+                echo w8io_amount( $waves_fees, 8 ) . " AMZ" . PHP_EOL;
 
                 $payments = [];
                 foreach( $incomes as $a => $p )
@@ -2693,7 +2693,7 @@ else
                     if( $n === 0 )
                     {
                         $m++;
-                        echo "    Mass (PLO) #$m:" . PHP_EOL;
+                        echo "    Mass (AMZ) #$m:" . PHP_EOL;
                         echo "    ------------------------------------------------------------" . PHP_EOL;
                     }
                     $address = $RO->getAddressById( $a );
@@ -2725,11 +2725,11 @@ if( !isset( $L ) )
 
 echo '</pre></td></tr></table>';
 echo '<hr><div width="100%" align="right"><small>';
-echo "Planet One Block Explorer &copy; " . date('Y') . " | Powered by <a href=\"https://github.com/D-H-O-R-A/planetone-explorer\" target=\"_blank\">Better2better</a>";
+echo "AMZ Block Explorer &copy; " . date('Y') . " | Powered by <a href=\"https://amazonicone.com.br\" target=\"_blank\">Better2better</a>";
 if( file_exists( '.git/FETCH_HEAD' ) )
 {
     $rev = file_get_contents( '.git/FETCH_HEAD', false, null, 0, 40 );
-    echo "/<a href=\"https://github.com/D-H-O-R-A/planetone-explorer/commit/$rev\" target=\"_blank\">" . substr( $rev, 0, 7 ) . '</a> ';
+    echo "/<a href=\"https://amazonicone.com.br/commit/$rev\" target=\"_blank\">" . substr( $rev, 0, 7 ) . '</a> ';
 }
 if( !isset( $showtime ) )
 {

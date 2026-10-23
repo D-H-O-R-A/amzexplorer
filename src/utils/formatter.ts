@@ -49,7 +49,7 @@ export const formatDecimal = (num: number | string | bigint, decimals: number = 
 };
 
 /**
- * Format an amount of PLO (or any custom token up to 18 decimals)
+ * Format an amount of AMZ (or any custom token up to 18 decimals)
  * Converts from atomic satoshis to human-readable units using exact string BigInt arithmetic.
  */
 export const formatAmount = (
@@ -210,14 +210,16 @@ export const formatTimestamp = (timestamp: number): string => {
 };
 
 /**
- * Format PLO balance (dividing by 10^8)
+ * Format AMZ balance (dividing by 10^8)
  */
-export const formatPloBalance = (balance: number | string | bigint): string => {
+export const formatAmzBalance = (balance: number | string | bigint): string => {
   return formatAmount(balance, 8);
 };
 
+export const formatPloBalance = formatAmzBalance;
+
 // Alias for internal legacy compatibility
-export const formatGicBalance = formatPloBalance;
+export const formatGicBalance = formatAmzBalance;
 
 /**
  * Format asset amount with appropriate decimal places (supports up to 18 decimals)

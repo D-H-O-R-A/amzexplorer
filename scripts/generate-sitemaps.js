@@ -25,10 +25,10 @@ const PUBLIC_DIR = path.resolve(ROOT_DIR, 'public');
 const DIST_DIR = path.resolve(ROOT_DIR, 'dist');
 const FULLEXPLORER_DIR = path.resolve(ROOT_DIR, 'fullexplorer');
 
-const NODE_URL = process.env.PLANETONE_NODE_URL || 'https://nodes.planetone.io';
-const FULLEXPLORER_API = process.env.PLANETONE_FULLEXPLORER_API || 'https://fullexplorer.planetone.io/api';
-const EXPLORER_BASE = 'https://explorer.planetone.io';
-const FULLEXPLORER_BASE = 'https://fullexplorer.planetone.io';
+const NODE_URL = process.env.PLANETONE_NODE_URL || 'https://nodes.amzexplorer.com';
+const FULLEXPLORER_API = process.env.PLANETONE_FULLEXPLORER_API || 'https://fullexplorer.amzexplorer.com/api';
+const EXPLORER_BASE = 'https://amzexplorer.com';
+const FULLEXPLORER_BASE = 'https://fullexplorer.amzexplorer.com';
 
 const MAX_URLS_PER_SITEMAP = 10000;
 
@@ -43,7 +43,7 @@ console.log('[Sitemap Generator] =============================================='
 
 async function safeFetchJson(url) {
   try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'PlanetOne-Sitemap-Generator/3.0' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'AMZX-Sitemap-Generator/3.0' } });
     if (!res.ok) return null;
     return await res.json();
   } catch (err) {
@@ -241,7 +241,7 @@ async function main() {
   const { height, getBlockDate, transactions, addresses, assets } = data;
 
   // ============================================================================
-  // 1. GENERATE MAIN EXPLORER SITEMAPS (explorer.planetone.io)
+  // 1. GENERATE MAIN EXPLORER SITEMAPS (explorer.amzexplorer.com)
   // ============================================================================
   console.log('\n[Sitemap Generator] Generating XML files for Main Explorer (Max 10.000 URLs each)...');
 
@@ -407,7 +407,7 @@ async function main() {
   }
 
   // ============================================================================
-  // 2. GENERATE FULL EXPLORER SITEMAPS (fullexplorer.planetone.io)
+  // 2. GENERATE FULL EXPLORER SITEMAPS (fullexplorer.amzexplorer.com)
   // ============================================================================
   console.log('\n[Sitemap Generator] Generating XML files for FullExplorer (Max 10.000 URLs each)...');
 

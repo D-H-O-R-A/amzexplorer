@@ -11,10 +11,10 @@ export interface SEOProps {
   jsonLd?: Record<string, any> | null;
 }
 
-const DEFAULT_TITLE = 'Planet One Explorer - Blockchain Explorer & Environmental Ledger (eRWA)';
-const DEFAULT_DESC = 'Explorer oficial da Blockchain Planet One. Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes Ride e EVM, e acompanhe a tokenização de ativos ambientais (eRWA).';
-const BASE_URL = 'https://explorer.planetone.io';
-const DEFAULT_IMAGE = `${BASE_URL}/img/logo.png`;
+const DEFAULT_TITLE = 'AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)';
+const DEFAULT_DESC = 'Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes e acompanhe os ativos na rede.';
+const BASE_URL = 'https://amzexplorer.com';
+const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 
 export const SEO: React.FC<SEOProps> = ({
   title,
@@ -30,7 +30,7 @@ export const SEO: React.FC<SEOProps> = ({
   useEffect(() => {
     // 1. Dynamic Page Title
     const formattedTitle = title
-      ? (title.includes('Planet One') ? title : `${title} | Planet One Explorer`)
+      ? (title.includes('AMZ Explorer') ? title : `${title} | AMZ Explorer`)
       : DEFAULT_TITLE;
     document.title = formattedTitle;
 
@@ -61,7 +61,7 @@ export const SEO: React.FC<SEOProps> = ({
     setMetaTag('property', 'og:url', finalUrl);
     setMetaTag('property', 'og:image', image);
     setMetaTag('property', 'og:type', type);
-    setMetaTag('property', 'og:site_name', 'Planet One Explorer');
+    setMetaTag('property', 'og:site_name', 'AMZ Explorer');
 
     // 4. Twitter Card
     setMetaTag('name', 'twitter:title', formattedTitle);

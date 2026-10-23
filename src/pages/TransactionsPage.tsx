@@ -334,7 +334,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
   }, [liveRefresh, address, currentPage, loadTransactionsPage]);
 
   // Dynamic Metrics calculations
-  const totalFeesPLO = useMemo(() => {
+  const totalFeesAMZ = useMemo(() => {
     return transactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0);
   }, [transactions]);
 
@@ -489,7 +489,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
     <div className="container mx-auto py-8 px-4 max-w-7xl space-y-8 animate-in fade-in duration-300">
       <SEO 
         title="Transações On-Chain em Tempo Real"
-        description="Acompanhe todas as transações da rede Planet One em tempo real. Filtros por transferências, contratos inteligentes, tokens ambientais, emissões e EVM."
+        description="Acompanhe todas as transações da rede AMZX em tempo real. Filtros por transferências, contratos inteligentes, tokens ambientais, emissões e EVM."
       />
       
       {/* 1. Header Section */}
@@ -587,7 +587,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
                 <Skeleton className="h-9 w-32" />
               ) : (
                 <>
-                  {formatGicBalance(totalFeesPLO)}
+                  {formatGicBalance(totalFeesAMZ)}
                   <span className="text-xs font-medium text-muted-foreground">{getCoinName()}</span>
                 </>
               )}
@@ -639,7 +639,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              Ativos ambientais e tokens criados na Planet One
+              Ativos ambientais e tokens criados na AMZX
             </p>
           </CardContent>
         </Card>

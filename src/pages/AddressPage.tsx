@@ -160,7 +160,7 @@ const AddressPage = () => {
     >
       <SEO 
         title={`Endereço ${address ? address.substring(0, 10) + '...' : ''}`}
-        description={`Consulta on-chain do endereço ${address} na blockchain Planet One. Saldo de PLO, tokens eRWA, NFTs ecológicos, transações e contratos associados.`}
+        description={`Consulta on-chain do endereço ${address} na blockchain AMZX. Saldo de AMZ, tokens eRWA, NFTs ecológicos, transações e contratos associados.`}
       />
       <div className="container mx-auto max-w-5xl">
         {loading ? (
@@ -182,13 +182,13 @@ const AddressPage = () => {
             <div className="space-y-2">
               <h1 className="text-xl md:text-2xl font-extrabold text-foreground">Endereço Incompatível</h1>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                O endereço fornecido <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> é inválido ou incompatível com a rede <span className="font-bold text-emerald-500">PlanetOne</span>.
+                O endereço fornecido <code className="font-mono text-xs bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded break-all">{address}</code> é inválido ou incompatível com a rede <span className="font-bold text-emerald-500">AMZX</span>.
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-background/50 border border-border/40 text-left space-y-2 text-xs text-muted-foreground leading-relaxed">
               <div className="flex items-center gap-1.5 font-bold text-foreground mb-1">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Regras de Rede PlanetOne:
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Regras de Rede AMZX:
               </div>
               <p>• O Chain ID esperado para este nó é <span className="font-bold text-emerald-500">"{String.fromCharCode(getChainId())}"</span> (Byte: {getChainId()}).</p>
               <p>• Os endereços devem ser criptograficamente válidos seguindo o protocolo de hashing do ecossistema.</p>

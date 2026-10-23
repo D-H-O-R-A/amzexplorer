@@ -146,9 +146,9 @@ export const AnimatedBackground: React.FC<ParticleProps> = ({
                 >
                   <circle cx="32" cy="32" r="6" fill="var(--explorer-secondary, #10B981)" opacity="0.8" />
                   <circle cx="32" cy="32" r="14" stroke="var(--explorer-secondary, #10B981)" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
-                  <circle cx="32" cy="32" r="22" stroke="var(--explorer-primary, #3B82F6)" strokeWidth="0.75" opacity="0.15" />
-                  <line x1="32" y1="4" x2="32" y2="60" stroke="var(--explorer-primary, #3B82F6)" strokeWidth="0.5" opacity="0.2" />
-                  <line x1="4" y1="32" x2="60" y2="32" stroke="var(--explorer-primary, #3B82F6)" strokeWidth="0.5" opacity="0.2" />
+                  <circle cx="32" cy="32" r="22" stroke="var(--explorer-primary, #10B981)" strokeWidth="0.75" opacity="0.15" />
+                  <line x1="32" y1="4" x2="32" y2="60" stroke="var(--explorer-primary, #10B981)" strokeWidth="0.5" opacity="0.2" />
+                  <line x1="4" y1="32" x2="60" y2="32" stroke="var(--explorer-primary, #10B981)" strokeWidth="0.5" opacity="0.2" />
                 </svg>
               </motion.div>
             );

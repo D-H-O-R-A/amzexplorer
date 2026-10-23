@@ -179,7 +179,7 @@ const BlocksPage = () => {
     <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in pb-20">
       <SEO 
         title="Explorador de Blocos On-Chain"
-        description="Navegue, inspecione e filtre em tempo real todos os blocos minerados e validados na blockchain Planet One. Acompanhe geradores, tamanhos de bloco e transações."
+        description="Navegue, inspecione e filtre em tempo real todos os blocos minerados e validados na blockchain AMZX. Acompanhe geradores, tamanhos de bloco e transações."
       />
       
       {/* Hero Banner Section */}
@@ -195,7 +195,7 @@ const BlocksPage = () => {
               Explorador de <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">Blocos</span>
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-              Navegue, inspecione e filtre em tempo real todos os blocos emitidos e validados pela rede descentralizada do <strong className="text-foreground font-semibold">Planet One ({getCoinName()})</strong>.
+              Navegue, inspecione e filtre em tempo real todos os blocos emitidos e validados pela rede descentralizada do <strong className="text-foreground font-semibold">AMZX ({getCoinName()})</strong>.
             </p>
           </div>
           

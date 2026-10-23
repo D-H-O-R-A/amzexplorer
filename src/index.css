@@ -7,11 +7,11 @@
 @layer base {
   :root {
     /* CLEAN LIGHT ECO-CORPORATE THEME (DEFAULT) */
-    --background: 210 40% 98%; /* slate-50 with green-blue tint */
-    --foreground: 222 47% 11%; /* slate-900 */
+    --background: 150 20% 99%;
+    --foreground: 222 47% 11%;
 
     /* Muted tones */
-    --muted: 210 40% 96.1%;
+    --muted: 150 20% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --popover: 0 0% 100%;
@@ -20,69 +20,69 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 150 15% 90%;
+    --input: 150 15% 90%;
 
-    /* Cosmic Planet Blue - Primary */
-    --primary: 215 100% 50%; /* Deep Blue */
+    /* Primary Emerald Green */
+    --primary: 158 64% 45%; /* #10B981 */
     --primary-foreground: 210 40% 98%;
 
-    /* Leaf Green - Secondary */
-    --secondary: 140 85% 40%; /* Strong Leaf Green */
+    /* Strong Forest Green - Secondary */
+    --secondary: 160 84% 30%; /* #059669 */
     --secondary-foreground: 210 40% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 150 30% 95%;
+    --accent-foreground: 158 64% 35%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 215 100% 50%;
+    --ring: 158 64% 45%;
 
     --radius: 0.75rem;
 
-    /* Explorer dual accents: Planet Blue & Leaf Green */
-    --explorer-primary: 215 100% 50%;
-    --explorer-secondary: 140 85% 40%;
+    /* Explorer accents */
+    --explorer-primary: 158 64% 45%;
+    --explorer-secondary: 160 84% 30%;
   }
 
   .dark {
-    /* COSMIC DARK SPACE THEME */
-    --background: 222 47% 2%;
+    /* COSMIC DARK GREEN SPACE THEME */
+    --background: 160 30% 2.5%;
     --foreground: 210 40% 98%;
 
     /* Muted space tones */
-    --muted: 220 25% 9%;
-    --muted-foreground: 215 15% 75%;
+    --muted: 160 20% 9%;
+    --muted-foreground: 160 15% 75%;
 
-    --popover: 222 47% 3%;
+    --popover: 160 30% 3%;
     --popover-foreground: 210 40% 98%;
 
-    --card: 222 47% 3%;
+    --card: 160 30% 3%;
     --card-foreground: 210 40% 98%;
 
-    --border: 217 30% 12%;
-    --input: 217 30% 12%;
+    --border: 160 25% 12%;
+    --input: 160 25% 12%;
 
-    /* Cosmic Planet Blue - Primary */
-    --primary: 215 100% 55%;
+    /* Primary Emerald Green */
+    --primary: 158 64% 50%; /* #10B981 */
     --primary-foreground: 222 47% 2%;
 
-    /* Leaf Green - Secondary */
-    --secondary: 140 100% 45%;
+    /* Forest Green - Secondary */
+    --secondary: 160 84% 40%; /* #059669 */
     --secondary-foreground: 222 47% 2%;
 
-    --accent: 215 40% 12%;
-    --accent-foreground: 215 100% 55%;
+    --accent: 160 40% 12%;
+    --accent-foreground: 158 64% 50%;
 
     --destructive: 0 85% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --ring: 215 100% 55%;
+    --ring: 158 64% 50%;
 
-    /* Explorer dual accents: Planet Blue & Leaf Green */
-    --explorer-primary: 215 100% 55%;
-    --explorer-secondary: 140 100% 45%;
+    /* Explorer accents */
+    --explorer-primary: 158 64% 50%;
+    --explorer-secondary: 160 84% 40%;
   }
 }
 
@@ -103,11 +103,11 @@
   }
 
   .terminal-border {
-    @apply border border-primary/10 dark:border-primary/20 shadow-[0_0_20px_-3px_rgba(0,102,255,0.05)] dark:shadow-[0_0_20px_-3px_rgba(0,102,255,0.15)] bg-white/70 dark:bg-black/60 backdrop-blur-md;
+    @apply border border-primary/10 dark:border-primary/20 shadow-[0_0_20px_-3px_rgba(16,185,129,0.05)] dark:shadow-[0_0_20px_-3px_rgba(16,185,129,0.15)] bg-white/70 dark:bg-black/60 backdrop-blur-md;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(215,100%,55%)] to-[hsl(140,100%,45%)];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-green-500;
   }
 
   .title-tech {
@@ -115,15 +115,15 @@
   }
 
   .neon-text {
-    @apply text-explorer-primary drop-shadow-[0_0_8px_rgba(0,102,255,0.5)];
+    @apply text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)];
   }
 
   .neon-button {
-    @apply border-explorer-primary text-explorer-primary hover:bg-explorer-primary/10 transition-colors;
+    @apply border-emerald-500 text-emerald-500 hover:bg-emerald-500/10 transition-colors;
   }
 
   .data-flow {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 102, 255, 0.03) 75%, rgba(0, 102, 255, 0.07) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(16, 185, 129, 0.03) 75%, rgba(16, 185, 129, 0.07) 100%);
     background-size: 10px 10px;
     animation: flow 10s linear infinite;
   }
@@ -191,10 +191,10 @@
 
 @keyframes text-glow {
   from {
-    text-shadow: 0 0 5px rgba(0,102,255,0.7);
+    text-shadow: 0 0 5px rgba(16,185,129,0.7);
   }
   to {
-    text-shadow: 0 0 15px rgba(0,102,255,1);
+    text-shadow: 0 0 15px rgba(16,185,129,1);
   }
 }
 

@@ -220,14 +220,14 @@ const Index = () => {
   const circulatingSupplyStr = `${(rawCirculatingSupply / 1000000).toFixed(2)}M`;
 
   // Real Staked Amount on-chain (using stats totalStaked in satoshis if available, or 73.32% supply fallback)
-  const rawStakedPLO = stats?.totalStaked 
+  const rawStakedAMZ = stats?.totalStaked 
     ? stats.totalStaked / 100000000 
     : rawCirculatingSupply * 0.7332;
-  const totalStakedStr = `${(rawStakedPLO / 1000000).toFixed(2)}M`;
+  const totalStakedStr = `${(rawStakedAMZ / 1000000).toFixed(2)}M`;
 
   // Staking ratio percentage (ratio of supply locked in staking)
   const stakingRatio = rawCirculatingSupply > 0 
-    ? (rawStakedPLO / rawCirculatingSupply) * 100 
+    ? (rawStakedAMZ / rawCirculatingSupply) * 100 
     : 73.32;
 
   // Active validators (count of block producers in consensus group)
@@ -258,11 +258,11 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
   return (
     <div className="min-h-screen flex flex-col gap-10 md:gap-16">
       <SEO 
-        title="Planet One Explorer - Blockchain Explorer & Environmental Ledger (eRWA)"
-        description="Explorer oficial da Blockchain Planet One. Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes Ride e EVM, e acompanhe a tokenização de ativos ambientais (eRWA)."
+        title="AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)"
+        description="Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes e acompanhe os ativos na rede."
       />
       
-      {/* 1. Hero banner with floating Planet Globe (Figma Style) */}
+      {/* 1. Hero banner with Amazonic One Logo */}
       <ParallaxSection 
         className="py-12 md:py-16 px-4 md:px-8 relative overflow-hidden rounded-2xl border border-primary/15 dark:border-primary/20 bg-slate-100/60 dark:bg-slate-950/40 backdrop-blur-xl"
         intensity={10}
@@ -273,11 +273,11 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
           <div className="lg:col-span-7 text-left space-y-6">
             
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground font-mono leading-tight">
-              Explore a Rede <span className="text-gradient font-bold">Planet One</span>
+              Explore a Rede <span className="text-gradient font-bold">AMZ Explorer</span>
             </h1>
             
             <p className="text-sm md:text-base text-muted-foreground max-w-xl">
-              Pesquise qualquer transação, endereço, bloco, token, NFT ou contrato inteligente em nossa infraestrutura verde e descentralizada.
+              Pesquise qualquer transação, endereço, bloco, token ou contrato inteligente na infraestrutura de alta velocidade da Amazonic One.
             </p>
             
             <div className="w-full max-w-xl pt-2">
@@ -299,33 +299,29 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
             </div>
           </div>
           
-          {/* Right: Stunning Orbiting Planet Sphere (CSS-Powered, zero dependencies) */}
+          {/* Right: Stunning Amazonic One Logo with Glowing Orbits */}
           <div className="lg:col-span-5 flex justify-center items-center">
             <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
               {/* Pulsing Back Glow */}
-              <div className="absolute inset-0 rounded-full bg-gradient-radial from-secondary/15 via-primary/10 to-transparent blur-3xl animate-pulse"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-600/10 to-transparent blur-3xl animate-pulse"></div>
               
               {/* Outer orbit */}
-              <div className="absolute w-[95%] h-[95%] border border-primary/20 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none">
-                <div className="absolute top-1/2 left-0 w-3.5 h-3.5 rounded-full bg-gradient-to-r from-primary to-cyan-400 shadow-[0_0_15px_#0066ff]"></div>
+              <div className="absolute w-[95%] h-[95%] border border-emerald-500/25 rounded-full animate-[spin_24s_linear_infinite] pointer-events-none">
+                <div className="absolute top-1/2 left-0 w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_15px_#10b981]"></div>
               </div>
               
               {/* Inner orbit */}
-              <div className="absolute w-[75%] h-[75%] border border-secondary/15 rounded-full animate-[spin_12s_linear_infinite_reverse] pointer-events-none">
-                <div className="absolute top-0 left-1/2 w-2.5 h-2.5 rounded-full bg-gradient-to-r from-secondary to-emerald-400 shadow-[0_0_15px_#00e054]"></div>
+              <div className="absolute w-[75%] h-[75%] border border-emerald-500/20 rounded-full animate-[spin_16s_linear_infinite_reverse] pointer-events-none">
+                <div className="absolute top-0 left-1/2 w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_12px_#14b8a6]"></div>
               </div>
               
-              {/* Planet Orb */}
-              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-slate-900 border-2 border-primary/30 shadow-[0_0_50px_rgba(0,102,255,0.3)]">
-                {/* Surface shading */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-primary/20 to-secondary/30 mix-blend-overlay"></div>
-                {/* Tech Grid overlay */}
-                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:14px_16px]"></div>
-                {/* Cloud glows */}
-                <div className="absolute top-8 left-12 w-16 h-16 rounded-full bg-emerald-500/10 blur-xl animate-pulse"></div>
-                <div className="absolute bottom-12 right-10 w-20 h-20 rounded-full bg-blue-500/15 blur-2xl animate-pulse"></div>
-                {/* Outer shadow for globe perspective */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,transparent_35%,rgba(0,0,0,0.85)_80%)]"></div>
+              {/* Logo display */}
+              <div className="relative z-10 p-4 transition-transform duration-500 hover:scale-105">
+                <img 
+                  src="/logo.png" 
+                  alt="Amazonic One Logo" 
+                  className="w-48 h-48 md:w-56 md:h-56 object-contain filter drop-shadow-[0_0_35px_rgba(16,185,129,0.45)]"
+                />
               </div>
             </div>
           </div>
@@ -404,7 +400,7 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
               <div className="relative group/tooltip">
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/60 hover:text-primary transition-colors cursor-help" />
                 <div className="absolute right-0 bottom-full mb-2 w-52 p-2.5 text-[10px] leading-relaxed font-sans rounded-lg border border-primary/10 bg-slate-950/95 backdrop-blur-md text-slate-300 opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none z-[100] shadow-xl">
-                  O tamanho total acumulado do banco de dados e do estado atual da blockchain Planet One indexado em tempo real.
+                  O tamanho total acumulado do banco de dados e do estado atual da blockchain AMZX indexado em tempo real.
                 </div>
               </div>
             </div>
@@ -578,27 +574,25 @@ const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
             </div>
           </Link>
 
-          <Link to="/address-converter" className="glass-card p-4 text-center flex flex-col items-center justify-center gap-3 hover:border-primary/50 transition-all duration-300">
+          <Link to="/ranking" className="glass-card p-4 text-center flex flex-col items-center justify-center gap-3 hover:border-primary/50 transition-all duration-300">
+            <div className="p-3 rounded-full bg-primary/10 text-primary">
+              <Award className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-sm font-bold font-mono">Ranking</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">Distribuição de AMZ</p>
+            </div>
+          </Link>
+
+          <Link to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" className="glass-card p-4 text-center flex flex-col items-center justify-center gap-3 hover:border-primary/50 transition-all duration-300">
             <div className="p-3 rounded-full bg-primary/10 text-primary">
               <Coins className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm font-bold font-mono">Conversor</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">Mapeador EVM/Waves</p>
+              <p className="text-sm font-bold font-mono">Token amz1</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">Token Oficial AMZX</p>
             </div>
           </Link>
-
-          {isTestnet() && (
-            <Link to="/faucet" className="glass-card p-4 text-center flex flex-col items-center justify-center gap-3 hover:border-primary/50 transition-all duration-300">
-              <div className="p-3 rounded-full bg-primary/10 text-primary">
-                <Award className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-sm font-bold font-mono">Testnet Faucet</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Reivindicar saldo PLO</p>
-              </div>
-            </Link>
-          )}
 
         </div>
       </section>

@@ -262,11 +262,11 @@ const TransactionView = () => {
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground font-medium">Rede:</span>
             <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400 font-semibold px-2.5 py-0.5 text-xs rounded-full">
-              Planet One Blockchain (80)
+              AMZX Blockchain (65)
             </Badge>
           </div>
           <a 
-            href={`https://nodes.planetone.io/transactions/info/${id}`} 
+            href={`https://nodes.amzexplorer.com/transactions/info/${id}`} 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors group"

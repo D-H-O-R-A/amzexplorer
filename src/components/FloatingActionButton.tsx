@@ -105,19 +105,15 @@ const FloatingActionButton = () => {
       if (query.length === 44) {
         setSearchStatus('success');
         toast.success("Asset localizado!");
-        if (query === 'VERDE') {
-          navigate('/tokenplanet/VERDE');
-        } else {
-          navigate(`/asset/${query}`);
-        }
+        navigate(`/asset/${query}`);
         setIsOpen(false);
         return;
       }
 
-      // 4. Special cases for VERDE/PLO
-      if (query.toUpperCase() === 'VERDE') {
+      // 4. Special cases for amz1/AMZ
+      if (query.toUpperCase() === 'AMZ1') {
         setSearchStatus('success');
-        navigate('/tokenplanet/VERDE');
+        navigate('/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz');
         setIsOpen(false);
         return;
       }

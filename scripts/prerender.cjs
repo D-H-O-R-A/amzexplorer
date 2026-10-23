@@ -90,10 +90,10 @@ function generateHtml(options) {
 const staticRoutes = [
   {
     path: 'transactions',
-    title: 'Transações da Blockchain | Planet One Explorer',
-    description: 'Acompanhe todas as transações em tempo real na Blockchain Planet One. Rastreie transferências, invocação de dApps e emissão de ativos eRWA.',
-    canonical: 'https://explorer.planetone.io/transactions',
-    h1: 'Transações da Blockchain Planet One',
+    title: 'Transações da Blockchain | AMZX Explorer',
+    description: 'Acompanhe todas as transações em tempo real na Blockchain AMZX. Rastreie transferências, invocação de dApps e emissão de ativos eRWA.',
+    canonical: 'https://amzexplorer.com/transactions',
+    h1: 'Transações da Blockchain AMZX',
     subText: 'Histórico completo de transações e movimentações no ledger ambiental eRWA.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
@@ -104,10 +104,10 @@ const staticRoutes = [
   },
   {
     path: 'blocks',
-    title: 'Blocos da Blockchain | Planet One Explorer',
-    description: 'Consulte os blocos minerados e validados na rede Planet One. Altura, geradores de bloco, recompensas e volume transacionado.',
-    canonical: 'https://explorer.planetone.io/blocks',
-    h1: 'Blocos da Blockchain Planet One',
+    title: 'Blocos da Blockchain | AMZX Explorer',
+    description: 'Consulte os blocos minerados e validados na rede AMZX. Altura, geradores de bloco, recompensas e volume transacionado.',
+    canonical: 'https://amzexplorer.com/blocks',
+    h1: 'Blocos da Blockchain AMZX',
     subText: 'Cadeia de blocos com consenso Proof of Stake e finalidade instantânea.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
@@ -118,11 +118,11 @@ const staticRoutes = [
   },
   {
     path: 'nodes',
-    title: 'Nós Validadores e Consenso | Planet One Explorer',
-    description: 'Monitore a descentralização da rede Planet One: nós validadores ativos, versões, localizações geográficas e saúde do consenso.',
-    canonical: 'https://explorer.planetone.io/nodes',
+    title: 'Nós Validadores e Consenso | AMZX Explorer',
+    description: 'Monitore a descentralização da rede AMZX: nós validadores ativos, versões, localizações geográficas e saúde do consenso.',
+    canonical: 'https://amzexplorer.com/nodes',
     h1: 'Nós Validadores e Infraestrutura',
-    subText: 'Rede distribuída de nós mantendo a segurança do ledger ecológico Planet One.',
+    subText: 'Rede distribuída de nós mantendo a segurança do ledger ecológico AMZX.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
         <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Status da Rede:</strong> Operando em alta disponibilidade</p>
@@ -132,9 +132,9 @@ const staticRoutes = [
   },
   {
     path: 'contracts',
-    title: 'Contratos Inteligentes Ride & EVM | Planet One Explorer',
-    description: 'Audite e interaja com Smart Contracts na rede Planet One. Compatibilidade com Ride e EVM, contratos verificados e ativos eRWA.',
-    canonical: 'https://explorer.planetone.io/contracts',
+    title: 'Contratos Inteligentes Ride & EVM | AMZX Explorer',
+    description: 'Audite e interaja com Smart Contracts na rede AMZX. Compatibilidade com Ride e EVM, contratos verificados e ativos eRWA.',
+    canonical: 'https://amzexplorer.com/contracts',
     h1: 'Contratos Inteligentes',
     subText: 'Lógica descentralizada executada deterministicamente na blockchain.',
     detailsHtml: `
@@ -145,56 +145,15 @@ const staticRoutes = [
     `
   },
   {
-    path: 'faucet',
-    title: 'Faucet Oficial Testnet | Planet One Explorer',
-    description: 'Solicite tokens PLO Testnet gratuitamente para desenvolvedores testarem contratos inteligentes e dApps na Planet One.',
-    canonical: 'https://explorer.planetone.io/faucet',
-    h1: 'Faucet Oficial Planet One Testnet',
-    subText: 'Distribuição automática de tokens PLO de teste para a comunidade Web3.',
-    detailsHtml: `
-      <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Limite:</strong> 1 solicitação a cada 24 horas por carteira/IP</p>
-        <p style="margin:0;color:#94a3b8;">Insira seu endereço PLO para receber fundos de teste.</p>
-      </div>
-    `
-  },
-  {
-    path: 'address-converter',
-    title: 'Conversor de Endereços Ride & EVM | Planet One Explorer',
-    description: 'Converta endereços entre o formato nativo Ride (3P...) e o formato EVM compatível (0x...) na Planet One Blockchain.',
-    canonical: 'https://explorer.planetone.io/address-converter',
-    h1: 'Conversor de Endereços Ride & EVM',
-    subText: 'Interoperabilidade entre formatos de endereço nativos e Ethereum na rede Planet One.',
-    detailsHtml: `
-      <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0 0 0.5rem 0;color:#e2e8f0;"><strong>Padrão:</strong> Algoritmo de mapeamento determinístico de chave pública</p>
-        <p style="margin:0;color:#94a3b8;">Carregando conversor interativo...</p>
-      </div>
-    `
-  },
-  {
     path: 'ranking',
-    title: 'Ranking de Validadores e Contas | Planet One Explorer',
-    description: 'Classificação de nós validadores, maiores detentores e contas mais ativas da blockchain Planet One.',
-    canonical: 'https://explorer.planetone.io/ranking',
+    title: 'Ranking de Validadores e Contas | AMZX Explorer',
+    description: 'Classificação de nós validadores, maiores detentores e contas mais ativas da blockchain AMZX.',
+    canonical: 'https://amzexplorer.com/ranking',
     h1: 'Ranking e Estatísticas da Rede',
-    subText: 'Métricas de participação, geração de blocos e volume financeiro ecológico.',
+    subText: 'Métricas de participação, geração de blocos e volume financeiro na AMZX.',
     detailsHtml: `
       <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
         <p style="margin:0;color:#94a3b8;">Carregando tabela de classificação...</p>
-      </div>
-    `
-  },
-  {
-    path: 'carbon-map',
-    title: 'Mapa de Carbono e Ativos Ambientais (eRWA) | Planet One Explorer',
-    description: 'Visualização geoespacial de projetos de crédito de carbono, preservação florestal e biodiversidade registrados na Planet One.',
-    canonical: 'https://explorer.planetone.io/carbon-map',
-    h1: 'Mapa de Ativos Ambientais (eRWA)',
-    subText: 'Geolocalização e transparência on-chain de reservas ambientais e projetos tokenizados.',
-    detailsHtml: `
-      <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.25rem;">
-        <p style="margin:0;color:#94a3b8;">Carregando mapa geoespacial interativo...</p>
       </div>
     `
   }
@@ -211,14 +170,10 @@ for (const route of staticRoutes) {
   console.log(`[Prerender] Generated static route: /${route.path}/index.html`);
 }
 
-// Pre-render known assets and tokenplanet/VERDE
+// Pre-render known assets including amz1 and AUSDTW
 const keyAssets = [
-  'AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk',
-  'BXwyK6pvWnJUmTzQznGU6C5tK1og2vmUjSnW4FbYNMZD',
-  'BBFzqFCYd6ouAXWqBCLsMVC2ErgmyfPjBzLdnRByMR83',
-  '9vn6nbkRecBTNiCFpwvv9aFz5G8mPr1rgbQ48YLbzeF',
-  '2u2uTcgNmETDHnbAouV65KM5Qa46QH3JXi39Nsh9JFgE',
-  '5HkAvQoZHnB66TBiPwwYY6Xix4KP6LiY9z9J7uaRaHyK'
+  '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz',
+  '7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU'
 ];
 
 for (const assetId of keyAssets) {
@@ -226,13 +181,13 @@ for (const assetId of keyAssets) {
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
   }
-  const canonical = `https://explorer.planetone.io/asset/${assetId}`;
+  const canonical = `https://amzexplorer.com/asset/${assetId}`;
   const content = generateHtml({
-    title: `Ativo Ambiental ${assetId} | Planet One Explorer`,
-    description: `Ativo tokenizado eRWA ${assetId} na Blockchain Planet One. Créditos ambientais, auditoria e suprimento on-chain.`,
+    title: `Ativo ${assetId} | AMZX Explorer`,
+    description: `Token ${assetId} na Blockchain AMZX. Transações, detentores e suprimento on-chain.`,
     canonical: canonical,
     h1: `Ativo ${assetId}`,
-    subText: 'Ativo ambiental eRWA emitido e auditado na blockchain Planet One.',
+    subText: 'Ativo emitido e auditado na blockchain AMZX.',
     detailsHtml: `
       <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
         <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Ativo</h2>
@@ -246,28 +201,6 @@ for (const assetId of keyAssets) {
   fs.writeFileSync(path.join(targetDir, 'index.html'), content);
   console.log(`[Prerender] Generated static asset: /asset/${assetId}/index.html`);
 }
-
-// Token VERDE
-const verdeDir = path.join(DIST_DIR, 'tokenplanet', 'VERDE');
-if (!fs.existsSync(verdeDir)) {
-  fs.mkdirSync(verdeDir, { recursive: true });
-}
-const verdeCanonical = 'https://explorer.planetone.io/tokenplanet/VERDE';
-const verdeContent = generateHtml({
-  title: 'Token VERDE - Token Nativo de Sustentabilidade | Planet One Explorer',
-  description: 'Métricas, emissão, queima e circulação do Token VERDE na Blockchain Planet One.',
-  canonical: verdeCanonical,
-  h1: 'Token VERDE (eRWA Ecosystem)',
-  subText: 'Ativo ecológico governado por contratos inteligentes e lastreado em preservação ambiental.',
-  detailsHtml: `
-    <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
-      <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Token VERDE</h2>
-      <p style="margin:0;color:#94a3b8;">Ativo nativo do ecossistema eRWA Planet One.</p>
-    </section>
-  `
-});
-fs.writeFileSync(path.join(verdeDir, 'index.html'), verdeContent);
-console.log('[Prerender] Generated static token: /tokenplanet/VERDE/index.html');
 
 // Pre-render ALL transactions declared in sitemap
 function prerenderAllSitemapTransactions() {
@@ -286,19 +219,19 @@ function prerenderAllSitemapTransactions() {
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
-    const canonical = `https://explorer.planetone.io/tx/${txId}`;
+    const canonical = `https://amzexplorer.com/tx/${txId}`;
     const content = generateHtml({
-      title: `Transação ${txId} | Planet One Explorer`,
-      description: `Transação ${txId} registrada na Blockchain Planet One. Ledger ambiental eRWA, status, bloco, taxas e transferências.`,
+      title: `Transação ${txId} | AMZX Explorer`,
+      description: `Transação ${txId} registrada na Blockchain AMZX. Ledger ambiental eRWA, status, bloco, taxas e transferências.`,
       canonical: canonical,
       h1: `Transação ${txId}`,
-      subText: 'Transação on-chain auditada no ledger ambiental eRWA da rede Planet One.',
+      subText: 'Transação on-chain auditada no ledger ambiental eRWA da rede AMZX.',
       detailsHtml: `
         <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
           <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados da Transação</h2>
           <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
             <dt style="color:#94a3b8;">Hash / ID:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;word-break:break-all;color:#38bdf8;">${txId}</code></dd>
-            <dt style="color:#94a3b8;">Rede:</dt><dd>Planet One L1 (Mainnet)</dd>
+            <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
             <dt style="color:#94a3b8;">Status:</dt><dd><span style="color:#10b981;font-weight:600;">Confirmado em Bloco</span></dd>
             <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
           </dl>
@@ -313,7 +246,7 @@ function prerenderAllSitemapTransactions() {
 
 async function prerenderRecentBlocks() {
   try {
-    const res = await fetch('https://nodes.planetone.io/blocks/headers/last');
+    const res = await fetch('https://nodes.amzexplorer.com/blocks/headers/last');
     if (res.ok) {
       const lastBlock = await res.json();
       const currentHeight = lastBlock.height;
@@ -324,19 +257,19 @@ async function prerenderRecentBlocks() {
         if (!fs.existsSync(targetDir)) {
           fs.mkdirSync(targetDir, { recursive: true });
         }
-        const canonical = `https://explorer.planetone.io/block/${h}`;
+        const canonical = `https://amzexplorer.com/block/${h}`;
         const content = generateHtml({
-          title: `Bloco #${h} | Planet One Explorer`,
-          description: `Bloco #${h} minerado e validado na Blockchain Planet One. Consulte transações contidas, taxas e consenso de nós.`,
+          title: `Bloco #${h} | AMZX Explorer`,
+          description: `Bloco #${h} minerado e validado na Blockchain AMZX. Consulte transações contidas, taxas e consenso de nós.`,
           canonical: canonical,
           h1: `Bloco #${h}`,
-          subText: 'Bloco validado pelo consenso Proof of Stake da rede Planet One.',
+          subText: 'Bloco validado pelo consenso Proof of Stake da rede AMZX.',
           detailsHtml: `
             <section style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1.5rem;margin-top:1.5rem;">
               <h2 style="font-size:1.125rem;font-weight:600;margin:0 0 1rem 0;color:#e2e8f0;">Dados do Bloco</h2>
               <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.75rem 1.5rem;font-size:0.95rem;margin:0;">
                 <dt style="color:#94a3b8;">Altura:</dt><dd><code style="background:#1e293b;padding:0.2rem 0.4rem;border-radius:4px;color:#38bdf8;">#${h}</code></dd>
-                <dt style="color:#94a3b8;">Rede:</dt><dd>Planet One L1 (Mainnet)</dd>
+                <dt style="color:#94a3b8;">Rede:</dt><dd>AMZX L1 (Mainnet)</dd>
                 <dt style="color:#94a3b8;">Canônico:</dt><dd><a href="${canonical}" style="color:#10b981;">${canonical}</a></dd>
               </dl>
             </section>

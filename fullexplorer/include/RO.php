@@ -590,7 +590,7 @@ class RO
     public function getAssetInfoById( $id )
     {
         if( $id === 0 )
-            return '8_PLO';
+            return '8_AMZ';
 
         static $cache =
         [

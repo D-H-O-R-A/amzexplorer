@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { isTestnet, getChainId } from '@/lib/utils';
 import SearchForm from './SearchForm';
-import WalletSection from './WalletSection';
 import NavigationLinks from './NavigationLinks';
 import SocialLinks from './SocialLinks';
 import { NodeSettingsDialog } from './NodeSettingsDialog';
@@ -23,19 +22,13 @@ import {
   Box,
   ArrowRightLeft,
   FileCode,
-  Sparkles,
-  Trees,
-  Coins,
   Network,
-  RefreshCw,
-  Droplet,
-  Trophy,
-  Cpu
+  Trophy
 } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeMobileSection, setActiveMobileSection] = useState<string | null>(null);
+  const [activeMobileSection, setActiveMobileSection] = useState<string | null>('blockchain');
   const { theme, setTheme } = useTheme();
   const location = useLocation();
 
@@ -68,31 +61,11 @@ const Header = () => {
       ]
     },
     {
-      id: 'ecosystem',
-      label: "Ecossistema",
-      icon: Sparkles,
-      items: [
-        { label: "VERDE MAPS", path: "/carbon-map", icon: Trees },
-        { label: "Token VERDE", path: "/tokenplanet/VERDE", icon: Coins }
-      ]
-    },
-    {
       id: 'network',
       label: "Rede & Nós",
       icon: Network,
       items: [
         { label: "Status da Rede", path: "/nodes", icon: Network },
-        // { label: "Nós Validadores", path: "/validators", icon: Cpu }
-      ]
-    },
-    {
-      id: 'tools',
-      label: "Ferramentas",
-      icon: RefreshCw,
-      items: [
-        { label: "Address Converter", path: "/address-converter", icon: RefreshCw },
-        { label: "Matcher API (Docs)", path: "https://matcher.planetone.io/api-docs/index.html", icon: RefreshCw, isExternal: true },
-        ...(currentIsTestnet ? [{ label: "Testnet Faucet", path: "/faucet", icon: Droplet }] : [])
       ]
     }
   ];
@@ -107,8 +80,8 @@ const Header = () => {
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <img 
-                  src="/img/logo.jpg" 
-                  alt="Planet One Logo" 
+                  src="/logo.png" 
+                  alt="AMZ Explorer Logo" 
                   className="w-9 h-9 object-contain rounded-full transition-transform duration-300 group-hover:rotate-[10deg] filter drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]"
                 />
                 <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-glow-sm"></div>
@@ -119,7 +92,7 @@ const Header = () => {
                   {currentIsTestnet && <span className="text-orange-500 ml-1 font-semibold">(Testnet)</span>}
                 </p>
                 <h1 className="text-sm font-extrabold tracking-wider text-foreground leading-tight uppercase mt-0.5 font-mono">
-                  Planet One <span className="text-emerald-500">Explorer</span>
+                  AMZ <span className="text-emerald-500">Explorer</span>
                 </h1>
               </div>
             </Link>
@@ -149,11 +122,6 @@ const Header = () => {
                 <Moon className="w-4 h-4 text-emerald-600" />
               )}
             </button>
-
-            {/* Wallet Section (Desktop only) */}
-            <div className="hidden md:block">
-              <WalletSection />
-            </div>
 
             {/* Mobile Menu Toggle Button */}
             <button 
@@ -188,7 +156,7 @@ const Header = () => {
           <div className="space-y-5">
             <SheetHeader className="pb-2 border-b border-border">
               <SheetTitle className="text-left text-sm font-extrabold tracking-wider text-foreground leading-tight uppercase font-mono">
-                Planet One <span className="text-emerald-500">Menu</span>
+                AMZ <span className="text-emerald-500">Menu</span>
               </SheetTitle>
             </SheetHeader>
 
@@ -225,28 +193,7 @@ const Header = () => {
                       <div className="bg-muted/30 border-t border-border/30 p-1.5 space-y-1">
                         {cat.items.map((item, idx) => {
                           const ItemIcon = item.icon;
-                          const isItemActive = !item.isExternal && isActive(item.path);
-
-                          if (item.isExternal) {
-                            return (
-                              <a
-                                key={idx}
-                                href={item.path}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex items-center gap-2.5 p-2 rounded-lg text-xs font-semibold transition-all text-foreground/90 hover:bg-muted/80"
-                              >
-                                <span className="p-1 rounded-md bg-slate-500/10">
-                                  <ItemIcon className="w-3.5 h-3.5" />
-                                </span>
-                                <span className="flex items-center gap-1">
-                                  {item.label}
-                                  <ChevronRight className="w-3 h-3 text-muted-foreground" />
-                                </span>
-                              </a>
-                            );
-                          }
+                          const isItemActive = isActive(item.path);
 
                           return (
                             <Link
@@ -281,18 +228,12 @@ const Header = () => {
                 <NodeSettingsDialog />
               </div>
             </div>
-
-            {/* Wallet Section Block */}
-            <div className="border border-border/60 rounded-xl p-3 bg-card space-y-3">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Conectar Carteira</p>
-              <WalletSection />
-            </div>
           </div>
 
           {/* Social Links inside drawer bottom */}
           <div className="pt-6 border-t border-border/40 flex flex-col items-center gap-3 mt-6">
             <SocialLinks />
-            <p className="text-[9px] text-muted-foreground">© 2026 Planet One. Todos os direitos reservados.</p>
+            <p className="text-[9px] text-muted-foreground">© 2026 Amazonic One. Todos os direitos reservados.</p>
           </div>
         </SheetContent>
       </Sheet>

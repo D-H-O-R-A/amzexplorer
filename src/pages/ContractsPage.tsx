@@ -133,7 +133,7 @@ const ContractsPage = () => {
     <MotionContainer className="space-y-8 pb-12">
       <SEO 
         title="Contratos Inteligentes (dApps)"
-        description="Diretório de Smart Contracts e dApps na blockchain Planet One. Inspecione scripts Ride, chamadas callable, complexidade e estado dos contratos."
+        description="Diretório de Smart Contracts e dApps na blockchain AMZX. Inspecione scripts Ride, chamadas callable, complexidade e estado dos contratos."
       />
       {/* Premium Page Header */}
       <MotionChild>
@@ -151,7 +151,7 @@ const ContractsPage = () => {
                 Smart Contracts
               </h1>
               <p className="text-base text-muted-foreground/95 leading-relaxed">
-                Analyze, query, and trigger decentralized applications (dApps) running on the Planet One Blockchain. Total auditability, on-chain script validation, and instant invocation logs.
+                Analyze, query, and trigger decentralized applications (dApps) running on the AMZX Blockchain. Total auditability, on-chain script validation, and instant invocation logs.
               </p>
             </div>
             
@@ -295,7 +295,7 @@ const ContractsPage = () => {
                 Deployed Smart Contracts
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
-                Real-time active scripts compiled on the Planet One virtual execution layer
+                Real-time active scripts compiled on the AMZX virtual execution layer
               </CardDescription>
             </div>
             {!isLoading && (

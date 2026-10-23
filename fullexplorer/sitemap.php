@@ -18,7 +18,7 @@ $target = $_GET['type'] ?? $address ?? 'sitemap.xml';
 if( strpos( $target, '/' ) !== false )
     $target = basename( $target );
 
-$baseUrl = 'https://fullexplorer.planetone.io';
+$baseUrl = 'https://fullexplorer.amzexplorer.com';
 
 // Normalize common typo (sitmap.xml -> sitemap.xml)
 if( $target === 'sitmap.xml' || $target === 'sitmap' )
@@ -40,11 +40,11 @@ header( 'X-Robots-Tag: noindex' );
 // Helper to query remote node safely
 function fetchNodeData( $path )
 {
-    $nodeUrl = defined('W8IO_NODES') && is_array(W8IO_NODES) ? W8IO_NODES[1] ?? W8IO_NODES[0] : 'https://nodes.planetone.io';
+    $nodeUrl = defined('W8IO_NODES') && is_array(W8IO_NODES) ? W8IO_NODES[1] ?? W8IO_NODES[0] : 'https://nodes.amzexplorer.com';
     $ctx = stream_context_create([
         'http' => [
             'timeout' => 5,
-            'header' => "User-Agent: PlanetOne-FullExplorer-Sitemap/3.0\r\n"
+            'header' => "User-Agent: AMZX-FullExplorer-Sitemap/3.0\r\n"
         ]
     ]);
     $res = @file_get_contents( rtrim($nodeUrl, '/') . $path, false, $ctx );

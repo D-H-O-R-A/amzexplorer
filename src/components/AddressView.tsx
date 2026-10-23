@@ -16,7 +16,7 @@ import {
   DetailedBalance, 
   NFT 
 } from '@/services/api';
-import { shortenHash, formatTimestamp, formatPloBalance, formatAssetAmount, decodeAttachment } from '@/utils/formatter';
+import { shortenHash, formatTimestamp, formatAmzBalance, formatAssetAmount, decodeAttachment } from '@/utils/formatter';
 import { toast } from 'sonner';
 import { 
   Copy, Check, User, Wallet, Code, Database, 
@@ -120,9 +120,9 @@ const AddressView = ({
     loadDecimals();
   }, [transactions]);
 
-  const openPlanetOneDApp = () => {
+  const openAmzxDApp = () => {
     if (addressData.wavesAddress) {
-      window.open(`https://dapp.planetone.io/${addressData.wavesAddress}`, '_blank');
+      window.open(`https://amazonicone.com.br/${addressData.wavesAddress}`, '_blank');
     }
   };
 
@@ -201,7 +201,7 @@ const AddressView = ({
             )}
 
             <div className="space-y-2">
-              {/* Main Planet One Address */}
+              {/* Main AMZX Address */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider w-24">
                   {getCoinName()} Address:
@@ -301,7 +301,7 @@ const AddressView = ({
                     <div className="min-w-0">
                       <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Saldo Total</div>
                       <div className="text-lg md:text-xl font-bold truncate">
-                        {formatPloBalance(detailedBalance.balance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
+                        {formatAmzBalance(detailedBalance.balance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -316,7 +316,7 @@ const AddressView = ({
                     <div className="min-w-0">
                       <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Disponível</div>
                       <div className="text-lg md:text-xl font-bold truncate">
-                        {formatPloBalance(detailedBalance.availableBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
+                        {formatAmzBalance(detailedBalance.availableBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -331,7 +331,7 @@ const AddressView = ({
                     <div className="min-w-0">
                       <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Efetivo</div>
                       <div className="text-lg md:text-xl font-bold truncate">
-                        {formatPloBalance(detailedBalance.effectiveBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
+                        {formatAmzBalance(detailedBalance.effectiveBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -346,7 +346,7 @@ const AddressView = ({
                     <div className="min-w-0">
                       <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Gerador</div>
                       <div className="text-lg md:text-xl font-bold truncate">
-                        {formatPloBalance(detailedBalance.generatingBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
+                        {formatAmzBalance(detailedBalance.generatingBalance)} <span className="text-xs font-semibold text-primary">{getCoinName()}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -406,7 +406,7 @@ const AddressView = ({
                 <div className="space-y-1">
                   <h4 className="font-semibold text-amber-500 dark:text-amber-400">Nó Validador Ativo Detectado</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    O saldo gerador deste endereço difere do saldo regular devido à sua participação no consenso do protocolo Planet One. Os blocos e recompensas que ele assina e distribui são baseados no Saldo Gerador efetivo, que se consolida ao término de cada época da rede.
+                    O saldo gerador deste endereço difere do saldo regular devido à sua participação no consenso do protocolo AMZX. Os blocos e recompensas que ele assina e distribui são baseados no Saldo Gerador efetivo, que se consolida ao término de cada época da rede.
                   </p>
                 </div>
               </div>
@@ -460,7 +460,7 @@ const AddressView = ({
                     <span className="font-semibold bg-muted/40 p-1 px-3 rounded-lg text-xs font-mono">{addressData.dataEntries?.length || 0} chaves</span>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    Contas e dApps na rede Planet One podem persistir dados indexados diretamente no estado distribuído. Isso permite criar registros imutáveis de identidade, parâmetros de contrato e estados operacionais acessíveis publicamente. Explore as chaves na aba <strong>Database entries</strong>.
+                    Contas e dApps na rede AMZX podem persistir dados indexados diretamente no estado distribuído. Isso permite criar registros imutáveis de identidade, parâmetros de contrato e estados operacionais acessíveis publicamente. Explore as chaves na aba <strong>Database entries</strong>.
                   </p>
                 </div>
               </CardContent>
@@ -660,7 +660,7 @@ const AddressView = ({
           <Card className="bg-card/40 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl overflow-hidden">
             <CardHeader className="pb-4 border-b border-border/30">
               <CardTitle className="text-lg font-bold">Ativos Disponíveis</CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">Tokens customizados emitidos na blockchain Planet One detidos por esta conta</CardDescription>
+              <CardDescription className="text-xs text-muted-foreground">Tokens customizados emitidos na blockchain AMZX detidos por esta conta</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
@@ -816,7 +816,7 @@ const AddressView = ({
                       Funções dApp Públicas Disponíveis (API)
                     </h3>
                     <Button 
-                      onClick={openPlanetOneDApp}
+                      onClick={openAmzxDApp}
                       className="flex items-center gap-2 bg-purple-500/10 hover:bg-purple-500/20 text-purple-500 border border-purple-500/20 font-medium px-4 h-9 rounded-lg"
                       variant="outline"
                     >
@@ -897,7 +897,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Esta conta não possui dApp ou Script ativados na rede Planet One.</p>
+                  <p className="text-sm">Esta conta não possui dApp ou Script ativados na rede AMZX.</p>
                 </div>
               )}
             </CardContent>
@@ -972,7 +972,7 @@ const AddressView = ({
                   Aliases Registrados na Blockchain
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
-                  Nomes legíveis vinculados diretamente a este endereço na rede Planet One
+                  Nomes legíveis vinculados diretamente a este endereço na rede AMZX
                 </CardDescription>
               </div>
               <Badge variant="outline" className="font-mono text-xs text-muted-foreground px-3">
@@ -998,7 +998,7 @@ const AddressView = ({
                               {cleanName}
                             </span>
                             <span className="text-[10px] text-muted-foreground uppercase font-mono">
-                              Planet One Alias
+                              AMZX Alias
                             </span>
                           </div>
                         </div>
@@ -1021,7 +1021,7 @@ const AddressView = ({
                 </div>
               ) : (
                 <div className="text-center py-20 text-muted-foreground">
-                  <p className="text-sm">Nenhum alias registrado para este endereço na rede Planet One.</p>
+                  <p className="text-sm">Nenhum alias registrado para este endereço na rede AMZX.</p>
                 </div>
               )}
             </CardContent>

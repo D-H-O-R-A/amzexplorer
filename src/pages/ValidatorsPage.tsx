@@ -104,7 +104,7 @@ const ValidatorsPage: React.FC = () => {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Nós validadores responsáveis por assinar blocos, processar transações Ride e consolidar o consenso na blockchain Planet One (PLO).
+            Nós validadores responsáveis por assinar blocos, processar transações Ride e consolidar o consenso na blockchain AMZX (AMZ).
           </p>
         </div>
         <Button 
@@ -158,7 +158,7 @@ const ValidatorsPage: React.FC = () => {
         {/* Metric 3: Total fees distributed */}
         <Card className="border border-border bg-card/40 backdrop-blur-xl shadow hover:border-emerald-500/15 transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Taxas de Consenso (PLO)</CardTitle>
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Taxas de Consenso (AMZ)</CardTitle>
             <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500">
               <Coins className="h-4 w-4" />
             </div>
@@ -198,7 +198,7 @@ const ValidatorsPage: React.FC = () => {
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-foreground">Consenso LPoS</h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Mecanismo Leased Proof of Stake ultra-eficiente e sustentável, alinhado à conservação ecológica da Planet One.
+              Mecanismo Leased Proof of Stake ultra-eficiente e sustentável, alinhado à conservação ecológica da AMZX.
             </p>
           </div>
         </Card>
@@ -222,7 +222,7 @@ const ValidatorsPage: React.FC = () => {
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-foreground">Lease de Stake</h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Detentores do token PLO podem realizar o arrendamento (lease) de seu stake para validadores e obter retornos on-chain.
+              Detentores do token AMZ podem realizar o arrendamento (lease) de seu stake para validadores e obter retornos on-chain.
             </p>
           </div>
         </Card>
@@ -442,7 +442,7 @@ const ValidatorsPage: React.FC = () => {
             <div className="space-y-1">
               <h3 className="text-base font-bold text-foreground">Como Apoiar um Validador & Obter Rendimentos?</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Qualquer detentor de moedas PLO pode participar ativamente da segurança da rede sem a necessidade de rodar um nó de infraestrutura própria.
+                Qualquer detentor de moedas AMZ pode participar ativamente da segurança da rede sem a necessidade de rodar um nó de infraestrutura própria.
               </p>
             </div>
             
@@ -471,8 +471,8 @@ const ValidatorsPage: React.FC = () => {
 
             <div className="pt-2">
               <Button size="sm" asChild className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 rounded-xl font-semibold px-4 py-4 text-xs gap-1.5">
-                <a href="https://wallet.planetone.io" target="_blank" rel="noopener noreferrer">
-                  Arrendar Stake na Planet One Wallet
+                <a href="https://amazonicone.com.br/" target="_blank" rel="noopener noreferrer">
+                  Ecossistema Amazonic One
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </Button>

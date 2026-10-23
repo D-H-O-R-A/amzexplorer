@@ -289,7 +289,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ limit = 10, address }
                   {tx.type === 7 && tx.price !== undefined && (
                     <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
                       Preço: {formatAmount(tx.price, Math.max(0, 8 + (tx.order1?.assetPair?.priceAsset ? (assetMap[tx.order1.assetPair.priceAsset]?.decimals ?? 8) : 8) - amountDecimals), 2)}{" "}
-                      <span className="text-[9px] uppercase font-bold">PLO</span>
+                      <span className="text-[9px] uppercase font-bold">{getCoinName()}</span>
                     </div>
                   )}
                   {tx.fee !== undefined && (

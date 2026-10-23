@@ -98,7 +98,7 @@ const TransactionPage = () => {
       >
         <SEO 
           title={`Transação ${id ? id.substring(0, 12) + '...' : ''}`}
-          description={`Detalhes da transação ${id} na blockchain Planet One. Remetente, destinatário, valores transferidos, taxas, bloco e confirmações on-chain.`}
+          description={`Detalhes da transação ${id} na blockchain AMZX. Remetente, destinatário, valores transferidos, taxas, bloco e confirmações on-chain.`}
         />
         <div className="container mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Mobile-first sticky header */}
@@ -157,7 +157,7 @@ const TransactionPage = () => {
                       </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="group flex cursor-pointer items-center hover:bg-primary/10 text-xs" asChild>
-                      <a href={`https://nodes.planetone.io/transactions/info/${id}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`https://nodes.amzexplorer.com/transactions/info/${id}`} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="mr-2 h-3 w-3 group-hover:text-primary" /> 
                         <span className="group-hover:text-primary">View in API</span>
                       </a>

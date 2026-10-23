@@ -33,11 +33,11 @@ interface Preset {
 
 const PRESETS: Preset[] = [
   {
-    name: "Planet One Mainnet",
-    nodeUrl: "https://nodes.planetone.io",
-    ethRpcUrl: "https://rpc.planetone.io",
-    coinName: "PLO",
-    chainIdLetter: "P"
+    name: "AMZX Mainnet",
+    nodeUrl: "https://nodes.amzexplorer.com",
+    ethRpcUrl: "https://rpc.amzexplorer.com",
+    coinName: "AMZ",
+    chainIdLetter: "A"
   }
 ];
 
@@ -114,7 +114,7 @@ export const NodeSettingsDialog: React.FC = () => {
 
     setNodeUrl(NODE_URL);
     setEthRpcUrl(ETH_NODE_URL);
-    setCoinName("PLO");
+    setCoinName("AMZ");
     setChainIdLetter(CHAIN_ID_LETTER);
 
     toast.success("Configurações redefinidas para o padrão!");
@@ -142,7 +142,7 @@ export const NodeSettingsDialog: React.FC = () => {
             <Server className="w-5 h-5 text-emerald-500" /> Configurações de Rede
           </DialogTitle>
           <DialogDescription className="text-muted-foreground text-xs leading-relaxed">
-            Personalize as conexões dos nós RPC, o símbolo da moeda e as propriedades da rede PlanetOne.
+            Personalize as conexões dos nós RPC, o símbolo da moeda e as propriedades da rede AMZX.
           </DialogDescription>
         </DialogHeader>
 
@@ -182,7 +182,7 @@ export const NodeSettingsDialog: React.FC = () => {
               id="node-url"
               value={nodeUrl}
               onChange={(e) => setNodeUrl(e.target.value)}
-              placeholder="https://nodes.planetone.io"
+              placeholder="https://nodes.amzexplorer.com"
               className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5"
             />
           </div>
@@ -197,7 +197,7 @@ export const NodeSettingsDialog: React.FC = () => {
               id="eth-rpc"
               value={ethRpcUrl}
               onChange={(e) => setEthRpcUrl(e.target.value)}
-              placeholder="https://rpc.planetone.io"
+              placeholder="https://rpc.amzexplorer.com"
               className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5"
             />
           </div>
@@ -210,7 +210,7 @@ export const NodeSettingsDialog: React.FC = () => {
                 id="coin-name"
                 value={coinName}
                 onChange={(e) => setCoinName(e.target.value)}
-                placeholder="PLO"
+                placeholder="AMZ"
                 className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 uppercase font-semibold"
               />
             </div>
@@ -222,7 +222,7 @@ export const NodeSettingsDialog: React.FC = () => {
                 <div className="group relative">
                   <HelpCircle className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground cursor-help" />
                   <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-48 p-2 bg-popover border border-border text-[10px] text-muted-foreground rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-50 leading-normal">
-                    Letra identificadora da rede (ex: 'P' para PlanetOne Mainnet, 'S' para Testnet). Usado para decodificar e validar os endereços criptográficos.
+                    Letra identificadora da rede (ex: 'A' para AMZX Mainnet, 'S' para Testnet). Usado para decodificar e validar os endereços criptográficos.
                   </div>
                 </div>
               </div>
@@ -230,7 +230,7 @@ export const NodeSettingsDialog: React.FC = () => {
                 id="chain-id-letter"
                 value={chainIdLetter}
                 onChange={(e) => setChainIdLetter(e.target.value.substring(0, 1).toUpperCase())}
-                placeholder="P"
+                placeholder="A"
                 className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 text-center font-bold"
               />
             </div>

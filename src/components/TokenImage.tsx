@@ -19,13 +19,13 @@ export const TokenImage = ({ assetId, size = "md", className = "", fallback = nu
     }
 
     const sym = assetId.toUpperCase();
-    if (sym === 'PLO' || sym === 'WAVES') {
-      setImgUrl("/img/logo.png");
+    if (sym === 'AMZ' || sym === 'PLO' || sym === 'WAVES') {
+      setImgUrl("/logo.png");
       setHasError(false);
       return;
     }
-    if (sym === 'VERDE') {
-      setImgUrl("/img/token_verde.png");
+    if (sym === 'AMZ1' || assetId === '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz') {
+      setImgUrl("/logo.png");
       setHasError(false);
       return;
     }

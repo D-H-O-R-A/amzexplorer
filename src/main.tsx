@@ -7,12 +7,12 @@ import './index.css';
 const rootElement = document.getElementById("root");
 
 // Detect active theme (defaulting strictly to light mode if not yet set)
-const savedTheme = localStorage.getItem("planetone-ui-theme") || "light";
+const savedTheme = localStorage.getItem("amzx-ui-theme") || "light";
 const isDark = savedTheme === "dark";
 
 // Create preloader container
 const preloader = document.createElement('div');
-preloader.id = 'planetone-preloader';
+preloader.id = 'amzx-preloader';
 preloader.style.position = 'fixed';
 preloader.style.inset = '0';
 preloader.style.display = 'flex';
@@ -37,40 +37,39 @@ preloaderContent.style.justifyContent = 'center';
 const textColor = isDark ? '#F8FAFC' : '#0F172A';
 const subtitleColor = isDark ? '#64748B' : '#475569';
 const borderOuter = isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)';
-const borderMiddle = isDark ? 'rgba(2, 132, 199, 0.15)' : 'rgba(2, 132, 199, 0.2)';
+const borderMiddle = isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.25)';
 const trackBg = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(15, 23, 42, 0.05)';
 
 preloaderContent.innerHTML = `
   <div class="preloader-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; transform: scale(0.95); opacity: 0; animation: preloader-entrance 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;">
     
     <!-- HIGH-TECH 3D ORBIT CONCENTRIC LOADER -->
-    <div class="logo-container" style="width: 110px; height: 110px; position: relative; display: flex; items-center; justify-content: center;">
+    <div class="logo-container" style="width: 110px; height: 110px; position: relative; display: flex; align-items: center; justify-content: center;">
       <!-- Outer Rotating Segment Ring -->
       <div class="ring outer-ring" style="position: absolute; inset: 0; border: 2px dashed ${borderOuter}; border-radius: 50%; animation: spin-clockwise 10s linear infinite;"></div>
       
       <!-- Middle Pulse Ring -->
-      <div class="ring middle-ring" style="position: absolute; inset: 15px; border: 2px solid ${borderMiddle}; border-top-color: #10B981; border-bottom-color: #0284C7; border-radius: 50%; animation: spin-counter 3s cubic-bezier(0.53, 0.21, 0.43, 0.89) infinite;"></div>
+      <div class="ring middle-ring" style="position: absolute; inset: 15px; border: 2px solid ${borderMiddle}; border-top-color: #10B981; border-bottom-color: #059669; border-radius: 50%; animation: spin-counter 3s cubic-bezier(0.53, 0.21, 0.43, 0.89) infinite;"></div>
       
-      <!-- Glowing Active Core Planet -->
-      <div class="planet-core" style="position: absolute; inset: 36px; background: linear-gradient(135deg, #10B981 0%, #0284C7 100%); border-radius: 50%; box-shadow: ${isDark ? '0 0 25px rgba(16, 185, 129, 0.5)' : '0 0 15px rgba(16, 185, 129, 0.35)'}; display: flex; align-items: center; justify-content: center;">
-        <!-- Glowing orbit particle -->
-        <div class="orbiting-dot" style="position: absolute; width: 6px; height: 6px; background: #FFFFFF; border-radius: 50%; top: -3px; box-shadow: 0 0 10px #FFFFFF;"></div>
+      <!-- Glowing Active Core Logo -->
+      <div class="logo-core" style="position: absolute; inset: 30px; display: flex; align-items: center; justify-content: center;">
+        <img src="/logo.png" alt="AMZ Logo" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.6));" />
       </div>
     </div>
 
     <!-- TYPOGRAPHY WITH DUAL TONE GRADIENT -->
     <div class="brand-text-wrapper" style="text-align: center; margin-top: 35px; z-index: 10;">
       <h1 class="brand-title" style="margin: 0; font-family: 'Orbitron', 'Syncopate', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: 6px; color: ${textColor}; text-transform: uppercase;">
-        Planet <span style="background: linear-gradient(90deg, #10B981, #0284C7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">One</span>
+        AMZ <span style="background: linear-gradient(90deg, #10B981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Explorer</span>
       </h1>
       <p class="brand-subtitle" style="margin: 8px 0 0 0; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 4px; color: ${subtitleColor}; text-transform: uppercase;">
-        Global eRWA Blockchain Infrastructure
+        Amazonic One Blockchain
       </p>
     </div>
 
     <!-- SCIENTIFIC PROGRESS LOAD BAR -->
     <div class="progress-container" style="margin-top: 25px; width: 220px; height: 3px; background: ${trackBg}; border-radius: 10px; overflow: hidden; position: relative;">
-      <div class="progress-bar-fill" style="position: absolute; top: 0; left: 0; height: 100%; width: 45%; background: linear-gradient(90deg, #10B981, #0284C7); border-radius: 10px; animation: progress-fill-step 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;"></div>
+      <div class="progress-bar-fill" style="position: absolute; top: 0; left: 0; height: 100%; width: 45%; background: linear-gradient(90deg, #10B981, #059669); border-radius: 10px; animation: progress-fill-step 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;"></div>
     </div>
   </div>
 

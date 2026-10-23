@@ -119,7 +119,7 @@ const ContractPage = () => {
     <MotionContainer className="space-y-6">
       <SEO 
         title={`Contrato Inteligente ${address ? address.substring(0, 10) + '...' : ''}`}
-        description={`Audite e interaja com o Smart Contract ${address} na blockchain Planet One. Invocação de funções callable, bytecode Ride descompilado e histórico.`}
+        description={`Audite e interaja com o Smart Contract ${address} na blockchain AMZX. Invocação de funções callable, bytecode Ride descompilado e histórico.`}
       />
       {isLoading ? (
         <div className="flex justify-center items-center py-16">

@@ -96,13 +96,15 @@ const TYPE_STRINGS =
     TX_COMMIT => 'commit',
 ];
 
-const PLO_ASSET = 0;
+const AMZ_ASSET = 0;
+const PLO_ASSET = AMZ_ASSET;
 const NO_ASSET = -1;
-const PLO_LEASE_ASSET = -2;
+const AMZ_LEASE_ASSET = -2;
+const PLO_LEASE_ASSET = AMZ_LEASE_ASSET;
 const SPONSOR_ASSET = -3;
 
-const WAVES_ASSET = PLO_ASSET;
-const WAVES_LEASE_ASSET = PLO_LEASE_ASSET;
+const WAVES_ASSET = AMZ_ASSET;
+const WAVES_LEASE_ASSET = AMZ_LEASE_ASSET;
 
 const FAILED_GROUP = -1;
 const ELIDED_GROUP = -3;

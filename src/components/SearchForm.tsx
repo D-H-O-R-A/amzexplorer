@@ -54,7 +54,7 @@ const SearchForm = () => {
         setDetectedType('Endereço EVM');
       }
     } else if (/^[1-9A-HJ-NP-Za-km-z]{34,36}$/.test(query)) {
-      setDetectedType('Endereço PLO');
+      setDetectedType('Endereço AMZ');
     } else if (query.length === 44 && isNaN(Number(query))) {
       setDetectedType('Asset / Token');
     } else if (!isNaN(Number(query))) {
@@ -62,16 +62,16 @@ const SearchForm = () => {
     } else if (query.length < 37) {
       setDetectedType('Alias de Endereço');
     } else {
-      setDetectedType('Transação PLO');
+      setDetectedType('Transação AMZ');
     }
   }, [searchQuery]);
 
-  // Convert Ethereum address to Planet One address
+  // Convert Ethereum address to AMZ address
   const convertEthToWavesAddress = (ethAddress: string): string => {
     try {
       return ethAddress2waves(ethAddress, getChainId());
     } catch (error) {
-      console.error('Error converting Ethereum address to Planet One address:', error);
+      console.error('Error converting Ethereum address to AMZ address:', error);
       return null;
     }
   };
@@ -123,7 +123,7 @@ const SearchForm = () => {
       
       const isBase58Address = /^[1-9A-HJ-NP-Za-km-z]{34,36}$/.test(query);
       if (isBase58Address) {
-        toast.success("Endereço Planet One encontrado!");
+        toast.success("Endereço AMZ encontrado!");
         navigate(`/address/${query}`);
         return;
       }
@@ -167,9 +167,9 @@ const SearchForm = () => {
 
   const getBadgeColor = (type: string) => {
     switch (type) {
-      case 'Endereço PLO': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      case 'Endereço AMZ': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'Endereço EVM': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
-      case 'Transação PLO': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
+      case 'Transação AMZ': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
       case 'Transação EVM': return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
       case 'Bloco': return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
       case 'Asset / Token': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
@@ -180,9 +180,9 @@ const SearchForm = () => {
 
   const getEntityIcon = (type: string) => {
     switch (type) {
-      case 'Endereço PLO': return <Wallet className="w-4 h-4 text-emerald-400" />;
+      case 'Endereço AMZ': return <Wallet className="w-4 h-4 text-emerald-400" />;
       case 'Endereço EVM': return <Wallet className="w-4 h-4 text-blue-400" />;
-      case 'Transação PLO': return <ShieldCheck className="w-4 h-4 text-teal-400" />;
+      case 'Transação AMZ': return <ShieldCheck className="w-4 h-4 text-teal-400" />;
       case 'Transação EVM': return <ShieldCheck className="w-4 h-4 text-sky-400" />;
       case 'Bloco': return <Database className="w-4 h-4 text-purple-400" />;
       case 'Asset / Token': return <Coins className="w-4 h-4 text-amber-400" />;

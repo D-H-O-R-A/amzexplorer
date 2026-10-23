@@ -655,20 +655,20 @@ export const fetchTransactionData = async (id: string): Promise<Transaction> => 
 export const fetchTransaction = fetchTransactionData;
 
 export const fetchAssetData = async (assetId: string | null | undefined): Promise<Asset> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO' || assetId === 'AMZ') {
     return {
       assetId: '',
-      name: 'PLO',
+      name: 'AMZ',
       decimals: 8,
       balance: 0,
-      description: 'Moeda nativa da rede Planet One',
+      description: 'Moeda nativa da rede AMZX',
       reissuable: false,
       quantity: 115368878600000000
     };
   }
 
-  // Resolve 'VERDE' alias to its actual contract/asset ID
-  const targetAssetId = assetId === 'VERDE' ? 'AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk' : assetId;
+  // Resolve 'amz1' / 'VERDE' alias to its actual contract/asset ID
+  const targetAssetId = (assetId === 'VERDE' || assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
 
   // 1. Try our Full Explorer PHP proxy first to bypass CORS
   const fullExplorerUrl = getFullExplorerApiUrl();
@@ -731,7 +731,7 @@ export const fetchNetworkStats = async (): Promise<NetworkStats> => {
       const sqlStats = await response.json();
       
       // Fetch total supply from Node API to ensure precision
-      let totalSupply = 100000000 * 100000000; // Default PLO supply (100M PLO)
+      let totalSupply = 100000000 * 100000000; // Default AMZ supply (100M PLO)
       try {
         const rewardsResponse = await fetch(`${nodeUrl}/blockchain/rewards`);
         if (rewardsResponse.ok) {
@@ -1047,10 +1047,10 @@ export const fetchActivationStatus = async (): Promise<ActivationStatus> => {
 };
 
 export const fetchDecimalsAsset = async (assetId: string | null | undefined): Promise<number> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'PLO' || assetId === 'AMZ') {
     return 8;
   }
-  const targetAssetId = assetId === 'VERDE' ? 'AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk' : assetId;
+  const targetAssetId = (assetId === 'VERDE' || assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;
   const apiUrl = getGCSApiUrl();
   const response = await fetch(`${apiUrl}/assets/details/${targetAssetId}`);
   if (!response.ok) {

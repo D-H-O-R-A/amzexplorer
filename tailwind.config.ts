@@ -65,13 +65,13 @@ export default {
           sidebarRing: "hsl(var(--sidebar-ring))",
         },
 
-        // 🔥🔥 EXPLORER COLORS: PLANET ONE BLUE
+        // 🔥🔥 EXPLORER COLORS: AMZ EMERALD GREEN
         explorer: {
-          primary: "#0066FF",
-          secondary: "#0055CC",
+          primary: "#10B981",
+          secondary: "#059669",
           dark: "#000000",
-          light: "#F7F9FC",
-          accent: "#00C2FF",
+          light: "#F0FDF4",
+          accent: "#34D399",
         },
       },
 
@@ -90,9 +90,9 @@ export default {
 
       // 🔥 Sombras convertidas
       boxShadow: {
-        "glow-sm": "0 0 10px -1px rgba(0, 102, 255, 0.2)",
-        "glow-md": "0 0 20px -1px rgba(0, 102, 255, 0.3)",
-        "glow-lg": "0 0 30px -1px rgba(0, 102, 255, 0.4)",
+        "glow-sm": "0 0 10px -1px rgba(16, 185, 129, 0.2)",
+        "glow-md": "0 0 20px -1px rgba(16, 185, 129, 0.3)",
+        "glow-lg": "0 0 30px -1px rgba(16, 185, 129, 0.4)",
         brutalist: "4px 4px 0px 0px hsl(var(--primary))",
         "card-hover": "0 10px 30px -5px rgba(0, 0, 0, 0.3)",
       },

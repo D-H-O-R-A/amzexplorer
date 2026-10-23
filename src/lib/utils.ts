@@ -1,4 +1,3 @@
-
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -7,19 +6,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Constants for blockchain node connections
-export const NODE_URL = 'https://nodes.planetone.io';
-export const ETH_NODE_URL = 'https://rpc.planetone.io';
-export const DATA_SERVICE_URL = 'https://data-service.planetone.io';
-export const CHAIN_ID = 80; // Planet One Blockchain ID
-export const EXPLORER_URL = 'https://explorer.planetone.io';
-export const CHAIN_ID_LETTER = 'P'; // Chain ID letter for Planet One SDK
+export const NODE_URL = 'https://nodes.amzexplorer.com';
+export const ETH_NODE_URL = 'https://rpc.amzexplorer.com';
+export const DATA_SERVICE_URL = 'https://data-service.amzexplorer.com';
+export const CHAIN_ID = 65; // 'A' in ASCII is 65 for AMZX Blockchain
+export const EXPLORER_URL = 'https://amzexplorer.com';
+export const CHAIN_ID_LETTER = 'A'; // Chain ID letter for AMZX
 
 // Testnet constants
-export const TESTNET_NODE_URL = 'https://nodes-testnet.planetone.io';
-export const TESTNET_ETH_NODE_URL = 'https://rpc-testnet.planetone.io';
-export const TESTNET_DATA_SERVICE_URL = 'https://data-service.planetone.io';
+export const TESTNET_NODE_URL = 'https://nodes-testnet.amzexplorer.com';
+export const TESTNET_ETH_NODE_URL = 'https://rpc-testnet.amzexplorer.com';
+export const TESTNET_DATA_SERVICE_URL = 'https://data-service-testnet.amzexplorer.com';
 export const TESTNET_CHAIN_ID = 'S'; // Testnet Chain ID
-export const TESTNET_EXPLORER_URL = 'https://testnet-explorer.planetone.io';
+export const TESTNET_EXPLORER_URL = 'https://testnet.amzexplorer.com';
 
 // Import necessary functions from @better2better/waves-node-api-js
 import { wavesAsset2Eth, ethTxId2waves } from '@better2better/waves-node-api-js';
@@ -29,7 +28,7 @@ export const convertWavesAssetToEth = (assetId: string): string => {
   try {
     return wavesAsset2Eth(assetId);
   } catch (error) {
-    console.error("Error converting Planet One asset to ETH:", error);
+    console.error("Error converting AMZ asset to ETH:", error);
     return assetId;
   }
 };
@@ -38,7 +37,7 @@ export const convertEthTxToWaves = (txId: string): string => {
   try {
     return ethTxId2waves(txId);
   } catch (error) {
-    console.error("Error converting ETH tx to Planet one:", error);
+    console.error("Error converting ETH tx to AMZ:", error);
     return txId;
   }
 };
@@ -93,8 +92,8 @@ export const getChainIdLetter = (): string => {
 };
 
 export const getCoinName = (): string => {
-  if (isTestnet()) return 'PLOT';
-  return localStorage.getItem('custom_coin_name') || 'PLO';
+  if (isTestnet()) return 'AMZT';
+  return localStorage.getItem('custom_coin_name') || 'AMZ';
 };
 
 export const getExplorerUrl = (): string => isTestnet() ? TESTNET_EXPLORER_URL : EXPLORER_URL;
@@ -113,16 +112,7 @@ export const getFullExplorerApiUrl = (): string => {
   const customUrl = localStorage.getItem('custom_fullexplorer_url');
   if (customUrl) return customUrl;
 
-  // Auto-detect local development
-  // const isLocalhost = window.location.hostname === 'localhost' || 
-  //                     window.location.hostname === '127.0.0.1' || 
-  //                     window.location.hostname.startsWith('192.168.');
-  
-  // if (isLocalhost) {
-  //   return "http://localhost:8080/api";
-  // }
-
-  return isTest ? "https://testnet-fullexplorer.planetone.io/api" : "https://fullexplorer.planetone.io/api";
+  return isTest ? "https://testnet-fullexplorer.amzexplorer.com/api" : "https://fullexplorer.amzexplorer.com/api";
 };
 
 // Get the appropriate base URL for the FullExplorer Web UI
@@ -142,10 +132,7 @@ export const getFullExplorerUiUrl = (path: string = ''): string => {
   if (isLocalhost) {
     baseUrl = "http://localhost:8080";
   } else {
-    baseUrl = isTest ? "https://testnet-fullexplorer.planetone.io" : "https://fullexplorer.planetone.io";
+    baseUrl = isTest ? "https://testnet-fullexplorer.amzexplorer.com" : "https://fullexplorer.amzexplorer.com";
   }
   return path ? `${baseUrl}/${path}` : baseUrl;
 };
-
-
-

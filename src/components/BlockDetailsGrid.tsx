@@ -151,7 +151,7 @@ const BlockDetailsGrid = ({ block, blockSize, copiedField, copyToClipboard }: Bl
               <div className="flex justify-between items-center py-1">
                 <span className="text-muted-foreground">Root de Transações</span>
                 <span className="font-mono text-xs text-foreground font-semibold">
-                  {(block as any).transactionsRoot ? 'Sim (Gerado)' : 'Nativo PLO'}
+                  {(block as any).transactionsRoot ? 'Sim (Gerado)' : 'Nativo AMZ'}
                 </span>
               </div>
             </div>

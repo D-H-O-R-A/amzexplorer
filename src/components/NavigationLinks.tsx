@@ -5,17 +5,11 @@ import {
   Box, 
   ArrowRightLeft, 
   FileCode, 
-  Trees, 
-  Coins, 
   Network, 
-  RefreshCw, 
-  Droplet,
-  Sparkles,
   Database,
-  Trophy,
-  Cpu
+  Trophy
 } from 'lucide-react';
-import { isTestnet } from '@/lib/utils';
+import { getCoinName } from '@/lib/utils';
 
 export const NavigationLinks = () => {
   const location = useLocation();
@@ -51,8 +45,6 @@ export const NavigationLinks = () => {
     }, 150);
   };
 
-  const currentIsTestnet = isTestnet();
-
   const categories = {
     blockchain: {
       label: "Blockchain",
@@ -78,27 +70,9 @@ export const NavigationLinks = () => {
         },
         {
           label: "Ranking de Endereços",
-          sub: "Consulte as maiores contas e distribuição de PLO",
+          sub: `Consulte as maiores contas e distribuição de ${getCoinName()}`,
           path: "/ranking",
           icon: Trophy
-        }
-      ]
-    },
-    ecosystem: {
-      label: "Ecossistema",
-      icon: Sparkles,
-      items: [
-        {
-          label: "VERDE MAPS",
-          sub: "Mapa 3D interativo & Staking real",
-          path: "/carbon-map",
-          icon: Trees
-        },
-        {
-          label: "Token VERDE",
-          sub: "Dados de fornecimento e lastro físico",
-          path: "/tokenplanet/VERDE",
-          icon: Coins
         }
       ]
     },
@@ -111,64 +85,30 @@ export const NavigationLinks = () => {
           sub: "Status de nós, peers e distribuição",
           path: "/nodes",
           icon: Network
-        },
-        // {
-        //   label: "Nós Validadores",
-        //   sub: "Métricas de produção de blocos dos validadores",
-        //   path: "/validators",
-        //   icon: Cpu
-        // }
-      ]
-    },
-    tools: {
-      label: "Ferramentas",
-      icon: RefreshCw,
-      items: [
-        {
-          label: "Address Converter",
-          sub: "Conversor de endereços PLO e EVM",
-          path: "/address-converter",
-          icon: RefreshCw
-        },
-        {
-          label: "Matcher API",
-          sub: "Documentação oficial da API do Matcher",
-          path: "https://matcher.planetone.io/api-docs/index.html",
-          icon: RefreshCw,
-          isExternal: true
-        },
-        ...(currentIsTestnet ? [{
-          label: "Testnet Faucet",
-          sub: "Solicite fundos gratuitos de teste",
-          path: "/faucet",
-          icon: Droplet
-        }] : [])
+        }
       ]
     }
   };
 
   return (
-    <div className="flex items-center gap-1.5 md:gap-2">
-      
-      {/* Home Button */}
+    <nav className="flex items-center gap-1 lg:gap-2">
+      {/* Home Link */}
       <Link 
         to="/" 
-        className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+        className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 ${
           isActive('/') 
-            ? 'bg-emerald-500/10 text-emerald-500 font-bold border border-emerald-500/10' 
-            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+            ? 'bg-emerald-500/10 text-emerald-500 font-bold' 
+            : 'text-foreground/80 hover:text-emerald-500 hover:bg-muted/80'
         }`}
       >
-        Dashboard
+        Início
       </Link>
 
-      {/* Dropdowns */}
-      {Object.entries(categories).map(([key, cat]) => {
+      {/* Dropdown Categories */}
+      {Object.entries(categories).map(([key, category]) => {
+        const isCatActive = category.items.some(item => isActive(item.path));
         const isOpen = activeDropdown === key;
-        const CatIcon = cat.icon;
-        
-        // Check if any sub-item is active
-        const isCatActive = cat.items.some(item => !item.isExternal && isActive(item.path));
+        const CatIcon = category.icon;
 
         return (
           <div 
@@ -178,66 +118,48 @@ export const NavigationLinks = () => {
             onMouseLeave={handleMouseLeave}
           >
             <button
-              className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all outline-none ${
-                isCatActive
-                  ? 'bg-emerald-500/10 text-emerald-500 font-bold border border-emerald-500/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 ${
+                isCatActive || isOpen
+                  ? 'bg-emerald-500/10 text-emerald-500 font-bold' 
+                  : 'text-foreground/80 hover:text-emerald-500 hover:bg-muted/80'
               }`}
             >
-              <CatIcon className="w-3.5 h-3.5" />
-              <span>{cat.label}</span>
-              <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              <CatIcon className="w-3.5 h-3.5 opacity-80" />
+              <span>{category.label}</span>
+              <ChevronDown className={`w-3 h-3 transition-transform duration-200 opacity-60 ${isOpen ? 'rotate-180 text-emerald-500 opacity-100' : ''}`} />
             </button>
 
-            {/* Dropdown Menu Panel with Continuous Hover Wrap */}
+            {/* Dropdown Menu Popup */}
             {isOpen && (
-              <div className="absolute top-full left-0 pt-2 w-72 z-[100] animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="bg-card text-card-foreground border border-border rounded-xl shadow-lg p-2 space-y-0.5">
-                  {cat.items.map((item, idx) => {
+              <div 
+                className="absolute left-0 top-full pt-1.5 z-[250] min-w-[280px] animate-in fade-in slide-in-from-top-1 duration-150"
+              >
+                <div className="bg-popover/95 backdrop-blur-xl border border-border/80 rounded-xl shadow-2xl p-2 space-y-1">
+                  {category.items.map((item, idx) => {
                     const ItemIcon = item.icon;
-                    const itemActive = !item.isExternal && isActive(item.path);
-
-                    if (item.isExternal) {
-                      return (
-                        <a
-                          key={idx}
-                          href={item.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-start gap-3 p-2.5 rounded-lg transition-all hover:bg-muted text-foreground"
-                        >
-                          <span className="p-1.5 rounded-md bg-slate-500/10 text-muted-foreground">
-                            <ItemIcon className="w-4 h-4" />
-                          </span>
-                          <div>
-                            <p className="text-xs font-bold flex items-center gap-1">
-                              {item.label}
-                              <span className="text-[9px] px-1 py-0.5 rounded bg-muted-foreground/10 text-muted-foreground font-normal">Docs</span>
-                            </p>
-                            <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal">{item.sub}</p>
-                          </div>
-                        </a>
-                      );
-                    }
+                    const itemActive = isActive(item.path);
 
                     return (
                       <Link
                         key={idx}
                         to={item.path}
-                        className={`flex items-start gap-3 p-2.5 rounded-lg transition-all ${
-                          itemActive
-                            ? 'bg-emerald-500/10 text-emerald-500 font-semibold'
-                            : 'hover:bg-muted text-foreground'
+                        onClick={() => setActiveDropdown(null)}
+                        className={`group flex items-start gap-3 p-2 rounded-lg transition-all duration-200 ${
+                          itemActive 
+                            ? 'bg-emerald-500/10 text-emerald-500' 
+                            : 'hover:bg-muted text-foreground/90 hover:text-emerald-500'
                         }`}
                       >
-                        <span className={`p-1.5 rounded-md ${
-                          itemActive ? 'bg-emerald-500/20 text-emerald-500' : 'bg-slate-500/10 text-muted-foreground'
+                        <div className={`p-1.5 rounded-md mt-0.5 transition-colors ${
+                          itemActive 
+                            ? 'bg-emerald-500/20 text-emerald-500' 
+                            : 'bg-muted group-hover:bg-emerald-500/10 group-hover:text-emerald-500 text-muted-foreground'
                         }`}>
                           <ItemIcon className="w-4 h-4" />
-                        </span>
-                        <div>
-                          <p className="text-xs font-bold">{item.label}</p>
-                          <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal">{item.sub}</p>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold leading-tight">{item.label}</p>
+                          <p className="text-[10px] text-muted-foreground leading-normal mt-0.5 truncate">{item.sub}</p>
                         </div>
                       </Link>
                     );
@@ -248,8 +170,7 @@ export const NavigationLinks = () => {
           </div>
         );
       })}
-
-    </div>
+    </nav>
   );
 };
 

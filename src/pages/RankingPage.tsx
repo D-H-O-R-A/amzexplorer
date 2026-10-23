@@ -44,13 +44,13 @@ const RankingPage: React.FC = () => {
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   // Asset filtering state
-  const [activeAsset, setActiveAsset] = useState<string>("PLO");
+  const [activeAsset, setActiveAsset] = useState<string>("AMZ");
   const [customAssetInput, setCustomAssetInput] = useState<string>("");
   const [assetMeta, setAssetMeta] = useState<AssetMeta>({
-    name: "PLO",
+    name: "AMZ",
     decimals: 8,
     rawTotalSupply: "1000000000000000",
-    assetId: "PLO"
+    assetId: "AMZ"
   });
 
   const loadRanking = async (assetKey: string, currentOffset: number = 0, append: boolean = false) => {
@@ -66,10 +66,10 @@ const RankingPage: React.FC = () => {
 
       let targetAssetId = assetKey;
       let decimals = 8;
-      let name = "PLO";
+      let name = "AMZ";
       let rawTotalSupply: string | number | bigint = "1000000000000000"; // fallback
 
-      if (assetKey === "PLO") {
+      if (assetKey === "AMZ" || assetKey === "AMZ") {
         try {
           const rewardsResponse = await fetch(`${getNodeUrl()}/blockchain/rewards`);
           if (rewardsResponse.ok) {
@@ -77,7 +77,7 @@ const RankingPage: React.FC = () => {
             rawTotalSupply = rewards.totalWavesAmount || "1001242000000000";
           }
         } catch (err) {
-          console.error("Failed to fetch precise PLO supply from node rewards:", err);
+          console.error("Failed to fetch precise AMZ supply from node rewards:", err);
           rawTotalSupply = "1001242000000000";
         }
       } else {
@@ -93,12 +93,11 @@ const RankingPage: React.FC = () => {
           }
         } catch (err) {
           console.error("Failed to resolve asset details via Node API:", err);
-          if (assetKey === "VERDE" || assetKey === "AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk") {
-            // Safe fallback constants for VERDE on mainnet/testnet
-            targetAssetId = "AAyf6hiqW17aivtcdY34eFx2GobqnkdSx4Pj5U8S5nfk";
-            decimals = 4;
-            name = "VERDE";
-            rawTotalSupply = "11536887860000";
+          if (assetKey === "amz1" || assetKey === "7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz") {
+            targetAssetId = "7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz";
+            decimals = 2;
+            name = "amz1";
+            rawTotalSupply = "10000000000000";
           }
         }
       }
@@ -238,7 +237,7 @@ const RankingPage: React.FC = () => {
     >
       <SEO 
         title="Ranking de Detentores (Rich List)"
-        description="Ranking oficial das maiores carteiras e detentores de PLO e tokens ambientais da blockchain Planet One. Distribuição de saldo e concentração de tokens."
+        description="Ranking oficial das maiores carteiras e detentores de AMZ e tokens ambientais da blockchain AMZX. Distribuição de saldo e concentração de tokens."
       />
       
       {/* Header Block */}
@@ -282,16 +281,16 @@ const RankingPage: React.FC = () => {
               setOffset(0);
               setHasMore(true);
               setRanking([]);
-              setActiveAsset("PLO");
+              setActiveAsset("AMZ");
             }}
             className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold transition-all duration-300 shadow-sm border ${
-              activeAsset === "PLO"
+              activeAsset === "AMZ"
                 ? "bg-primary text-primary-foreground border-primary scale-[1.02] shadow-primary/10"
                 : "bg-card/45 hover:bg-muted text-muted-foreground border-border/60 hover:text-foreground"
             }`}
           >
             <Coins className="w-4 h-4" />
-            PLO (Ativo Nativo)
+            AMZ (Ativo Nativo)
           </button>
 
           <button
@@ -299,16 +298,33 @@ const RankingPage: React.FC = () => {
               setOffset(0);
               setHasMore(true);
               setRanking([]);
-              setActiveAsset("VERDE");
+              setActiveAsset("amz1");
             }}
             className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold transition-all duration-300 shadow-sm border ${
-              activeAsset === "VERDE"
+              activeAsset === "amz1"
                 ? "bg-emerald-500 text-white border-emerald-500 scale-[1.02] shadow-emerald-500/15"
                 : "bg-card/45 hover:bg-muted text-muted-foreground border-border/60 hover:text-emerald-500"
             }`}
           >
             <Flame className="w-4 h-4" />
-            Token VERDE (Carbono)
+            Token amz1 (Oficial)
+          </button>
+
+          <button
+            onClick={() => {
+              setOffset(0);
+              setHasMore(true);
+              setRanking([]);
+              setActiveAsset("7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU");
+            }}
+            className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold transition-all duration-300 shadow-sm border ${
+              activeAsset === "7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU"
+                ? "bg-emerald-600 text-white border-emerald-600 scale-[1.02] shadow-emerald-500/15"
+                : "bg-card/45 hover:bg-muted text-muted-foreground border-border/60 hover:text-emerald-500"
+            }`}
+          >
+            <Coins className="w-4 h-4" />
+            AUSDTW (18 Dec)
           </button>
         </div>
 
@@ -531,7 +547,7 @@ const RankingPage: React.FC = () => {
                             </div>
                           </TableCell>
 
-                          {/* Balance (PLO / Asset) */}
+                          {/* Balance (AMZ / Asset) */}
                           <TableCell className="text-right py-4 font-mono text-xs md:text-sm font-extrabold text-foreground">
                             {formatAmount(row.balance, decimals)}
                           </TableCell>

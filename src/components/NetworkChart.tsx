@@ -95,8 +95,8 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
   fees: {
     id: 'fees',
     label: 'Taxas Coletadas por Bloco',
-    shortLabel: 'Taxas (PLO)',
-    unit: 'PLO',
+    shortLabel: 'Taxas (AMZ)',
+    unit: 'AMZ',
     icon: Coins,
     strokeColor: '#06b6d4', // cyan-500
     gradientId: 'cyanFeeGradient',

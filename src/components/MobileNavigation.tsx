@@ -76,15 +76,15 @@ const MobileNavigation = () => {
                 Nodes
               </Link>
               <Link
-                to="/address-converter"
+                to="/ranking"
                 onClick={handleLinkClick}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                  isActive('/address-converter') 
+                  isActive('/ranking') 
                     ? 'bg-primary/10 text-primary' 
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                 }`}
               >
-                Address Converter
+                Ranking
               </Link>
             </nav>
           </div>

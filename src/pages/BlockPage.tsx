@@ -17,7 +17,7 @@ const BlockPage = () => {
     >
       <SEO 
         title={`Bloco #${height}`}
-        description={`Detalhes do Bloco #${height} na blockchain Planet One. Validador gerador, transações incluídas, taxas, recompensas de bloco e assinatura VRF.`}
+        description={`Detalhes do Bloco #${height} na blockchain AMZX. Validador gerador, transações incluídas, taxas, recompensas de bloco e assinatura VRF.`}
       />
       {/* Breadcrumb Navigation Header */}
       <div className="flex items-center justify-between">
