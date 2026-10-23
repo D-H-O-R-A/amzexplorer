@@ -9,7 +9,7 @@
 AMZX is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **Amazonic One Eco Tecnologia S.A.** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
 
 ### Key Ecosystem Components
-- **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with Waves-NG microblock protocol enabling ~6-second blocks.
+- **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with AMZX-NG microblock protocol enabling ~6-second blocks.
 - **AMZ Native Utility Coin**: Powers consensus staking, transaction gas fees, and network governance.
 - **amz1 Flagship Token**: Asset ID `7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz`. Verified REDD+ high-integrity carbon credit token directly backed by preserved Amazon rainforest tracts.
 - **AUSDTW Token**: Asset ID `7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU`. Amazonic USDT Wrapped token with 18 decimal places precision.
@@ -27,7 +27,7 @@ AMZX supports dual address representations for every key pair:
 
 ### EVM Hexadecimal Format
 - Format: `0x` followed by 40 hexadecimal characters.
-- Interoperability: AMZX RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa using `@better2better/waves-node-api-js` (`ethAddress2waves`, `wavesAddress2eth`).
+- Interoperability: AMZX RPC automatically maps Ethereum addresses to corresponding native Base58 addresses and vice versa via cryptographic curve translation.
 
 ---
 

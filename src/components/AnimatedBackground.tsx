@@ -156,7 +156,7 @@ export const AnimatedBackground: React.FC<ParticleProps> = ({
         </div>
       )}
 
-      {/* WAVES */}
+      {/* Flowing Grid */}
       {(variant === 'wave' || variant === 'combined') && (
         <div className="absolute bottom-0 left-0 w-full h-1/2 opacity-10">
           {Array.from({ length: 3 }).map((_, i) => (

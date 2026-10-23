@@ -19,7 +19,7 @@ export const TokenImage = ({ assetId, size = "md", className = "", fallback = nu
     }
 
     const sym = assetId.toUpperCase();
-    if (sym === 'AMZ' || sym === 'AMZ' || sym === 'WAVES') {
+    if (sym === 'AMZ') {
       setImgUrl("/logo.png");
       setHasError(false);
       return;

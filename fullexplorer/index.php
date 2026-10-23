@@ -2513,7 +2513,7 @@ else
         $weights = [];
         $prints = [];
 
-        // WAVES
+        // AMZ
         {
             $asset = "AMZ";
             $amount = w8io_amount( $balance[0], 8 );

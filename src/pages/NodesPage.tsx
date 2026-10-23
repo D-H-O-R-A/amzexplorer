@@ -466,7 +466,7 @@ const NodesPage = () => {
                     {nodesData.activationStatus.features.map((feature) => (
                       <TableRow key={feature.id} className="border-b border-border/30 hover:bg-muted/10">
                         <TableCell className="font-mono text-xs font-bold text-emerald-500">{feature.id}</TableCell>
-                        <TableCell className="text-xs font-medium text-foreground">{feature.description.replace("WAVES", getCoinName())}</TableCell>
+                        <TableCell className="text-xs font-medium text-foreground">{feature.description.replace(/waves/gi, getCoinName())}</TableCell>
                         <TableCell>{getStatusBadge(feature.blockchainStatus)}</TableCell>
                         <TableCell className="font-mono text-xs">
                           {feature.activationHeight !== undefined ? `#${formatNumber(feature.activationHeight)}` : '-'}

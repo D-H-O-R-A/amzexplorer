@@ -263,7 +263,7 @@ export const validateAddress = (address: string): boolean => {
     return address.length === 42 && /^0x[0-9a-fA-F]{40}$/.test(address);
   }
   
-  // Basic length and character class checks for Waves / AMZ addresses
+  // Basic length and character class checks for AMZX addresses
   if (address.length < 34 || address.length > 36) {
     return false;
   }
@@ -655,13 +655,13 @@ export const fetchTransactionData = async (id: string): Promise<Transaction> => 
 export const fetchTransaction = fetchTransactionData;
 
 export const fetchAssetData = async (assetId: string | null | undefined): Promise<Asset> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'AMZ' || assetId === 'AMZ') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'AMZ') {
     return {
       assetId: '',
       name: 'AMZ',
       decimals: 8,
       balance: 0,
-      description: 'Moeda nativa da rede AMZX',
+      description: 'Native utility asset of the AMZX network',
       reissuable: false,
       quantity: 115368878600000000
     };
@@ -1047,7 +1047,7 @@ export const fetchActivationStatus = async (): Promise<ActivationStatus> => {
 };
 
 export const fetchDecimalsAsset = async (assetId: string | null | undefined): Promise<number> => {
-  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'WAVES' || assetId === 'AMZ' || assetId === 'AMZ') {
+  if (!assetId || assetId === 'null' || assetId === 'undefined' || assetId === 'AMZ') {
     return 8;
   }
   const targetAssetId = (assetId === 'amz1' || assetId === 'AMZ1') ? '7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz' : assetId;

@@ -126,7 +126,7 @@ function handleSearch( event )
     }
 
     // Check if it's an asset search
-    if( query.toUpperCase() === 'AMZ' || query.toUpperCase() === 'WAVES' )
+    if( query.toUpperCase() === 'AMZ' )
     {
         window.location.href = '/top/AMZ';
         return;

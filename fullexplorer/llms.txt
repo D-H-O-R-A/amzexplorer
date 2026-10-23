@@ -13,7 +13,7 @@ AMZX FullExplorer (`https://fullexplorer.amzexplorer.com`) delivers real-time tr
 - **Official Tokens**: amz1 (Asset ID: 7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz), AUSDTW (18 decimals)
 - **Engine**: PHP 8.x + SQLite3 WAL Mode with Triples Architecture
 - **Sync Protocol**: Real-time gRPC & REST polling against AMZX validation nodes (`https://nodes.amzexplorer.com/`)
-- **Consensus**: Fair LPoS with Waves-NG microblocks
+- **Consensus**: Fair LPoS with AMZX-NG microblocks
 
 ## Key Web Pages & Navigation
 

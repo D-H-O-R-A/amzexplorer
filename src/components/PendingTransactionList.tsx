@@ -30,7 +30,7 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
     
     try {
       const apiUrl = getGCSApiUrl();
-      // Waves node endpoint for raw unconfirmed transactions
+      // AMZX node endpoint for raw unconfirmed transactions
       const endpoint = `${apiUrl}/transactions/unconfirmed`;
       const response = await fetch(endpoint);
       

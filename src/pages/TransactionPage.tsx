@@ -31,7 +31,7 @@ const TransactionPage = () => {
   
   useEffect(() => {
     if(id.substr(0,2) === "0x") {
-      // Convert Ethereum transaction ID to Waves format
+      // Convert Ethereum transaction ID to AMZX native format
       const wavesId = ethTxId2waves(id);
       if (wavesId) {
         window.location.href = window.location.origin+ `/tx/${wavesId}`;

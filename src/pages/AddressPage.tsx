@@ -72,7 +72,7 @@ const AddressPage = () => {
           try {
             ethAddress = wavesAddress2eth(address);
           } catch (error) {
-            console.warn("Could not derive Ethereum address from Waves address format.", error);
+            console.warn("Could not derive Ethereum address from AMZX address format.", error);
           }
         }
 

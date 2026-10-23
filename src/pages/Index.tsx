@@ -257,16 +257,6 @@ const Index = () => {
           {/* Left Column: Heading, Search & Shortcuts */}
           <div className="lg:col-span-7 text-left space-y-6">
             
-            {/* Ecosystem Live Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium tracking-wide">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>AMZX MAINNET</span>
-              <span className="text-emerald-700">•</span>
-              <span className="text-slate-200">CHAIN ID 'A'</span>
-              <span className="text-emerald-700">•</span>
-              <span className="text-emerald-400 font-semibold">FAIR POS ACTIVE</span>
-            </div>
-
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white font-mono leading-tight">
               AMZX <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-400 bg-clip-text text-transparent">Blockchain</span> Explorer
             </h1>
@@ -573,7 +563,7 @@ const Index = () => {
                 </td>
                 <td className="py-4 px-4 text-slate-400">
                   <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px]">
-                    Native (WAVES equivalent)
+                    Native Gas & Consensus Asset
                   </span>
                 </td>
                 <td className="py-4 px-4 font-bold text-white">

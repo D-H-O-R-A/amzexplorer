@@ -10,7 +10,7 @@ AMZ Explorer (`https://amzexplorer.com`) is the primary interface for inspecting
 - **Native Utility Coin**: AMZ (1 AMZ = 10^8 atomic units)
 - **Flagship Carbon Asset**: amz1 (Asset ID: 7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz - High Integrity REDD+ Carbon Credit Token)
 - **High Precision Token**: AUSDTW (18 decimal places token)
-- **Consensus Algorithm**: Fair Leased Proof-of-Stake (LPoS) with Waves-NG microblocks
+- **Consensus Algorithm**: Fair Leased Proof-of-Stake (LPoS) with AMZX-NG microblocks
 - **Block Time**: ~6 seconds average
 - **Chain ID**: 65 (Character: 'A')
 - **Address Encodings**: Native Base58 (starts with 3...) and EVM Equivalence (0x...)

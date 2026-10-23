@@ -74,7 +74,7 @@ const CodeHighlighter: React.FC<CodeHighlighterProps> = ({
   );
 };
 
-// Define language detector for Ride (Waves blockchain language)
+// Define language detector for Ride (AMZX smart contract language)
 const defineLanguages = () => {
   // @ts-ignore - SyntaxHighlighter.registerLanguage
   if (SyntaxHighlighter.registerLanguage) {
