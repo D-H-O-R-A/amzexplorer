@@ -244,7 +244,7 @@ const Header = () => {
                   className="flex items-center justify-between p-2 rounded-xl bg-card border border-border/60 hover:border-emerald-500/30 text-xs font-semibold"
                 >
                   <div className="flex items-center gap-2">
-                    <img src="/pwusdt.png" alt="AUSDTW" className="w-5 h-5 rounded-full object-contain" />
+                    <img src="/ausdtw.png" alt="AUSDTW" className="w-5 h-5 rounded-full object-contain" />
                     <span>Token AUSDTW</span>
                   </div>
                   <span className="text-[10px] font-mono text-emerald-500 font-bold">18 Decimais</span>

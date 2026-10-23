@@ -76,19 +76,19 @@ const BlockTransactionsTab = ({ block, copiedField, copyToClipboard }: BlockTran
       case 1:
         return { name: "Ativação de Conta (Gênese)", color: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: Flame };
       case 2:
-        return { name: "Criação de Conta", color: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: Database };
+        return { name: "Criação de Conta", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Database };
       case 3:
-        return { name: "Criação de Token (Issue)", color: "bg-sky-500/10 text-sky-500 border-sky-500/20", icon: PlusCircle };
+        return { name: "Criação de Token (Issue)", color: "bg-teal-500/10 text-teal-500 border-teal-500/20", icon: PlusCircle };
       case 4:
         return { name: "Transferência", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: Send };
       case 5:
-        return { name: "Emissão Adicional (Reissue)", color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20", icon: PlusCircle };
+        return { name: "Emissão Adicional (Reissue)", color: "bg-teal-600/10 text-teal-600 border-teal-600/20", icon: PlusCircle };
       case 6:
         return { name: "Queima de Ativo (Burn)", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Flame };
       case 7:
         return { name: "Ordem Executada (DEX)", color: "bg-violet-500/10 text-violet-500 border-violet-500/20", icon: ArrowRight };
       case 8:
-        return { name: "Lease (Arrendar)", color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20", icon: Bookmark };
+        return { name: "Lease (Arrendar)", color: "bg-emerald-700/10 text-emerald-600 border-emerald-700/20", icon: Bookmark };
       case 9:
         return { name: "Cancelar Lease", color: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: Bookmark };
       case 10:

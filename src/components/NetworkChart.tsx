@@ -98,10 +98,10 @@ const METRIC_CONFIGS: Record<MetricType, MetricMeta> = {
     shortLabel: 'Taxas (AMZ)',
     unit: 'AMZ',
     icon: Coins,
-    strokeColor: '#06b6d4', // cyan-500
-    gradientId: 'cyanFeeGradient',
-    badgeBg: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-700 dark:text-cyan-400',
-    badgeText: 'text-cyan-600 dark:text-cyan-400',
+    strokeColor: '#10b981', // emerald-500
+    gradientId: 'emeraldFeeGradient',
+    badgeBg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-700 dark:text-emerald-400',
+    badgeText: 'text-emerald-600 dark:text-emerald-400',
     yAxisFormatter: (v) => `${v.toFixed(2)}`,
     tooltipFormatter: (v) => `${v.toFixed(4)} ${getCoinName()}`
   }
@@ -315,9 +315,9 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
             {data.totalFeePlo > 0 && (
               <div className="flex items-center justify-between">
                 <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                  <Coins className="h-3 w-3 text-cyan-600 dark:text-cyan-400" /> Taxas:
+                  <Coins className="h-3 w-3 text-emerald-600 dark:text-emerald-400" /> Taxas:
                 </span>
-                <span className="font-bold text-cyan-700 dark:text-cyan-300">
+                <span className="font-bold text-emerald-700 dark:text-emerald-300">
                   {data.totalFeePlo.toFixed(4)} {getCoinName()}
                 </span>
               </div>
@@ -474,15 +474,15 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
         </div>
 
         {/* KPI 4: Tamanho Médio */}
-        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-cyan-500/20 dark:border-cyan-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+        <div className="p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/40 border border-emerald-500/20 dark:border-emerald-500/15 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/40 transition-all">
           <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <Database className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
+              <Database className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
               Tamanho Médio
             </span>
           </div>
           <div className="mt-1.5">
-            <div className="text-lg font-bold font-mono text-cyan-600 dark:text-cyan-300">
+            <div className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-300">
               {isLoading ? '...' : `${stats.avgSizeKb.toFixed(2)} KB`}
             </div>
             <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono mt-0.5">
@@ -524,11 +524,11 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
                   <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.0} />
                 </linearGradient>
 
-                {/* Cyan Gradient */}
-                <linearGradient id="cyanFeeGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.45} />
-                  <stop offset="65%" stopColor="#06b6d4" stopOpacity={0.08} />
-                  <stop offset="100%" stopColor="#06b6d4" stopOpacity={0.0} />
+                {/* Emerald Fee Gradient */}
+                <linearGradient id="emeraldFeeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity={0.45} />
+                  <stop offset="65%" stopColor="#10b981" stopOpacity={0.08} />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
 

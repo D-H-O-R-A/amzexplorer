@@ -19,6 +19,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://amzexplorer.com/address/3EDvbvkrhNhQerZykDG51LDqYgthvtHWTKj</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://amzexplorer.com/contract/3LDqeVbNxAyg1pmyQBARW853LBxaFmjumcy</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>daily</changefreq>
@@ -32,6 +38,12 @@
   </url>
   <url>
     <loc>https://amzexplorer.com/contract/3P6D2sUshXn8XUscR4T2M9i2kUo9tG7e3pB</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://amzexplorer.com/contract/3EDvbvkrhNhQerZykDG51LDqYgthvtHWTKj</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>

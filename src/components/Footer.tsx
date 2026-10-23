@@ -21,9 +21,7 @@ import {
   NODE_SWAGGER_URL,
   MATCHER_SWAGGER_URL,
   METAMASK_RPC_URL,
-  DATA_SERVICE_DOCS_URL,
-  GRPC_DEX_URL,
-  GRPC_UPDATES_URL
+  DATA_SERVICE_DOCS_URL
 } from '@/lib/utils';
 
 const Footer = () => {
@@ -55,15 +53,13 @@ const Footer = () => {
     { name: "Matcher DEX API", url: MATCHER_SWAGGER_URL, protocol: "HTTPS / ORDERBOOK" },
     { name: "MetaMask JSON-RPC", url: METAMASK_RPC_URL, protocol: "EVM RPC" },
     { name: "AMZX Data Service", url: DATA_SERVICE_DOCS_URL, protocol: "REST / DOCS" },
-    { name: "gRPC Control / DEX", url: GRPC_DEX_URL, protocol: "WSS / GRPCS:443" },
-    { name: "gRPC Blockchain Updates", url: GRPC_UPDATES_URL, protocol: "GRPCS:443" },
   ];
 
   return (
     <footer className="relative w-full mt-16 bg-slate-950 text-slate-200 border-t border-emerald-500/20 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-teal-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-800/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8 py-16 relative z-10">
         

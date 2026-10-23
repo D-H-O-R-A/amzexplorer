@@ -14,7 +14,7 @@ type ThemeProviderState = {
 };
 
 const initialState: ThemeProviderState = {
-  theme: "light",
+  theme: "dark",
   setTheme: () => null,
 };
 
@@ -22,7 +22,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = "light",
+  defaultTheme = "dark",
   storageKey = "amzx-ui-theme",
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(
@@ -37,13 +37,9 @@ export function ThemeProvider({
     // Add cinematic class for global animations
     root.classList.add("cinematic-ui");
     
-    // Add visual effects based on theme
+    // Add visual effects based on theme - Always Amazon emerald green, never blue!
     root.style.setProperty("--blur-strength", "12px");
-    if (theme === "dark") {
-      root.style.setProperty("--neon-glow", "0 0 20px rgba(0,224,84,0.3)");
-    } else {
-      root.style.setProperty("--neon-glow", "0 0 15px rgba(0,102,255,0.15)");
-    }
+    root.style.setProperty("--neon-glow", "0 0 20px rgba(16,185,129,0.35)");
     
     // Improve scrolling
     root.style.scrollBehavior = "smooth";

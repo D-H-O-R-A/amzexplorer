@@ -121,7 +121,7 @@ const NodesPage = () => {
       case 'voting':
         return <Badge className="bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Em Votação</Badge>;
       case 'implemented':
-        return <Badge className="bg-blue-500/10 text-blue-500 border border-blue-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Implementado</Badge>;
+        return <Badge className="bg-teal-500/10 text-teal-500 border border-teal-500/20 rounded-lg text-xs font-semibold px-2.5 py-0.5">Implementado</Badge>;
       default:
         return <Badge variant="outline" className="rounded-lg text-xs font-semibold px-2.5 py-0.5">{status}</Badge>;
     }

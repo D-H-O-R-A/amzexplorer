@@ -200,8 +200,8 @@ const ContractsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="glass-card relative overflow-hidden group hover:border-sky-500/30 transition-all duration-300 shadow-lg">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-bl-full pointer-events-none group-hover:bg-sky-500/10 transition-colors" />
+          <Card className="glass-card relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-300 shadow-lg">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/10 transition-colors" />
             <CardContent className="p-6 flex items-center justify-between">
               <div className="space-y-1.5">
                 <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Avg Complexity</span>
@@ -209,7 +209,7 @@ const ContractsPage = () => {
                   {isLoading ? "..." : `${metrics.avgComplexity} pts`}
                 </h3>
               </div>
-              <div className="h-12 w-12 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-500 group-hover:scale-110 transition-transform">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
                 <Layers className="h-5 w-5" />
               </div>
             </CardContent>
@@ -381,7 +381,7 @@ const ContractsPage = () => {
                             className={`px-2.5 py-0.5 text-xs font-semibold select-none rounded-md border shadow-sm ${
                               contract.type === "dApp" 
                                 ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400" 
-                                : "bg-sky-500/10 border-sky-500/20 text-sky-500 dark:text-sky-400"
+                                : "bg-teal-500/10 border-teal-500/20 text-teal-500 dark:text-teal-400"
                             }`}
                           >
                             {contract.type || "dApp"}

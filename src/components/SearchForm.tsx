@@ -168,9 +168,9 @@ const SearchForm = () => {
   const getBadgeColor = (type: string) => {
     switch (type) {
       case 'Endereço AMZ': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-      case 'Endereço EVM': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+      case 'Endereço EVM': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
       case 'Transação AMZ': return 'bg-teal-500/10 text-teal-400 border-teal-500/20';
-      case 'Transação EVM': return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
+      case 'Transação EVM': return 'bg-emerald-600/10 text-emerald-400 border-emerald-600/20';
       case 'Bloco': return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
       case 'Asset / Token': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
       case 'Alias de Endereço': return 'bg-pink-500/10 text-pink-400 border-pink-500/20';
@@ -181,9 +181,9 @@ const SearchForm = () => {
   const getEntityIcon = (type: string) => {
     switch (type) {
       case 'Endereço AMZ': return <Wallet className="w-4 h-4 text-emerald-400" />;
-      case 'Endereço EVM': return <Wallet className="w-4 h-4 text-blue-400" />;
+      case 'Endereço EVM': return <Wallet className="w-4 h-4 text-teal-400" />;
       case 'Transação AMZ': return <ShieldCheck className="w-4 h-4 text-teal-400" />;
-      case 'Transação EVM': return <ShieldCheck className="w-4 h-4 text-sky-400" />;
+      case 'Transação EVM': return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
       case 'Bloco': return <Database className="w-4 h-4 text-purple-400" />;
       case 'Asset / Token': return <Coins className="w-4 h-4 text-amber-400" />;
       default: return <Hash className="w-4 h-4 text-pink-400" />;

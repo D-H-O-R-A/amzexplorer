@@ -7,7 +7,7 @@ import NetworkChart from "@/components/NetworkChart";
 import { useEffect, useState } from "react";
 import { fetchNetworkStats, NetworkStats } from "@/services/api";
 import { formatNumber } from "@/utils/formatter";
-import { MotionContainer, MotionChild } from "@/components/ui/motion-container";
+import { MotionContainer } from "@/components/ui/motion-container";
 import ParallaxSection from "@/components/ui/parallax-section";
 import { 
   ArrowRight, 
@@ -18,38 +18,18 @@ import {
   Award, 
   RefreshCw, 
   Globe, 
-  Activity, 
-  ShieldCheck, 
   Coins, 
-  Sparkles, 
   Users, 
   HelpCircle,
-  ExternalLink,
-  Copy,
-  Check,
-  Shield,
-  Lock,
+  ShieldCheck,
   Mail,
   MapPin,
   Leaf,
   CheckCircle2,
-  Terminal,
-  Server,
-  Zap,
-  Flame
+  Lock
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { 
-  isTestnet, 
-  getGCSApiUrl, 
-  NODE_SWAGGER_URL, 
-  MATCHER_SWAGGER_URL, 
-  METAMASK_RPC_URL, 
-  DATA_SERVICE_DOCS_URL, 
-  GRPC_DEX_URL, 
-  GRPC_UPDATES_URL 
-} from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { isTestnet, getGCSApiUrl } from "@/lib/utils";
 
 interface LastBlockData {
   height: number;
@@ -70,7 +50,6 @@ interface BlockchainRewardData {
 }
 
 const Index = () => {
-  const { toast } = useToast();
   const [stats, setStats] = useState<NetworkStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [lastBlockData, setLastBlockData] = useState<LastBlockData | null>(null);
@@ -82,17 +61,6 @@ const Index = () => {
   const [isRewardDataLoading, setIsRewardDataLoading] = useState(true);
   const [isFinalityLoading, setIsFinalityLoading] = useState(true);
   const [currentNetwork, setCurrentNetwork] = useState(isTestnet());
-  const [copiedEndpoint, setCopiedEndpoint] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedEndpoint(label);
-    toast({
-      title: "Copiado para a área de transferência",
-      description: `${label}: ${text}`,
-    });
-    setTimeout(() => setCopiedEndpoint(null), 2500);
-  };
 
   // Fetch finality data from GCS API
   useEffect(() => {
@@ -239,18 +207,18 @@ const Index = () => {
       : 10335550;
   const circulatingSupplyStr = `${(rawCirculatingSupply / 1000000).toFixed(2)}M`;
 
-  // Real Staked Amount on-chain (using stats totalStaked in satoshis if available, or 73.32% supply fallback)
+  // Real Staked Amount on-chain
   const rawStakedAMZ = stats?.totalStaked 
     ? stats.totalStaked / 100000000 
     : rawCirculatingSupply * 0.7332;
   const totalStakedStr = `${(rawStakedAMZ / 1000000).toFixed(2)}M`;
 
-  // Staking ratio percentage (ratio of supply locked in staking)
+  // Staking ratio percentage
   const stakingRatio = rawCirculatingSupply > 0 
     ? (rawStakedAMZ / rawCirculatingSupply) * 100 
     : 73.32;
 
-  // Active validators (count of block producers in consensus group)
+  // Active validators count
   const activeValidatorsCount = stats?.activeValidators 
     ? stats.activeValidators 
     : finalityData?.currentGenerators?.length 
@@ -259,7 +227,7 @@ const Index = () => {
         ? 15 
         : 12;
 
-  // Dynamic calculation of Blockchain Weight/Size
+  // Dynamic calculation of Blockchain Weight
   const estimatedWeightBytes =
     16148000 +
     (blockHeight * 358) +
@@ -268,66 +236,21 @@ const Index = () => {
   const estimatedWeightGB = estimatedWeightBytes / (1024 * 1024 * 1024);
   const blockchainWeightStr = `${estimatedWeightGB.toFixed(3)} GB`;
 
-  const secureEndpoints = [
-    {
-      name: "Node Swagger API",
-      url: NODE_SWAGGER_URL,
-      type: "REST API",
-      badge: "HTTPS / TLS",
-      description: "Documentação interativa Swagger REST do nó validador AMZX"
-    },
-    {
-      name: "Matcher DEX API",
-      url: MATCHER_SWAGGER_URL,
-      type: "DEX REST",
-      badge: "HTTPS / TLS",
-      description: "Orderbook central de correspondência e negociação descentralizada"
-    },
-    {
-      name: "MetaMask JSON-RPC",
-      url: METAMASK_RPC_URL,
-      type: "EVM Web3",
-      badge: "Port 443 / SSL",
-      description: "Endpoint JSON-RPC compatível com MetaMask, Foundry e Web3.js"
-    },
-    {
-      name: "AMZX Data Service",
-      url: DATA_SERVICE_DOCS_URL,
-      type: "Analytics API",
-      badge: "HTTPS Docs",
-      description: "Serviço unificado de agregação analítica, candles e histórico"
-    },
-    {
-      name: "gRPC DEX Control",
-      url: GRPC_DEX_URL,
-      type: "gRPC / WSS",
-      badge: "GRPCS:443",
-      description: "Comunicação streaming de alta vazão para ordens e correspondência"
-    },
-    {
-      name: "gRPC Updates",
-      url: GRPC_UPDATES_URL,
-      type: "gRPC Events",
-      badge: "GRPCS:443",
-      description: "Feed de eventos de blocos e transações em tempo real"
-    }
-  ];
-
   return (
-    <div className="min-h-screen flex flex-col gap-10 md:gap-16">
+    <div className="min-h-screen flex flex-col gap-8 md:gap-14">
       <SEO 
         title="AMZ Explorer - Blockchain Explorer & Ledger (Amazonic One)"
         description="Explorer oficial da Blockchain AMZX (Amazonic One). Monitore blocos em tempo real, rastreie transações, audite contratos inteligentes e acompanhe os ativos na rede."
       />
       
-      {/* 1. Hero banner with Modern Ecological Aesthetic */}
+      {/* 1. Hero banner: 100% Dark Forest & Emerald Aesthetic (NO BLUE) */}
       <ParallaxSection 
-        className="py-10 md:py-16 px-4 md:px-8 relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-slate-900/90 via-slate-950/80 to-slate-950/95 backdrop-blur-2xl shadow-2xl"
-        intensity={8}
+        className="py-10 md:py-16 px-4 md:px-8 relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-950/40 via-black/80 to-black/95 backdrop-blur-2xl shadow-2xl"
+        intensity={6}
       >
-        {/* Subtle background ambient mesh */}
+        {/* Subtle background ambient mesh - emerald only */}
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           
@@ -335,19 +258,19 @@ const Index = () => {
           <div className="lg:col-span-7 text-left space-y-6">
             
             {/* Ecosystem Live Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium tracking-wide">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
               <span>AMZX MAINNET</span>
-              <span className="text-slate-500">•</span>
-              <span className="text-slate-300">CHAIN ID 'A'</span>
-              <span className="text-slate-500">•</span>
+              <span className="text-emerald-700">•</span>
+              <span className="text-slate-200">CHAIN ID 'A'</span>
+              <span className="text-emerald-700">•</span>
               <span className="text-emerald-300 flex items-center gap-1">
-                <Lock className="w-3 h-3" /> 100% TLS/HTTPS
+                <Lock className="w-3 h-3 text-emerald-400" /> 100% HTTPS
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-mono leading-tight">
-              AMZX <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Blockchain</span> Explorer
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white font-mono leading-tight">
+              AMZX <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-400 bg-clip-text text-transparent">Blockchain</span> Explorer
             </h1>
             
             <p className="text-sm md:text-base text-slate-300 max-w-xl leading-relaxed">
@@ -355,7 +278,7 @@ const Index = () => {
             </p>
             
             {/* Search Bar Container */}
-            <div className="w-full max-w-xl pt-2">
+            <div className="w-full max-w-xl pt-1">
               <SearchBar />
             </div>
             
@@ -364,61 +287,57 @@ const Index = () => {
               <span className="text-slate-400 font-mono text-[11px] uppercase tracking-wider">Acesso Rápido:</span>
               <Link 
                 to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" 
-                className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500/25 text-emerald-300 font-mono flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500/25 text-emerald-300 font-mono flex items-center gap-1.5 transition-all shadow-sm"
               >
-                <Leaf className="w-3 h-3 text-emerald-400" />
-                <span>Token amz1</span>
+                <Leaf className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Token amz1 (REDD+)</span>
               </Link>
               <Link 
                 to="/asset/7i8QogaFNfDWJi93yreUYgtJ12ZFLiPFdJaC1WLoD7tU" 
-                className="px-3 py-1 rounded-full bg-teal-500/15 border border-teal-500/40 hover:bg-teal-500/25 text-teal-300 font-mono flex items-center gap-1.5 transition-all shadow-sm"
+                className="px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 hover:bg-emerald-500/25 text-emerald-300 font-mono flex items-center gap-1.5 transition-all shadow-sm"
               >
-                <Coins className="w-3 h-3 text-teal-400" />
-                <span>AUSDTW (18 Dec)</span>
+                <Coins className="w-3.5 h-3.5 text-emerald-400" />
+                <span>AUSDTW (18 Decimais)</span>
               </Link>
-              <a 
-                href={METAMASK_RPC_URL} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 hover:border-emerald-500/40 text-slate-200 font-mono flex items-center gap-1 transition-all"
+              <Link 
+                to="/nodes" 
+                className="px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 hover:border-emerald-500/40 text-slate-200 font-mono flex items-center gap-1 transition-all"
               >
-                <span>JSON-RPC</span>
-                <ExternalLink className="w-2.5 h-2.5 text-slate-400" />
-              </a>
-              <a 
-                href={NODE_SWAGGER_URL} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 hover:border-emerald-500/40 text-slate-200 font-mono flex items-center gap-1 transition-all"
+                <Globe className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Validadores</span>
+              </Link>
+              <Link 
+                to="/contracts" 
+                className="px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 hover:border-emerald-500/40 text-slate-200 font-mono flex items-center gap-1 transition-all"
               >
-                <span>Node Swagger</span>
-                <ExternalLink className="w-2.5 h-2.5 text-slate-400" />
-              </a>
+                <Database className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Smart Contracts</span>
+              </Link>
             </div>
           </div>
           
-          {/* Right Column: Amazonic One Brand Sphere with Glowing Orbits */}
+          {/* Right Column: Amazonic One Brand Sphere with Glowing Emerald Orbits (ZERO BLUE) */}
           <div className="lg:col-span-5 flex justify-center items-center">
-            <div className="relative w-72 h-72 md:w-88 md:h-88 flex items-center justify-center">
-              {/* Radial Glowing Core */}
-              <div className="absolute inset-0 rounded-full bg-gradient-radial from-emerald-500/25 via-emerald-600/15 to-transparent blur-3xl animate-pulse"></div>
+            <div className="relative w-72 h-72 md:w-84 md:h-84 flex items-center justify-center">
+              {/* Radial Glowing Core - Emerald */}
+              <div className="absolute inset-0 rounded-full bg-gradient-radial from-emerald-500/30 via-emerald-600/15 to-transparent blur-3xl animate-pulse"></div>
               
-              {/* Geometric Outer Orbital Ring */}
+              {/* Geometric Outer Orbital Ring - Emerald */}
               <div className="absolute w-[94%] h-[94%] border border-emerald-500/30 rounded-full animate-[spin_28s_linear_infinite] pointer-events-none">
                 <div className="absolute top-1/2 left-0 w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_15px_#10b981]"></div>
               </div>
               
-              {/* Geometric Inner Orbital Ring */}
-              <div className="absolute w-[76%] h-[76%] border border-teal-500/25 rounded-full animate-[spin_18s_linear_infinite_reverse] pointer-events-none">
-                <div className="absolute top-0 left-1/2 w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_12px_#06b6d4]"></div>
+              {/* Geometric Inner Orbital Ring - Emerald */}
+              <div className="absolute w-[76%] h-[76%] border border-emerald-500/20 rounded-full animate-[spin_18s_linear_infinite_reverse] pointer-events-none">
+                <div className="absolute top-0 left-1/2 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_#10b981]"></div>
               </div>
               
               {/* Center Logo with Hologram Effect */}
-              <div className="relative z-10 p-6 rounded-3xl bg-slate-900/40 border border-emerald-500/30 backdrop-blur-md shadow-2xl transition-transform duration-500 hover:scale-105">
+              <div className="relative z-10 p-6 rounded-3xl bg-black/60 border border-emerald-500/30 backdrop-blur-md shadow-2xl transition-transform duration-500 hover:scale-105">
                 <img 
                   src="/logo.png" 
                   alt="Amazonic One Logo" 
-                  className="w-44 h-44 md:w-52 md:h-52 object-contain filter drop-shadow-[0_0_35px_rgba(16,185,129,0.5)]"
+                  className="w-44 h-44 md:w-52 md:h-52 object-contain filter drop-shadow-[0_0_35px_rgba(16,185,129,0.55)]"
                 />
                 <div className="mt-3 text-center">
                   <span className="text-[11px] font-mono tracking-widest uppercase text-emerald-400 font-bold">
@@ -434,7 +353,7 @@ const Index = () => {
 
       {/* 2. Responsive Live Network Metrics Ribbon */}
       <MotionContainer className="w-full">
-        <div className="glass-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y sm:divide-y-0 xl:divide-x divide-emerald-500/10 border border-emerald-500/20 overflow-hidden shadow-xl rounded-2xl bg-slate-950/40 backdrop-blur-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y sm:divide-y-0 xl:divide-x divide-emerald-500/15 border border-emerald-500/20 overflow-hidden shadow-xl rounded-2xl bg-black/50 backdrop-blur-md">
           
           {/* Card 1: Block Height */}
           <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors">
@@ -454,7 +373,7 @@ const Index = () => {
           </div>
 
           {/* Card 2: Total Transactions */}
-          <div className="p-5 flex flex-col justify-between gap-2 relative group hover:bg-emerald-500/5 transition-colors border-t sm:border-t-0 border-emerald-500/10">
+          <div className="p-5 flex flex-col justify-between gap-2 relative group hover:bg-emerald-500/5 transition-colors border-t sm:border-t-0 border-emerald-500/15">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
                 <CreditCard className="w-4 h-4 text-emerald-400" />
@@ -478,7 +397,7 @@ const Index = () => {
           </div>
 
           {/* Card 3: Mempool Queue */}
-          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-amber-500/5 transition-colors border-t md:border-t-0 border-emerald-500/10">
+          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-amber-500/5 transition-colors border-t md:border-t-0 border-emerald-500/15">
             <div className="flex items-center gap-2 text-xs font-mono text-amber-400 uppercase tracking-wider">
               <RefreshCw className="w-4 h-4 text-amber-400 animate-[spin_6s_linear_infinite]" />
               <span>Mempool</span>
@@ -495,7 +414,7 @@ const Index = () => {
           </div>
 
           {/* Card 4: Ledger Weight */}
-          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t md:border-t-0 border-emerald-500/10">
+          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t md:border-t-0 border-emerald-500/15">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
                 <Database className="w-4 h-4 text-emerald-400" />
@@ -519,7 +438,7 @@ const Index = () => {
           </div>
 
           {/* Card 5: Active Validators */}
-          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t xl:border-t-0 border-emerald-500/10">
+          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t xl:border-t-0 border-emerald-500/15">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
               <Globe className="w-4 h-4 text-emerald-400" />
               <span>Validadores</span>
@@ -536,7 +455,7 @@ const Index = () => {
           </div>
 
           {/* Card 6: Supply & Staking Ratio */}
-          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t xl:border-t-0 border-emerald-500/10">
+          <div className="p-5 flex flex-col justify-between gap-2 relative overflow-hidden group hover:bg-emerald-500/5 transition-colors border-t xl:border-t-0 border-emerald-500/15">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
               <Coins className="w-4 h-4 text-emerald-400" />
               <span>AMZ Supply & Staking</span>
@@ -557,7 +476,7 @@ const Index = () => {
 
       {/* 3. Live Activity Chart Card */}
       <MotionContainer className="w-full">
-        <div className="glass-card p-6 border border-emerald-500/20 overflow-hidden shadow-lg rounded-2xl bg-slate-950/40">
+        <div className="p-6 border border-emerald-500/20 overflow-hidden shadow-lg rounded-2xl bg-black/50 backdrop-blur-md">
           <NetworkChart />
         </div>
       </MotionContainer>
@@ -566,7 +485,7 @@ const Index = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         
         {/* Column 1: Latest Blocks */}
-        <div className="glass-card p-5 flex flex-col justify-between border border-emerald-500/20 rounded-2xl bg-slate-950/40 shadow-lg">
+        <div className="p-5 flex flex-col justify-between border border-emerald-500/20 rounded-2xl bg-black/50 backdrop-blur-md shadow-lg">
           <div>
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-emerald-500/15">
               <h3 className="text-sm font-bold font-mono text-emerald-400 flex items-center gap-2">
@@ -582,7 +501,7 @@ const Index = () => {
         </div>
 
         {/* Column 2: Latest Transactions */}
-        <div className="glass-card p-5 flex flex-col justify-between border border-emerald-500/20 rounded-2xl bg-slate-950/40 shadow-lg">
+        <div className="p-5 flex flex-col justify-between border border-emerald-500/20 rounded-2xl bg-black/50 backdrop-blur-md shadow-lg">
           <div>
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-emerald-500/15">
               <h3 className="text-sm font-bold font-mono text-emerald-400 flex items-center gap-2">
@@ -598,7 +517,7 @@ const Index = () => {
         </div>
 
         {/* Column 3: Pending Transactions */}
-        <div className="glass-card p-5 flex flex-col justify-between border border-amber-500/20 rounded-2xl bg-slate-950/40 shadow-lg">
+        <div className="p-5 flex flex-col justify-between border border-amber-500/20 rounded-2xl bg-black/50 backdrop-blur-md shadow-lg">
           <div>
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-amber-500/15">
               <h3 className="text-sm font-bold font-mono text-amber-400 flex items-center gap-2">
@@ -616,16 +535,16 @@ const Index = () => {
       </div>
 
       {/* 5. Institutional Section: AMZ1 REDD+ High Integrity Carbon Credits & Trade Desk */}
-      <section className="relative overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-emerald-950/30 via-slate-950 to-slate-950 p-6 md:p-12 shadow-2xl">
-        {/* Background ambient lighting */}
+      <section className="relative overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-emerald-950/30 via-black/90 to-black p-6 md:p-12 shadow-2xl">
+        {/* Background ambient lighting - pure emerald */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-10">
           
           {/* Section Header */}
           <div className="space-y-4 max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold tracking-wider uppercase">
               <Leaf className="w-3.5 h-3.5" />
               <span>/ CRÉDITOS DE ALTA INTEGRIDADE</span>
             </div>
@@ -638,13 +557,13 @@ const Index = () => {
               Originamos e comercializamos créditos de carbono de alta integridade diretamente de nossas terras sob gestão na Amazônia, garantindo rastreabilidade completa e impacto social imediato.
             </p>
 
-            <div className="italic text-xs text-emerald-300/70 font-mono">
+            <div className="italic text-xs text-emerald-400/80 font-mono">
               "Wide environmental aerial photograph of dense, misty Amazon canopy, deep green moss tones, humid jungle light, medium format film"
             </div>
           </div>
 
           {/* International Compliance (3 Stages: 01, 02, 03) */}
-          <div className="space-y-6 pt-4">
+          <div className="space-y-6 pt-2">
             <div className="border-b border-emerald-500/20 pb-3">
               <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest">
                 CONFORMIDADE INTERNACIONAL
@@ -657,7 +576,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Stage 01 */}
-              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-slate-900/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
+              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-black/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
                 <div className="text-3xl font-extrabold font-mono text-emerald-400/40 group-hover:text-emerald-400 transition-colors mb-4">
                   01
                 </div>
@@ -671,7 +590,7 @@ const Index = () => {
               </div>
 
               {/* Stage 02 */}
-              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-slate-900/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
+              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-black/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
                 <div className="text-3xl font-extrabold font-mono text-emerald-400/40 group-hover:text-emerald-400 transition-colors mb-4">
                   02
                 </div>
@@ -685,7 +604,7 @@ const Index = () => {
               </div>
 
               {/* Stage 03 */}
-              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-slate-900/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
+              <div className="p-6 rounded-2xl border border-emerald-500/20 bg-black/60 backdrop-blur-sm relative group hover:border-emerald-500/50 transition-all">
                 <div className="text-3xl font-extrabold font-mono text-emerald-400/40 group-hover:text-emerald-400 transition-colors mb-4">
                   03
                 </div>
@@ -702,10 +621,10 @@ const Index = () => {
           </div>
 
           {/* Mesa de Negociação & Call To Action */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
             
             {/* Features & Guarantee */}
-            <div className="lg:col-span-7 p-6 md:p-8 rounded-2xl border border-emerald-500/20 bg-slate-900/40 backdrop-blur-sm flex flex-col justify-between space-y-6">
+            <div className="lg:col-span-7 p-6 md:p-8 rounded-2xl border border-emerald-500/20 bg-black/50 backdrop-blur-sm flex flex-col justify-between space-y-6">
               <div>
                 <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest">
                   Garantia de Destinação
@@ -757,7 +676,7 @@ const Index = () => {
             </div>
 
             {/* Corporate Action Card */}
-            <div className="lg:col-span-5 p-6 md:p-8 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/40 via-slate-900/80 to-slate-950 flex flex-col justify-between space-y-6 shadow-xl">
+            <div className="lg:col-span-5 p-6 md:p-8 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/50 via-black/90 to-black flex flex-col justify-between space-y-6 shadow-xl">
               <div className="space-y-4">
                 <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">
                   ATENDIMENTO CORPORATIVO
@@ -772,7 +691,7 @@ const Index = () => {
                 <div className="pt-2">
                   <a 
                     href="mailto:contact@amazonicone.com?subject=AMZ1%20Trade%20Desk%20-%20Cr%C3%A9ditos%20de%20Carbono%20REDD%2B"
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-mono font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all duration-300 transform hover:-translate-y-0.5"
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-slate-950 font-mono font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all duration-300 transform hover:-translate-y-0.5"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Falar com Mesa de Trade</span>
@@ -808,84 +727,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 6. Official Encrypted Protocol Endpoints (Developer Hub) */}
-      <section className="space-y-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-2 border-b border-emerald-500/15 pb-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider mb-1">
-              <Lock className="w-3.5 h-3.5" />
-              <span>ENDPOINTS OFICIAIS CRIPTOGRAFADOS</span>
-            </div>
-            <h3 className="text-2xl font-bold text-white font-mono">
-              Infraestrutura de Rede & APIs (HTTPS / TLS / GRPCS)
-            </h3>
-          </div>
-          <span className="text-xs font-mono text-slate-400">
-            Conexões seguras na porta 443 com certificado TLS ativo
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {secureEndpoints.map((ep, idx) => (
-            <div 
-              key={idx} 
-              className="p-5 rounded-2xl border border-emerald-500/20 bg-slate-950/40 hover:bg-slate-900/60 hover:border-emerald-500/40 transition-all flex flex-col justify-between gap-4 group"
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
-                    {ep.badge}
-                  </span>
-                  <span className="text-[10px] font-mono text-slate-400">
-                    {ep.type}
-                  </span>
-                </div>
-                <h4 className="font-mono font-bold text-white text-base group-hover:text-emerald-400 transition-colors">
-                  {ep.name}
-                </h4>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  {ep.description}
-                </p>
-              </div>
-
-              <div className="space-y-2 pt-2 border-t border-emerald-500/10">
-                <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300 break-all select-all">
-                  {ep.url}
-                </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => copyToClipboard(ep.url, ep.name)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-xs font-mono text-slate-200 transition-all"
-                  >
-                    {copiedEndpoint === ep.name ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Copiado</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Copiar URL</span>
-                      </>
-                    )}
-                  </button>
-                  <a 
-                    href={ep.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-mono text-emerald-400 font-semibold transition-all"
-                  >
-                    <span>Abrir</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 7. Explorer Quick Navigation Grid (Infrastructure Services) */}
+      {/* 6. Explorer Quick Navigation Grid (Infrastructure Services) */}
       <section className="py-6 border-t border-emerald-500/15">
         <h3 className="text-sm font-bold font-mono text-center text-slate-400 mb-8 uppercase tracking-widest">
           SERVIÇOS DE INFRAESTRUTURA BLOCKCHAIN
@@ -893,7 +735,7 @@ const Index = () => {
         
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           
-          <Link to="/blocks" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/blocks" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <Layers className="w-6 h-6" />
             </div>
@@ -903,7 +745,7 @@ const Index = () => {
             </div>
           </Link>
 
-          <Link to="/transactions" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/transactions" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <CreditCard className="w-6 h-6" />
             </div>
@@ -913,7 +755,7 @@ const Index = () => {
             </div>
           </Link>
 
-          <Link to="/nodes" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/nodes" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <Globe className="w-6 h-6" />
             </div>
@@ -923,7 +765,7 @@ const Index = () => {
             </div>
           </Link>
 
-          <Link to="/contracts" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/contracts" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <Database className="w-6 h-6" />
             </div>
@@ -933,7 +775,7 @@ const Index = () => {
             </div>
           </Link>
 
-          <Link to="/ranking" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/ranking" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <Award className="w-6 h-6" />
             </div>
@@ -943,7 +785,7 @@ const Index = () => {
             </div>
           </Link>
 
-          <Link to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" className="glass-card p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl transition-all duration-300 group">
+          <Link to="/asset/7JuwpAgKpQDuorg5xX8AFbhRMMgrCfbwUgdktxypkYHz" className="p-5 text-center flex flex-col items-center justify-center gap-3 border border-emerald-500/15 hover:border-emerald-500/50 rounded-2xl bg-black/40 backdrop-blur-md transition-all duration-300 group">
             <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
               <Coins className="w-6 h-6" />
             </div>

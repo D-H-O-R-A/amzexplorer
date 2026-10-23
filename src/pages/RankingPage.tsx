@@ -209,7 +209,7 @@ const RankingPage: React.FC = () => {
     const charCode = address.charCodeAt(address.length - 1) + address.charCodeAt(address.length - 2);
     const colors = [
       "from-emerald-400 to-teal-500 text-emerald-500 bg-emerald-500/10 border-emerald-500/15",
-      "from-indigo-400 to-blue-500 text-indigo-500 bg-indigo-500/10 border-indigo-500/15",
+      "from-green-400 to-emerald-600 text-green-500 bg-green-500/10 border-green-500/15",
       "from-violet-400 to-purple-500 text-violet-500 bg-violet-500/10 border-violet-500/15",
       "from-pink-400 to-rose-500 text-pink-500 bg-pink-500/10 border-pink-500/15",
       "from-amber-400 to-orange-500 text-amber-500 bg-amber-500/10 border-amber-500/15",

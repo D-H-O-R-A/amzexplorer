@@ -82,14 +82,14 @@ const getTxTypeStyles = (type: number) => {
       };
     case 2: // Payment
       return {
-        bg: 'bg-blue-500/10 border-blue-500/20 text-blue-500 dark:text-blue-400',
-        icon: <ArrowRight className="h-4 w-4 text-blue-500" />,
+        bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:text-emerald-400',
+        icon: <ArrowRight className="h-4 w-4 text-emerald-500" />,
         label: 'Transferência Direta',
         desc: 'Pagamento Direto (Direct Payment)'
       };
     case 3: // Issue
       return {
-        bg: 'bg-sky-500/10 border-sky-500/20 text-sky-500 dark:text-sky-400',
+        bg: 'bg-teal-500/10 border-teal-500/20 text-teal-500 dark:text-teal-400',
         icon: <PlusCircle className="h-4 w-4" />,
         label: 'Criação de Token (Issue)',
         desc: 'Criação de novo ativo (Token Issue)'
@@ -103,7 +103,7 @@ const getTxTypeStyles = (type: number) => {
       };
     case 5: // Reissue
       return {
-        bg: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-500 dark:text-cyan-400',
+        bg: 'bg-teal-600/10 border-teal-600/20 text-teal-600 dark:text-teal-400',
         icon: <PlusCircle className="h-4 w-4" />,
         label: 'Emissão Adicional (Reissue)',
         desc: 'Geração de novos tokens do mesmo ativo (Reissue)'

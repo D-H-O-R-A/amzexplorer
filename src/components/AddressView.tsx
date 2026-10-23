@@ -71,11 +71,11 @@ const AddressView = ({
     }
     const colorPairs = [
       "from-emerald-500 to-teal-600",
-      "from-blue-500 to-indigo-600",
+      "from-teal-500 to-emerald-700",
       "from-violet-500 to-purple-600",
       "from-fuchsia-500 to-pink-600",
       "from-amber-500 to-orange-600",
-      "from-cyan-500 to-blue-600",
+      "from-emerald-600 to-green-700",
       "from-red-500 to-rose-600"
     ];
     return colorPairs[Math.abs(hash) % colorPairs.length];
@@ -144,7 +144,7 @@ const AddressView = ({
       <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/40 p-6 md:p-8 backdrop-blur-xl shadow-lg">
         {/* Abstract decorative background glow */}
         <div className="absolute -right-20 -top-20 -z-10 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
-        <div className="absolute -left-20 -bottom-20 -z-10 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
+        <div className="absolute -left-20 -bottom-20 -z-10 h-64 w-64 rounded-full bg-teal-500/10 blur-3xl" />
 
         <div className="flex flex-col md:flex-row md:items-center gap-6">
           {/* Seed-generated Profile Avatar */}
@@ -175,7 +175,7 @@ const AddressView = ({
                 </Badge>
               )}
               {addressData.aliases && addressData.aliases.length > 0 && (
-                <Badge variant="outline" className="border-blue-500/30 bg-blue-500/5 text-blue-500 dark:text-blue-400 text-xs font-medium px-2.5 py-0.5">
+                <Badge variant="outline" className="border-teal-500/30 bg-teal-500/5 text-teal-500 dark:text-teal-400 text-xs font-medium px-2.5 py-0.5">
                   <Award className="h-3 w-3 mr-1" />
                   {addressData.aliases.length} Alias{addressData.aliases.length > 1 ? 'es' : ''}
                 </Badge>
@@ -235,11 +235,11 @@ const AddressView = ({
                     <Button 
                       variant="ghost" 
                       size="icon"
-                      className="h-8 w-8 shrink-0 hover:bg-blue-500/10 hover:text-blue-500 transition-all rounded-lg" 
+                      className="h-8 w-8 shrink-0 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all rounded-lg" 
                       onClick={() => copyToClipboard(addressData.ethAddress || '', "EVM Address")}
                       title="Copiar endereço EVM"
                     >
-                      {copiedField === "EVM Address" ? <Check className="h-4 w-4 text-blue-500" /> : <Copy className="h-4 w-4" />}
+                      {copiedField === "EVM Address" ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                     </Button>
                   </div>
                 </div>
@@ -310,7 +310,7 @@ const AddressView = ({
                 {/* Available Balance Card */}
                 <Card className="bg-card/30 border-border/50 hover:border-emerald-500/20 shadow-sm transition-all duration-300">
                   <CardContent className="p-5 flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+                    <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
                       <Coins className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
@@ -628,7 +628,7 @@ const AddressView = ({
                                 );
                               } else if (tx.alias) {
                                 return (
-                                  <span className="truncate inline-block max-w-[100px] text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md px-1.5 py-0.5 font-mono" title={`Alias: ${tx.alias}`}>
+                                  <span className="truncate inline-block max-w-[100px] text-xs bg-teal-500/10 text-teal-400 border border-teal-500/20 rounded-md px-1.5 py-0.5 font-mono" title={`Alias: ${tx.alias}`}>
                                     {tx.alias}
                                   </span>
                                 );
