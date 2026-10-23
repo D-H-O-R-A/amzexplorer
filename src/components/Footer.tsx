@@ -20,10 +20,10 @@ const Footer = () => {
   const coinName = getCoinName();
 
   const institutionalLinks = [
-    { label: "Official Portal", href: "https://amazonicone.com.br" },
-    { label: "The Rainforest", href: "https://amazonicone.com.br/#floresta" },
-    { label: "Local Communities", href: "https://amazonicone.com.br/#comunidades" },
-    { label: "Carbon Credits", href: "https://amazonicone.com.br/#creditos" },
+    { label: "Official Portal", href: "https://amazonic.online" },
+    { label: "The Rainforest", href: "https://amazonicone.com" },
+    { label: "Local Community", href: "https://urbnix.com.br" },
+    { label: "Carbon Credits", href: "https://kaatrust.org" },
     { label: "Contact Us", href: "mailto:contact@amazonicone.com" },
   ];
 
@@ -69,13 +69,13 @@ const Footer = () => {
               <span>Contact Team</span>
             </a>
             <a
-              href="https://amazonicone.com.br"
+              href="https://amazonic.online"
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-emerald-500/30 text-white font-semibold text-xs transition-all flex items-center gap-2"
             >
               <Globe className="w-4 h-4 text-emerald-400" />
-              <span>amazonicone.com.br</span>
+              <span>amazonic.online</span>
             </a>
           </div>
         </div>

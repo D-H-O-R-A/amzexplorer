@@ -329,7 +329,7 @@ const Index = () => {
                 />
                 <div className="mt-3 text-center">
                   <span className="text-[11px] font-mono tracking-widest uppercase text-emerald-400 font-bold">
-                    AMZ1 LLC
+                    Amazonic One
                   </span>
                 </div>
               </div>
