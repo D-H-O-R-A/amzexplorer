@@ -195,7 +195,7 @@ const SearchForm = () => {
       <form onSubmit={handleSearch} className="relative group">
         
         {/* Search Icon Left */}
-        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-emerald-500 transition-colors duration-200 pointer-events-none">
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors duration-200 pointer-events-none">
           <Search className="w-4 h-4" />
         </div>
 
@@ -204,7 +204,7 @@ const SearchForm = () => {
           ref={inputRef}
           type="text"
           placeholder="Address, Tx, Block, or Token..."
-          className="w-full pl-10 pr-24 py-5 text-xs rounded-xl bg-card border border-border/80 text-foreground placeholder:text-muted-foreground/75 focus-visible:ring-1 focus-visible:ring-emerald-500/50 focus-visible:border-emerald-500/50 shadow-sm transition-all duration-300 group-hover:border-border-hover"
+          className="w-full pl-10 pr-24 py-5 text-xs rounded-xl bg-white border border-slate-200 text-slate-950 placeholder:text-slate-400 font-medium focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:border-emerald-500 shadow-sm transition-all duration-300"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
@@ -225,7 +225,7 @@ const SearchForm = () => {
         >
           {isSearching ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-          ) : "Buscar"}
+          ) : "Search"}
         </Button>
 
       </form>
@@ -237,7 +237,7 @@ const SearchForm = () => {
             
             {/* Header */}
             <div className="px-2 py-1.5 flex items-center justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-wider border-b border-border/40 mb-2">
-              <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-emerald-500 animate-pulse" /> Detecção Inteligente</span>
+              <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-emerald-500 animate-pulse" /> Smart Detection</span>
               <span>Spotlight</span>
             </div>
 

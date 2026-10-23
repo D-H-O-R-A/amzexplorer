@@ -175,43 +175,43 @@ export const NodeSettingsDialog: React.FC = () => {
           {/* Node URL */}
           <div className="space-y-1">
             <div className="flex justify-between items-center">
-              <Label htmlFor="node-url" className="text-xs font-semibold text-foreground/90">URL do Nó (REST API)</Label>
-              <span className="text-[9px] text-emerald-500 font-mono font-semibold">Obrigatório</span>
+              <Label htmlFor="node-url" className="text-xs font-semibold text-foreground/90">Node URL (REST API)</Label>
+              <span className="text-[9px] text-emerald-500 font-mono font-semibold">Required</span>
             </div>
             <Input
               id="node-url"
               value={nodeUrl}
               onChange={(e) => setNodeUrl(e.target.value)}
               placeholder="https://nodes.amzexplorer.com"
-              className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5"
+              className="bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5 font-medium shadow-sm"
             />
           </div>
 
           {/* ETH RPC URL */}
           <div className="space-y-1">
             <div className="flex justify-between items-center">
-              <Label htmlFor="eth-rpc" className="text-xs font-semibold text-foreground/90">URL do Nó RPC Ethereum (EVM)</Label>
-              <span className="text-[9px] text-emerald-500 font-mono font-semibold">Obrigatório</span>
+              <Label htmlFor="eth-rpc" className="text-xs font-semibold text-foreground/90">Ethereum RPC URL (EVM)</Label>
+              <span className="text-[9px] text-emerald-500 font-mono font-semibold">Required</span>
             </div>
             <Input
               id="eth-rpc"
               value={ethRpcUrl}
               onChange={(e) => setEthRpcUrl(e.target.value)}
               placeholder="https://rpc.amzexplorer.com"
-              className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5"
+              className="bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 rounded-xl focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-xs h-9.5 font-medium shadow-sm"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3.5">
             {/* Currency Name */}
             <div className="space-y-1">
-              <Label htmlFor="coin-name" className="text-xs font-semibold text-foreground/90">Símbolo da Moeda</Label>
+              <Label htmlFor="coin-name" className="text-xs font-semibold text-foreground/90">Currency Symbol</Label>
               <Input
                 id="coin-name"
                 value={coinName}
                 onChange={(e) => setCoinName(e.target.value)}
                 placeholder="AMZ"
-                className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 uppercase font-semibold"
+                className="bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 uppercase font-semibold shadow-sm"
               />
             </div>
 
@@ -231,7 +231,7 @@ export const NodeSettingsDialog: React.FC = () => {
                 value={chainIdLetter}
                 onChange={(e) => setChainIdLetter(e.target.value.substring(0, 1).toUpperCase())}
                 placeholder="A"
-                className="bg-muted/30 border-border text-foreground rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 text-center font-bold"
+                className="bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 rounded-xl focus-visible:ring-emerald-500 text-xs h-9.5 text-center font-bold shadow-sm"
               />
             </div>
           </div>

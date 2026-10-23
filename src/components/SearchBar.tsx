@@ -163,7 +163,7 @@ const SearchBar = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"
               >
                 <Search className="h-5 w-5" />
               </motion.div>
@@ -173,10 +173,10 @@ const SearchBar = () => {
           <Input
             type="text"
             placeholder="Search by Address, Tx Hash, Block Height, or Token..."
-            className={`w-full pl-12 pr-28 py-6 text-lg rounded-full shadow-md input-animated bg-white/40 
-              ${searchStatus === 'error' ? 'border-green-500/50 focus:border-green-500' : 
-              searchStatus === 'success' ? 'border-green-500/50 focus:border-green-500' : 
-              'border-primary/20 focus:border-primary/50'}`}
+            className={`w-full pl-12 pr-32 py-6 text-base md:text-lg rounded-full shadow-2xl bg-white text-slate-950 placeholder:text-slate-400 font-semibold border-2 
+              ${searchStatus === 'error' ? 'border-rose-500 focus:border-rose-500' : 
+              searchStatus === 'success' ? 'border-emerald-500 focus:border-emerald-500' : 
+              'border-white/90 focus:border-emerald-500 ring-4 ring-emerald-500/10'}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -184,7 +184,7 @@ const SearchBar = () => {
           {searchQuery && (
             <button
               type="button"
-              className="absolute right-24 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-white p-2 rounded-full"
+              className="absolute right-28 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-700 p-2 rounded-full transition-colors"
               onClick={() => setSearchQuery('')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

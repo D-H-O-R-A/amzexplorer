@@ -656,12 +656,12 @@ const AssetPage = () => {
                   {/* Search box for ranking check */}
                   <div className="p-4 border-b border-border/40 bg-muted/5 flex items-center gap-2">
                     <div className="relative flex-1">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
                       <Input
                         value={searchHolderQuery}
                         onChange={(e) => setSearchHolderQuery(e.target.value)}
                         placeholder="Search wallet address to check holder ranking..."
-                        className="pl-9 h-10 bg-background/50 border-border/60 hover:border-border rounded-xl text-xs font-semibold"
+                        className="pl-9 h-10 bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 rounded-xl text-xs font-semibold shadow-sm"
                       />
                     </div>
                   </div>

@@ -238,13 +238,13 @@ const ContractsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             {/* Search Spotlight */}
             <div className="md:col-span-8 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input
                 type="text"
                 placeholder="Search smart contracts by address, custom name or deployer..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-10 w-full bg-background/50 border-border/80 focus:border-primary focus:ring-1 focus:ring-primary"
+                className="pl-10 h-10 w-full bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 font-medium focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 shadow-sm"
               />
             </div>
 

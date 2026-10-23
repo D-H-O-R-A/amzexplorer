@@ -231,9 +231,9 @@ const FloatingActionButton = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Address (0x or Base58), tx hash, block, alias..."
-                    className={`pr-10 bg-muted/40 border-border text-foreground rounded-xl py-6 text-sm focus-visible:ring-emerald-500/50 
-                      ${searchStatus === 'error' ? 'border-rose-500/50 focus-visible:ring-rose-500/45' : 
-                      searchStatus === 'success' ? 'border-emerald-500/50 focus-visible:ring-emerald-500/45' : 
+                    className={`pr-10 bg-white border border-slate-200 text-slate-950 placeholder:text-slate-400 font-medium rounded-xl py-6 text-sm focus-visible:ring-emerald-500/50 shadow-sm
+                      ${searchStatus === 'error' ? 'border-rose-500 focus-visible:ring-rose-500/45' : 
+                      searchStatus === 'success' ? 'border-emerald-500 focus-visible:ring-emerald-500/45' : 
                       ''}`}
                     autoFocus
                   />

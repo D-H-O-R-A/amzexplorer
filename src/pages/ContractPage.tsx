@@ -223,6 +223,7 @@ const ContractPage = () => {
                                     placeholder={`Enter ${param.name}`}
                                     value={functionParams[param.name] || ""}
                                     onChange={(e) => handleParamChange(param.name, e.target.value)}
+                                    className="bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 font-medium shadow-sm"
                                   />
                                 </div>
                               ))}

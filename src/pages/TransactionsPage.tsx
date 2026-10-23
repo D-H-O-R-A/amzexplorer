@@ -651,7 +651,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             {/* Search Input */}
             <div className="md:col-span-8 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input
                 type="text"
                 placeholder="Search by Transaction ID, sender or recipient address..."
@@ -660,7 +660,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
                   setSearchTerm(e.target.value);
                   setCurrentPage(1); // reset to first page on search
                 }}
-                className="pl-10 h-10 w-full bg-background/50 border-border/80 focus:border-primary focus:ring-1 focus:ring-primary"
+                className="pl-10 h-10 w-full bg-white text-slate-950 placeholder:text-slate-400 border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-medium shadow-sm"
               />
             </div>
 
@@ -1112,15 +1112,15 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ address }) => {
 
               {/* Jump to Page Input Form */}
               <form onSubmit={handleJumpPage} className="flex items-center gap-1.5 ml-2">
-                <span className="text-xs text-muted-foreground hidden sm:inline">Ir para:</span>
+                <span className="text-xs text-muted-foreground hidden sm:inline">Go to:</span>
                 <Input
                   type="number"
                   min={1}
                   max={totalPages}
-                  placeholder="Pág."
+                  placeholder="Page"
                   value={jumpPageInput}
                   onChange={(e) => setJumpPageInput(e.target.value)}
-                  className="h-8 w-16 text-xs text-center px-1 bg-background/50 border-border"
+                  className="h-8 w-16 text-xs text-center px-1 bg-white border-slate-200 text-slate-950 font-semibold shadow-sm"
                 />
                 <Button type="submit" variant="outline" size="sm" className="h-8 px-2.5 text-xs font-medium">
                   Ir

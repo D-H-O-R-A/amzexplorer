@@ -269,12 +269,12 @@ const NodesPage = () => {
           
           {/* Peer Search Section */}
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               value={peerSearch}
               onChange={(e) => setPeerSearch(e.target.value)}
               placeholder="Filter peers by name or address..."
-              className="pl-9 pr-4 py-5 bg-background/50 border-border text-xs rounded-xl focus-visible:ring-emerald-500/50"
+              className="pl-9 pr-4 py-5 bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 text-xs rounded-xl focus-visible:ring-emerald-500/50 shadow-sm font-medium"
             />
           </div>
 

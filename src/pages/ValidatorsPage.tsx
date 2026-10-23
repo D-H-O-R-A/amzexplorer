@@ -243,12 +243,12 @@ const ValidatorsPage: React.FC = () => {
           
           {/* Filter validators input */}
           <div className="relative max-w-xs w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
             <Input
               value={validatorSearch}
               onChange={(e) => setValidatorSearch(e.target.value)}
               placeholder="Search validator address..."
-              className="pl-8 pr-4 py-4 bg-background/50 border-border text-[11px] rounded-xl focus-visible:ring-emerald-500/50"
+              className="pl-8 pr-4 py-4 bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 text-[11px] rounded-xl focus-visible:ring-emerald-500/50 shadow-sm font-medium"
             />
           </div>
         </CardHeader>

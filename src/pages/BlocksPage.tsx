@@ -211,7 +211,7 @@ const BlocksPage = () => {
                   value={searchHeight}
                   onChange={(e) => setSearchHeight(e.target.value.replace(/[^0-9]/g, ""))}
                   placeholder="e.g. 104523"
-                  className="pl-4 pr-10 py-5 text-sm font-mono font-bold rounded-xl border-border bg-background focus-visible:ring-emerald-500/50"
+                  className="pl-4 pr-10 py-5 text-sm font-mono font-bold rounded-xl border-slate-200 bg-white text-slate-950 placeholder:text-slate-400 focus-visible:ring-emerald-500/50 shadow-sm"
                 />
                 <Button 
                   type="submit" 

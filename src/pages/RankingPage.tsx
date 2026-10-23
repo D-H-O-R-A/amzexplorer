@@ -331,12 +331,12 @@ const RankingPage: React.FC = () => {
         {/* Custom Asset Search Form */}
         <form onSubmit={handleCustomAssetSearch} className="lg:col-span-6 flex items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               value={customAssetInput}
               onChange={(e) => setCustomAssetInput(e.target.value)}
-              placeholder="Digite o ID do Token ou Contrato..."
-              className="pl-10 h-11 bg-card/40 border-border/60 hover:border-border focus-visible:ring-primary rounded-xl text-xs font-semibold"
+              placeholder="Search Token or Contract ID..."
+              className="pl-10 h-11 bg-white border-slate-200 text-slate-950 placeholder:text-slate-400 focus-visible:ring-emerald-500 rounded-xl text-xs font-semibold shadow-sm"
             />
           </div>
           <Button 
