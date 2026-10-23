@@ -225,7 +225,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ limit = 10, address }
                     {tx.type === 7 && tx.order1 && tx.order2 ? (
                       <>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground">Comprador:</span>
+                          <span className="text-xs text-muted-foreground">Buyer:</span>
                           <Link 
                             to={`/address/${tx.order1.orderType === 'buy' ? tx.order1.sender : tx.order2.sender}`}
                             className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline truncate font-mono font-medium"
@@ -234,7 +234,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ limit = 10, address }
                           </Link>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground">Vendedor:</span>
+                          <span className="text-xs text-muted-foreground">Seller:</span>
                           <Link 
                             to={`/address/${tx.order1.orderType === 'sell' ? tx.order1.sender : tx.order2.sender}`}
                             className="text-xs text-amber-600 dark:text-amber-400 hover:underline truncate font-mono font-medium"

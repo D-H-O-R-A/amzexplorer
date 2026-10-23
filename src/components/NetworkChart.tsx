@@ -409,7 +409,7 @@ const NetworkChart: React.FC<NetworkChartProps> = ({
               onClick={() => fetchChartData(false)}
               disabled={isRefreshing}
               className="p-2 rounded-lg bg-slate-100/90 dark:bg-slate-900/60 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-primary/15 text-slate-600 dark:text-muted-foreground hover:text-foreground transition-all disabled:opacity-50 shadow-sm dark:shadow-none"
-              title="Atualizar dados agora"
+              title="Refresh data now"
             >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin text-primary' : ''}`} />
             </button>

@@ -226,7 +226,7 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
                     {tx.type === 7 && tx.order1 && tx.order2 ? (
                       <>
                         <div className="flex items-center gap-2">
-                          <span className="text-[11px] text-muted-foreground">Comprador:</span>
+                          <span className="text-[11px] text-muted-foreground">Buyer:</span>
                           <Link 
                             to={`/address/${tx.order1.orderType === 'buy' ? tx.order1.sender : tx.order2.sender}`}
                             className="text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline truncate font-mono font-medium"
@@ -235,7 +235,7 @@ const PendingTransactionList: React.FC<PendingTransactionListProps> = ({ limit =
                           </Link>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[11px] text-muted-foreground">Vendedor:</span>
+                          <span className="text-[11px] text-muted-foreground">Seller:</span>
                           <Link 
                             to={`/address/${tx.order1.orderType === 'sell' ? tx.order1.sender : tx.order2.sender}`}
                             className="text-[11px] text-amber-600 dark:text-amber-400 hover:underline truncate font-mono font-medium"
