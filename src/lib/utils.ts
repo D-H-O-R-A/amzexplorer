@@ -14,10 +14,10 @@ export const EXPLORER_URL = 'https://amzexplorer.com';
 export const CHAIN_ID_LETTER = 'A'; // Chain ID letter for AMZX
 
 // Official Encrypted HTTPS / GRPCS Endpoints
-export const NODE_SWAGGER_URL = 'https://nodes.amzexplorer.com/api-docs/index.html';
-export const MATCHER_SWAGGER_URL = 'https://matcher.amzexplorer.com/api-docs/index.html';
+export const NODE_SWAGGER_URL = 'https://nodes.amzexplorer.com/';
+export const MATCHER_SWAGGER_URL = 'https://matcher.amzexplorer.com';
 export const METAMASK_RPC_URL = 'https://rpc.amzexplorer.com';
-export const DATA_SERVICE_DOCS_URL = 'https://data-service.amzexplorer.com/docs';
+export const DATA_SERVICE_DOCS_URL = 'https://data-service.amzexplorer.com';
 export const GRPC_DEX_URL = 'https://grpc-dex.amzexplorer.com'; // WSS/GRPCS:443
 export const GRPC_UPDATES_URL = 'https://grpc-updates.amzexplorer.com'; // GRPCS:443
 
