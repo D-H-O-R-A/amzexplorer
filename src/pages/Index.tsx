@@ -329,7 +329,7 @@ const Index = () => {
                 />
                 <div className="mt-3 text-center">
                   <span className="text-[11px] font-mono tracking-widest uppercase text-emerald-400 font-bold">
-                    Amazonic One Eco Tecnologia S.A.
+                    AMZ1 LLC
                   </span>
                 </div>
               </div>
@@ -721,7 +721,7 @@ const Index = () => {
           {/* Action Row */}
           <div className="pt-4 border-t border-emerald-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs font-mono text-slate-400">
-              Corporate Entity: <span className="text-white font-bold">Amazonic One Eco Tecnologia S.A.</span>
+              Corporate Entity: <span className="text-white font-bold">AMZ1 LLC</span>
             </div>
             <div className="flex items-center gap-3">
               <a 

@@ -78,7 +78,7 @@ const Header = () => {
             rel="noopener noreferrer" 
             className="hover:text-emerald-500 transition-colors flex items-center gap-1 font-semibold"
           >
-            <span>Amazonic One Eco Tecnologia S.A.</span>
+            <span>AMZ1 LLC</span>
             <ExternalLink className="w-3 h-3 text-emerald-500" />
           </a>
         </div>
@@ -258,7 +258,7 @@ const Header = () => {
             <div className="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-950/20 to-teal-950/20 border border-emerald-500/20 space-y-2">
               <div className="flex items-center gap-2 text-emerald-500 font-bold text-xs">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Amazonic One Eco Tecnologia S.A.</span>
+                <span>AMZ1 LLC</span>
               </div>
               <p className="text-[11px] text-muted-foreground leading-relaxed">
                 Direct preservation of the Amazon rainforest backed by decentralized ledger technology.
@@ -277,7 +277,7 @@ const Header = () => {
 
           {/* Drawer footer */}
           <div className="pt-6 border-t border-border/40 text-center space-y-1">
-            <p className="text-[10px] font-mono text-muted-foreground">© 2026 Amazonic One Eco Tecnologia S.A. All rights reserved.</p>
+            <p className="text-[10px] font-mono text-muted-foreground">© 2026 AMZ1 LLC. All rights reserved.</p>
           </div>
         </SheetContent>
       </Sheet>

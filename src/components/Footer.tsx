@@ -53,7 +53,7 @@ const Footer = () => {
               <span>Registered Organization</span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white font-mono tracking-tight">
-              Amazonic One Eco Tecnologia S. A.
+              AMZ1 LLC
             </h2>
             <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
               Direct and audited protection of the Amazon Rainforest. Originating high-integrity environmental assets and REDD+ carbon credits on the decentralized AMZX ledger.
@@ -110,11 +110,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Field Operations: Amazonas, Brazil</span>
+                <span>Field Operations: Dubai, UAE</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Building className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Global Corporate Operations</span>
+                <span>Corporate Operations: AMZ1 LLC (Dubai)</span>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ const Footer = () => {
         {/* Bottom Tier: Copyright & Network Bar */}
         <div className="mt-8 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p className="text-center md:text-left leading-relaxed">
-            &copy; {currentYear} <strong className="text-white">Amazonic One Eco Tecnologia S.A.</strong> All rights reserved.
+            &copy; {currentYear} <strong className="text-white">AMZ1 LLC</strong>. All rights reserved.
           </p>
 
           <div className="flex items-center gap-2 font-mono text-[10px]">

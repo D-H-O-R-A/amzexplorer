@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary & Ecosystem Topology
 
-AMZX is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **Amazonic One Eco Tecnologia S.A.** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
+AMZX is an enterprise-grade, carbon-negative Layer-1 blockchain engineered by **AMZ1 LLC** to bridge real-world environmental assets (REDD+ carbon credits) with institutional Web3 decentralized finance. 
 
 ### Key Ecosystem Components
 - **L1 Consensus**: Fair Leased Proof-of-Stake (LPoS) with AMZX-NG microblock protocol enabling ~6-second blocks.

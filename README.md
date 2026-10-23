@@ -161,4 +161,4 @@ sudo systemctl start amzx-indexer.service
 
 **Proprietary Software License**
 
-Copyright (c) 2026 **Amazonic One Eco Tecnologia S.A.** & **Diego Henrique Roa Antunes** (Diego Oris). All rights reserved.
+Copyright (c) 2026 **AMZ1 LLC** & **Diego Henrique Roa Antunes** (Diego Oris). All rights reserved.
